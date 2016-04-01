@@ -1,0 +1,346 @@
+html {
+	position: relative;
+	background:#fc4f6b;
+	font-size: 62.5% !important;
+}
+.TimeboxWrapper {
+	margin: 15px 1.875% 0;
+	background:#fff;
+	border-radius:6px;
+	overflow:hidden;
+	padding-bottom: 1.875%;
+}
+.TimeboxWrapper .tabs {
+	background:#fc4f6b;
+}
+.TimeboxWrapper .tabs ul li {
+	float:left;
+	width:32.468%;
+	border-radius:6px 6px 0 0;
+	text-align:center;
+	font-size: 140%;
+	padding-bottom:3px;
+	padding-top:5px;
+	background:#d7d7d7;
+	height:100%;
+	cursor:pointer;
+}
+.TimeboxWrapper .tabs ul li.current {
+	font-weight:bold;
+	color:#cc0752;
+	background:#fff;
+}
+.TimeboxWrapper .tabs ul li:nth-child(2) {
+	margin:0 1.2%;
+}
+.TimeboxWrapper .tabs ul li span {
+	display:block;
+}
+.TimeboxStart {
+	background:#fff;
+    margin: 4.873% 4.873% 2.7%;
+	position:relative;
+}
+.TimeboxStart ul li {
+	width: 47.45%;
+	background:#fff;
+	float:left;
+	position:relative;
+	text-align: center;
+}
+.TimeboxStart ul li img{
+	width: 100%;
+}
+.TimeboxStart ul li.out i {
+	background:url(../images/1111themes/out.png) no-repeat;
+	background-size:100% auto;
+	width:75px;
+	height:75px;
+	display:block;
+	position:absolute;
+    top: 19%;
+    left: 26%;
+}
+.proList ul li.out i {
+	background:url(../images/1111themes/out.png) no-repeat;
+	background-size:100% auto;
+	width:75px;
+	height:75px;
+	display:block;
+	position:absolute;
+    top: 19%;
+    left: 29%;
+}
+.proList ul li.out .nowBtn {
+	background:url(../images/1111themes/outBtn.png) no-repeat;
+	background-size:100% auto;
+	display:block;
+}
+.TimeboxStart ul li.out .msBtn,
+.TimeboxStart ul li.end .msBtn {
+	background:#c1c1c1;
+}
+.TimeboxStart ul li p.proname,
+.TimeboxStart ul li p.oldprice {
+	font-size:140%;
+	margin-top:3px;
+	color:#4a4a4a;
+}
+.TimeboxStart ul li p.proname{
+	display: -webkit-box;
+    -webkit-line-clamp: 1;
+	-webkit-box-orient:vertical;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.TimeboxStart ul li p.oldprice {
+	text-align:center;
+	text-decoration:line-through;
+	margin-bottom: 3px;
+	margin-top: 0;
+	color:#000000;
+}
+.TimeboxStart ul li:nth-child(1):after {
+	content:"";
+	height:86%;
+	width:1px;
+	background:#cccccc;
+	display:block;
+	position:absolute;
+	top:0;
+	left:105.4%;
+}
+.TimeboxStart ul li:nth-child(1) {
+	margin-right:5.065%;
+}
+.TimeboxStart ul li a.msBtn {
+	width:100%;
+	display:block;
+	text-align:center;
+	line-height:1;
+	color:#fff;
+	font-size: 140%;
+	padding: 7px 0;
+}
+.mainHost  img{
+	width:100%;
+}
+.BannerTitle {
+	margin-bottom:12px;
+}
+.ThemesBigBox a  {
+	display:block;
+	margin: 0 1.875%;
+	padding: 7px 0;
+	border-bottom: 1px dashed #fff;
+}
+.ThemesBigBox a:last-child{
+	border-bottom: none;
+}
+.proList ul li  {
+	width:49.0649%;;
+	min-height:11.6rem;
+	height: auto;
+	background:#fff;
+	float:left;
+	margin-bottom:1.875%;
+	position:relative;
+}
+.proList ul li .priceBox {
+	background:url(../images/1111themes/hisBg.png) 5px 7px no-repeat ;
+	background-size: 27% auto;
+	padding:5px 3px 0 5px;
+	min-height:30px;
+	border-top: 1px dotted #fb447c;
+}
+.proList ul li .img {
+	min-height:9.675rem;
+	margin-bottom: 3px;
+}
+.priceFl {
+	float:left;
+}
+.priceFl span {
+	color:#c90b57;
+    float: left;
+    line-height: 1.2;
+}
+.priceFlBox {
+	margin-left: 28%;
+    margin-top: 1px;
+}
+.priceBox .nowBtn {
+	background:url(../images/1111themes/linkBtn.png) no-repeat;
+	background-size:100% auto;
+	width: 27%;
+	display:block;
+	float:right;
+}
+.proList ul li .priceBox .priceFl .current_price {
+	margin-top: 6px;
+	font-size: 220%;
+	font-weight: bold;
+	vertical-align:text-bottom;
+}
+.proList ul li .priceBox .priceFl .market_price {
+	font-size: 60%;
+	vertical-align:text-bottom;
+	margin-top:7px;
+	margin-right: 3px;
+}
+.proList ul li:nth-child(odd)  {
+	margin-right:1.875%;
+}
+.proList ul {
+	margin:0 1.875% 13px;
+}
+
+/* btn-status */
+.grayBtn {
+	background:#c1c1c1;
+}
+.normalBtn {
+	background:#db075b;
+}
+.toTop {
+	background:url(../images/1111themes/toTop.png) no-repeat;
+	background-size:100% auto;
+	width:37px;
+	height:37px;
+	display:block;
+	position:fixed;
+	bottom:110px;
+	right:6px;
+	display:none;
+}
+.rotateIn {
+	animation:rotateIn 1s ease-in both;
+	-webkit-animation:rotateIn 1s ease-in both;
+}
+@keyframes rotateIn {
+	0% {
+		transform:translateX(100px) rotate(0deg);
+	}
+	100% {
+		transform:translateX(0) rotate(360deg);
+	}
+}
+@-webkit-keyframes rotateIn {
+	0% {
+		-webkit-transform:translateX(100px) rotate(0deg);
+	}
+	100% {
+		-webkit-transform:translateX(0) rotate(360deg);
+	}
+}
+
+
+.ThemesBox{
+	padding-bottom: 10px;
+	font-size: 0;
+}
+.ThemesBox img{
+	width: 100%;
+}
+.ThemesItem{
+	padding-left: 1.875%;
+}
+.ThemesItem img{
+	display: inline-block;
+	width: 48.09%;
+	margin-right: 1.9108%;
+	margin-bottom: 1.9108%;
+
+}
+.clearFix:after{
+	content:".";
+	display:block;
+	height:0;
+	clear:both;
+	visibility:hidden
+}
+.imgTitle{
+	padding-top: 2px;
+	text-align: center;
+	line-height:1.5; 
+}
+.imgTitle span{
+	display: block;
+	line-height: 1.5;
+	overflow:hidden;
+	width:100%;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+}
+.bigTitle{
+	font-size: 150%;
+	color: #4a4a4a;
+}
+.smallTitle{
+	font-size: 120%;
+	color: #ff354d;
+	margin-top: -2px;
+}
+.proList li i,.ThemesBigBox i{
+	position: absolute;
+}
+.proList li i{
+	top: 0;
+	left: 10px;
+}
+.imgBox{
+	height: 7.55rem;
+	background-color: #eee;
+	overflow: hidden;
+}
+.ThemesBigBox{
+	margin-bottom: 13px
+}
+.ThemesBigBox a{
+	position: relative;
+}
+.ThemesBigBox i{
+	top: 7px;
+	right: 12px;
+	width: 40px;
+	height: 38px;
+}
+.ThemesBigBox a:nth-child(2) i{
+	top: 7px;
+}
+.headBanner2{
+	display: none;
+}
+.Timebox{
+	margin-bottom: 20px;
+}
+.bBanner img{
+	width:100%;
+}
+/*.download-banner*/
+.download-banner {
+    height: 100px;
+    padding: 0 15px;
+}
+.download-banner img {
+    width: 49.5%;
+    height: auto;
+    float: left;
+    margin: 30px auto;
+}
+.download-btn{
+	width: 25%;
+	background: none;
+    margin: 0 0 0 11.5%;
+}
+.download-btn img {
+	width: 100%;
+
+}
+.download-banner i {
+    background: url(../../statics/images/down-close.png) no-repeat;
+    background-size: 100% auto;
+    height: 15px;
+    width: 15px;
+    margin: 40px 10px;
+}

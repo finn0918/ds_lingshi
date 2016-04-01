@@ -1,0 +1,161 @@
+html,body {
+	background:#f8f8f8;	
+}
+.lqBtn {
+	background:#ff2d4b;
+}
+.otherBtn {
+	background:#d6d6d6;
+}
+.lq_color {
+	color:#ff2d4b;
+}
+
+.disCountWrapper {
+	margin:0.75rem;
+}
+.disCountTitle {
+	border:1px solid #e2e2e2;
+	background:#fff;
+	color:#353535;
+	font-size:0.6rem;
+	padding:0 0.5rem;
+	border-radius:4px;
+	margin-bottom:0.75rem;
+	position:relative;
+	display:none;
+}
+.disCountTitle a {
+	color: #353535;
+    display: block;
+    padding-bottom: 0.8rem;
+}
+.disCountTitle span {
+	display:inline-block;
+	vertical-align:middle;
+	margin-top:0.9rem;
+}
+.leftmore {
+	background:url(../images/discount/leftIcon.png) no-repeat;
+	background-size:100% auto;
+	width:0.25rem;
+	height:0.55rem;
+	display:block;
+	position:absolute;
+	right:0.5rem;
+	top:1rem;
+}
+.discountIcon {
+	padding:0 0.2rem;
+	height:0.75rem;
+	font-size:0.45rem;
+	color:#000;
+	display:border-box;
+	line-height:0.75rem;
+	text-align:center;
+	color:#fff;
+	border-radius:3px;
+	margin-right:0.2rem;
+}
+.disMain li {
+	background:url(../images/discount/dis_bg.png) no-repeat;
+	background-size:100% auto;
+	width:100%;
+	height:4.9rem;
+	overflow:hidden;
+	position:relative;
+	margin-bottom:0.75rem;
+}
+.disMain li.out {
+	background:url(../images/discount/dis_bg_gray.png) no-repeat;
+	background-size:100% auto;
+}
+.disMain li .outColor .disPrice,
+.disMain li .outColor .disinfo,
+.disMain li .outColor .disinfo ul li,
+.outColor .disTime
+ {
+	color:#a0a0a0;
+}
+.disMain li .outColor .disinfo ul li:before {
+	background:url(../images/discount/outcricle.png) no-repeat;
+}
+.disPrice {
+	color:#ff2d4b;
+	font-size:1rem;
+	line-height:4.9rem;
+	float:left;
+	font-family:"Verdana";
+	width:3rem;
+}
+.disPrice em {
+	font-size: 0.5rem;
+    vertical-align: top;
+    display: inline-block;
+    margin-top: -0.08rem;
+	margin-right:0.1rem;
+}
+.disPrice i {
+	letter-spacing:-1px;
+}
+.disWrapper {
+	margin:0 0.5rem;
+}
+/* middle */
+.disinfo {
+	color:#353535;
+	float:left;
+}
+.disinfo p.title {
+	font-size:0.55rem;
+	margin-bottom:0.35rem;
+	margin-top:0.45rem;
+	max-width: 7rem;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+}
+.disinfo ul {
+	margin-bottom:0.45rem;
+}
+.disinfo ul li {
+	background:none;
+    height: auto;
+    font-size: 0.5rem;
+    color: #606060;
+    line-height: 0.8rem;
+	margin-bottom:0;
+}
+.disinfo ul li:before {
+	content: "";
+    background: url(../images/discount/scircle.png) no-repeat;
+    background-size: 100% auto;
+    width: 0.15rem;
+    height: 0.15rem;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 0.2rem;
+    margin-top: -0.2rem;
+}
+.disTime {
+	font-size:0.45rem;
+	font-family:"Arial";
+}
+/* right */
+.lqFrBtn {
+	width: 2.5rem;
+    line-height: 4.9rem;
+    font-size: 0.6rem;
+    color: #fff;
+    text-align: center;
+    display: block;
+    height: 99%;
+    position: absolute;
+    right: 0;
+}
+.goDetail {
+	display: block;
+    float: left;
+    width: 11.5rem;
+}

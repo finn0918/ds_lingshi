@@ -1,0 +1,278 @@
+<include file="Public:header" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/admin/css/jquery.datetimepicker.css"/>
+<!--<script type="text/javascript" src="__ROOT__/statics/js/calendar/calendar.js"></script>-->
+<script type="text/javascript" src="__ROOT__/statics/admin/js/jquery.datetimepicker.js"></script>
+<script type="text/javascript" src="__ROOT__/statics/js/jquery/plugins/jquery.imagePreview.js"></script>
+<style>
+.color{
+		color:#c90000;
+}
+
+</style>
+<div class="pad-10" >
+    <form name="searchform" action="" method="get" >
+    <table width="100%" cellspacing="0" class="search-form">
+        <tbody>
+            <tr>
+            <td>
+            <div class="explain-col">
+                累计消费金额：
+                <input type="text" name="moneyLow" id="moneyLow" size="6" value="{$moneyLow}">
+                至
+                <input type="text" name="moneyHigh" id="moneyHigh" size="6" value="{$moneyHigh}">
+                &nbsp;创建时间：
+            	<input type="text" name="time_start" id="time_start" class="date datetimepicker" size="18" value="{$time_start}">
+            	至
+            	<input type="text" name="time_end" id="time_end" class="date datetimepicker" size="18" value="{$time_end}">
+                &nbsp;登陆时间：
+                <input type="text" name="login_start" id="login_start" class="date datetimepicker" size="18" value="{$login_start}">
+                至
+                <input type="text" name="login_end" id="login_end" class="date datetimepicker" size="18" value="{$login_end}"><br/>
+                &nbsp;关键字 :
+                <input name="keyword" type="text" class="input-text" size="30" value="{$keyword}" placeholder="用户id或手机号" />
+                <input type="hidden" name="m" value="Coupon" />
+                <input type="hidden" name="a" value="selectClient" />
+                <input id="search" type="submit" name="search" class="button" value="搜索" />
+        	</div>
+            </td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <form id="myform" name="myform" action="{:u('Coupon/selectClient')}" method="post">
+        符合条件的用户有{$count}人
+    <div class="table-list">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                 <th width=60>用户id</th>
+                <th width=60>用户昵称</th>
+                <th width=60>头像</th>
+                <th width=50>手机</th>
+                <th width=50>累计消费金额</th>
+                <th width=50>创建时间</th>
+                <th width=50>最后登陆时间</th>
+            </tr>
+        </thead>
+    	<tbody>
+        <volist name="client" id="val" >
+        <tr>
+             <td align="center">{$val.user_id}</td>
+            <td align="center"><div>{$val.nickname}</div></td>
+            <td align="center"><div><img width="60" src="{$val.avatar}"/></div></td>
+            <td align="center">{$val.mobile}</td>
+            <td align="center">{$val.money_pay}</td>
+            <td align="center">{$val.create_time|date="Y-m-d H:i",###}</td>
+            <td align="center">{$val.last_login_time|date="Y-m-d H:i",###}</td>
+            </tr>
+        </volist>
+        <tr>
+            <td align="center"><input type="hidden" name="dosubmit"></td>
+        </tr>
+    	</tbody>
+    </table>
+    <div class="btn">
+    	<div id="pages">{$page}</div>
+    </div>
+    </div>
+    </form>
+</div>
+<script language="javascript">
+$(function(){
+		$('.datetimepicker').datetimepicker({value:'',step:"30"});
+
+		$(".editor").each(function(){
+			var self = $(this);
+			if(self.text() == "已采集"){
+				self.parent().find(".edit_btn").children(".cancel_to_pub").hide();
+			}
+		})
+	})
+	function del(id) { //删除商品
+        if (confirm("确认要删除这个商品吗？")) {
+
+			window.location="{:u('goods/del','id=')}"+id;
+        }
+    }
+    function selectguess(id) {
+        var x = document.getElementById(id).checked;
+        /*
+        if(x){
+			$.get('?m=Spu&a=asyncGuess&id='+id+'&type=1',function(data){
+
+				//alert(data);
+			});
+        }else{
+        	$.get('?m=Spu&a=asyncGuess&id='+id+'&type=0',function(data){
+
+				//alert(data);
+			});
+        }
+        */
+    }
+    function expCookie(c_name,value){
+    	var date=new Date();
+		date.setTime(date.getTime()-10000);
+		document.cookie=c_name+"="+value+"; expires="+date.toGMTString();
+    }
+    function setCookie(c_name,value,expiredays)
+	{
+		var exdate=new Date();
+		exdate.setDate(exdate.getDate()+expiredays);
+		document.cookie=c_name+ "=" +escape(value)+
+		((expiredays==null) ? "" : ";expires="+exdate.toGMTString());
+	}
+    function getCookie(c_name)
+	{
+	if (document.cookie.length>0)
+	  {
+	  c_start=document.cookie.indexOf(c_name + "=");
+	  if (c_start!=-1)
+	    {
+	    c_start=c_start + c_name.length+1;
+	    c_end=document.cookie.indexOf(";",c_start);
+	    if (c_end==-1) c_end=document.cookie.length;
+	    return unescape(document.cookie.substring(c_start,c_end));
+	    }
+	  }
+	return "";
+	}
+    function off_line() { //一键下架
+        if (confirm("一键下架这些你选中的商品吗？")) {
+			var s = document.getElementsByName("id[]");
+			var array = new Array();
+			var k = 0;
+			for(var i = 0; i < s.length; i++){
+				if(s[i].checked){
+					//alert(s[i].value);
+					array[k] = s[i].value;
+					k++;
+				}
+			}
+			window.location="{:u('goods/once_off','id=')}"+array;
+        }
+    }
+    function preview(id) { //取消发布
+		var lang_edit = "商品详情预览";
+	    window.top.art.dialog({id:'preview'}).close();
+	    window.top.art.dialog({title:lang_edit,id:'preview',iframe:'?m=goods&a=preview&id='+id,width:'360',height:'600'}, function(){var d = window.top.art.dialog({id:'preview'}).data.iframe;});
+	}
+
+	function publish(id) { //立即发布
+			var res = document.getElementById(id).innerText;
+		if(res!='已采集'){
+				if (confirm("确认要立即发布这个商品吗？")) {
+				window.location="{:u('goods/publish','id=')}"+id;
+
+			}
+			}
+
+		}
+	function cancel_pub(id) { //取消发布
+		var res = document.getElementById(id).innerText;
+		if(res!='已采集'){
+			if (confirm("确认要取消发布这个商品吗？")) {
+
+				window.location="{:u('goods/cancel_pub','id=')}"+id;
+			}
+		}
+	}
+    $("#jump").click(function(){
+        var p = $("#jump_page").val();
+        var attr = $("#jump").attr("attr");
+        window.location = "admin.php?m=Spu&a=addGuess"+attr+"&p="+p;
+    })
+
+    $("#search").click(function(){
+        var low_price = parseFloat($("#low_price").val());
+        var high_price = parseFloat($("#high_price").val());
+        if(low_price && high_price && low_price > high_price){
+            alert("价格区间输入有误，请重新输入！");
+            return false;
+        }
+    })
+    $("#check_box").click(function(){
+        var attr = $("#check_box").attr("checked");
+        var $numBox = $(".checked_num");
+        var box = document.getElementsByName("id[]");
+        if(attr == "checked"){
+            $numBox.text(box.length);
+        }else{
+            for(var i=0;i<box.length;i++){
+                if(box[i].checked){
+                    box[i].checked=false;
+                }
+            }
+            $numBox.text(0);
+        }
+    })
+    $(".box").click(function(){
+        var box = document.getElementsByName("id[]");
+        var num = 0;
+        for(var i=0;i<box.length;i++){
+            if(box[i].checked){
+                num++;
+            }
+        }
+        var $numBox = $(".checked_num");
+        $numBox.text(num);
+    })
+	function up_new(id){ //美味上新
+		/*
+		$.get("{:u('goods/up_new')}", { id: id }, function(data){
+			if(data == 1){
+				$("#status_"+id+" img").attr('src', '__ROOT__/statics/images/status_'+1+'.gif');
+			}else if(data == 2){
+				$("#status_"+id+" img").attr('src', '__ROOT__/statics/images/status_'+0+'.gif');
+			}else{
+				alert("美味上新失败！！稍后请重试！！");
+			}
+		});
+		*/
+        if(confirm("确定要添加到好吃到爆？")){
+            $.ajax({
+    　　　　　　url: "{:u('goods/up_new')}",
+    　　　　　　type: 'GET',
+    　　　　　　data: { id: id },
+    　　　　　　//调小超时时间会引起异常
+    　　　　　　timeout: 3000,
+    　　　　　　//请求成功后触发
+    　　　　　　success: function (data) {
+                if(data == 1){
+                    $("#status_"+id+" img").attr('src', '__ROOT__/statics/images/hot_'+0+'.png');
+                }else if(data == 2){
+                    $("#status_"+id+" img").attr('src', '__ROOT__/statics/images/hot_'+1+'.png');
+                }else{
+                    alert("美味上新失败！！稍后请重试！！");
+                } },
+    　　　　　　//是否使用异步发送
+    　　　　　　async: true
+    　　　　})
+        }
+	}
+	function add_discount(id){ //添加到折扣商品中
+        if(confirm("确定要添加到折扣商品？")){
+            $.ajax({
+    　　　　　　url: "{:u('goods/add_discount')}",
+    　　　　　　type: 'GET',
+    　　　　　　data: { id: id },
+    　　　　　　//调小超时时间会引起异常
+    　　　　　　timeout: 3000,
+    　　　　　　//请求成功后触发
+    　　　　　　success: function (data) {
+                if(data == 2){
+                    $("#discount_"+id+" img").attr('src', '__ROOT__/statics/images/sale_'+0+'.png');
+                }else if(data == 1){
+                    $("#discount_"+id+" img").attr('src', '__ROOT__/statics/images/sale_'+1+'.png');
+                }
+            },
+    　　　　　　//是否使用异步发送
+    　　　　　　async: true
+    　　　　})
+	    }
+    }
+
+	</script>
+</body>
+</html>

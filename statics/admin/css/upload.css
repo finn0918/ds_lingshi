@@ -1,0 +1,113 @@
+/* 2014.7.14 */
+.uploadTD{
+	text-align:center;
+	border-left:1px solid #f4f4f4;
+}
+.gameIconBox{
+	width:82px;
+	height:76px;
+	border:1px solid #ccc;
+	border-radius:2px;
+	padding:1px;
+	display:inline-block;
+	position:relative;
+}
+.gameIcon{
+	width:82px;
+	height:76px;
+	display:block;
+}
+.uploadBtn{
+	width:86px;
+	height:25px;
+	background:#f4f4f4;
+	border:1px solid #ccc;
+	border-radius:2px;
+	margin-top:10px;
+	cursor:pointer;
+	display:inline-block;
+}
+.mobanPicList{
+	display:inline-block;
+}
+.mobanPicList dt{
+	height:104px;
+	float:left;
+	line-height:80px;
+}
+.mobanPicList dd{
+	height:104px;
+	float:left;
+	margin-right:20px;
+	text-align:center;
+}
+.mobanPicList dd p{
+	line-height:22px;
+}
+.mobanPicList dd a{
+	padding:2px 5px;
+	font-size:14px;
+}
+.mobanPic{
+	width:132px;
+	height:76px;
+	border:1px solid #ccc;
+	padding:1px;
+	border-radius:2px;
+}
+/*进度条*/
+.progressBor{
+	height:20px;
+	border-radius:4px;
+	background:#f4f4f4;
+	position:absolute;
+	top:20px;
+	left:5%;
+	right:5%;
+	z-index:8;
+}
+.progressBar{
+	width:0px;
+	height:20px;
+	position:absolute;
+	left:0;
+	top:0;
+	bottom:0;
+	z-index:10;
+	background:#ff0;
+}
+.progressText{
+	width:100%;
+	height:20px;
+	line-height:20px;
+	text-align:center;
+	color:#000
+	font-size:12px;
+	position:absolute;
+	left:0;
+	right:0;
+	top:0;
+	bottom:0;
+	z-index:11;
+}
+
+/* way/add */
+.contentPicTitle{
+	height:115px;
+	line-height:115px;
+	float:left;
+}
+.contentPicBox{
+	width:82px;
+	height:76px;
+	border:1px solid #ccc;
+	border-radius:2px;
+	padding:1px;
+	display:inline-block;
+	position:relative;
+}
+.contentPic{
+	width:82px;
+	height:76px;
+	display:block;
+}

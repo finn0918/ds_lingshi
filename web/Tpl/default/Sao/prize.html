@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+		<meta name="format-detection" content="telephone=no" searchtype="map">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="360-site-verification" content="188bc9bbbe2e50aaf86c811cf61d5cdb" />
+		<meta name="baidu-site-verification" content="ayLnKZTrby" />
+		<meta name="sogou_site_verification" content="gz86ImwtMQ" />
+		<link href="__ROOT__/statics/css/active.css" rel="stylesheet" type="text/css" />
+		<title>零食小喵扫“喵”大动员</title>
+	</head>
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script src="http://aui.github.io/artTemplate/dist/template.js"></script>
+
+	<body class="awardsBody">
+		<div class="packet">
+			<div class="packetImg">
+				<div class="packetTitle">
+				</div>
+			</div>
+			<div class="hint1">
+				<!--吃货，今天你美美哒！-->
+				<span class="chihuo">吃货，今天</span><a id="zf">你获得了</a><span id="getNum"></span>!
+			</div>
+			<div class="hint2 hint3">
+				优惠劵已放至账户：<span id="getMobile"></span>
+				<br /> 登录APP即可使用
+			</div>
+			<div class="hint2">
+				明天继续扫，记得分享给好友哟~
+			</div>
+		</div>
+		<button class="btn btnDownload" onclick="window.location.href='http://a.app.qq.com/o/simple.jsp?pkgname=com.feibo.snacks'">Android下载</button>
+		<button class="btn btnDownload" onclick="window.location.href='http://a.app.qq.com/o/simple.jsp?pkgname=com.feibo.snacks'">IOS下载</button>
+		<div class="luck ">
+			<img class="rankImg" src="__ROOT__/statics/images/active/luck.png" width="85%" />
+			<div class="rankList">
+				<ul>
+					<!--<li><span class="mobile">625****768</span>抽到<span class="zhufu">喵语祝福</span><span class="gift">吃货，你今天美美哒！</span></li>
+					<li><span class="mobile">718****989</span>抽到<span class="gift">好丽友薯片一包！</span></li>
+					<li><span class="mobile">632****789</span>抽到<span class="gift">好丽友薯片一包！</span></li>
+					<li><span class="mobile">234****257</span>抽到<span class="gift">5元优惠劵！</span></li>
+					<li><span class="mobile">234****257</span>抽到<span class="gift">5元优惠劵！</span></li>
+					<li><span class="mobile">234****257</span>抽到<span class="gift">5元优惠劵！</span></li>
+					<li><span class="mobile">234****257</span>抽到<span class="gift">5元优惠劵！</span></li>
+					<li><span class="mobile">234****257</span>抽到<span class="gift">5元优惠劵！</span></li>
+					<li><span class="mobile">234****257</span>抽到<span class="gift">5元优惠劵！</span></li>-->
+				</ul>
+			</div>
+		</div>
+		<div class="rule luck">
+			<img src="__ROOT__/statics/images/active/rule.png" width="85%" />
+			<ul>
+				<li>1.限定每个手机号每天只能领取礼包一次；</li>
+				<li>2.礼包有两种，小喵祝福语和小喵优惠券；</li>
+				<li>3.小喵优惠券每单只能使用任意一张，不可叠加使用；</li>
+				<li>4.小喵优惠券有效时间为92天，从2015年12月1日0:00开始，截止至2016年2月29日24:00结束。</li>
+			</ul>
+		</div>
+		<script id="rankList" type="text/html">
+			{{if rankList.length > 0}} {{each rankList as value}}
+			<li><span class="mobile">{{value.mobile}}</span>抽到 {{if value.gift_id == 1}} <span class="zhufu">一等奖</span> {{/if}} {{if value.gift_id == 2}} <span class="zhufu">二等奖</span> {{/if}} {{if value.gift_id == 3}} <span class="zhufu">三等奖</span> {{/if}} {{if value.gift_id
+				== 4}} <span class="zhufu">四等奖</span> {{/if}}
+				<span class="gift">{{value.prize}}</span>
+			</li>
+			{{/each}} {{/if}}
+		</script>
+	</body>
+	<script src="__ROOT__/statics/js/jquery.min.js"></script>
+	<script src="__ROOT__/statics/js/scroll.js?v=1.0" type="text/javascript" charset="utf-8"></script>
+	<script>
+		var init = {
+			getQueryValue: function(key, url) {
+				var strurl = url || jin.nowUrl;
+				var vals = new RegExp("[\&|\?]" + key + "=([^&]*)&{0,1}", "ig").exec(strurl);
+				return vals ? (vals[1].replace(/#.*/gi, "")) : "";
+			},
+			getCookie: function(name) {
+				var strCookie = document.cookie;
+				var arrCookie = strCookie.split("; ");
+				for (var i = 0; i < arrCookie.length; i++) {
+					var arr = arrCookie[i].split("=");
+					if (arr[0] == name) return arr[1];
+				}
+				return "";
+			},
+			loadData: function(ajax, mobile, callback) {
+				if (ajax == '' && mobile == '') {
+					return false;
+				} else {
+					$.ajax({
+						type: 'get',
+						url: 'web.php?m=Sao&a=getGift&is_ajax=1' + '&mobile=' + mobile,
+						dataType: "json",
+						success: function(data) {
+							if (callback) {
+								callback(data);
+							}
+						}
+					});
+				}
+			},
+			getCallback: function() {
+				var mobile = init.getQueryValue("mobile", window.location.href);
+				init.loadData(1, mobile, function(data) {
+					if (data.rankList.length > 0) {
+						var html = template('rankList', data);
+						$(".rankList ul").html(html);
+						$(".rankList").myScroll({
+							speed: 40,
+							rowHeight: 30,
+							doHover: false
+						});
+					} else {
+						$(".rankList").hide();
+						$(".rankImg").hide();
+					}
+					var htmls = '',
+						rankList = data.rankList;
+					var prize = data.prize;
+					$("#getMobile").text(init.getQueryValue("mobile", window.location.href));
+					switch (prize) {
+						case 1:
+							$("#getNum").text("20元优惠劵"), $(".packetImg").find(".packetTitle").text("一等奖");
+							break;
+						case 2:
+							$("#getNum").text("10元优惠劵"), $(".packetImg").find(".packetTitle").text("二等奖");
+							break;
+						case 3:
+							$("#getNum").text("5元优惠券"), $(".packetImg").find(".packetTitle").text("三等奖");
+							break;
+						case 4:
+							$("#getNum").text("3元优惠券"), $(".packetImg").find(".packetTitle").text("四等奖");
+							break;
+						case 5:
+							$("#zf").hide(), $(".packetImg").find(".packetTitle").text("喵语祝福");
+							$('.chihuo').hide();
+							$('.hint3').hide();
+							break;
+					}
+					if (data.flag) {
+						if (prize == 5) {
+							$("#getNum").text(data.message);
+						}
+						showDialog("领取成功!");
+					} else {
+						if (prize) {
+							var userid = data.user_id;
+							if (prize == 5) {
+								//								$("#getNum").text(decodeURIComponent(init.getCookie(userid + "bs")));
+								var cookieText = init.getCookie(userid + "bs") ? decodeURIComponent(init.getCookie(userid + "bs")) : data.message;
+								$("#getNum").text(cookieText);
+							}
+							showDialog('今日已经领取该礼包！');
+						}
+					}
+				});
+			}
+		}
+
+		function ajax_share() {
+			//读取配置
+			$.ajax({
+				type: "post",
+				url: "web.php?m=Sao&a=signPackage",
+				data: {
+					url: location.href.split('#')[0]
+				},
+				dataType: "json",
+				success: function(d) {
+					//					alert(JSON.stringify(d));
+					wx.config({
+						debug: false,
+						appId: d.appId,
+						timestamp: d.timestamp,
+						nonceStr: d.nonceStr,
+						signature: d.signature,
+						jsApiList: [
+							'onMenuShareTimeline',
+							'onMenuShareAppMessage'
+						]
+					});
+					wx.ready(function() {
+						var gurl = window.location.origin + '/web.php?m=Sao&a=index';
+						var title = '天天扫不断粮   送20元代金券';
+						var descript = '微信扫描零食小喵二维码，送馋嘴代金券最高20元，还有喵语祝福哦！天天扫天天送！';
+						var img_url = window.location.origin + '/statics/images/active/icon_share.jpg';
+						//分享给朋友
+						wx.onMenuShareAppMessage({
+							title: title,
+							desc: descript,
+							link: gurl,
+							imgUrl: img_url,
+							type: 'link',
+							dataUrl: '',
+							success: function() {},
+							cancel: function() {}
+						});
+						//分享到朋友圈
+						wx.onMenuShareTimeline({
+							title: descript,
+							link: gurl,
+							imgUrl: img_url,
+							success: function() {},
+							cancel: function() {}
+						});
+					});
+				}
+			});
+		}
+
+		function showDialog(msg) {
+			if ($('.dialog').length == 0) {
+				var bg = document.createElement('div');
+				bg.classList.add('bg');
+				document.body.appendChild(bg);
+				var picket = document.createElement('div');
+				picket.classList.add('dialog');
+				picket.innerHTML = '<p>' + msg + '</p>' + '<a href="javascript:;" class="enter">确认</a>';
+				document.body.appendChild(picket);
+				$('.bg,.enter').on('click', function() {
+					$('.bg,.dialog').hide();
+					$(document.body).css({
+						"overflow-y": "auto"
+					});
+				});
+			}
+			$('.dialog p').html(msg);
+			var height = document.body.scrollHeight;
+			$(".bg").height(height);
+			$(document.body).css({
+				"overflow-y": "hidden"
+			});
+			$(".dialog,.bg").fadeIn();
+		}
+		$(function() {
+			init.getCallback();
+			setTimeout(function() {
+				ajax_share();
+			}, 10);
+		})
+	</script>
+
+</html>

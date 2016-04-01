@@ -1,0 +1,114 @@
+.main img {
+	width:100%;
+}
+.main .img {
+	max-width:640px;
+	width:100%;
+}
+.main .img  img {
+}
+.fl {
+	float:left;
+}
+.area {
+	position:relative;
+}
+.area .hotzone {
+	position:absolute;
+	top:0;
+	left:0;
+	bottom:0;
+	right:0;
+}
+.area .hotzone a {
+	display:block;
+}
+.area .hotzone1 a {
+	width:3.6rem;
+	height:3.6rem;
+	float:left;
+}
+.hotzone1 a:nth-child(1)
+ {
+	margin-top: 2rem;
+    margin-left: 0.6rem;
+}
+.hotzone1 a:nth-child(2) {
+	margin-top: 2rem;
+    margin-left: 0.9rem;
+}
+.hotzone1 a:nth-child(3) {
+    margin-left: 2rem;
+}
+.hotzone1 a:nth-child(5) {
+	margin-top:0.5rem;
+    margin-left: 2rem;
+}
+.hotzone1 a:nth-child(6),
+.hotzone1 a:nth-child(7) {
+	margin-top:0.5rem;
+    margin-left: 1rem;
+}
+/*2*/
+.img .area:nth-child(1),
+.img .area:nth-child(3)
+ {
+	width:5.325rem;
+}
+.img .area:nth-child(2)
+ {
+	width:5.35rem;
+}
+.area .hotzone2 a,
+.area .hotzone3 a {
+	width:4rem;
+	height:4rem;
+}
+.ml {
+	margin-left: 1rem;
+}
+.mr {
+	margin-left:0.8rem;
+}
+.area .hotzone2 a:nth-child(1){
+	margin-top: 2rem;
+} 
+.area .hotzone2 a:nth-child(2),
+.area .hotzone2 a:nth-child(3)
+{
+	margin-top: 1rem;
+} 
+.area .hotzone3 a:nth-child(2) {
+	margin-top:0.6rem;
+}
+.area .hotzone3 a:nth-child(3),
+.area .hotzone3 a:nth-child(4)
+ {	
+	margin-top:0.2rem;
+}
+/*3*/
+.area .hotzone4 a{
+	float:left;
+	width:5rem;
+	height:4rem;
+}
+.hotzone4.ml {
+	margin-left: 0.5rem;
+}
+.hotzone4.ml-xl {
+	margin-left: 2rem;
+}
+.hotzone4.ml-xl a {
+	margin-left:1rem;
+	margin-top:-0.5rem;
+}
+.hotzone5 a {
+	width:49.5%;
+	height:4rem;
+	float:left;
+}
+.hotzone6 a {
+	width:49.5%;
+	height:6.5rem;
+	float:left;
+}

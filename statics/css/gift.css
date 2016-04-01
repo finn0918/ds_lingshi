@@ -1,0 +1,166 @@
+html {
+	background: #efefef;
+}
+#box{
+	display:none;
+}
+.disWrapper {
+	padding: 0;
+}
+.btn-share{
+	position: fixed;
+	right: 1rem;
+	bottom: 5%;
+	width: 1.8rem;
+}
+.RulerMain{
+	margin-bottom: .75rem;
+}
+.RulerMain p:last-of-type {
+	margin-bottom: 0;
+}
+
+.banner1212 {
+	background: #efefef;
+}
+
+.banner1212 img {
+	width: 96%;
+	padding: .8rem 0rem;
+	border: 1px solid #dfdfdf;
+	border-left: none;
+	border-right: none;
+	margin: 0 auto;
+}
+
+.fixed-banner {
+	position: relative;
+	border: none;
+}
+
+.cp-Main {
+	width: 90.5%;
+	margin: .75rem 0 0 .45rem;
+	border-bottom: 1px solid #dfdfdf;
+}
+
+.cp-Main li {
+	background: url(../images/discount/dis_bg.png) no-repeat;
+	background-size: 100% 100%;
+	width: 100%;
+	height: 4.85rem;
+	overflow: hidden;
+	position: relative;
+	margin-bottom: 0.75rem;
+}
+
+.cp-Main li .outColor .cp-Price,.cp-Main li .outColor .cp-info,.cp-Main li .outColor .cp-info ul li,.outColor .cp-Time {
+	color: #a0a0a0;
+}
+
+.cp-Main li .outColor .cp-info ul li:before {
+	background: url(../images/cp-count/outcricle.png) no-repeat;
+}
+
+.cp-Price {
+	color: #ff2d4b;
+	font-size: 1rem;
+	line-height: 4.9rem;
+	float: left;
+	font-family: "Verdana";
+}
+
+.cp-Price em {
+	font-size: 0.5rem;
+	vertical-align: top;
+	display: inline-block;
+	margin-top: -0.08rem;
+	margin-right: 0.1rem;
+}
+
+.cp-Price i {
+	letter-spacing: -1px;
+}
+
+.Wrapper {
+	margin: 0 0.5rem;
+}
+/* middle */
+
+.cp-info {
+	position:absolute;
+	left:20%;
+	color: #353535;
+	/*float: left;*/
+}
+
+.cp-info p.title {
+	font-size: 55%;
+	margin-bottom: 0.35rem;
+	margin-top: 0.65rem;
+	max-width: 7rem;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 1;
+	overflow: hidden;
+}
+
+.cp-info ul {
+	margin-bottom: 0.45rem;
+}
+
+.cp-info ul li {
+	background: none;
+	height: auto;
+	font-size: 50%;
+	color: #606060;
+	line-height: 0.8rem;
+	margin-bottom: 0;
+}
+
+.cp-info ul li:before {
+	content: "";
+	background: url(../images/discount/scircle.png) no-repeat;
+	background-size: 100% auto;
+	width: 0.15rem;
+	height: 0.15rem;
+	display: inline-block;
+	vertical-align: middle;
+	margin-right: 0.2rem;
+	margin-top: -0.2rem;
+}
+
+.cp-Time {
+	font-size: 45%;
+	font-family: "Arial";
+}
+/* right */
+
+.lqFrBtn {
+	width: 17.2%;
+	line-height: 4.9rem;
+	font-size: 0.6rem;
+	color: #fff;
+	text-align: center;
+	display: block;
+	height: 99%;
+	position: absolute;
+	right: 0;
+}
+
+.goDetail {
+	display: block;
+	float: left;
+}
+
+#cp-list {
+	background: #efefef;
+}
+
+.fl {
+	float: left;
+}
+
+.disCountDetail {
+	margin: .75rem 0;
+}

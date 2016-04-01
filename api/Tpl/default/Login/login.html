@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+	</head>
+	
+	<link rel="stylesheet" href="/statics/css/login.css" />
+	
+	
+	<body class="login">
+		<div class="login-img">
+			<img src="/statics/images/login/lingshi.png" />
+			<p>这里的零食看了都想吃</p>
+		</div>
+		<div class="login-tel login-top">
+			<p >
+				<!--<span><img src="/statics/images/login/mobile.png"/></span>-->
+				<!--手机登录-->
+				<input id='tel' type="tel" placeholder="请输入11位手机号码" />
+			</p>
+			<p>
+				<!--<span><img src="/statics/images/login/lock.png"/></span>-->
+				<!--密码-->
+				<input id='telPwd' type="password" placeholder="请输入6-16位英文数字密码" />
+				<img src="/statics/images/login/closeEye.png" class="eye" title="隐藏"/>
+			</p>
+		</div>
+		<div class="login-link">
+			<p>
+				<a class="login-instance" id="login-instance" >登录</a>
+			</p>
+			<p>
+				<a class="login-forgetPwd"  id="forgetPwd">忘记密码?</a>
+			</p>
+			<p class="login-mid">
+				<span>还没有账号?</span>
+				<a class="login-mobileReg"  id="telReg">手机注册</a>
+			</p>
+		</div>
+		<footer class="login-three">
+			<div class="login-three1">
+				<i>第三方账号登录</i>
+				<span></span>
+			</div>
+			
+			<dl id="qq">
+				<dt><img src="/statics/images/login/qq.png"/></dt>
+				<!--<dd>QQ</dd>-->
+			</dl>
+			<dl id="weixin">
+				<dt><img src="/statics/images/login/weixin.png"/></dt>
+				<!--<dd>微信</dd>-->
+			</dl>
+			<dl id="weibo">
+				<dt><img src="/statics/images/login/weibo.png"/></dt>
+				<!--<dd>微博</dd>-->
+			</dl>
+		</footer>
+		<script type="text/javascript" src="/statics/js/zepto.min.js" ></script>
+		<!--<script type="text/javascript" src="../js/login.js" ></script>-->
+		<script>
+			$(function(){
+				var $tel=$('#tel');//手机号
+				var $telPwd=$('#telPwd');//手机密码
+				var $login_instance=$('#login-instance');//立即登录
+				var $forgetPwd=$('#forgetPwd');//忘记密码
+				var $telReg=$('#telReg');//手机注册
+				var $qq=$('#qq');//qq
+				var $weiXin=$('#weixin');//微信
+				var $weiBo=$('#weibo');//微博
+				var $eye=$('.eye');
+				
+				
+				var tel;//手机号值
+				var telPwd ;//手机密码值
+				
+				$tel.on('input',checkAll);
+				$telPwd.on('input',checkAll);
+				$eye.on('click',eye);
+				
+				
+				function eye(){
+					if($(this).attr('title')=='可视'){
+						$(this).attr('title','隐藏');
+						$(this).attr('src','/statics/images/login/closeEye.png');
+						$(this).siblings('input').attr('type','password');
+					}else{
+						$(this).attr('title','可视')
+						$(this).attr('src','/statics/images/login/eye.png');
+						$(this).siblings('input').attr('type','text');
+					}
+				}
+				//验证手机号 
+				function checktel (){
+					var tel= $tel.val();//手机号值
+					
+					var flag = true;
+					var reg=/^[0-9]{11}$/i;
+					if(!reg.test(tel)){
+						flag=false;
+					}
+					return flag;
+				}
+				function checktelPwd(){
+					var telPwd = $telPwd.val();//手机密码值
+					var flag = true;
+					var reg=/^[0-9a-z]{6,16}$/i;
+					if(!reg.test(telPwd)){
+						flag=false;
+					}
+					return flag;
+				}
+				
+				function checkAll(){
+					if(checktel() && checktelPwd()){
+						$login_instance.css({'background':'#FF2D4B','color':'#fff'});
+						console.log($login_instance.css('color')=='rgb(255, 255, 255)')
+					}else{
+						$login_instance.css({'background':'#E0E0E1','color':'#BBBBBF'});
+					}
+				}
+				//交互+++++++++++++++++++++++++++++++++
+				var browser = {
+					versions: function() {
+						var u = navigator.userAgent,
+							app = navigator.appVersion;
+						return { //移动终端浏览器版本信息 
+							mobile: !!u.match(/AppleWebKit.*Mobile.*/),
+							ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端 
+							android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器 
+							iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器 
+							iPad: u.indexOf('iPad') > -1, //是否iPad]
+							weixin: u.match("MicroMessenger")
+						};
+					}(),
+				};
+				function connectWebViewJavascriptBridge(callback) {
+				    if (window.WebViewJavascriptBridge) {
+				        callback(WebViewJavascriptBridge)
+				    } else {
+				        document.addEventListener('WebViewJavascriptBridgeReady',
+				        function() {
+				            callback(WebViewJavascriptBridge)
+				        },
+				        false)
+				    }
+				}
+				connectWebViewJavascriptBridge(function(bridge) {
+	
+				    /* Init your app here */
+	
+				    // 刚进来就调用
+				    bridge.init(function(message, responseCallback) {
+				        if (responseCallback) {
+				            responseCallback("Right back atcha")
+				        }
+				    });
+				    bridge.send('Please respond to this',
+				    function responseCallback(responseData) {
+				        console.log("Javascript got its response", responseData)
+				    });
+				}); 
+				if(browser.versions.android) {
+					$login_instance.on('click',function(){
+						if($login_instance.css('color')=='rgb(255, 255, 255)'){
+							tel= $tel.val();//手机号值
+							telPwd = $telPwd.val();//手机密码值
+							window.bridge.login(tel,telPwd);
+						}
+						
+					});
+					
+					$telReg.on('click',function(){
+						window.bridge.jump(2);
+					});
+					$forgetPwd.on('click',function(){
+						window.bridge.jump(3);
+					});
+					$qq.on('click',function(){
+						window.bridge.authLogin(1);
+					});
+					$weiXin.on('click',function(){
+						window.bridge.authLogin(2);
+					});
+					$weiBo.on('click',function(){
+						window.bridge.authLogin(3);
+					});
+					
+					
+				}else if(browser.versions.iPhone || browser.versions.iPad){
+					
+					 connectWebViewJavascriptBridge(function(bridge) {
+					 	$login_instance.on('click',function(){
+					 		if($login_instance.css('color')=='rgb(255, 255, 255)'){
+					 			tel= $tel.val();//手机号值
+								telPwd = $telPwd.val();//手机密码值
+					 			bridge.callHandler("login",{
+				                    mobNum:tel,
+				                    pwd:telPwd
+		
+				                },function(data, responseCallback) {})
+					 		}
+					 	});
+					 	$telReg.on('click',function(){
+					 		bridge.callHandler("jump",{
+			                    type:2
+	
+			                },function(data, responseCallback) {})
+					 	});
+					 	$forgetPwd.on('click',function(){
+					 		bridge.callHandler("jump",{
+			                    type:3
+	
+			                },function(data, responseCallback) {})
+					 	});
+					 	$qq.on('click',function(){
+					 		bridge.callHandler("authLogin",{
+			                    type:1
+	
+			                },function(data, responseCallback) {})
+					 	});
+					 	$weiXin.on('click',function(){
+					 		bridge.callHandler("authLogin",{
+			                    type:2
+	
+			                },function(data, responseCallback) {})
+					 	});
+					 	$weiBo.on('click',function(){
+					 		bridge.callHandler("authLogin",{
+			                    type:3
+	
+			                },function(data, responseCallback) {})
+					 	});
+					 })
+				}
+				
+				
+
+			})
+		</script>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</body>
+</html>

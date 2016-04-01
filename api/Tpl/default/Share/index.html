@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+		<meta name="format-detection" content="telephone=no" searchtype="map">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="360-site-verification" content="188bc9bbbe2e50aaf86c811cf61d5cdb" />
+		<meta name="baidu-site-verification" content="ayLnKZTrby" />
+		<meta name="sogou_site_verification" content="gz86ImwtMQ"/>
+		<script>
+			var version = location.href.indexOf("?tdev") > 0 ? (1 + Math.round(Math.random() * 9999 - 1)) : '1.2';
+			document.write('<link href="__ROOT__/statics/css/tBase_h.css?v='+version+'" rel="stylesheet" type="text/css" />');
+			document.write('<link href="__ROOT__/statics/css/share.css?v='+version+'" rel="stylesheet" type="text/css" />');
+			(function(b, c) {
+				var d = b.documentElement,
+					resizeEvt = 'orientationchange' in c ? 'orientationchange' : 'resize',
+					recalc = function() {
+						var a = d.clientWidth;
+						if (!a) return;
+						d.style.fontSize = (20 * (a / 320)) > 40 ? 40 + "px" : (20 * (a / 320)) + 'px'
+					},
+					anime = c.requestAnimationFrame || c.webkitRequestAnimationFrame || c.mozRequestAnimationFrame || c.oRequestAnimationFrame ||
+				function(e) {
+					return setTimeout(e, 16.67)
+				};
+				if (!b.addEventListener) return;
+				c.addEventListener(resizeEvt, recalc, false);
+				b.addEventListener('DOMContentLoaded', recalc, false)
+			})(document, window);
+		</script>
+		<style>
+			body{
+				font-family: 'Microsoft Yahei';
+				position: absolute;
+			}
+			#warper{
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="warper">
+			<img src="__ROOT__/statics/images/share/header96.png?v=<?php echo mt_rand(1000,2000);?>" alt="" />
+			<ul class="head-title">
+				<li>每天首次成功分享就拿<span><i>5</i> 元</span></li>
+				<li>好友领取成功就拿<span><i>10</i> 元</span></li>
+				<p class="clearfix activity-rule">
+					* 优惠券每次限使用1张
+					<a class="activity-state">活动说明&gt</a>
+				</p>
+			</ul>
+			<p class="now-share">
+				<a href="javascript:void(0)">
+					<img src="__ROOT__/statics/images/share/now_share.png?v=<?php echo mt_rand(1000,2000);?>" alt="" />
+				</a>
+				<!-- <a href="javascript:void(0)">立即分享 拿优惠券</a> -->
+			</p>
+			<img src="__ROOT__/statics/images/share/title.png?v=20151012" alt="" class="titleImg">
+			
+			<div class="result-con">
+				<if condition="$my_gift">
+					<p>共获得<span> {$total_money} </span>元</p>
+					<foreach name="my_gift" item="vo">
+						<p><span> {$vo.money} </span>元的优惠券领取 <span> {$vo.nums} </span>次</p>
+					</foreach>
+					<else/>
+					<p>您当前还未获得任何奖励哦~</p>
+					<p>立即分享，拿优惠券~</p>
+					</if>
+			</div>
+			<img src="__ROOT__/statics/images/share/title_1.png?v=20151012" alt="" class="titleImg">
+
+			<ul class="prize-result">
+				<volist name="share_order" id="vo" key="k" >
+				<li>
+					<span>{$vo.order}</span>
+					<span>{$vo.mobile}</span>
+					<span>{$vo.total_money}元</span>
+				</li>
+				</volist>
+			</ul>
+			<p class="now-share">
+				<a href="javascript:void(0)">
+					<img src="__ROOT__/statics/images/share/now_share.png?v=<?php echo mt_rand(1000,2000);?>" alt="" />
+				</a>				<!-- <a href="javascript:void(0)">立即分享 拿优惠券</a> -->
+			</p>
+		
+			<p class="share_url">{$share_url}</p>
+		</div>
+		<div class="bg"></div>
+		<div class="activity-rule-list">
+			<h3>活动说明</h3>
+			<ul class="rule">
+				<li>1. 每天都有1次分享成功就得5元零食小喵APP专享优惠券的机会（30分钟内到账）;</li>
+				<li>2. 每成功邀请1位好友领取46元优惠券红包，即可获得10元零食小喵APP专享优惠券;</li>
+				<li>3. 46元红包为零食小喵APP专享优惠，包括满3元减3元优惠券1张，满39元减5元优惠券1张，满79元减8元优惠券1张，满99元减10元优惠券1张，满149元减20元优惠券1张;</li>
+				<li>4. 46元优惠券红包每个用户限领1次。同一登陆账号、同一手机号、同一IP地址、同一收货地址、同一终端设备号或其他合理显示为同一用户的情形，均视为同一用户;</li>
+				<li>5.分享到第三方平台后，需点击返回零食小喵，方可收到小喵为您推送的优惠券哦;</li>
+				<li>6. 优惠券及优惠券的使用方式详见券面具体描述，部分特殊商品不参与该优惠;</li>
+				<li>7. 通过不正当手段（包括但不限于侵犯第三人合法权益、作弊、扰乱系统、实施网络攻击、批量注册、用机器注册账户等）获得奖励，零食小喵APP有权撤销奖励及相关交易订单。</li>
+			</ul>
+		</div> 
+	</body>
+<script src="__ROOT__/statics/js/jquery.min.js"></script>
+<script>
+	function getQueryValue(key,url){
+        var strurl=url || jin.nowUrl;
+        var vals=new RegExp("[\&|\?]"+key+"=([^&]*)&{0,1}","ig").exec(strurl);
+        return vals?(vals[1].replace(/#.*/gi,"")):"";
+	};
+	var uid = getQueryValue('uid',location.href);
+	
+	setTimeout(function(){
+		$('#warper').show();
+	},500)
+
+	//分享成功以后刷新页面
+	function setBtnStatus(type){
+		if(type == 5){
+			window.location.reload;
+		}
+	}
+	var site_url = "{$site_url}";
+	console.log(site_url);
+	var browser = {
+			versions: function () {
+				var u = navigator.userAgent, app = navigator.appVersion;
+				return { //移动终端浏览器版本信息 
+					mobile: !!u.match(/AppleWebKit.*Mobile.*/),
+					ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端 
+					android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器 
+					iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器 
+					iPad: u.indexOf('iPad') > -1, //是否iPad]
+					weixin : u.match("MicroMessenger")
+				};
+			}(),
+		};
+		function connectWebViewJavascriptBridge(callback) {
+			if (window.WebViewJavascriptBridge) {
+				callback(WebViewJavascriptBridge)
+			} else {
+				document.addEventListener('WebViewJavascriptBridgeReady', function() {
+					callback(WebViewJavascriptBridge)
+				}, false)
+			}
+		}
+		connectWebViewJavascriptBridge(function(bridge) {	
+			
+			/* Init your app here */
+			
+			// 刚进来就调用
+			bridge.init(function(message, responseCallback) {
+				if (responseCallback) {
+					responseCallback("Right back atcha")
+				}
+			})
+			bridge.send('Please respond to this', function responseCallback(responseData) {
+				console.log("Javascript got its response", responseData)
+			})
+		});
+		if(browser.versions.android) {
+
+			window.bridge.setAppTitle('邀请好友送红包');
+			var id = 0,
+			desc = '盆友们！霸道总裁挥泪特批，96元优惠券放送！这个元旦，让你安静的做个吃货！',
+			title = '96元优惠券拿去花！',
+			imgUrl = ''+site_url+'/statics/images/share/icon_share_red96.png',
+			contentUrl = $('.share_url').text();
+			// contentUrl = location.href
+
+			function isLogin(isLogin){
+			    if (isLogin == true) {
+			        window.bridge.setShareInfo(id,desc,title,imgUrl,contentUrl,1);
+			    }
+			}
+
+			$('.now-share').on('click',function(){
+				$.ajax({
+                    type: "get",
+                    url: "web.php?m=Share&a=setShareLog&uid="+uid,
+                    dataType: "json",
+                    success : function (d) {
+						window.bridge.startLottery(1);
+                    },
+                    error : function() {
+                    	alert('请重试');
+                    }
+             	})
+			})
+			
+		}else if(browser.versions.iPhone || browser.versions.iPad){
+			
+		var id = 0,
+			desc = '盆友们！霸道总裁挥泪特批，96元优惠券放送！这个元旦，让你安静的做个吃货！',
+			title = '96元优惠券拿去花！',
+			imgUrl = ''+site_url+'/statics/images/share/icon_share_red96.png',
+			contentUrl = $('.share_url').text()
+			// contentUrl = location.href
+
+			connectWebViewJavascriptBridge(function(bridge) {	
+
+			//标题
+			bridge.callHandler("setAppTitle",{title : "邀请好友送红包"},function(data,responseCallback){});
+				/* Init your app here */
+
+				$('.now-share').on('click',function(){
+				var url = "web.php?m=Share&a=setShareLog&uid="+uid;
+				// 点击判断用户是否登录
+				$.ajax({
+                    type: "get",
+                    url: "web.php?m=Share&a=setShareLog&uid="+uid,
+                    dataType: "json",
+                    success : function (d) {
+                    	bridge.callHandler("onCheckBtnOnTap",function(data, responseCallback) {});
+
+				        bridge.registerHandler("startLottery",function(data, responseCallback) {
+
+				        	bridge.callHandler("setShareInfo",{id : id,desc:desc,title:title,imgUrl:imgUrl,contentUrl:contentUrl,type:'1'},function(data,responseCallback){})
+							})
+
+				        bridge.registerHandler("applicationLogin",function(data, responseCallback) {
+				        	window.location.reload;
+				        });
+                    },
+                    error : function() {
+                    	alert('请重试');
+                    }
+             	})
+		        });
+			})
+		}
+
+		// $('.activity-state').on('click',function(){
+		// 	$('.activity-rule-list,.bg').show();
+		// })
+
+		// $('.activity-rule-list,.bg').on('click',function(){
+		// 	$('.activity-rule-list,.bg').hide();
+		// })
+
+		var browser = {
+			  versions: function () {
+			      var u = navigator.userAgent, app = navigator.appVersion;
+			      return { //移动终端浏览器版本信息 
+			          mobile: !!u.match(/AppleWebKit.*Mobile.*/),
+			          ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端 
+			          android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器 
+			          iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器 
+			         iPad: u.indexOf('iPad') > -1, //是否iPad]
+			         weixin : u.match("MicroMessenger")
+			     };
+			 }(),
+			};
+			var type = 1;
+			var info = 2;
+			if(browser.versions.android) {
+				$(".activity-state").on("click",function(){
+					window.bridge.javascriptJumpAction(1, "活动说明",""+site_url+"/web.php?m=Share&a=rule","");
+				});
+			}else if(browser.versions.iPhone || browser.versions.iPad){
+				connectWebViewJavascriptBridge(function(bridge) {
+					$(".activity-state").on("click",function(){
+						bridge.callHandler("javascriptJumpAction",{type : 1, title : '活动说明',param1 : ''+site_url+'/web.php?m=Share&a=rule',param2 : ''},function(data,responseCallback){})
+					});
+				})
+			}
+</script>
+</html>

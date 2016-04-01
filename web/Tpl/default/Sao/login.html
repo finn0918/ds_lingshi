@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+		<meta name="format-detection" content="telephone=no" searchtype="map">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="360-site-verification" content="188bc9bbbe2e50aaf86c811cf61d5cdb" />
+		<meta name="baidu-site-verification" content="ayLnKZTrby" />
+		<meta name="sogou_site_verification" content="gz86ImwtMQ" />
+		<title>零食小喵扫“喵”大动员</title>
+		<link href="__ROOT__/statics/css/active.css" rel="stylesheet" type="text/css" />
+	</head>
+
+	<body class="regBody">
+		<div class="reg">
+
+			<div class="header">
+				<img src="__ROOT__/statics/images/share/logo.png">
+				<span>零食小喵</span>
+			</div>
+			<p class="title">账号：<span id="mobile"></span></p>
+			<p id="codeHint" class="title" style="display: none;">已发送验证码至 <span id="value"></span></p>
+			<div class="code">
+				<input type="tel" placeholder="请输入短信验证码" id="draw-code" class="import-code" maxlength="6" />
+				<button id="btnSendCode" class="sendCode" onclick="sendCode()">获取验证码</button>
+			</div>
+			<button class="btn doneBtn">完成验证</button>
+		</div>
+	</body>
+	<script src="__ROOT__/statics/js/jquery.min.js"></script>
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script>
+		var init = {
+			getQueryValue: function(key, url) {
+				var strurl = url || jin.nowUrl;
+				var vals = new RegExp("[\&|\?]" + key + "=([^&]*)&{0,1}", "ig").exec(strurl);
+				return vals ? (vals[1].replace(/#.*/gi, "")) : "";
+			},
+			checkLoginIn: function() {
+				var ajax_data = {
+					url: 'web.php?m=Sao&a=checkLogin',
+					data: {
+						'mobile': init.getQueryValue("mobile", window.location.href),
+						'msg_code': $("#draw-code").val()
+					},
+					dataType: 'json',
+					type: 'get',
+					success: function(d) {
+						if (d.flag) {
+							window.location.href = "web.php?m=Sao&a=prize&mobile=" + init.getQueryValue("mobile", window.location.href);
+						} else {
+							showDialog("验证码错误");
+						}
+					}
+				};
+				$.ajax(ajax_data);
+			},
+			getMsgcde: function() {
+				var ajax_data = {
+					url: 'web.php?m=Sao&a=getMsgcde',
+					data: {
+						'mobile': init.getQueryValue("mobile", window.location.href),
+						'is_ajax': 1
+					},
+					dataType: 'json',
+					type: 'get',
+					success: function(d) {}
+				};
+				$.ajax(ajax_data);
+			}
+		}
+		var mobile = init.getQueryValue("mobile", window.location.href);
+
+		function pwdVisible() {
+			var pwBox = document.getElementById("draw-pwd");
+			if (pwBox.type == "password") {
+				pwBox.type = "text";
+				$('#btnVisible').addClass("visible");
+			} else {
+				pwBox.type = "password";
+				$('#btnVisible').removeClass("visible");
+			}
+		}
+		var validCoding = false,
+			timer;
+
+		function sendCode() {
+			if (!validCoding) {
+				init.getMsgcde();
+				var btnSendCode = $("#btnSendCode");
+				var codeHint = $("#codeHint");
+				var n = 60;
+				validCoding = true;
+				var string = mobile.slice(0, 3) + "****" + mobile.slice(7, 11);
+				codeHint.show().find("#value").html(string);
+				btnSendCode.text(n + "S后重发");
+				btnSendCode.addClass("dis");
+				//请求发送验证码
+				timer = setInterval(function() {
+					n--;
+					btnSendCode.text(n + "S后重发");
+					if (n <= 0) {
+						clearInterval(timer);
+						btnSendCode.text("获取验证码");
+						btnSendCode.removeClass("dis");
+						codeHint.hide();
+						validCoding = false;
+					}
+				}, 1000);
+			}
+		}
+
+		function ajax_share() {
+			//读取配置
+			$.ajax({
+				type: "post",
+				url: "web.php?m=Sao&a=signPackage",
+				data: {
+					url: location.href.split('#')[0]
+				},
+				dataType: "json",
+				success: function(d) {
+					//					alert(JSON.stringify(d));
+					wx.config({
+						debug: false,
+						appId: d.appId,
+						timestamp: d.timestamp,
+						nonceStr: d.nonceStr,
+						signature: d.signature,
+						jsApiList: [
+							'onMenuShareTimeline',
+							'onMenuShareAppMessage'
+						]
+					});
+					wx.ready(function() {
+						var gurl = window.location.origin + '/web.php?m=Sao&a=index';
+						var title = '天天扫不断粮   送20元代金券';
+						var descript = '微信扫描零食小喵二维码，送馋嘴代金券最高20元，还有喵语祝福哦！天天扫天天送！';
+						var img_url = window.location.origin + '/statics/images/active/icon_share.jpg';
+						//分享给朋友
+						wx.onMenuShareAppMessage({
+							title: title,
+							desc: descript,
+							link: gurl,
+							imgUrl: img_url,
+							type: 'link',
+							dataUrl: '',
+							success: function() {},
+							cancel: function() {}
+						});
+						//分享到朋友圈
+						wx.onMenuShareTimeline({
+							title: descript,
+							link: gurl,
+							imgUrl: img_url,
+							success: function() {},
+							cancel: function() {}
+						});
+					});
+				}
+			});
+		}
+
+		function showDialog(msg) {
+			if ($('.dialog').length == 0) {
+				var bg = document.createElement('div');
+				bg.classList.add('bg');
+				document.body.appendChild(bg);
+				var picket = document.createElement('div');
+				picket.classList.add('dialog');
+				picket.innerHTML = '<p>' + msg + '</p>' + '<a href="javascript:;" class="enter">确认</a>';
+				document.body.appendChild(picket);
+				$('.bg,.enter').on('click', function() {
+					$('.bg,.dialog').hide();
+					$(document.body).css({
+						"overflow-y": "auto"
+					});
+				});
+			}
+			$('.dialog p').html(msg);
+			var height = document.body.scrollHeight;
+			$(".bg").height(height);
+			$(document.body).css({
+				"overflow-y": "hidden"
+			});
+			$(".dialog,.bg").fadeIn();
+		}
+		$(function() {
+			sendCode();
+			setTimeout(function() {
+				ajax_share();
+			}, 10);
+		});
+		$("#mobile").html(mobile);
+		$("body").on("click", ".doneBtn", function() {
+			if ($("#draw-code").val() != '') {
+				init.checkLoginIn();
+			} else {
+				showDialog("验证码不能为空");
+			}
+		})
+	</script>
+
+</html>

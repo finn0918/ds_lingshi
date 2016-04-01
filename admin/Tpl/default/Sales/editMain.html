@@ -1,0 +1,488 @@
+<include file="Public:header" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/js/calendar/calendar-blue.css"/>
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/admin/css/jquery.datetimepicker.css"/>
+<script type="text/javascript" src="__ROOT__/statics/admin/js/jquery.datetimepicker.js"></script>
+<script type="text/javascript" src="__ROOT__/statics/js/jquery/plugins/jquery.imagePreview.js"></script>
+<style>
+.list_item{margin-bottom:20px;border:1px solid #ddd;box-shadow:2px 2px 5px #ddd}
+.list_item .header{position:relative;background-color:#f3f3f3;height:33px;line-height:32px;padding-left:10px;}
+.list_item h3,
+.list_item h4{display:inline-block;*display:block; *float:left;margin-right:10px;border-right:1px solid #ddd;padding-right:10px;}
+.list_item .status img {margin:10px 0;}
+.list_item .op {position:absolute;right:0;border-right:0 none; padding-right:20px;}
+.list_item .op a {margin-left:15px}
+.list_item .content {padding:10px;}
+.list_item .content img {width:60px;text-align:left}
+
+.mutiControl{
+    display:block;
+    height:14px;
+    line-height:14px;
+    padding:10px 0 20px 6px;
+    font-size:14px;
+}
+.inputRadio{
+    float:left;
+    height:14px;
+    display:block;
+}
+.inputRadio.mr8{
+    margin-right:8px;
+}
+.mutiControl .btn{
+    color:#0081c2;
+}
+	*{
+				margin:0;
+				padding:0;
+			}
+			.fileControl{
+				position:relative;
+				padding:5px;
+			}
+			.vqdTrigger{
+				position:relative;
+				width:60px;
+				height:25px;
+				line-height:25px;
+				text-align:center;
+				border-radius:4px;
+				background:#CC290E;
+				color:#FFF;
+				font-size:12px;
+				border:none;
+				cursor:pointer;
+				outline:none;
+			}
+			.vqdfile{
+				position:absolute;
+				opacity:0;
+			}
+			.fileList li{
+				position:relative;
+				margin-top:5px;
+				height:50px;
+				padding:6px;
+				display:block;
+				border:1px solid #CCC;
+				border-radius:4px;
+			}
+			.fileList li img{
+				float:left;
+				height:50px;
+				display:block;
+			}
+			.fileList li .del{
+				position:absolute;
+				right:5px;
+				top:20px;
+				width:18px;
+				height:18px;
+				line-height:19px;
+				text-align:center;
+				border:1px solid #CCC;
+				border-radius:20px;
+				text-decoration:none;
+				color:#888;
+				font-size:16px;
+			}
+			.uploadSubmit{
+				position:absolute;
+				left:70px;
+				top:5px;
+				z-index:8;
+				width:60px;
+				height:25px;
+				line-height:25px;
+				text-align:center;
+				border-radius:4px;
+				background:#58BC40;
+				color:#FFF;
+				font-size:12px;
+				border:none;
+				cursor:pointer;
+				outline:none;
+				display:none;
+			}
+
+<!-- 我的添加-->
+           ul li{
+	             list-style:none;
+            }
+           .flyCheckBox{
+	             width:140px;
+	             height:35px;
+	             border:1px solid #CCC;
+	             border-radius:6px;
+	             cursor:pointer;
+	             background:#F4F4F4;
+	             outline:none;
+	             padding:0 5px;
+	             float:left;
+              }
+            .flyBox{
+	             position:fixed;
+	             left:25%;
+	             right:25%;
+	             top:10%;
+            	 max-height:320px;
+            	 overflow:hidden;
+	             z-index:1000;
+	             padding:10px 20px 45px 20px;
+	             border-radius:4px;
+	             background:#FFF;
+	             border:1px solid #CCC;
+	             display:none;
+              }
+             .flyBox label{
+	             margin-top:5px;
+	             padding-bottom:5px;
+	             width:100%;
+             	 height:14px;
+	             line-height:14px;
+	             display:block;
+	             border-bottom:1px dashed #ccc;
+               }
+               .flyBox input[type='checkbox']{
+               	float:left;
+               	margin-right:5px;
+
+               }
+               #to_id{
+				width:100%;
+               	height:100%;
+               	min-height:200px;
+               	max-height:250px;
+               	overflow:scroll;
+               	overflow-x:hidden;
+               }
+             .flyBox .foot{
+	             width:100%;
+	             padding:10px 0;
+             	 height:21px;
+	             text-align:center;
+             	 position:absolute;
+             	 bottom:0;
+             	 left:0;
+             	 background:#f4f4f4;
+               }
+               .flyBox .head{
+				margin-bottom:20px;
+				width:100%;
+               	height:21px;
+               }
+               .flyBox .flyBox_close{
+					font-size:16px;
+               		float:right;
+               	text-decoration:none;
+               }
+             .chk_submit .chk_reset{
+	             width:60px;
+	             height:22px;
+	             background:#CCC;
+	             border:1px solid #CCC;
+	             border-radius:2px;
+	             display:inline-block;
+	             cursor:pointer;
+                }
+                .flyBox_trigger{
+                	width:60px;
+                	height:37px;
+                	margin-right:10px;
+                	float:left;
+                	border-radius:4px;
+                	border:1px solid #CCC;
+                	background:#f4f4f4;
+                	text-align:center;
+                	cursor:pointer;
+                	color:#555;
+                }
+</style>
+
+  <form action="{:u('Sales/editMain')}" method="post" name="myform" id="myform" enctype="multipart/form-data" style="margin-top:10px;">
+  <div class="pad-10">
+    <div class="col-tab">
+       <ul class="tabBut cu-li">
+			<li id="tab_setting_1" class="on" onclick="SwapTab('setting','on','',3,1);">{$title}商品编辑</li>
+      </ul>
+      <div id="div_setting_1" class="contentList pad-10">
+        <table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+        <input name="title" value="{$title}" type="hidden">
+          <tbody id="item_body">
+          <tr>
+            <th width="100">活动名称 :</th>
+            <td>{$title}</td>
+          </tr>
+              </tbody>
+        </table>
+            <div class="mutiControl">
+        <input type="checkbox" name="chk" class="inputRadio mr8" id="checkAll" />全选&nbsp;&nbsp;已选中&nbsp;<span class="checked_num">0</span>&nbsp;个&nbsp;&nbsp;<a href="javascript:;" class="btn delete">批量删除</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:;" class="btn upTable">新增{$title}商品</a>
+    </div>
+    <div>
+        <div class="table-list">
+            <table width="100%" cellpadding="2" cellspacing="1" class="tb_rec">
+                <thead>
+                    <tr>
+                        <th align="center"></th>
+                        <th align="center">商品编号</th>
+                        <th align="center">商品标题</th>
+                        <th align="center">图片</th>
+                        <td align="center">活动标题</td>
+                        <td align="center">活动描述</td>
+                        <th align="center">活动顺序</th>
+                        <th align="center">操作</th>
+                    </tr>
+                </thead>
+                <tbody id="insert">
+                {$insert}
+                </tbody>
+            </table>
+        </div>
+        <div class="btn"><div id="pages">{$page}</div></div>
+    </div>
+</div>
+           <tr>
+           <th>
+            <input type="submit"  value="立刻发布" name="dosubmit" class="button" id="dosubmit"></div>
+    		</th>
+    		</tr>
+          </table>
+		</div>
+  </div>
+</form>
+<script language="javascript">
+    $(function(){
+        $("#checkAll").on("click",function() {
+            var mystatue = $(this).attr("checked");
+            var checkStatus = '';
+            $(".becheck").each(function(i) {
+                checkStatus = $(this).attr("checked");
+                if(mystatue) {
+                    !checkStatus && $(this).attr("checked","checked");
+                } else {
+                    $(this).removeAttr("checked");
+                }
+            })
+        })
+        $(".inputRadio").on("click",function() {
+            var $numBox = $(".checked_num");
+            var totalNum = 0;
+            $(".becheck").each(function(i) {
+                var checkStatus = $(this).attr("checked");
+                checkStatus && totalNum++;
+            })
+            $numBox.text(totalNum);
+        })
+        $(".delete").on("click",function(){
+            var checkStatus = '';
+            var myid = '';
+            var delArr = [];
+            $(".becheck").each(function(i) {
+                checkStatus = $(this).attr("checked");
+                myid = $(this).attr("data-id");
+                if(checkStatus){
+                    delArr.push(myid);
+                }
+            });
+            if(delArr.length != 0){
+                $.get('?m=Topic&a=asyncSpu&del=1&any=2&spu_id='+delArr,function(data){
+                    document.getElementById("insert").innerHTML = data;
+                });
+            }
+        })
+    })
+
+
+    function delSpu(id){
+        $.get('?m=Topic&a=asyncSpu&any=2&del=1&spu_id='+id,function(data){
+            document.getElementById("insert").innerHTML = data;
+        });
+    }
+    function upSpu(id,type){
+        if(type){
+            //alert("ces"+id);
+            $.get('?m=Topic&a=upDown',{id:id,type:type,any:2},function(data){
+                document.getElementById("insert").innerHTML = data;
+            });
+        }else{
+            $.get('?m=Topic&a=upDown',{id:id,type:type,any:2},function(data){
+                document.getElementById("insert").innerHTML = data;
+            });
+
+        }
+    }
+</script>
+<script type="text/javascript">
+$(function(){
+			$('.datetimepicker').datetimepicker({value:'',step:"30"});
+		    $.formValidator.initConfig({
+		        formid:"myform",
+		        autotip:true,
+		        onerror:function(msg,obj){
+		            window.top.art.dialog({
+		                content:msg,
+		                lock:true,
+		                width:'250',
+		                height:'50'}, function(){
+		                    this.close();$(obj).focus();
+		                    submitone =false;
+		                    })}});
+
+		    $("#title").formValidator({
+		        onshow:"输入N元任意购活动名称，不能为空",
+		        onfocus:"不能为空"
+		        }).inputValidator({
+		            min:1,
+		            onerror:"请填写N元任意购活动名称"
+		            });
+            $("#money").formValidator({
+                onshow:"输入N元，只能数字",
+                onfocus:"不能为空"
+            }).inputValidator({
+                min:1,
+                onerror:"请填写N元"
+            });
+            $("#num").formValidator({
+                onshow:"输入可以购买的件数，只能是数字",
+                onfocus:"不能为空"
+            }).inputValidator({
+                min:1,
+                onerror:"请填写可以购买的件数"
+            });
+	})
+</script>
+<script>
+			(function($) {
+				$.fn.upload = function(options) {
+					var opts = $.extend({}, $.fn.upload.defaults, options);
+					return this.each(function() {
+						var $this = $(this);
+						var o = $.meta ? $.extend({}, opts, $this.data()) : opts;
+						var index = 0;
+						var father = o.self;
+						var del = "#" + o.self + " .del";
+						var trigger = "#" + o.self + " .vqdTrigger";
+						var fileInput = "#" + o.self + " .vqdfile";
+						//event
+						$("body").on("click",del,{m:father},fileDel);
+						$("body").on("change",fileInput,{m:father,f:o.fileName},fileTrigger);
+						$("body").on("click",trigger,{m:father},fileClick);
+					});
+				};
+				function fileClick(e){
+					var self = e.data.m;
+					$("#"+self+" .vqdfile").trigger("click");
+				};
+				function fileTrigger(e){
+					var master = $("#"+e.data.m);
+					var filename = e.data.f;
+					var self = $(this)[0];
+					var myfile = self.files;
+					var myfileLen = myfile.length;
+					var reader = new FileReader();
+					var fileHiddenHtml;
+					var fileHtml = '<input type="file" multiple="multiple" class="vqdfile" />';
+					var replace = function(i){
+						var index = i ? i : 0;
+						var fileListHtml = '';
+						if(index < myfileLen){
+							console.log(index,myfileLen);
+							reader.readAsDataURL(myfile[index]);
+							reader.onload = function(e) {
+								fileHiddenHtml = '<input type="hidden" name="'+filename+'[]" class="fileHidden" data-index="'+index+'" value="'+e.target.result+'" />';
+
+								fileListHtml += '<li>';
+								fileListHtml += '<img src="'+e.target.result+'" />';
+								fileListHtml += '<a href="javascript:;" class="del" data-id="'+index+'">×</a>';
+								fileListHtml += '</li>';
+
+								master.find(".fileControl").append(fileHiddenHtml);
+								master.find(".fileList").append(fileListHtml);
+								master.find(".uploadSubmit").show();
+
+								//fileArr.push(e.target.result);
+								index++;
+								replace(index);
+							}
+						}else{
+							master.find(".vqdfile").remove();
+							master.find(".fileControl").append(fileHtml);
+							index = 0;
+							console.log("上传成功");
+						}
+					};
+					replace();
+				};
+				function fileDel(e){
+					var master = $("#"+e.data.m),
+						$self = $(this),
+						selfLi = $self.closest("li"),
+						selfIndex = $self.attr("data-id"),
+						liLen = master.find(".fileList li").length;
+
+					liLen <= 1 && master.find(".uploadSubmit").hide();
+					//var changeArr = [];
+					//for(var i in fileArr){
+					//	if(i != selfIndex){
+					//		changeArr.push(fileArr[i]);
+					//	}
+					//}
+					master.find(".fileHidden[data-index="+selfIndex+"]").remove();
+					//fileArr = changeArr;
+					selfLi.remove();
+				};
+				// defaults
+				$.fn.upload.defaults = {
+					self : "",
+					fileName : "file",
+				};
+			})(jQuery);
+
+			$("#form1").upload({self:"form1"});
+		</script>
+<script type="text/javascript">
+
+		$(".upTable").click(function(){
+			var lang_edit = "新增专题商品";
+    		window.top.art.dialog({id:'addSpu'}).close();
+    		window.top.art.dialog({title:'新增专题商品',id:'addSpu',iframe:'?m=Topic&a=addSpu',width:'900',height:'580'},
+    		function(){
+    		var d = window.top.art.dialog({id:'addSpu'}).data.iframe;
+    		d.document.getElementById('myform').submit();
+    		setTimeout(function(){$.get('?m=Topic&a=asyncSpu&type=1&any=2',function(data){
+    		//alert(data);
+				document.getElementById("insert").innerHTML = data;
+				window.top.art.dialog({id:'addSpu'}).close();
+			})}, 500);
+    		return false;
+    		}, function(){window.top.art.dialog({id:'addSpu'}).close();});
+		})
+        function addDetail(id){
+            window.top.art.dialog({id:'addDetail'}).close();
+            window.top.art.dialog({title:'添加商品活动描述',id:'addDetail',iframe:'?m=Sales&a=addDetail&main=1&id='+id,width:'500',height:'400'},
+                    function(){
+                        var d = window.top.art.dialog({id:'addDetail'}).data.iframe;
+                        var desc = d.document.getElementById('desc').value;
+                        var id = d.document.getElementById('id').value;
+                        var title = d.document.getElementById('title').value;
+                        var img = d.document.getElementsByClassName('fileHidden');
+                        var img1 = "";
+                        if(img.length>=1){
+                            img1 = img[0].value;
+                            $.post('?m=Topic&a=asyncSpu',{addDetail:1,sid:id,desc:desc,title:title,any:1,img1:img1},function(data){
+                                //alert(data);
+                            });
+                        }else{
+                            $.post('?m=Topic&a=asyncSpu',{addDetail:1,sid:id,desc:desc,title:title,any:1},function(data){
+                                //alert(data);
+                            });
+                        }
+                        setTimeout(function(){$.get('?m=Topic&a=asyncSpu&type=1&any=2',function(data){
+                            document.getElementById("insert").innerHTML = data;
+                            window.top.art.dialog({id:'addDetail'}).close();return false;
+                        })}, 1000);
+                    }, function(){window.top.art.dialog({id:'addDetail'}).close();});
+        }
+</script>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<include file="Public:header" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/admin/css/jquery.datetimepicker.css"/>
+<script type="text/javascript" src="__ROOT__/statics/admin/js/jquery.datetimepicker.js"></script>
+
+<div class="pad-10">
+    <form name="searchform" action="" method="get" >
+        <table width="100%" cellspacing="0" class="search-form">
+            <tbody>
+            <tr>
+                <td>
+                    <div class="explain-col">
+                        添加日期：
+                        <input type="text" name="time_start" id="time_start" class="date datetimepicker" size="20">
+                        -
+                        <input type="text" name="time_end" id="time_end" class="date datetimepicker" size="20">
+                        &nbsp;&nbsp;搜索关键字：
+                        <input name="keyword" type="text" class="input-text" size="25" />
+                        <!--<input type="hidden" name="m" value="DailyOut" />
+                        <input type="hidden" name="a" value="query" />-->
+                        <input type="button" name="search" class="button" value="搜索" />
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+    <div>
+        <div class="table-list">
+            <table width="100%" cellspacing="0" class="tb_rec">
+                <thead>
+                    <tr>
+                        <th width="6%">商品id</th>
+                        <th>商品名称</th>
+                        <th>销量</th>
+                    </tr>
+                </thead>
+                <tbody>
+					<!--<volist name="pay_list" id='sval'>
+					<tr>
+						<td><input type="checkbox" name="chk" data-id="{$sval.spu_id}" class="inputRadio becheck" /></td>
+						<td align="center">{$sval.spu_id}</td>
+						<td align="center">{$sval.spu_name}</td>
+						<td align="center">{$sval.nums}</td>
+					</tr>
+					</volist>-->
+                </tbody>
+            </table>
+        </div>
+        <div class="btn"><div id="pages"></div></div>
+    </div>
+</div>
+<script language="javascript">
+	function pageSet(current,total,num,pagenum) {
+		var pagehtml="";
+		current= +current;
+		pagehtml+=total+'条记录 '+current+'/'+num+'页 &nbsp;';
+		if(current>1){
+			pagehtml+='	<a class="page_btn" page_id="1" href="javascript:;">首页</a>';
+		}
+		if(current>pagenum){
+			pagehtml+='	<a class="page_btn" page_id="'+(current- pagenum)+'" href="javascript:;">上'+pagenum+'页</a>';
+		}
+		if(current>1){
+			pagehtml+='	<a class="page_btn" page_id="'+(current-1)+'" href="javascript:;">上一页</a>';
+		}
+		var q=(current % pagenum + pagenum-1) % pagenum;
+		var g=pagenum - q;//notice("q="+q+"g="+g+"pagenum="+pagenum+"num="+num+"current="+current);
+		for(var i=q;i>0;i--){
+			pagehtml+='	<a class="page_btn" page_id="'+(current-i)+'" href="javascript:;">&nbsp;'+(current-i)+'&nbsp;</a>&nbsp;';
+		}
+		pagehtml+='	<span class="current">'+current+'</span>&nbsp;';
+		
+		for(var i=+1;i<g;i++){
+			if(num >= (current + i)){
+				pagehtml+='	<a class="page_btn" page_id="'+(current+i)+'" href="javascript:;">&nbsp;'+(current+i)+'&nbsp;</a>&nbsp;';
+			}
+		
+		}
+		if(num >= (current+1)){
+			pagehtml+='	<a class="page_btn" page_id="'+(current+1)+'" href="javascript:;">下一页</a>';
+		}
+		if(num >= (current + pagenum)){
+			pagehtml+='	<a class="page_btn" page_id="'+(current + pagenum)+'" href="javascript:;">下'+pagenum+'页</a>';
+		}
+		if(current<num){
+			pagehtml+='	<a class="page_btn" page_id="'+num+'" href="javascript:;">末页</a>';
+		}
+		$("#pages").html(pagehtml);
+	}
+	function ajaxFuc(data,current){
+		$.ajax({
+			url : "admin.php?m=DailyOut&a=index",
+			dataType : "json",
+			data : data,
+			type : "get",
+			success : function(d) {
+				var htmls = '';
+				for(var i in d.result) {
+					htmls += '<tr>';
+					htmls += '<td align="center">'+d.result[i].spu_id+'</td>';
+					htmls += '<td align="center">'+d.result[i].spu_name+'</td>';
+					htmls += '<td align="center">'+d.result[i].nums+'</td>';
+					htmls += '</tr>';
+				};
+				$(".tb_rec").find("tbody").html(htmls);
+				
+				var count = d.count;
+				var num = Math.ceil(count/20);
+				pageSet(current,count,num,5);
+			}
+		})
+	}
+    $(function(){
+		$('.datetimepicker').datetimepicker({value:'',step:"30"});
+		$("input[name='search']").on("click",function(){
+			var data = {
+				"time_start" : (new Date($("input[name='time_start']").val()).getTime())/1000,
+				"time_end" : (new Date($("input[name='time_end']").val()).getTime())/1000,
+				"keyword" : $("input[name='keyword']").val(),
+				"page" : 1
+			};
+			if($("input[name='time_start']").val() != "" && $("input[name='time_end']").val() != ""){
+				ajaxFuc(data,1);
+			}else {
+				if($("input[name='time_start']").val() == ""){
+					alert("请填写开始时间！");
+				}else if($("input[name='time_end']").val() == ""){
+					alert("请填写结束时间！");
+				}
+			}
+		})
+		$("body").delegate(".page_btn","click",function(){
+			current = $(this).attr("page_id");
+			var data = {
+				"time_start" : (new Date($("input[name='time_start']").val()).getTime())/1000,
+				"time_end" : (new Date($("input[name='time_end']").val()).getTime())/1000,
+				"keyword" : $("input[name='keyword']").val(),
+				"page" : current
+			};
+			ajaxFuc(data,current);
+		})
+    })
+</script>
+</body>
+</html>

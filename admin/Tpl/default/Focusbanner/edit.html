@@ -1,0 +1,682 @@
+<include file="Public:header" />
+<style>
+    *{margin:0;padding:0;}
+    .fileControl{
+        padding:5px;
+    }
+    .vqdTrigger{
+        width:60px;
+        height:25px;
+        line-height:25px;
+        text-align:center;
+        border-radius:2px;
+        background:#CC290E;
+        color:#FFF;
+        font-size:12px;
+        border:none;
+        cursor:pointer;
+        outline:none;
+    }
+    #vqdfile{
+        position:absolute;
+        opacity:0;
+    }
+    .fileList li{
+        position:relative;
+        margin-top:5px;
+        height:50px;
+        padding:6px;
+        display:block;
+        border:1px solid #CCC;
+        border-radius:4px;
+    }
+    .fileList li img{
+        float:left;
+        height:50px;
+        display:block;
+    }
+    .fileList li .del{
+        position:absolute;
+        right:5px;
+        top:20px;
+        width:18px;
+        height:18px;
+        line-height:19px;
+        text-align:center;
+        border:1px solid #CCC;
+        border-radius:20px;
+        text-decoration:none;
+        color:#888;
+        font-size:16px;
+    }
+    #div_setting_2,#div_setting_3 {
+        border:1px solid #dce3ed;
+    }
+    .col-tab ul.tabBut {
+        bottom:-11px;
+    }
+    ul li{
+        list-style:none;
+    }
+    .flyCheckBox{
+        width:140px;
+        height:35px;
+        border:1px solid #CCC;
+        border-radius:6px;
+        cursor:pointer;
+        background:#F4F4F4;
+        outline:none;
+        padding:0 5px;
+        float:left;
+    }
+    .flyBox{
+        position:fixed;
+        left:25%;
+        right:25%;
+        top:10%;
+        max-height:320px;
+        overflow:hidden;
+        z-index:1000;
+        padding:10px 20px 45px 20px;
+        border-radius:4px;
+        background:#FFF;
+        border:1px solid #CCC;
+        display:none;
+    }
+    .flyBox label{
+        margin-top:5px;
+        padding-bottom:5px;
+        width:100%;
+        height:14px;
+        line-height:14px;
+        display:block;
+        border-bottom:1px dashed #ccc;
+    }
+    .flyBox input[type='checkbox']{
+        float:left;
+        margin-right:5px;
+
+    }
+    #to_id{
+        width:100%;
+        height:100%;
+        min-height:200px;
+        max-height:250px;
+        overflow:scroll;
+        overflow-x:hidden;
+    }
+    .flyBox .foot{
+        width:100%;
+        padding:10px 0;
+        height:21px;
+        text-align:center;
+        position:absolute;
+        bottom:0;
+        left:0;
+        background:#f4f4f4;
+    }
+    .flyBox .head{
+        margin-bottom:20px;
+        width:100%;
+        height:21px;
+    }
+    .flyBox .flyBox_close{
+        font-size:16px;
+        float:right;
+        text-decoration:none;
+    }
+    .flyBox .iframe{
+
+    }
+    .chk_submit .chk_reset{
+        width:60px;
+        height:22px;
+        background:#CCC;
+        border:1px solid #CCC;
+        border-radius:2px;
+        display:inline-block;
+        cursor:pointer;
+    }
+    .flyBox_trigger{
+        width:60px;
+        height:37px;
+        margin-right:10px;
+        float:left;
+        border-radius:4px;
+        border:1px solid #CCC;
+        background:#f4f4f4;
+        text-align:center;
+        cursor:pointer;
+        color:#555;
+    }
+</style>
+<link href="__ROOT__/statics/admin/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css"/>
+<link href="__ROOT__/statics/lib/uploadify/uploadify.css" rel="stylesheet" type="text/css">
+
+<script src="__ROOT__/statics/admin/js/jquery.datetimepicker.js" type="text/javascript"></script>
+<script src="__ROOT__/statics/lib/uploadify/jquery.uploadify.js" type="text/javascript"></script>
+<script src="__ROOT__/statics/admin/js/jquerysession.js"></script>
+
+<style>
+    .groupChoice{
+        position:fixed;
+        width:80%;
+        left:10%;
+        top:50px;
+        height:388px;
+        background:#fff;
+        z-index:288;
+        display:none;
+        border:1px solid #ccc;
+    }
+    .fullscreen_shadow{
+        position:fixed;
+        left:0;
+        top:0;
+        bottom:0;
+        right:0;
+        background:rgba(0,0,0,0.5);
+        width:100%;
+        height:100%;
+        z-index:266;
+        display:none;
+    }
+    .groupChoice .iframe{
+        border:none;
+        width:100%;
+        height:350px;
+    }
+    .groupChoice .control{
+        width:100%;
+        height:38px;
+        text-align:center;
+    }
+</style>
+<div class="fullscreen_shadow"></div>
+<div class="groupChoice">
+    <iframe class="iframe" src="admin.php?m=Focusbanner&a=group"></iframe>
+    <div class="control">
+        <input type="button" id="groupDone" value="确定" onclick="setData('group');" />
+        <input type="button" id="groupCancel" value="取消" onclick="closeData();" />
+    </div>
+</div>
+
+<div class="flyBox">
+    <div class="head"><a href="javascript:;" class="flyBox_close">×</a></a></div>
+    <div id="to_id">
+        <iframe class="iframe" src="admin.php?m=Focusbanner&a=group"></iframe>
+    </div>
+    <div class="foot">
+        <input type="button" class="chk_submit" value="确定" />
+        <input type="button" class="chk_reset" value="清除" />
+    </div>
+</div>
+
+<div style="padding:10px">
+    <div class="col-tab">
+        <form action="admin.php?m=Focusbanner&a=editsave" method="post" name="myform" id="myform" enctype="multipart/form-data" style="margin-top:10px;">
+            <div id="div_setting_1" class="contentList pad-10">
+                <table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+                    <input type="hidden" name="id" value="{$focusdata.id}" />
+                    <!-- 跳转类型 -->
+                    <input type="hidden" name="linkto" id="linkto" value="{$focusdata.link_to}" />
+                    <!-- 关联ID -->
+                    <input type="hidden" name="linkid" id="linkid" value="{$focusdata.link_id}" />
+
+                    <tbody id="item_body">
+                        <tr>
+                            <td width="100">首页主题名称 :</td>
+                            <td><input type="text" name="title" id="title" class="input-text" onkeyup="javascript:numChange();" value="{$focusdata.title}" size="60"><font color="red">只能输入十个汉字以内</font></td>
+                        </tr>
+                        <switch name="focusdata.link_to">
+                            <case value="1">
+                                <tr class="tab3">
+                                    <td>跳转的专题:</td>
+                                    <td>
+                                        <input type="text" class="flyCheckBox" id="topic_show_value" name="activity" value="{$focusdata.link_id} "/>
+                                        <input type="button" class="flyBox_trigger" id="flyBox_trigger" onclick="getTopic();" value="专题" />
+                                        <!--<font color="red">只能输入十个汉字以内</font>-->
+                                    </td>
+                                </tr>
+                            </case>
+                            <case value="2">
+                                <tr class="tab1">
+                                    <td>跳转到的专题列表 :</td>
+                                    <td>
+                                        <input type="text" class="flyCheckBox" id="group_show_value" name="activity" value="{$focusdata.link_id}" />
+                                        <input type="button" class="flyBox_trigger" id="select_group" onclick="getGroup();" value="选择合集" />
+                                    </td>
+                                </tr>
+                            </case>
+                            <case value="3">
+                                <tr class="detail">
+                                    <td>商品ID :</td>
+                                    <td>
+                                        <input type="text" name="linkdetail" id="detailId" class="input-text" size="60" value="{$focusdata.link_id}" />
+                                        <!--<font color="red">只能输入十个汉字以内</font>-->
+                                    </td>
+                                </tr>
+                            </case>
+                            <case value="4">
+                                <tr class="tab3">
+                                    <td>跳转的商品列表:</td>
+                                    <td>
+                                        <input type="text" class="flyCheckBox" id="topic_show_value" name="activity" value="{$focusdata.link_id} "/>
+                                        <input type="button" class="flyBox_trigger" id="flyBox_trigger" onclick="getTopic();" value="商品列表" />
+                                        <input type="button" class="flyBox_trigger spu" id="flyBox_spu" value="直接选商品" />
+                                        <!--<font color="red">只能输入十个汉字以内</font>-->
+                                    </td>
+                                </tr>
+                            </case>
+                            <case value="5">
+                                <tr class="tab2">
+                                    <td>跳转地址 :</td>
+                                    <td>
+                                        <input type="text" name="linkurl" id="linkUrl" class="input-text" size="60" value="{$focusdata.link_url}">
+                                        <!--<font color="red">只能输入十个汉字以内</font>-->
+                                    </td>
+                                </tr>
+                            </case>
+                            <case value="6">
+                                <tr class="tab3">
+                                    <td>跳转的优惠券详情:</td>
+                                    <td>
+                                        <input type="text" class="flyCheckBox" id="topic_show_value" name="activity" value="{$focusdata.link_id} "/>
+                                        <input type="button" class="flyBox_trigger" id="flyBox_trigger" onclick="getTopic();" value="优惠券" />
+                                        <!--<font color="red">只能输入十个汉字以内</font>-->
+                                    </td>
+                                </tr>
+                            </case>
+                            <case value="7">
+                                <tr class="tab3">
+                                    <td>跳转的优惠券列表:</td>
+                                    <td>
+                                        <input type="text" class="flyCheckBox" id="topic_show_value" name="activity" value="{$focusdata.link_id} "/>
+                                        <input type="button" class="flyBox_trigger" id="flyBox_trigger" onclick="getTopic();" value="优惠券列表" />
+                                        <!--<font color="red">只能输入十个汉字以内</font>-->
+                                    </td>
+                                </tr>
+                            </case>
+                            <case value="8">
+                                <tr class="tab3">
+                                    <td>跳转的优惠券大礼包:</td>
+                                    <td>
+                                        <input type="text" class="flyCheckBox" id="topic_show_value" name="activity" value="{$focusdata.link_id} "/>
+                                        <input type="button" class="flyBox_trigger" id="flyBox_trigger" onclick="getTopic();" value="大礼包" />
+                                        <!--<font color="red">只能输入十个汉字以内</font>-->
+                                    </td>
+                                </tr>
+                            </case>
+                            <case value="9">
+                                <tr class="tab2">
+                                    <td>跳转地址 :</td>
+                                    <td>
+                                        <input type="text" name="linkurl" id="linkUrl" class="input-text" size="60" value="{$focusdata.link_url}">
+                                        <!--<font color="red">只能输入十个汉字以内</font>-->
+                                    </td>
+                                </tr>
+                            </case>
+                        </switch>
+                        <tr>
+                            <td width="150">首页主题配图</br>(建议分辨率:640×270) :</td>
+                            <td>
+                                <form>
+                                    <div id="queue"></div>
+                                    <input id="file_upload" name="file_upload" type="file" multiple="true">
+                                    <input type="hidden" name="image_src" id="image_src" />
+                                    <notempty name="focusdata.image_src">
+                                        <div class="image_box"><img src="{$focusdata.image_src}" style="width:120px;border:1px solid #ccc;padding:1px;display:block;" /></div>
+                                    </notempty>
+                                </form>
+                                <script type="text/javascript">
+                                    $(function() {
+                                        $('#file_upload').uploadify({
+                                            'formData'     : {
+                                                'timestamp' : '{$timestamp}',
+                                                'token'     : '{$token}'
+                                            },
+                                            'swf'      : '__ROOT__/statics/lib/uploadify/uploadify.swf',
+                                            'uploader' : '__ROOT__/statics/lib/uploadify/uploadify.php',
+                                            'fileTypeExts'	  : '*.jpg; *.png; *.gif;',
+                                            'onUploadSuccess' : function(file, data, response) {
+                                                var data = $.parseJSON(data);
+                                                var src = '';
+                                                if(response){
+                                                    src = '__ROOT__/upload/temp/' + file.name;
+                                                    $("#image_src").val(src);
+                                                    $(".image_box").html('<img src="'+src+'" style="width:120px;border:1px solid #ccc;padding:1px;display:block;" />')
+                                                }
+                                            }
+                                        });
+                                    });
+                                </script>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>首页顺序 :</td>
+                            <td>
+                                <input type="text" name="sort" value="{$focusdata.sort}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>发布时间 :</td>
+                            <td>
+                                <input type="text" name="time_start" id="time_start" class="date datetimepicker" size="20" value="{$focusdata.publish_time}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>结束时间 :</td>
+                            <td>
+                                <input type="text" name="time_end" id="time_end" class="date datetimepicker" size="20" value="{$focusdata.end_time}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>渠道专属 :</td>
+                            <td id="is_new">
+                                <if condition="$focusdata.channel_id eq 0">
+                                    <input type="radio" name="is_channel" value=1 />是&nbsp;&nbsp;
+                                    <input type="radio" name="is_channel" value=0 checked="checked" />否&nbsp;&nbsp;
+                                </if>
+                                <if condition="$focusdata.channel_id eq 1">
+                                    <input type="radio" name="is_channel" value=1 checked="checked" />是&nbsp;&nbsp;
+                                    <input type="radio" name="is_channel" value=0 />否&nbsp;&nbsp;
+                                </if>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <if condition="$focusdata.link_to eq 7">
+                    <table width="100%" cellpadding="2" cellspacing="1" class="table_form coupon">
+                        <thead>
+                        <tr>
+                            <td align="center">优惠券编号</td>
+                            <td align="center">优惠券标题</td>
+                            <td align="center">活动顺序</td>
+                            <td align="center">操作</td>
+                        </tr>
+                        </thead>
+                        <tbody id="insert">
+
+                        </tbody>
+                    </table>
+                </if>
+                <if condition="$focusdata.link_to eq 4">
+                    <div class="spu">
+                        <input type="checkbox" name="chk" class="inputRadio mr8" id="checkAll" />全选&nbsp;&nbsp;已选中&nbsp;<span class="checked_num">0</span>&nbsp;个&nbsp;&nbsp;<a href="javascript:;" class="btn delete">批量删除</a>
+                    </div>
+                <table width="100%" cellpadding="2" cellspacing="1" class="table_form spu">
+                    <thead>
+                    <tr>
+                        <td align="center">编号</td>
+                        <td align="center">商品ID</td>
+                        <td align="center">商品标题</td>
+                        <td align="center"></td>
+                        <td align="center"></td>
+                        <td align="center">活动顺序</td>
+                        <td align="center">操作</td>
+                    </tr>
+                    </thead>
+                    <tbody id="insertspu">
+                        {$focusdata['table']}
+                    </tbody>
+                </table>
+                    </if>
+                <div class="bk15">
+                </div>
+                <div class="btn"><input type="button" value="{$Think.lang.submit}" name="dosubmit" class="button" id="dosubmit"></div>
+            </div>
+        </div> <!-- /#div_setting_1 -->
+    </form>
+
+</div>
+<script type="text/javascript">
+
+    var submitLock = true;
+
+    $(function(){
+        $('.datetimepicker').datetimepicker({value:'',step:"30"});
+        var firstIds = $("#linkid").val();
+        $(".desc").hide();
+        $.get("?m=Selectgoods&a=getTable",{ ids: firstIds} ,function(data) { //edit hhf
+            $("#insert").html(data['data']);
+            $("#topic_show_value").val(data['ids']);
+            $("#linkid").val(data['ids']);
+        });
+        //表单提交
+        $("#dosubmit").on("click",function(){
+            var choiceTimeStart = $("#time_start").val();
+            var choiceTimeEnd = $("#time_end").val();
+            var choiceTimestampStart = Date.parse(choiceTimeStart)/1000;
+            var choiceTimestampEnd = Date.parse(choiceTimeEnd)/1000;
+            var nowTimestamp = Date.parse(new Date())/1000;
+            var linkto = $("#linkto").val();
+
+            if(!title) {
+                alert("标题不能为空");
+                return false;
+            }
+            if(title.length > 10) {
+                alert("标题不可超过10个字!");
+                return false;
+            }
+            if(!choiceTimeStart) {
+                alert("请选择上架时间！");
+                return false;
+            }
+            if(!choiceTimeEnd) {
+                alert("请选择下架时间！");
+                return false;
+            }
+//            if(choiceTimestampStart < nowTimestamp) {
+//                alert("发布时间不可小于当前时间！");
+//                return false;
+//            }
+            if(choiceTimestampEnd < choiceTimestampStart) {
+                alert("下架时间不可小于发布时间！");
+                return false;
+            }
+            if(choiceTimestampEnd < nowTimestamp) {
+                alert("下架时间不可小于当前时间！");
+                return false;
+            }
+            if(linkto == '3'){
+                var detail_id = $("#detailId").val();
+                if(!detail_id || detail_id == '0'){
+                    alert("详情页ID不能为空");
+                    return false;
+                }
+            }else if(linkto == '5'||linkto == '9'){
+                var url = $("#linkUrl").val();
+                if(!linkto){
+                    alert("跳转地址不能为空");
+                    return false;
+                }
+            } else {
+                var link_id = $("#linkid").val();
+                if(!link_id){
+                    alert("跳转地址不能为空");
+                    return false;
+                }
+            }
+            if(submitLock) {
+                submitLock = false;
+                $("#myform").submit();
+
+                //setTimeout(function(){
+                //    submitLock = true;
+                //},2000);
+            }
+        })
+    })
+    $("#checkAll").on("click",function() {
+        var mystatue = $(this).attr("checked");
+        var checkStatus = '';
+        $(".becheck").each(function(i) {
+            checkStatus = $(this).attr("checked");
+            if(mystatue) {
+                !checkStatus && $(this).attr("checked","checked");
+            } else {
+                $(this).removeAttr("checked");
+            }
+        })
+    });
+    $(".inputRadio").on("click",function() {
+        var $numBox = $(".checked_num");
+        var totalNum = 0;
+        $(".becheck").each(function(i) {
+            var checkStatus = $(this).attr("checked");
+            checkStatus && totalNum++;
+        })
+        $numBox.text(totalNum);
+    });
+    $(".delete").on("click",function(){
+        var checkStatus = '';
+        var myid = '';
+        var delArr = [];
+        $(".becheck").each(function(i) {
+            checkStatus = $(this).attr("checked");
+            myid = $(this).attr("data-id");
+            if(checkStatus){
+                delArr.push(myid);
+            }
+        });
+        if(delArr.length != 0){
+            $.get('?m=Topic&a=asyncSpu&del=1&spu_id='+delArr,function(data){
+                document.getElementById("insertspu").innerHTML = data;
+            });
+        }
+    });
+    //关闭合集选择
+    $("#groupDone").on("click",function(){
+        var myid = $.session.get('group_id');
+        var mytype = $(this).attr("data-type");
+        if(mytype == "group") {
+            $("#group_show_value").val(myid);
+        } else if(mytype == "topic") {
+            $("#topic_show_value").val(myid);
+        }
+        //edit hhf
+        $.get("?m=Selectgoods&a=getTable",{ ids: myid} ,function(data) {
+            $("#insert").html(data['data']);
+            $("#topic_show_value").val(data['ids']);
+            $("#linkid").val(data['ids']);
+        });
+        //edit hhf
+        $.get("?m=Selectgoods&a=getSpuTable",{ ids: myid} ,function(data) {
+            $("#insertspu").html(data);
+            $(".desc").hide();
+        });
+        $(".groupChoice,.fullscreen_shadow").hide();
+        $.session.remove('group_id');
+    });
+    $("#groupCancel").on("click",function(){
+        $(".groupChoice,.fullscreen_shadow").hide();
+        $.session.remove('group_id');
+    });
+    //开启合集选择
+    $("#select_group").on("click",function(){
+        $(".groupChoice").find("#groupDone").attr("data-type","group");
+        $(".groupChoice").find(".iframe").attr("src","admin.php?m=Selectgoods&a=group");
+        $(".groupChoice,.fullscreen_shadow").show();
+    });
+    $("#flyBox_trigger").on("click",function(){
+        var ids = $("#linkid").val();   //edit hhf
+        $.session.set('group_id',ids);  //edit hhf
+        var type = $("#linkto").val();
+        $(".groupChoice").find("#groupDone").attr("data-type","topic");
+        //普通专题 or 隐形专题
+        if(type == '1') {
+            $(".groupChoice").find(".iframe").attr("src","admin.php?m=Selectgoods&a=topic&type=1");
+        } else if(type == '4') {
+            $(".groupChoice").find(".iframe").attr("src","admin.php?m=Selectgoods&a=topic&type=0");
+        } else if(type=='6') { //edit hhf
+            $(".groupChoice").find(".iframe").attr("src","admin.php?m=Selectgoods&a=coupon");
+        }  else if(type == '8') { //edit hhf 大礼包
+            $(".groupChoice").find(".iframe").attr("src","admin.php?m=Selectgoods&a=giftList");
+        }
+        $(".groupChoice,.fullscreen_shadow").show();
+    });
+    $("#flyBox_spu").on("click",function(){
+        var lang_edit = "新增专题商品";
+        window.top.art.dialog({id:'addSpu'}).close();
+        window.top.art.dialog({title:'新增专题商品',id:'addSpu',iframe:'?m=Topic&a=addSpu',width:'900',height:'580'},
+                function(){
+                    var d = window.top.art.dialog({id:'addSpu'}).data.iframe;
+                    d.document.getElementById('myform').submit();
+                    setTimeout(function(){$.get('?m=Topic&a=asyncSpu&type=1',function(data){
+                        //alert(data);
+                        document.getElementById("insertspu").innerHTML = data;
+                        $(".desc").hide();
+                        window.top.art.dialog({id:'addSpu'}).close();
+                    })}, 500);
+                    return false;
+                }, function(){window.top.art.dialog({id:'addSpu'}).close();});
+    });
+    function delCoupon(id){ //edit hhf
+        var ids = $("#topic_show_value").val();
+        var idArray = ids.split(",");
+        var index = $.inArray(id.toString(),idArray);
+        if(index>=0){
+            idArray.splice(index,1);
+        }
+        ids = idArray.join(",");
+        $.session.set('group_id',ids);
+        $("#topic_show_value").val(ids);
+        $.get("?m=Selectgoods&a=getTable",{ ids: ids} ,function(data) {
+            $("#insert").html(data['data']);
+            $("#topic_show_value").val(data['ids']);
+            $("#linkid").val(data['ids']);
+        });
+    }
+    function moveCoupon(id,type){ //edit hhf
+        var ids = $("#topic_show_value").val();
+        var idArray = ids.split(",");
+        var index = $.inArray(id.toString(),idArray);
+        if(type){ //上移
+            if(index>0){
+                var tmp = idArray[index];
+                idArray[index] = idArray[index-1];
+                idArray[index-1] = tmp;
+            }
+        } else { //下移
+            if(index<idArray.length){
+                var tmp = idArray[index];
+                idArray[index] = idArray[index+1];
+                idArray[index+1] = tmp;
+            }
+        }
+        ids = idArray.join(",");
+        $.session.set('group_id',ids);
+        $("#topic_show_value").val(ids);
+        $.get("?m=Selectgoods&a=getTable",{ ids: ids} ,function(data) {
+            $("#insert").html(data['data']);
+            $("#topic_show_value").val(data['ids']);
+            $("#linkid").val(data['ids']);
+        });
+    }
+    function delSpu(id){
+        $.get('?m=Topic&a=asyncSpu&del=1&spu_id='+id,function(data){
+            document.getElementById("insertspu").innerHTML = data;
+            $(".desc").hide();
+        });
+    }
+    function upSpu(id,type){
+        if(type){
+            //alert("ces"+id);
+            $.get('?m=Topic&a=upDown',{id:id,type:type},function(data){
+                document.getElementById("insertspu").innerHTML = data;
+                $(".desc").hide();
+            });
+        }else{
+            //alert("ccccc"+id);
+            $.get('?m=Topic&a=upDown',{id:id,type:type},function(data){
+                //alert(data);
+                document.getElementById("insertspu").innerHTML = data;
+                $(".desc").hide();
+            });
+        }
+
+    }
+</script>
+</body>
+</html>

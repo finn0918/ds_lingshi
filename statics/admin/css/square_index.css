@@ -1,0 +1,137 @@
+.uploadFileList{
+	width:100%;
+	float:left;
+}
+.uploadFileList li{
+	padding-bottom:10px;
+	margin-bottom:10px;
+	border-bottom:1px dotted #f4f4f4;
+}
+.uploadFileList li p{
+	padding:5px 0;
+	line-height:30px;
+	height:30px;
+}
+.uploadList_trigger,.uploadList_title,.uploadList_content,.uploadList_del,.uploadList_save{
+	display:inline-block;
+}
+
+.uploadList_trigger,.uploadList_del,.uploadList_save{
+	width:100px;
+	height:30px;
+}
+.uploadList_trigger{
+	width:25%;
+}
+.uploadList_file{
+	display:none;
+}
+.uploadList_title{
+	width:70%;
+	margin:0;
+	float:right;
+}
+.uploadList_content{
+	display:block;
+	margin:0;
+	-webkit-box-sizing:border-box;
+	width:100%;
+	height:30px;
+}
+.public_input{
+	padding:0 20px;
+	height:28px;
+	border-radius:2px;
+	line-height:28px;
+	text-align:center;
+	color:#333;
+	background:#f4f4f4;
+	border:1px solid #ccc;
+	display:inline-block;
+	cursor:pointer;
+}
+.public_submit{
+	padding:0 20px;
+	height:28px;
+	border-radius:2px;
+	line-height:28px;
+	text-align:center;
+	color:#fff;
+	background:#4f6e8f;
+	border:1px solid #315070;
+	display:inline-block;
+	cursor:pointer;
+}
+.fl{
+	float:left;
+}
+.adsPreviewBox{
+	width:489px;
+}
+.adsList{
+	width:100%;
+	margin-bottom:10px;
+}
+.adsList li{
+	float:left;
+	border:1px solid #ccc;
+	display:block;
+	-webkit-box-sizing:border-box;
+	margin-bottom:10px;
+}
+.adsList li.ads01{
+	width:489px;
+	height:174px;
+}
+.adsList li.ads01 img{
+	width:489px;
+	height:174px;
+}
+.adsList li.ads02{
+	width:232px;
+	height:232px;
+	line-height:232px;
+}
+.adsList li.ads02 img{
+	width:232px;
+	height:232px;
+}
+.adsList li.ads03{
+	width:244px;
+	height:111px;
+	line-height:111px;
+	float:right;
+}
+.adsList li.ads03 img{
+	width:244px;
+	height:111px;
+}
+.adsList li.ads04{
+	width:244px;
+	height:111px;
+	line-height:111px;
+	float:right;
+}
+.adsList li.ads04 img{
+	width:244px;
+	height:111px;
+}
+.adsList li.ads05{
+	width:100%;
+	height:120px;
+	line-height:120px;
+}
+.adsList li.ads05 img{
+	width:100%;
+	height:120px;
+}
+.cl{
+	clear:both;
+}
+.adsList li.hovered{
+	border:1px solid #9148ff;
+	box-shadow:0 0 5px #e3d0ff;
+}
+.clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden;}
+.clearfix{display:inline-block}* html
+.clearfix{height:1%;}.Clearfix{display:block}

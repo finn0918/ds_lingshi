@@ -1,0 +1,52 @@
+<include file="Public:header" />
+
+<div class="pad_10">
+<form action="{:u('Map/addCity')}" method="post" name="myform" id="myform" enctype="multipart/form-data">
+<table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+    <tr >
+        <th>省份直辖市</th>
+        <td>
+            <input type="text" name="province" id="province" value="{$province}" readonly="true"/>
+        </td>
+    </tr>
+    <tr >
+        <th>地区编码</th>
+        <td>
+            <input type="text" name="code" id="code" value="{$code}" readonly="true"/>
+        </td>
+    </tr>
+    <tr >
+        <th>城市地区</th>
+        <td>
+            <input type="text" name="city" id="city" value=""/>
+        </td>
+    </tr>
+</table>
+    <input type="submit" name="dosubmit" id="dosubmit" class="dialog" value="">
+</form>
+<script type="text/javascript">
+		$(function(){
+		    $.formValidator.initConfig({
+		        formid:"myform",
+		        autotip:true,
+		        onerror:function(msg,obj){
+		            window.top.art.dialog({
+		                content:msg,
+		                lock:true,
+		                width:'250',
+		                height:'50'}, function(){
+		                    this.close();$(obj).focus();
+		                    })}});
+
+	 $("#city").formValidator({
+        onshow : "填写城市地区，必填",
+        onfocus : "填写城市地区"
+    }).inputValidator({
+        min : 1,
+        onerror : "填写城市地区，这是必填的"
+    });
+		})
+</script>
+</div>
+</body>
+</html>

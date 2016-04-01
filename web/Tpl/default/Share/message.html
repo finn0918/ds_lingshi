@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+		<meta name="format-detection" content="telephone=no" searchtype="map">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="360-site-verification" content="188bc9bbbe2e50aaf86c811cf61d5cdb" />
+		<meta name="baidu-site-verification" content="ayLnKZTrby" />
+		<meta name="sogou_site_verification" content="gz86ImwtMQ"/>
+		<title>零食小喵46元会员红包</title>
+		<script>
+			var version = location.href.indexOf("?tdev") > 0 ? (1 + Math.round(Math.random() * 9999 - 1)) : '1.21';
+			document.write('<link href="__ROOT__/statics/css/tBase_h.css?v='+version+'" rel="stylesheet" type="text/css" />');
+			document.write('<link href="__ROOT__/statics/css/share.css?v='+version+'" rel="stylesheet" type="text/css" />');
+			(function(b, c) {
+				var d = b.documentElement,
+					resizeEvt = 'orientationchange' in c ? 'orientationchange' : 'resize',
+					recalc = function() {
+						var a = d.clientWidth;
+						if (!a) return;
+						d.style.fontSize = (20 * (a / 320)) > 40 ? 40 + "px" : (20 * (a / 320)) + 'px'
+					},
+					anime = c.requestAnimationFrame || c.webkitRequestAnimationFrame || c.mozRequestAnimationFrame || c.oRequestAnimationFrame ||
+				function(e) {
+					return setTimeout(e, 16.67)
+				};
+				if (!b.addEventListener) return;
+				c.addEventListener(resizeEvt, recalc, false);
+				b.addEventListener('DOMContentLoaded', recalc, false)
+			})(document, window);
+		</script>
+		<style>
+			html{
+				background:#fcfcb6;
+				color: #de314d;
+			}
+			#warp-message,#warp-enter{
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="warp-message">
+			<ul class="header">
+				<li>
+					<img src="__ROOT__/statics/images/share/logo.png" alt=""><span>零食小喵</span>
+				</li>
+				<li>
+					一个只卖好吃零食的app
+				</li>				
+			</ul>
+			<p class="hint">
+				您还没有小喵账号哦，小喵根据您输入的手机号码为
+				您自动生成了新的小喵账号哦~
+			</p>
+			<p class="account">
+				账号：<span>**********</span>
+			</p>
+			<p class="sended">
+				已发送验证码至 <span>*********</span>
+			</p>
+				<p class="code">
+					<input type="tel" placeholder="请输入验证码" class="import-code">
+					<input type="submit" value="获取验证码" id="btn">
+				</p>
+			<p class="new-psd">
+				请为您的新账号设置密码
+			</p>
+				<p class="code">
+					<input type="password" name="password" placeholder="6到16个字符，区分大小写"  class="get-code">
+					<a href="javascript:void(0);" class="look-psd" data="1">
+						<img src="__ROOT__/statics/images/share/icon_eyes.png" alt="">
+					</a>
+				</p>
+			<p class="btn-finsh">
+				<!-- <a class="f-register" href="javascript:void(0);">完成注册</a> -->
+				<button class="f-register">完成注册</button>
+			</p>
+		</div>
+		<div id="warp-enter">
+			<!-- <p class="first-title">
+				零食小喵——这里的零食看了好想吃
+			</p> -->
+			<ul class="header">
+				<li>
+					<img src="__ROOT__/statics/images/share/logo.png" alt=""><span>零食小喵</span>
+				</li>
+				<li>
+					一个只卖好吃零食的app
+				</li>				
+			</ul>
+			<p class="sended">
+				已发送验证码至<span>*********</span>
+			</p>
+
+			<p class="code">
+				<input type="text" placeholder="请输入验证码" class="import-code" id="draw-code">
+				<input type="submit" value="获取验证码" id="btn">
+			</p>
+			<p class="btn-verify">
+				<!-- <a href="javscript:void(0);" class="f-verify">完成验证</a> -->
+				<button class="f-verify">完成验证</button>
+			</p>
+		</div>
+		<a href="http://ds.lingshi.cccwei.com/api/Tpl/default/Activity/shareGuide1212.html">
+			<img src="__ROOT__/statics/images/share/banner.png" alt="" class="banner">
+		</a>
+		<div class="error-message"></div>
+	</body>
+<script src="__ROOT__/statics/js/jquery.min.js"></script>
+<script>
+//居中显示
+	setTimeout(function(){
+		$('#warp-message,#warp-enter').show();
+	},500)
+  var site_url = "{$site_url}";
+  console.log(site_url);
+  var height = document.body.scrollHeight;
+  function center(obj){
+	  	var windowWidth = document.documentElement.clientWidth;   
+		var windowHeight = document.documentElement.clientHeight;   
+		var popupHeight = $(obj).height();   
+		var popupWidth = $(obj).width();    
+
+	  	$(obj).css({   
+			"position": "fixed",   
+			"top": windowHeight/2 - popupHeight/2,   
+			"left":windowWidth/2 - popupWidth/2,
+			"z-index": 99999
+	  	});  
+  }
+  $(window).resize(function(){
+  		center('.error-message');
+  }); 
+  
+  function getQueryValue(key,url){
+        var strurl=url || jin.nowUrl;
+        var vals=new RegExp("[\&|\?]"+key+"=([^&]*)&{0,1}","ig").exec(strurl);
+        return vals?(vals[1].replace(/#.*/gi,"")):"";
+  };
+  var code = getQueryValue('code',location.href);
+  var sMobile = getQueryValue('mobi_num',location.href);
+  $('.sended span,.account span').text(sMobile)
+  if(code == 201){
+	  $('#warp-enter,.banner').remove();
+	  $('#warp-message').show();
+  }else{
+  	  $('#warp-enter,.banner').show();
+	  $('#warp-message').remove();
+  }
+  var wait=60;
+  var btn = document.getElementById("btn");
+  function time(o) {
+        if (wait == 0) {
+            o.removeAttribute("disabled");            
+            o.value="重新获取验证码";
+            wait = 60;
+            btn.style.background = '#fc4f6b';
+            btn.style.width = '4.4rem';
+	    }else { 
+        	btn.style.background = '#c1c1c1';
+        	btn.style.width = '1.4rem';
+            o.setAttribute("disabled", true);
+            o.value="" + wait + "s";
+            wait--;
+            setTimeout(function() {
+                time(o)
+            },1000)
+        }
+    }
+     time(btn);
+	 btn.onclick = function(){
+	 	time(btn);
+	 	 $.ajax({
+	         type: "GET",
+	         url: ""+site_url+"/web.php?m=Share&a=message&is_ajax=1&mobi_num="+sMobile,
+	         dataType: "json",
+	         success: function(data){}
+         });
+	 }
+//显示隐藏密码
+	 var $lookPsd =  $('.look-psd'),
+	 	 $getCode =  $('.get-code')
+		 $lookPsd.on('click',function(){
+		 	  if($lookPsd.attr('data') == true){
+		 	  		$getCode[0].type = "type";  
+			 	  	/*$getCode.attr('type','text');*/
+			 	  	$lookPsd.attr('data','0');
+			 	  	$lookPsd.find('img').attr('src','__ROOT__/statics/images/share/icon_eyes1.png');
+		 	  }else{
+		 	  		$getCode[0].type = "password";  
+			 	  	/*$getCode.attr('type','password');*/
+			 	  	$lookPsd.attr('data','1');
+			 	  	$lookPsd.find('img').attr('src','__ROOT__/statics/images/share/icon_eyes.png')
+		 	  }
+		 	  
+		 });
+// 点击完成注册
+	var secret = getQueryValue('auth_code',location.href);
+	var one_code = true;
+	$('.f-register').on('click',function(){
+		 
+		 var pwd = $('.get-code').val();
+		 var msg_code = $('.import-code').val();
+		 if(one_code == true){
+		 	one_code = false;
+		 	$('.f-register').css({
+		 		'background':'#c1c1c1',
+		 		'color':'#fff'
+		 	}).text('注册中');
+		 	$.ajax({
+             type: "GET",
+             url: ""+site_url+"/web.php?m=Share&a=setRegister&pwd="+pwd+'&mobi_num='+sMobile+'&msg_code='+msg_code+'&secret='+secret,
+             dataType: "json",
+             success: function(data){
+             	if(data.flag == true){
+             		$('.error-message').text('注册成功').show();
+             		center('.error-message');
+             		setTimeout(function(){
+             			document.location.href = ''+site_url+'/web.php?m=Share&a=active&pass=1';
+             		},2000)
+             	}else{
+             		$('.error-message').text(data.message).show();
+             		center('.error-message');
+             		setTimeout("$('.error-message').hide()",2000);
+             		one_code = true;
+             		$('.f-register').css({
+				 		'background':'#fc4f6b',
+				 		'color':'#fcfcb6'
+		 			}).text('重新注册');
+             	}
+             },error:function(data){
+             	// alert(data);
+             	one_code = true;
+             }
+  		   });
+		 }
+		 
+	})
+// 点击完成领取
+	var one_code1 = true;
+	$('.f-verify').on('click',function(){
+		 var msg_code = $('#draw-code').val();
+	     if(one_code1 == true){
+	     	 one_code1 = false;
+	     	 $('.f-verify').css({
+		 		'background':'#c1c1c1',
+		 		'color':'#fff'
+		 	}).text('验证中');
+	     	 var url =  ""+site_url+"/web.php?m=Share&a=checkLogin&mobi_num="+sMobile+'&msg_code='+msg_code+'&secret='+secret;
+	     	 $.ajax({
+	             type: "GET",
+	             url: ""+site_url+"/web.php?m=Share&a=checkLogin&mobi_num="+sMobile+'&msg_code='+msg_code+'&secret='+secret,
+	             dataType: "json",
+	             success: function(data){
+	             	if(data.flag == true){
+	             		$('.error-message').text('领取成功').show();
+	             		center('.error-message');
+	             		setTimeout(function(){
+	             			document.location.href = ''+site_url+'/web.php?m=Share&a=active&pass=1';
+	             		},2000)
+	             	}else{
+	             		$('.error-message').text(data.message).show();
+	             		center('.error-message');
+	             		setTimeout("$('.error-message').hide()",2000);
+	             		one_code1 = true;
+	             		$('.f-verify').css({
+					 		'background':'#fc4f6b',
+					 		'color':'#fcfcb6'
+		 				}).text('重新验证');
+	             	}
+	             },
+	            error:function(data){
+	            	// alert(data.flag+','+data.message);
+	            	one_code1 = true;
+	            }
+      		});
+	     }
+	})
+
+	$("#draw-code").focus(function(){
+	  $(".banner").hide();
+	});
+	$("#draw-code").blur(function(){
+	  $(".banner").show();
+	});
+</script>
+</html>

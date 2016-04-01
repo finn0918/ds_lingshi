@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+		<meta name="apple-itunes-app" content="app-id=641895599">
+		<meta name="format-detection" content="telephone=no" searchtype="map">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="360-site-verification" content="188bc9bbbe2e50aaf86c811cf61d5cdb" />
+		<meta name="baidu-site-verification" content="ayLnKZTrby" />
+		<meta name="sogou_site_verification" content="gz86ImwtMQ"/>
+		<script>
+			var version = location.href.indexOf("?tdev") > 0 ? (1 + Math.round(Math.random() * 9999 - 1)) : '1.2';
+			document.write('<link href="__ROOT__/statics/css/tBase.css?v='+version+'" rel="stylesheet" type="text/css" />');
+			document.write('<link href="__ROOT__/statics/css/disCountDetail.css?v='+version+'" rel="stylesheet" type="text/css" />');
+			(function(b, c) {
+				var d = b.documentElement,
+					resizeEvt = 'orientationchange' in c ? 'orientationchange' : 'resize',
+					recalc = function() {
+						var a = d.clientWidth;
+						if (!a) return;
+						d.style.fontSize = (20 * (a / 320)) > 40 ? 40 + "px" : (20 * (a / 320)) + 'px'
+					},
+					anime = c.requestAnimationFrame || c.webkitRequestAnimationFrame || c.mozRequestAnimationFrame || c.oRequestAnimationFrame ||
+				function(e) {
+					return setTimeout(e, 16.67)
+				};
+				if (!b.addEventListener) return;
+				c.addEventListener(resizeEvt, recalc, false);
+				b.addEventListener('DOMContentLoaded', recalc, false)
+			})(document, window);
+		</script>
+	</head>
+	<body>
+		<div class="disCountDetail">
+			<div class="disoutside" style="background:#f8f8f8;padding-bottom:0.5rem">
+				<div class="disWrapper">
+					<div class="disPicket">
+						<div class="disPicWrapper">
+							<div class="disPrice posiR">
+								<p><em>￥</em><i></i></p>
+								<p class="soldnum"></p>
+							</div>
+							<div class="disinfo">
+								<p class="title"></p>
+								<ul>
+								</ul>
+								<div class="disTime lq_color">
+									
+								</div>
+							</div>
+							<div class="cl"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="disRuler">
+				<div class="RulerTitle">
+					<img src="__ROOT__/statics/images/line.png" class="lineImg">
+					<span>活动详情</span>
+				</div>
+				<div class="RulerMain">
+					<!--<p>
+					(1) 活动期间内，在本页面领取优惠券后，购买指定的小喵商城自营零食（不包括特卖商品、品牌团商品与部分每日上新商品），提交订单前选择该优惠券，单笔订单满59元在结账时系统将自动扣减5元，满159元在结账时系统将自动扣减15元。
+					</p>
+					<p>
+					(2) 单品页面“商品促销和特殊优惠”栏中如有此促销信息则表示该商品参与此活动。</p> 
+					<p>
+					(3) 单张订单减免金额不累加，最多减免15元。</p>
+					<p>
+					(4) 其他促销不能与本促销共同使用。未领取优惠券则不能享受本促销优惠。</p>
+					<p>
+					(5) 若因您取消或退还部分商品导致您的原订单参加本促销活动的商品金额不足59元，您将无法享受抵现优惠。</p>
+					<p>
+					(6)本活动开始时间：2015年8月03日9:00:00</p>
+					<p>结束时间：2015年8月18日23:59:59</p>
+					<p>生效商品金额：20元</p>-->
+					<p>
+						<a href="javascript:;" class="moreP lq_color"><i></i>点击查看全部促销商品</a>
+					</p>
+				</div>
+			</div>
+			<div class="fixed-banner">
+				
+			</div>
+		</div>
+	</body>
+	<script src="__ROOT__/statics/js/jquery.min.js"></script>
+	<script>
+		var siteUrl = "{$site_url}";
+        var uid = "{$uid}";
+        console.log(window.location.href);
+		var url = siteUrl+"/api.php?srv=2905&cid=10002&uid="+uid+"&tms=20150721190147&sig=8c35f5a024148111&wssig=308efe4382a088e0&os_type=1&version=12&channel_name=feibo";
+		var Cookie={
+			/**增加cookie*/
+			add:function(key,value,expires,domain,path){
+				var str=key+"="+value;
+				if(expires&&(expires instanceof Date)){
+					str+=";expires="+expires;
+				}
+				if(domain){
+					str+=";domain="+domain;
+				}
+				if(path){
+					str+=";path="+path;
+				}
+				document.cookie=str;
+			},
+			/**  获取cookie*/
+			 get:function(name){
+				if(document.cookie.length>0){
+					var arr=document.cookie.split('; ');//以分号和空格作为分隔符号
+					for(var i=0;i<arr.length;i++){
+						var arr2=arr[i].split('=');
+						if(arr2[0]==name){
+							return arr2[1];
+						}
+					}	
+				}
+				return '';
+			},
+			/**  删除cookie*/
+			remove:function(key){
+				var d=new Date(0);
+				document.cookie=key+"=1;expires="+d;
+			}
+	};
+	if(Cookie.get('giftsNew')==0){
+		$('.fixed-banner').hide();
+	}else{
+		$('.fixed-banner').show();
+	}
+		
+		var init = {
+			getQueryString :function(name,url){
+				if (!url) url = location.href;
+				name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+				var regexS = "[\\?&]"+name+"=([^&#]*)";
+				var regex = new RegExp( regexS );
+				var results = regex.exec( url );
+				return results == null ? null : results[1];
+			},
+			converDate : function(timestamp){
+				var date = new Date();
+				date.setTime(timestamp*1000);
+				year = date.getFullYear(),
+				month = date.getMonth(),
+				day = date.getDate(),
+				hours = date.getHours(),
+				mins = date.getMinutes();
+				
+				month = ((date.getMonth()+1) > 9) ? (date.getMonth()+1) : "0" + (date.getMonth()+1);
+				day = (date.getDate() > 9) ? date.getDate() : "0" + date.getDate();
+				hours = (date.getHours() > 9) ? date.getHours() : "0" + date.getHours();
+				mins = (date.getMinutes() > 9) ? date.getMinutes() : "0" + date.getMinutes();
+
+				newtime = year.toString().substring(2) +"/"+ month +"/"+ day + " " + hours + ":" + mins;
+				return newtime;
+			},
+			ajax_all : function(){
+				var callback = function(d) {
+					var data = d.data;
+					var status = data.status, btnHtmls = '', type = data.action.type,info = data.action.info;
+					// 客户端判断跳转类型
+					$(".moreP").attr("data-type",type).attr("data-info",info);
+					
+					// 是否显示剩余几张
+					// 1显示 0不显示
+					var isshow = data.is_show;
+					if(isshow == 1) {
+						// 优惠劵剩余张数以及总张数
+						var a = data.remaining_count,b = data.total_count;
+						var converse = function(p){
+							var a = p.toString();
+							if(10 > a.length >= 5) { 
+								var c = a.length - 4, d = a.substr(c);
+								return a.substr(0,c)+d.replace(/^[0-9][0-9][0-9][0-9]/g,"万");
+							}else if(a.length >= 10){
+								var c = a.length - 9, d = a.substr(c);
+								return a.substr(0,c)+d.replace(/^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]/g,"亿");
+							}else {
+								return a;
+							}
+						};
+						$(".soldnum").html("仅剩"+converse(a)+"张/总计"+converse(b)+"张");
+					}else {
+						$(".disPrice").css("margin-top","1.3rem");
+					};
+					// 填充优惠劵信息
+					$(".disWrapper").attr("data-id",data.id).attr("data-status",status);
+					// 优惠劵价格
+					$(".disPrice").find("i").text(data.validation_amount);
+					// 优惠劵名称
+					$(".disinfo .title").text(data.title);
+					// 优惠劵使用限制
+					var htmls = '';
+					htmls += '<li>'+data.using_range+'</li>';
+					htmls += '<li>'+data.msg+'</li>';
+					$(".disinfo ul").append(htmls);
+					var start_time = data.start_time,end_time = data.end_time;
+					// 优惠劵使用时间
+					$(".disTime").html(init.converDate(start_time)+" - "+init.converDate(end_time));
+					
+					// 优惠劵活动规则
+					var rulerhtml = '';
+					rulerhtml = '<p>' + data.desc + '</p>';
+					$(".RulerMain").prepend(rulerhtml);
+					
+					//0：未领取  1：已领取, 2：优惠券被抢光了 3：发放时间结束了 4: 优惠券还没开始发放
+
+					if(status == 0) {
+						btnHtmls = '<a href="javascript:;" class="lqNow lqBtn">点击领取</a>';
+						$(".fixed-banner").append(btnHtmls);
+					}else if(status == 1) {
+						btnHtmls = '<a href="javascript:;" class="lqNow lqed">优惠劵已领取-查看</a>';
+						$(".fixed-banner").append(btnHtmls);
+					}else if(status == 2){
+						btnHtmls = '<a href="javascript:;" class="lqNow lqOut">优惠劵被抢光啦</a>';
+						$(".fixed-banner").append(btnHtmls);
+					}else if(status == 3){
+						btnHtmls = '<a href="javascript:;" class="lqNow lqOut">发放时间结束啦</a>';
+						$(".fixed-banner").append(btnHtmls);
+					}else if(status == 4){
+						btnHtmls = '<a href="javascript:;" class="lqNow lqBtn">点击领取</a>';
+						$(".fixed-banner").append(btnHtmls);
+					}
+				};
+				var ajax_data = {
+					url : url,
+					data : {
+						//goods_id : "5070",
+						// goods_id : init.getQueryString("goods_id")
+						discoupon_id : init.getQueryString("discoupon_id")
+					},
+					dataType : "json",
+					type : "get",
+					success : callback
+				}
+				$.ajax(ajax_data);
+			}
+		}
+		init.ajax_all();
+
+		$(".moreP").on("click",function(){
+			var type = parseInt($(".moreP").attr("data-type")),
+				// 优惠劵id
+				info = parseInt($(".moreP").attr("data-info"));
+			var url = "http://ds.lingshi.cccwei.com/api/Tpl/default/Activity/shareGuide1212.html";
+			if(Cookie.get('giftsNew')==0){
+				window.bridge.javascriptJumpAction(1,"猴年抢年货，爆款0.1元抢",url,"");
+				Cookie.remove('giftsNew');
+			}else{
+				window.bridge.clickLookSpecialGoods(type,info);
+			}
+			
+		})
+		
+		$("body").delegate(".lqNow","click",function(){
+			// type 表示状态 info 表示优惠劵id
+			var type = parseInt($(".disWrapper").attr("data-status")),
+				info = parseInt($(".disWrapper").attr("data-id"));
+			window.bridge.clickReceive(type,info);
+			window.bridge.achieveCouponAction(info,0,type);
+		})
+		
+		//function setBtnStatus(status) {
+		//	if(status == 1){
+		//		$(".lqNow").addClass("lqed");
+		//	}
+		//}
+		
+				
+		//0:未领取  1：已领取  2：优惠券被抢光了 3：发放时间结束了 4: 优惠劵还没发放
+		function setBtnStatus(status) {
+			if(status == 1) {
+				$(".lqNow").attr("data-status",1).attr("class","lqNow lqed").text("优惠劵已领取-查看");
+			}else if(status == 2) {
+				$(".lqNow").attr("data-status",2).attr("class","lqNow lqOut").text("优惠劵被抢光啦");
+			}else if(status == 3) {
+				$(".lqNow").attr("data-status",3).attr("class","lqNow lqOut").text("发放时间结束啦");
+			}
+		}
+		//setBtnStatus(3);
+	</script>
+</html>

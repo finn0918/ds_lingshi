@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+		<meta name="apple-itunes-app" content="app-id=641895599">
+		<meta name="format-detection" content="telephone=no" searchtype="map">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="360-site-verification" content="188bc9bbbe2e50aaf86c811cf61d5cdb" />
+		<meta name="baidu-site-verification" content="ayLnKZTrby" />
+		<meta name="sogou_site_verification" content="gz86ImwtMQ"/>
+		<script>
+			var version = location.href.indexOf("?tdev") > 0 ? (1 + Math.round(Math.random() * 9999 - 1)) : '1.2';
+			document.write('<link href="../../../../statics/css/tBase.css?v='+version+'" rel="stylesheet" type="text/css" />');
+			document.write('<link href="../../../../statics/css/disCountList.css?v='+version+'" rel="stylesheet" type="text/css" />');
+			(function(b, c) {
+				var d = b.documentElement,
+					resizeEvt = 'orientationchange' in c ? 'orientationchange' : 'resize',
+					recalc = function() {
+						var a = d.clientWidth;
+						if (!a) return;
+						d.style.fontSize = (20 * (a / 320)) > 40 ? 40 + "px" : (20 * (a / 320)) + 'px'
+					},
+					anime = c.requestAnimationFrame || c.webkitRequestAnimationFrame || c.mozRequestAnimationFrame || c.oRequestAnimationFrame ||
+				function(e) {
+					return setTimeout(e, 16.67)
+				};
+				if (!b.addEventListener) return;
+				c.addEventListener(resizeEvt, recalc, false);
+				b.addEventListener('DOMContentLoaded', recalc, false)
+			})(document, window);
+		</script>
+	</head>
+	<body>
+		<div class="disCountList" siteUrl = "{$site_url}">
+			<div class="disCountWrapper">
+				<div class="disCountTitle">
+					<a href="javascript:;">
+						<span class="discountIcon lqBtn"></span>
+						<span class="discountTxt"></span>
+						<i class="leftmore"></i>
+					</a>
+				</div>
+				<div class="disList">
+					<ul class="disMain">
+						<!--<li>
+							<div class="disWrapper">
+								<a href="disCountDetail.html">
+									<div class="disPrice posiR">
+										<em>¥</em><i>100</i>
+									</div>
+									<div class="disinfo">
+										<p class="title">零食小喵平台新人专享</p>
+										<ul>
+											<li>满400可用</li>
+											<li>指定商家使用</li>
+										</ul>
+										<div class="disTime lq_color">
+											15/08/31 23:59 - 15/08/31 23:59
+										</div>
+									</div>
+								</a>
+								<a href="javascript:;" class="lqFrBtn">领取</a>
+								<div class="cl"></div>
+							</div>
+						</li>
+						<li class="out">
+							<div class="disWrapper">
+								<a href="disCountDetail.html">
+									<div class="disPrice posiR">
+										<em>¥</em><i>50</i>
+									</div>
+									<div class="disinfo">
+										<p class="title">七夕专享</p>
+										<ul>
+											<li>满200可用</li>
+											<li>全平台使用</li>
+										</ul>
+										<div class="disTime lq_color">
+											15/08/31 23:59 - 15/08/31 23:59
+										</div>
+									</div>
+								</a>
+								<a href="javascript:;" class="lqFrBtn">领光</a>
+								<div class="cl"></div>
+							</div>
+						</li>
+						<li class="out">
+							<div class="disWrapper">
+								<a href="disCountDetail.html">
+									<div class="disPrice posiR">
+										<em>¥</em><i>50</i>
+									</div>
+									<div class="disinfo">
+										<p class="title">会员冲刺卷</p>
+										<ul>
+											<li>满200可用</li>
+											<li>全平台使用</li>
+										</ul>
+										<div class="disTime lq_color">
+											15/08/31 23:59 - 15/08/31 23:59
+										</div>
+									</div>
+								</a>
+								<a href="javascript:;" class="lqFrBtn">已领</a>
+								<div class="cl"></div>
+							</div>
+						</li>
+						<li class="out">
+							<div class="disWrapper outColor">
+								<div class="disPrice posiR">
+									<em>¥</em><i>5</i>
+								</div>
+								<div class="disinfo">
+									<p class="title">零食小喵平台新人专享</p>
+									<ul>
+										<li>满10可用</li>
+										<li>全平台使用</li>
+									</ul>
+									<div class="disTime lq_color">
+										15/08/31 23:59 - 15/08/31 23:59
+									</div>
+								</div>
+								<a href="javascript:;" class="lqFrBtn">结束</a>
+								<div class="cl"></div>
+							</div>
+						</li>-->
+					</ul>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="__ROOT__/statics/js/jquery.min.js"></script>
+	<script>
+		
+		var init = {
+			getQueryString :function(name,url){
+				if (!url) url = location.href;
+				name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+				var regexS = "[\\?&]"+name+"=([^&#]*)";
+				var regex = new RegExp( regexS );
+				var results = regex.exec( url );
+				return results == null ? null : results[1];
+			},
+			converDate : function(timestamp){
+				var date = new Date();
+				date.setTime(timestamp*1000);
+				year = date.getFullYear(),
+				month = date.getMonth(),
+				day = date.getDate(),
+				hours = date.getHours(),
+				mins = date.getMinutes();
+				
+				month = ((date.getMonth()+1) > 9) ? (date.getMonth()+1) : "0" + (date.getMonth()+1);
+				day = (date.getDate() > 9) ? date.getDate() : "0" + date.getDate();
+				hours = (date.getHours() > 9) ? date.getHours() : "0" + date.getHours();
+				mins = (date.getMinutes() > 9) ? date.getMinutes() : "0" + date.getMinutes();
+
+				newtime = year.toString().substring(2) +"/"+ month +"/"+ day + " " + hours + ":" + mins;
+				return newtime;
+			},
+			ajax_all : function(){
+				var siteUrl = "{$site_url}",
+                uid = "{$uid}" ,
+				url = siteUrl+"/api.php?srv=2901&cid=10002&uid="+uid+"&tms=20150721190147&sig=8c35f5a024148111&wssig=308efe4382a088e0&version=12&channel_name=feibo";
+				
+				var callback = function(d) {
+					var data = d.data;
+					/**
+						满包邮 type => 0 判断info，info为供应商id
+						type => 1 跳转到特卖	
+						type => 2 referr_url 进入促销与优惠信息页面
+					**/
+					var typeshow = init.getQueryString("type");
+					if(typeshow == 0 || typeshow == 1) {
+						//alert(data.activity.length);
+						if(data.activity){
+							var active = data.activity, type = active.action.type, info = active.action.info, url = document.referrer;
+							$(".disCountTitle").show().find(".discountIcon").text(active.icon_title).attr("data-type",type).attr("data-info",info),
+							$(".disCountTitle").find(".discountTxt").text(active.title);
+						}
+					}
+					
+					//  优惠劵列表
+					var items = data.items;
+					for(var i in items) {
+						//0:未领取  1：已领取  2：优惠券被抢光了 3：发放时间结束了 4: 优惠劵还没发放
+						var status = items[i].status;
+						var htmls = '';
+						if(status === 1 || status === 2){
+							htmls += '<li data-id="'+items[i].id+'" class="out" data-status='+status+'>';
+							htmls += '	<div class="disWrapper">';
+						}else if(status === 3){
+							htmls += '<li data-id="'+items[i].id+'" class="out" data-status='+status+'>';
+							htmls += '	<div class="disWrapper outColor">';
+						}else if(status === 0 || status === 4){
+							htmls += '<li data-id="'+items[i].id+'" data-status='+status+'>';
+							htmls += '	<div class="disWrapper">';
+						}
+						htmls += '		<a href="javascript:;" class="goDetail" onclick="">';
+						htmls += '			<div class="disPrice posiR">';
+						htmls += '				<em>￥</em><i>'+items[i].validation_amount+'</i>';
+						htmls += '			</div>';
+						htmls += '			<div class="disinfo">';
+						htmls += '				<p class="title">'+items[i].title+'</p>';
+						htmls += '				<ul>';
+						htmls += '					<li>'+items[i].using_range+'</li>';
+						htmls += '					<li>'+items[i].msg+'</li>';
+						htmls += '				</ul>';
+						var start_time = items[i].start_time, end_time = items[i].end_time;
+						htmls += '				<div class="disTime lq_color">' + init.converDate(start_time) + " - " +init.converDate(end_time) ;
+						htmls += '				</div>';
+						htmls += '			</div>';
+						htmls += '				<div class="cl"></div>';
+						htmls += '		</a>';
+						switch(status) {
+							case 0 : htmls += '	<a href="javascript:;" class="lqFrBtn lqNow">领取</a>';break;
+							case 1 : htmls += '	<a href="javascript:;" class="lqFrBtn lqed">已领</a>';break;
+							case 2 : htmls += '	<a href="javascript:;" class="lqFrBtn lqOut">领光</a>';break;
+							case 3 : htmls += '	<a href="javascript:;" class="lqFrBtn lqEnd">结束</a>';break;
+							case 4 : htmls += '	<a href="javascript:;" class="lqFrBtn norelase">领取</a>';break;
+						}
+						htmls += '		<div class="cl"></div>';
+						htmls += '	</div>';
+						htmls += '</li>';
+						$(".disMain").append(htmls);
+					}
+				};
+				var ajax_data = {
+					url : url,
+					data : {
+						//goods_id : "5070",
+						//supplier_id : "3",
+						os_type : init.getQueryString("os_type"),
+						id : init.getQueryString("id"),
+						type : init.getQueryString("type")
+					},
+					dataType : "json",
+					type : "get",
+					success : callback
+				};
+				$.ajax(ajax_data);
+			}
+		}
+		init.ajax_all();
+		
+		//0:未领取  1：已领取  2：优惠券被抢光了 3：发放时间结束了 4: 优惠劵还没发放
+		function setBtnStatus(status,id) {
+			$(".disMain").children("li").each(function(){
+				var qid = parseInt($(this).attr("data-id"));
+				if(qid === parseInt(id)){
+					if(status == 1) {
+						$(this).attr("data-status",1);
+						$(this).addClass("out"),
+						$(this).find(".lqFrBtn").text("已领");
+					}else if(status == 2) {
+						$(this).attr("data-status",2);
+						$(this).addClass("out"),
+						$(this).find(".lqFrBtn").text("领光");
+					}else if(status == 3) {
+						$(this).attr("data-status",3);
+						$(this).addClass("out"),
+						$(this).find(".disWrapper").addClass("outColor"),
+						$(this).find(".lqFrBtn").text("结束");
+						$(this).find(".goDetail").attr("class","fl");
+					}
+				}
+			})		
+		}
+		
+		$(function(){
+			// 跳转优惠劵详情入口
+			$("body").delegate(".goDetail","click",function(){
+				var id = parseInt($(this).parents("li").attr("data-id"));
+				window.bridge.clickClickDiscoupon(id);
+			})
+			// 领取优惠劵
+			$("body").delegate(".lqFrBtn","click",function(){
+				// type 当前状态 info 当前id
+				var type = parseInt($(this).parents("li").attr("data-status")),
+					info = parseInt($(this).parents("li").attr("data-id"));
+				window.bridge.clickReceive(type,info);
+				window.bridge.achieveCouponAction(info,0,type);
+			})
+			
+			$(".disCountTitle a").on("click",function(){
+				var type = parseInt($(".discountIcon").attr("data-type")),
+					info = parseInt(init.getQueryString("id"));
+				window.bridge.clickFullMail(type,info);
+			})
+		})
+	</script>
+</html>

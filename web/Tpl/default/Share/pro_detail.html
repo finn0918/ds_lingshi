@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+		<title>商品详情页</title>
+		<style>
+			.main .fl-title {min-height:0}
+			.user-liked {padding-bottom:3rem}
+			.title .fl-title {width:auto;padding-right:0;}
+			.disBlock {
+				cursor:pointer;
+			}
+			.white-cover {
+				background:rgba(255,255,255,0.5);
+				position:absolute;
+				width:7.4rem;
+				height:11.25rem;
+				display:block;
+				top:0;
+				left:0;
+				right:0;
+				bottom:0;
+			}
+			.white-cover i {
+				background:url(statics/images/icon_Sold.png) center center no-repeat;
+				background-size:100% auto;
+				display:block;
+				width:3rem;
+				height:3rem;
+				margin:2.2rem auto 0;
+			}
+			.soldOut .nr,.soldOut .nr span {
+				color:#a0a0a0!important;
+			}
+			.soldOut .nr .stips {
+				background:#a0a0a0!important;
+				color:#fff!important;
+			}
+		</style>
+		<script>
+			var spu_id = {$spu_id};
+			var version = location.href.indexOf("?tdev") > 0 ? (1 + Math.round(Math.random() * 9999 - 1)) : '1.2';
+			document.write('<link href="statics/css/index.css?v='+version+'" rel="stylesheet" type="text/css" />');
+			document.write('<link href="statics/css/tBase.css?v='+version+'" rel="stylesheet" type="text/css" />');
+			document.write('<link href="statics/css/swiper.min.css?v='+version+'" rel="stylesheet" type="text/css" />');
+			(function(b, c) {
+				var d = b.documentElement,
+					resizeEvt = 'orientationchange' in c ? 'orientationchange' : 'resize',
+					recalc = function() {
+						var a = d.clientWidth
+						if (!a) return;
+						d.style.fontSize = (20 * (a / 320)) > 40 ? 40 + "px" : (20 * (a / 320)) + 'px'
+					},
+					anime = c.requestAnimationFrame || c.webkitRequestAnimationFrame || c.mozRequestAnimationFrame || c.oRequestAnimationFrame ||
+				function(e) {
+					return setTimeout(e, 16.67)
+				};
+				if (!b.addEventListener) return;
+				c.addEventListener(resizeEvt, recalc, false);
+				b.addEventListener('DOMContentLoaded', recalc, false)
+			})(document, window);
+		</script>
+		<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	</head>
+	<body>
+		<div class="main" spu_id = {$spu_id}>
+			<!-- silder 轮播图-->
+			<div class="swiper-container" style="height:360px">
+				<div class="swiper-wrapper">
+				</div>
+				<div class="swiper-span">
+					<span id="active-num">&nbsp;</span>/<span id="all-num">&nbsp;</span>
+				</div>
+			</div>
+			
+			<!-- header 商品标题-->
+			<div class="detail-header">
+				<div class="detail-header-title">
+					<div class="title">
+						<!--<i class="br-right"></i>
+						<div class="fr-title fl">
+							<i></i>收藏
+						</div>
+						<div class="cl"></div>-->
+					</div>
+					<div class="price-ui-icon">
+						<p>
+							<a class="price-current red_txt">￥<em></em>.<i></i></a>
+							<div class="dis_icon fl">
+							</div>
+							<div class="cl"></div>
+						</p>
+						<div class="discount-percent a0a0a0 posiR">
+							<span class="market-price">超市价：<a>￥<i></i></a></span>
+							<div class="sold-num">
+								<span class="has-solded disn">已售<a></a>件</span>
+								<span class="only-store-num disn">仅剩<a class="red_txt"></a>件</span>
+							</div>
+							<div class="cl"></div>
+						</div>
+					</div>
+				</div>
+				<div class="count-down">
+					<p>
+						<i class="clock"></i>
+						<span class="count-down-time">倒计时<i></i>天<i></i>小时<i></i>分<i></i>秒</span>
+					</p>
+				</div>
+				<div class="discoupon">
+					<span class="disicon"></span>
+					<span class="disiconTxt"></span>
+				</div>
+			</div><!-- /.detail-header -->
+			
+			<!-- imgbox 长图图片 -->
+			<div class="img-wrap">
+				<div class="img-box">
+				</div>
+			</div><!-- /.img-wrap -->
+			
+			<!-- info -->
+			<div class="info-table meiweiInfo">
+				<div class="info-header">
+					<div class="disCell">
+						<img src="__ROOT__/statics/images/line.png" class="lineImg"/>
+						<span>美味信息</span>
+					</div>
+				</div>
+				<div class="info-box">
+					<div class="info-msg">
+					</div>
+				</div>
+			</div>
+			
+			<!-- comment 评论列表-->
+			<div class="comment-main">
+				<div class="comment-wrap-outside">
+					<div class="comment-list">
+						<div class="info-header">
+							<div class="disCell">
+								<img src="__ROOT__/statics/images/line.png" class="lineImg"/>
+								<span>喵亲口碑(<a class="Cnum"></a>)</span>
+							</div>
+						</div>
+						<ul>
+						</ul>
+						<a class="comment-more" href="http://lingshi.cccwei.com/wap/">
+							<i class="more-icon"></i>
+							<span>查看更多评价</span>
+						</a>
+					</div>
+				</div><!--/.comment-wrap -->
+			</div><!--/.comment-main -->
+			
+			<!-- you like 猜你喜欢 -->
+			<div class="user-liked">
+				<div class="info-header">
+					<div class="disCell">
+						<img src="__ROOT__/statics/images/line.png" class="lineImg"/>
+						<span>猜你喜欢</span>
+					</div>
+				</div>
+				<div class="pro-list">
+					<ul class="pro-list-array">
+					</ul>
+				</div>
+			</div><!-- /.you liked -->
+			
+			<div class="download-banner">
+				<img src="__ROOT__/statics/images/down-icon.png" />
+				<a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.feibo.snacks" class="download-btn"></a>
+				<i onclick=""></i>
+			</div>
+			
+			<!-- cart-box 购物车按钮-->
+			<!--<div class="cart-box">
+				<div class="cart-market">
+					<a href="javascript:;" class="cart-icon"><i><em class="cart-num red_bg"></em></i></a>
+					<a href="javascript:;" class="add_cart red_bg">加入购物车</a>
+					<div class="cl"></div>
+				</div>
+			</div>-->
+		</div>
+	</body>
+	<div style="display:none;">
+		<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1254054224'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/stat.php%3Fid%3D1254054224' type='text/javascript'%3E%3C/script%3E"));</script>
+	</div>
+	<script src="__ROOT__/statics/js/jquery.min.js"></script>
+	<script src="__ROOT__/statics/js/swiper.min.js"></script>
+	<script src="__ROOT__/statics/js/jquery.lazyload.js"></script>
+		
+	<script>
+		 
+		 var shareData = {
+			title: '',
+			desc: '这里的零食超好吃！',
+			link: window.location.href,
+			imgUrl: '',
+			trigger: function (res) {
+
+			},
+			success: function (res) {
+
+			},
+			cancel: function (res) {
+
+			},
+			fail: function (res) {
+
+			},
+			complete: function (res) {
+
+			}
+		};
+		var comnum;
+	
+		// 页面数据请求
+		var init = {
+			info:function(){
+				var ajax_data = {
+					url : "api.php?apptype=0&srv=2502&cid=10002&uid=0&tms=20150713151836&sig=e9f75a3bdae950ea&wssig=9de6f856100a21ab&os_type=1&version=7&channel_name=h5",
+					dataType : "json",
+					type : "get",
+					data : {
+						"goods_id" : $(".main").attr("spu_id")
+					},
+					success : infoMsg,
+					error : function(d){
+						console.log(d);
+					}
+				}
+				$.ajax(ajax_data);
+			}
+		};
+		
+		var infoMsg = function(d) {
+			if(d.data){
+				$(".count-down-time").attr("end_time",d.timestamp);
+				var data = d.data;
+				var htmls = '<div class="fl-title">'+data.title+'</div>';
+				$(".title").append(htmls);
+				shareData.title = data.title;
+				
+				/* 价格区域 */
+				var prevNum = data.price.current ? data.price.current : '';
+				var float_price;
+				var marketNum = data.price.prime ? data.price.prime : '';
+				var float_market;
+				
+				if(prevNum.toString().split(".")[1]) {
+					if(prevNum.toString().split(".")[1].length == 1) {
+						float_price = prevNum.toString().split(".")[1] + "0";
+					}else {
+						float_price = prevNum.toString().split(".")[1];
+					}
+				}else {
+					float_price = "00";
+				}
+				// add by wuyanhong 2015-8-24 14:53
+				// edit by wuyanhong 2015-8-25 15:56
+				if(data.activity.title){
+					$(".discoupon").show().attr("data-info",data.activity.action.info).attr("data-type",data.activity.action.type);
+
+					$(".disiconTxt").html(data.activity.title);
+					$(".disicon").html(data.activity.icon_title);
+				}else {
+					$(".discoupon").hide();
+				}
+				if(marketNum.toString().split(".")[1]) {
+					if(marketNum.toString().split(".")[1].length == 1) {
+						float_market = marketNum + "0";
+					}else {
+						float_market = marketNum;
+					}
+				}else {
+					float_market = marketNum + ".00";
+				}
+			
+				// 当前价
+				$(".price-current em").text(prevNum.toString().split(".")[0]),
+				$(".price-current i").text(float_price);
+				// 超市价
+				$(".market-price a i").text(float_market);
+				
+				/* 折扣标签 */
+				var tages = data.tags;
+				for(var i in tages) {
+					var htmls = '';
+					if(tages[i].title){
+						htmls += '<span style="background:'+tages[i].color+'">'+tages[i].title+'</span>';
+					}
+					$(".dis_icon").append(htmls);
+				}
+				
+				/* 商品数量 2015-07-29*/
+				var goodsType = data.guide_type;
+				/* 判断是否为平台商品 goodsType = 0 */
+				var istime = data.type;
+				$(".count-down").attr("istime",istime);
+				istime > 0 ? $(".count-down").show() : '';
+				if(goodsType == 0){
+					// 美味信息
+					$(".meiweiInfo").show();
+					var soldNum = data.sold_num ? data.sold_num : 0,
+						surplusNum =  data.surplus_num ? data.surplus_num : 0;
+                    switch (istime){
+                        // 0 : 已售; 1 : 剩余，已售; 2 ：已售
+                        case 0 :
+                            $(".has-solded").show().find("a").text(soldNum);
+                            break;
+                        case 1 :
+                            $(".has-solded").show().find("a").text(soldNum);
+                            $(".only-store-num").show().find("a").text(surplusNum);
+                            break;
+                        case 2 :
+                            $(".has-solded").show().find("a").text(soldNum);
+                            break;
+                    }
+				}
+				
+				/* 倒计时 */
+				$(".count-down-time").attr("end_time",data.time).attr("alt",data.server_time);
+				var time = parseInt(data.time)*1000,
+					serverTime = parseInt(data.server_time)*1000;
+				var timer = setInterval(function(){
+					serverTime += 1000;
+					var nMS = time - serverTime;
+					var myD = Math.floor(nMS/(1000 * 60 * 60 * 24));
+					var myH = Math.floor(nMS/(1000*60*60)) % 24;
+					var myM = Math.floor(nMS/(1000*60)) % 60;
+					var myS = Math.floor(nMS/1000) % 60;
+					data.price.original ? $(".count-down-time").html("剩<i>"+myD+"</i>天<i>"+myH+"</i>小时<i>"+myM+"</i>分<i>"+myS+"</i>秒，价格将恢复" + data.price.original + "元") : $(".count-down-time").html("剩<i>"+myD+"</i>天<i>"+myH+"</i>小时<i>"+myM+"</i>分<i>"+myS+"</i>秒");
+					if(myM < 0 && myS < 0) {
+						data.price.original ? $(".count-down-time").html("剩<i>00</i>天<i>00</i>小时<i>00</i>分<i>00</i>秒，价格将恢复" + data.price.original + "元") : $(".count-down-time").html("剩<i>00</i>天<i>00</i>小时<i>00</i>分<i>00</i>秒");
+						clearInterval(timer);
+					}
+				},1000)
+				
+				/* 图片详情 */
+				var imgUrl = data.details_imgs;
+				var details = data.details;
+				$(".img-box").html(details);
+				
+				/*主图轮播*/
+				var sliderImg = data.main_imgs;
+				// 页面轮播
+				if(sliderImg.length > 1){
+					for(var i in sliderImg) {
+						var htmls = '';
+						htmls += '<div class="swiper-slide">';
+						htmls += '<img data-src="'+sliderImg[i].img_url+'" class="swiper-lazy">';
+						htmls += '<div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>';
+						htmls += '</div>';
+						$(".swiper-wrapper").append(htmls);
+					};
+					shareData.imgUrl = data.main_imgs[0].img_url;
+					var swiper = new Swiper('.swiper-container', {
+						loop : true,
+						onInit: function(swiper){
+							document.getElementById("all-num").innerHTML = $(".swiper-slide").length - 2;
+						},
+						onSlideChangeEnd: function(swiper){
+							document.getElementById("active-num").innerHTML = Number($(".swiper-slide-active").attr("data-swiper-slide-index"))+1;
+						},
+						lazyLoading : true,
+						preloadImages: false
+					});
+				}else {
+					for(var i in sliderImg) {
+						var htmls = '';
+						htmls += '<div class="swiper-slide">';
+						htmls += '<img src="'+sliderImg[i].img_url+'" class="swiper-lazy">';
+						htmls += '<div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>';
+						htmls += '</div>';
+						$(".swiper-wrapper").append(htmls);
+						document.getElementById("all-num").innerHTML = "1",
+						document.getElementById("active-num").innerHTML = "1",
+						$(".swiper-lazy-preloader-white").hide();
+					};
+				}
+				
+				/* 美味信息 */
+				var mwinfo = data.arguments.length? data.arguments.infos : '';
+				if(mwinfo){
+					for(var i in mwinfo) {
+						var htmls = '';
+						htmls += '<span>'+ mwinfo[i].key +'：'+ mwinfo[i].value +'</span>';
+						$(".info-msg").append(htmls);
+					}
+				}else {
+					$(".meiweiInfo").hide();
+				}
+				
+				/* 评论 */
+				var comments = data.comments.comments;
+				$(".Cnum").text(data.comments.total_num);
+				if(comments.length){
+					for(var i in comments) {
+						var htmls = '';
+						htmls += ' <li> ';
+						htmls += ' <div class="comment-wrap"> ';
+						htmls += ' <div class="comment-user"> ';
+						htmls += ' <span class="img"><img src="'+comments[i].avatar.img_url+'" /></span> ';
+						htmls += ' <span class="user-name">'+comments[i].nickname+'</span> ';
+						htmls += ' </div> ';
+						htmls += ' <div class="comment-txt">'+comments[i].content;
+						htmls += ' </div> ';
+						htmls += ' </div> ';
+						htmls += ' </li> ';
+						$(".comment-list ul").append(htmls);
+					}
+					/* 评论数量少于2或者等于2的时候 查看更多评论按钮不显示*/
+					data.comments.total_num <= 2 ? $(".comment-more").hide().parents(".comment-list").find("ul").children("li:last").css("border-bottom","none") : '';
+				}else {
+					$(".comment-list ul").html("<p class='comment-empty'>暂无评论</p>").next(".comment-more").hide();
+				}
+				
+				/* 猜你喜欢 */
+				var like = data.guess_love.length ? data.guess_love : $(".user-liked").hide().parents(".main").find(".comment-main").css("margin-bottom","2.5rem");
+				for(var i in like) {
+					var htmls = '';	
+					var soldStatus = like[i].status;
+					// soldStatus 猜你喜欢商品状态 0：正常销售；1：失效；2：已下架
+					if(soldStatus == 1) {
+						htmls += '<li data-id='+like[i].id+' class="soldOut" data-sold="1"><a class="" onclick="">';
+						htmls += '<div class="white-cover"><i></i></div>';
+					}else {
+						htmls += '<li data-id='+like[i].id+' data-sold="0"><a class="disBlock" onclick="">';
+					}
+					var htmls = '';	
+					htmls += '<li data-id='+like[i].id+'><a class="disBlock" href="http://ds.lingshi.cccwei.com/web.php?&m=Share&a=pro_detail&spu_id='+like[i].id+'">';
+					htmls += '	<div class="img"> ';
+					htmls += '		<img src="./statics/images/guess-bg.png" data-original="'+like[i].img.img_url+'" />';
+					htmls += '	</div>';
+					htmls += '	<div class="nr">';
+					htmls += '		<div class="title">'+like[i].title;		
+					htmls += '		</div>';
+					htmls += '		<div class="price posiR">';
+					// 2015-08-11 by eherry
+					var current_price;
+					var prime_price;
+					if(like[i].price.current.toString().split(".")[1]){
+						if(like[i].price.current.toString().split(".")[1].length == 1) {
+							current_price = like[i].price.current + "0";
+						}else if(like[i].price.current.toString().split(".")[1].length == 2){
+							current_price = like[i].price.current;
+						}
+					}else {
+						current_price = like[i].price.current + ".00";
+					}
+					if(like[i].price.prime.toString().split(".")[1]){
+						if(like[i].price.prime.toString().split(".")[1].length == 1) {
+							prime_price = like[i].price.prime + "0";
+						}else if(like[i].price.prime.toString().split(".")[1].length == 2){
+							prime_price = like[i].price.prime;
+						}
+					}else {
+						prime_price = like[i].price.prime + ".00";
+					}
+					htmls += '			￥'+current_price+'';
+					htmls += '			<span class="mark_price a0a0a0">￥'+prime_price+'</span>';
+					var tagTitle = like[i].tag.title ? htmls += '<span class="stips">'+like[i].tag.title+'</span>' : '';
+					htmls += '<div class="cl"></div>';
+					htmls += '		</div>';
+					htmls += '	</div>';
+					htmls += '</a></li>';
+					var index = i;
+					index % 2 == 1 ? htmls += '<div class="cl"></div>' : "";
+					$(".pro-list ul").append(htmls);
+				}
+				$("img[data-original]").lazyload({
+					"effect" : "fadeIn"
+				});
+			}
+		};
+		init.info();
+		
+		 setTimeout(function(){
+            $.ajax({
+                type : "post",
+                url  : "web.php?m=Share&a=signPackage",
+                data : {
+                    url :location.href.split('#')[0]
+                },
+                dataType : "json",
+                success : function(d){
+                    console.log(d);
+                    wx.config({
+                        debug     : false,
+                        appId     : d.appId,
+                        timestamp : d.timestamp,
+                        nonceStr  : d.nonceStr,
+                        signature : d.signature,
+                        jsApiList : [
+                            'onMenuShareTimeline',
+                            'onMenuShareAppMessage',
+                            'onMenuShareQQ',
+                            'onMenuShareWeibo'
+                        ]
+                    });
+                    wx.ready(function(){
+                        wx.onMenuShareAppMessage(shareData);
+                        wx.onMenuShareTimeline(shareData);
+                        wx.onMenuShareQQ(shareData);
+                        wx.onMenuShareWeibo(shareData);
+                    });
+                }
+            });
+        },10)
+		 
+		 $(".download-banner i").on("click",function(){
+			$(this).parents(".download-banner").hide();
+		 })
+			
+	</script>
+</html>

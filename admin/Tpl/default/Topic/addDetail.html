@@ -1,0 +1,186 @@
+<include file="Public:header" />
+<style>
+			*{
+				margin:0;
+				padding:0;
+			}
+			.fileControl{
+				position:relative;
+				padding:5px;
+			}
+			.vqdTrigger{
+				position:relative;
+				width:60px;
+				height:25px;
+				line-height:25px;
+				text-align:center;
+				border-radius:4px;
+				background:#CC290E;
+				color:#FFF;
+				font-size:12px;
+				border:none;
+				cursor:pointer;
+				outline:none;
+			}
+			.vqdfile{
+				position:absolute;
+				opacity:0;
+			}
+			.fileList li{
+				position:relative;
+				margin-top:5px;
+				height:50px;
+				padding:6px;
+				display:block;
+				border:1px solid #CCC;
+				border-radius:4px;
+			}
+			.fileList li img{
+				float:left;
+				height:50px;
+				display:block;
+			}
+			.fileList li .del{
+				position:absolute;
+				right:5px;
+				top:20px;
+				width:18px;
+				height:18px;
+				line-height:19px;
+				text-align:center;
+				border:1px solid #CCC;
+				border-radius:20px;
+				text-decoration:none;
+				color:#888;
+				font-size:16px;
+			}
+			.uploadSubmit{
+				position:absolute;
+				left:70px;
+				top:5px;
+				z-index:8;
+				width:60px;
+				height:25px;
+				line-height:25px;
+				text-align:center;
+				border-radius:4px;
+				background:#58BC40;
+				color:#FFF;
+				font-size:12px;
+				border:none;
+				cursor:pointer;
+				outline:none;
+				display:none;
+			}
+		</style>
+
+<form action="{:u('Topic/addDetail')}" method="post" name="myform" id="myform" enctype="multipart/form-data" style="margin-top:10px;">
+  <div class="pad-10">
+    <div class="col-tab">
+       <ul class="tabBut cu-li">
+			<li id="tab_setting_2" class="on" onclick="SwapTab('setting','on','',3,2);">增加商品描述</li>
+      </ul>
+	  <div id="div_setting_2" class="contentList pad-10">
+        <table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+		 <tr>
+          	<th>配图（最多两张） :</th>
+            <td>
+				<div id="form1">
+				<div class="fileControl">
+					<input type="button" class="vqdTrigger" value="上传" />
+					<input type="file" class="vqdfile" multiple="multiple" />
+
+				</div>
+				<ul class="fileList"></ul>
+			</div>
+            </td>
+            </tr>
+		<tr><th>文字描述 :</th>
+		<td> <textarea name="desc" id="desc" cols="50" rows="5"></textarea></td>
+		</tr>
+          <tr>
+            <input type="hidden" name="id" id="id" value="{$id}" />
+            <input type="submit" name="dosubmit" id="dosubmit" class="dialog" value="">
+        </table>
+  	  </div>
+    </div>
+  </div>
+</form>
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+<script>
+			(function($) {
+				$.fn.upload = function(options) {
+					var opts = $.extend({}, $.fn.upload.defaults, options);
+					return this.each(function() {
+						var $this = $(this);
+						var o = $.meta ? $.extend({}, opts, $this.data()) : opts;
+						var index = 0;
+						var father = o.self;
+						var del = "#" + o.self + " .del";
+						var trigger = "#" + o.self + " .vqdTrigger";
+						var fileInput = "#" + o.self + " .vqdfile";
+						//event
+						$("body").on("click",del,{m:father},fileDel);
+						$("body").on("change",fileInput,{m:father,f:o.fileName},fileTrigger);
+						$("body").on("click",trigger,{m:father},fileClick);
+					});
+				};
+				function fileClick(e){
+					var self = e.data.m;
+					$("#"+self+" .vqdfile").trigger("click");
+				};
+				function fileTrigger(e){
+					var master = $("#"+e.data.m);
+					var filename = e.data.f;
+					var self = $(this)[0];
+					var myfile = self.files;
+					var myfileLen = myfile.length;
+					var reader = new FileReader();
+					var fileHiddenHtml;
+					var fileHtml = '<input type="file" multiple="multiple" class="vqdfile" />';
+					var replace = function(i){
+						var index = i ? i : 0;
+						var fileListHtml = '';
+						if(index < myfileLen){
+							console.log(index,myfileLen);
+							reader.readAsDataURL(myfile[index]);
+							reader.onload = function(e) {
+								fileHiddenHtml = '<input type="hidden" name="'+filename+'[]" class="fileHidden" data-index="'+index+'" value="'+e.target.result+'" />';
+								fileListHtml += '<li>';
+								fileListHtml += '<img src="'+e.target.result+'" />';
+								fileListHtml += '<a href="javascript:;" class="del" data-id="'+index+'">×</a>';
+								fileListHtml += '</li>';
+								master.find(".fileControl").append(fileHiddenHtml);
+								master.find(".fileList").append(fileListHtml);
+								master.find(".uploadSubmit").show();
+								index++;
+								replace(index);
+							}
+						}else{
+							master.find(".vqdfile").remove();
+							master.find(".fileControl").append(fileHtml);
+							index = 0;
+							console.log("上传成功");
+						}
+					};
+					replace();
+				};
+				function fileDel(e){
+					var master = $("#"+e.data.m),
+						$self = $(this),
+						selfLi = $self.closest("li"),
+						selfIndex = $self.attr("data-id"),
+						liLen = master.find(".fileList li").length;
+
+					liLen <= 1 && master.find(".uploadSubmit").hide();
+					master.find(".fileHidden[data-index="+selfIndex+"]").remove();
+					selfLi.remove();
+				};
+				$.fn.upload.defaults = {
+					self : "",
+					fileName : "file",
+				};
+			})(jQuery);
+			$("#form1").upload({self:"form1"});
+		</script>
+</body></html>

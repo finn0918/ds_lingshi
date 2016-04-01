@@ -1,0 +1,697 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>小喵喊你赢大奖，错过再等一年！</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/jquery.cookie.js"></script>
+<!-- <script type="text/javascript" src="js/index.js"></script> -->
+</head>
+
+<body>
+<section>
+	<h1><img src="images/mainBanner.jpg" alt="别说话抽我这个双11，让我静静的中个奖！" /></h1>
+</section>
+<div id="luckyWrap">
+	<div id="luckyBox">
+	<div class="go"></div>
+	<div class="shareBox"></div>
+	<ul>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<!-- <li>13</li>
+	<li>14</li>
+	<li>15</li>
+	<li>16</li>
+	<li>17</li>
+	<li>18</li>
+	<li>19</li>
+	<li>20</li> -->
+	<!--li的数量至少有8个且必须是4的倍数-->
+	</ul>
+	<span class="cur"></span>
+	</div>
+	</div>
+</div>
+<div class="popBox">
+  	<div class="popCon popInfo">
+  	</div>
+</div>
+<div class="luckyCon">
+	<section>
+		<div class="desBox">
+			<h2><img src="images/luList.jpg" alt="中奖名单" /></h2>
+			<div class="luckyList">
+				<ul class="resultInner">
+				</ul>
+			</div>
+		</div>
+	</section>
+	<section>
+		<div class="desBox activeRule">
+			<h2><img src="images/rule.jpg" alt="活动说明" /></h2>
+			<ul>
+				<li>用户每天3次机会，每天成功分享向好友发出邀请，即可额外获得一次抽奖机会哦！</li>
+				<li>用户必须在登陆状态下才可以抽奖。</li>
+				<li>抽奖次数每天0点自动刷新，不可叠加。</li>
+				<li>除优惠券外，所有奖品将在10个工作日内统一发放。</li>
+				<li>中奖者请如实填写收货信息，如需帮助请及时联络客服。</li>
+			</ul>
+			<p class="des"><span>本活动最终解释权归零食小喵APP所有。</span></p>
+		</div>
+	</section>	
+</div>
+<footer>
+		<p><a href="http://ds.lingshi.cccwei.com/api/Tpl/default/Activity/guide1111.html"><img src="images/fbanner.jpg" alt="劲爆双11" /></a></p>
+</footer>
+<script type="text/javascript">
+(function(doc, window) {
+    var docEl = doc.documentElement,
+    resizeEvt = 'orientationchange' in window ? 'orientationchange': 'resize',
+    recalc = function() {
+        var clientWidth = docEl.clientWidth;
+        if (!clientWidth) return;
+        docEl.style.fontSize = (20 * (clientWidth / 320)) > 40 ? 40 + "px": (20 * (clientWidth / 320)) + 'px';
+    },
+    anime = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame ||
+    function(e) {
+        return setTimeout(e, 16.67);
+    };
+    if (!doc.addEventListener) return;
+    window.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+
+function connectWebViewJavascriptBridge(callback) {
+    if (window.WebViewJavascriptBridge) {
+        callback(WebViewJavascriptBridge)
+    } else {
+        document.addEventListener('WebViewJavascriptBridgeReady',
+        function() {
+            callback(WebViewJavascriptBridge)
+        },
+        false)
+    }
+}
+connectWebViewJavascriptBridge(function(bridge) {
+
+    /* Init your app here */
+
+    // 刚进来就调用
+    bridge.init(function(message, responseCallback) {
+        if (responseCallback) {
+            responseCallback("Right back atcha")
+        }
+    });
+    bridge.send('Please respond to this',
+    function responseCallback(responseData) {
+        console.log("Javascript got its response", responseData)
+    });
+}); 
+
+var browser = {
+  versions: function () {
+      var u = navigator.userAgent, app = navigator.appVersion;
+      return { //移动终端浏览器版本信息 
+          mobile: !!u.match(/AppleWebKit.*Mobile.*/),
+          ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端 
+          android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器 
+          iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器 
+         iPad: u.indexOf('iPad') > -1, //是否iPad]
+         weixin : u.match("MicroMessenger")
+     };
+ }(),
+};
+
+
+function luckyLayout() { //设置抽奖界面排版
+    var li = $('#luckyBox ul li'),
+    li_len = li.length,
+    li_group_num = li_len / 4,
+    btnGo = $('.go'),
+    shareB = $('.shareBox'),
+    luckyBox = $('#luckyBox'),
+    scale = 100 / (li_group_num + 1)-4;
+
+    li.css('width', scale + '%'); //设置每个格子占的百分比
+    var li_w = li.eq(0).width(),
+    liWH = li_w,
+    //li的宽加border
+    leftVal = 0,
+    topVal = 0,
+    space = li_w*0.162; //奖品之间的距离
+    topspace = space;
+
+    /*对奖品布局的设置*/
+    li.css({
+        'line-height': li_w + 'px',
+        'height': li_w,
+        'width': li_w
+    });
+    $(".cur").css({
+        'height': li_w,
+        'width': li_w
+    });
+    for (var i = 0; i < li.length; i++) {
+        if (i < li_group_num) {
+            li.eq(i).css({
+                'left': leftVal,
+                'top': topVal
+            });
+            leftVal += (liWH + space);
+        } else if (i < li_group_num * 2) {
+            li.eq(i).css({
+                'left': leftVal,
+                'top': topVal
+            }); 
+            topVal += (liWH + topspace);
+        } else if (i < li_group_num * 3) {
+            li.eq(i).css({
+                'left': leftVal,
+                'top': topVal
+            }); 
+            leftVal -= (liWH + space);
+        } else if (i < li_group_num * 4) {
+            li.eq(i).css({
+                'left': leftVal,
+                'top': topVal
+            }); 
+            topVal -= (liWH + topspace);
+        }
+    }
+
+    /*对背景luckyBox的设置*/
+    var lkb_w = li_w * (li_group_num + 1) + space * li_group_num;
+    var lkb_h = li_w * (li_group_num + 1) + topspace * li_group_num;
+    luckyBox.css({
+        'width': lkb_w,
+        'height': lkb_h
+    });
+
+    /*对抽奖按钮布局的设置*/
+    var btn_left = li.eq(1).position().left,
+    btn_top = li.eq(li_group_num + 1).position().top,
+    btn_w;
+
+    if (li_group_num <= 2) {
+        btn_w = liWH;
+    } else if (li_group_num % 2 == 0) { //偶数
+        btn_w = (li_group_num - 1) * liWH + (li_group_num - 2) * space;
+    } else {
+        btn_w = (li_group_num - 1) * liWH + (li_group_num - 2) * space;
+    }
+    btnGo.css({
+        'width': btn_w,
+        'height': (btn_w / 2),
+        'line-height': (btn_w / 2) + 'px',
+        'left': btn_left,
+        'top': (btn_top + 10)
+    });
+    shareB.css({
+        'width': btn_w,
+        'height': (btn_w / 2 - 20),
+        'line-height': (btn_w / 2 - 20) + 'px',
+        'left': btn_left,
+        'top': (btn_w + 30)
+    });
+
+}
+
+luckyLayout();
+
+
+var cate = "";
+var authCode = "";
+var hitId = "";
+var addTime = 0;
+var moving = false;
+var startIndex = 0;
+var chance = 3;
+var clearTime = 0;
+var uid = 0;
+var chanceRemained = 0;
+function clearTi(){//获取cookie过期的时间
+    var date = new Date();
+    var hour = date.getHours(); //获取当前小时数(0-23)
+    var minute = date.getMinutes(); //获取当前分钟数(0-59)
+    var seconds = date.getSeconds(); //获取当前秒数(0-59)
+    var millis = date.getMilliseconds(); //获取当前毫秒数(0-999)
+    var expires =( hour * 60 * 60 * 1000) + ( minute * 60 * 1000) + ( seconds * 1000) + millis;//获取当前时间的毫秒数
+    date.setTime(date.getTime() + ((24 * 60 * 60 * 1000) - expires));
+    clearTime = date;
+    return clearTime;
+}
+/*$(".go").click(function(){
+  console.log(clearT());
+});*/
+
+//var addr=0;
+/*---------------------------------以下是对抽奖功能的实现--------------------------------------------*/
+function startLucky(){
+    var speedUpIndex = 3;//前面第三个开始加速
+    var speedDownIndex = 4;//倒数第4个开始减速
+    var minLoopNum = 5;//最小循环数
+    var maxLoopNum = 10;//最大循环数
+    var li = $('#luckyBox ul li');
+    var btnGo = $('.go');
+    var fistSpeed = 300; //初始速度
+    var quickSpeed = 50 ;
+    $(".cur").css("display","none");//刚开始的焦点效果不显示
+    chanceRemained = $.cookie("user" + uid) ? $.cookie("user" + uid) : chance; 
+     if(moving==true){//判断转盘是否在转动是的话，禁止点击按钮
+        $(this).attr("disabled" ,"false");
+        console.log("在转动不能点击");
+        $(".cur").css("display","inline-block");
+        return false;
+     }
+     $(".cur").css("display","inline-block");
+    
+     // 请求中奖结果
+    function luckRom(){
+        $.ajax({
+            type: "GET",
+            url: "/app_miaoturn/lib/lhj.php",
+            dataType : "json",
+            success : function(data){
+               if(data.flag==0){
+                stopIndex=9;
+               }
+               if(data.flag==1){
+                stopIndex=data.cate;
+                cate=data.cate;
+                authCode=data.auth_code;
+                hitId=data.hit_id;
+                //console.log(stopIndex);
+               }
+                
+                mainFun(stopIndex);
+            }
+        });
+    }
+    luckRom();
+    //主要的抽奖程序
+    function mainFun(stopIndex){
+        stopIndex=stopIndex;
+             if(!moving){
+                if($.cookie("user" + uid) <= 0 || chanceRemained <= 0){//该用户的抽奖次数为0时
+                    popStyle(".popBox",'<div class="popText"><div class="twoTime noTime">抽奖次数已用完！<br />分享给好友，<br />可以再抽<span>1次</span>哟！！！<br /><span class="attNote">(每天最多5次机会)</span><form><input type="button" class="submit closeButton tellShare" value="" /></form></div></div><span class="closeBtn"></span>');
+                    return false;
+
+                }
+                else{////该用户的抽奖次数为不为0时，抽奖次数减1
+                     chanceRemained--;
+                }
+                //alert(uid);
+                clearTime = clearTi();//获取cookie过期的时间
+                //alert($.cookie("user" + uid));
+                $.cookie("user" + uid,chanceRemained,{expires: clearTime});//重新设置该用户抽奖次数的
+
+                
+
+                 var clearT, 
+                     j = 0,
+                     total = li.length,
+                     i = startIndex,//抽奖的开始位置
+                     loopNum = minLoopNum + Math.floor(Math.random()*(maxLoopNum-minLoopNum+1)),
+                     //stopIndex = loopNum*total + Math.floor(Math.random()*total)+1;
+                     stopIndexloop = (stopIndex - 1) + loopNum*total;//根据最大圈数和最小圈数再随机转相应的圈数最后停留在中奖结果数字上
+                     //console.log(loopNum);
+                     if(startIndex!==0){
+                        stopIndexloop = (stopIndex - 1) + loopNum*total - startIndex;
+                     }
+                     moving = true;
+                     if(i==12){//如果结束位置在最后一个位置，则设置开始位置在第一个位置
+                        i=0;
+                        startIndex = 0 ;
+                     }
+                     else{
+                        startIndex = stopIndex;//设置抽奖的开始位置从结束位置开始
+                     }
+                     var top=li.eq(i).position().top;
+                     var left=li.eq(i).position().left;
+                     
+                     $(".cur").css({"top" : top,"left" : left});
+
+                     function turn(){
+                            i++;
+                            j++;
+                            if(i >= li.length){i = 0;}
+                            
+                            if(j >= speedUpIndex){//加速
+                                        clearInterval(clearT);
+                                        clearT = setInterval(turn,quickSpeed);
+                            }
+                            
+                            if(j >= (stopIndexloop - speedDownIndex)){//倒数第4个开始减速
+                                    clearInterval(clearT);
+                                  clearT = setInterval(turn,fistSpeed); 
+                            }
+                            
+                            if(j >= stopIndexloop){
+                                    clearInterval(clearT);
+                                    moving = false;
+                                    var stopIn=stopIndex;
+                                    if(stopIn==1||stopIn==6||stopIn==10){
+                                        prizeBox("5元优惠券","getTicket");
+                                    }
+                                    else if(stopIn==2){
+                                        prizeBox("20MB流量","getTicket");
+                                    }
+                                    else if(stopIn==5){
+                                        prizeBox("100MB流量","getTicket");
+                                    }
+                                    else if(stopIn==3||stopIn==7||stopIn==11){
+                                        prizeBox("10元优惠券","getTicket");
+                                    }
+                                    else if(stopIn==4){
+                                        prizeBox("卡乐比薯条","getThing");
+                                    }
+                                    else if(stopIn==8){
+                                        prizeBox("价值11元零食礼包","getThing");
+                                    }
+                                    else if(stopIn==12){
+                                        prizeBox("价值111元零食礼包","getThing");
+                                    }
+                                    else{
+                                        if($.cookie("user" +uid) == 0 || chanceRemained == 0){
+                                            popStyle(".popBox",'<div class="popText"><div class="twoTime noTime">抽奖次数已用完！<br />分享给好友，<br />可以再抽<span>1次</span>哟！！！<br /><span class="attNote">(每天最多5次机会)</span><form><input type="button" class="submit closeButton tellShare" value="" /></form></div></div><span class="closeBtn"></span>');
+                                            
+                                        }
+                                        else if($.cookie("user" +uid) >= 2 || chanceRemained >= 2){
+                                            popStyle(".popBox",'<div class="popText"><div class="twoTime">没中奖！<br />还有 <span>'+chanceRemained+'次</span>机会哟~<br />好运在路上！<br />加油！加油！<form><input type="button" class="submit moreChance" value="" /></form></div></div><span class="closeBtn"></span>');
+                                        }
+                                        else if($.cookie("user" +uid) == 1 || chanceRemained == 1){
+                                            popStyle(".popBox",'<div class="popText"><div class="twoTime lastTime">没中奖！<br />还有 <span>'+chanceRemained+'次</span>机会哟~<br />好运在路上！<br />加油！加油！<form><input type="button" class="submit moreChance" value="" /></form></div></div><span class="closeBtn"></span>');
+                                        }
+                                        
+                                 
+                                    }
+                            }
+                            
+                        //opt.li.removeClass('cur').eq(i).addClass('cur');
+                        var top=li.eq(i).position().top;
+                        var left=li.eq(i).position().left;
+                        $(".cur").css({"top" : top,"left" : left});
+                            
+                    }
+                 
+                 clearT = setInterval(turn,fistSpeed);                
+             }
+    }
+}
+$(".popBox").on("click", ".closeBtn",
+function() { //关闭抽奖结果框
+    $(".popBox").hide();
+});
+$(".popBox").on("click", ".closeButton",
+function() { //关闭抽奖结果框
+    $(".popBox").hide();
+});
+$(".popBox").on("click", ".getTicket",
+function() { //关闭抽奖结果框
+    getBox('<input type="hidden" name="addr"  id="addr" placeholder="请输入您的收货地址" required="required"/>');
+
+});
+$(".popBox").on("click", ".getThing",
+function() { //关闭抽奖结果框
+    getBox('<input type="text" name="addr"  id="addr" placeholder="请输入您的收货地址" required="required"/>');
+});
+$(".popBox").on("click", ".moreChance",
+function() { //最后一搏
+    $(".popBox").hide();
+    startLucky();
+});
+
+//点击提交信息按钮，设置提交信息
+$(".popBox").on("click", ".submitInfo",
+function() {
+    var name = $("#name").val();
+    var tel = $("#tel").val();
+    var telReg = !!tel.match(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/);
+    var addr = "";
+
+    if (name == "" || tel == "") {
+        alert("请认真填写您的信息!");
+        return false;
+    } else if (telReg == false) {
+        alert("请认真填写您的电话号码!");
+        return false;
+    } else if ($("#addr").val() == "") {
+        addr = "address";
+    } else {
+        addr = $("#addr").val();
+    }
+    setInfo(name, tel, addr, cate, authCode, hitId);
+});
+
+function setInfo(name, tel, address, cata, authcode, hitid) {
+    $.ajax({
+        type: "post",
+        url: "/app_miaoturn/lib/lhj_coll.php",
+        dataType: "json",
+        data: {
+            name: name,
+            tel: tel,
+            address: address,
+            cate: cata,
+            auth_code: authcode,
+            hit_id: hitid
+        },
+        success: function(data) {
+            console.log(data);
+            popStyle(".popBox", '<div class="popText"><div class="twoTime info">信息提交成功<br /><span>优惠券实时发放，流量和实物奖品将在活动结束2个工作日内发货，请耐心等待。</span></div></div><span class="closeBtn"></span>');
+
+        }
+    });
+};
+
+function getBox(style) { //填写领取信息框样式
+    var style = style;
+    popStyle(".popBox", '<div class="popText"><h3><img class="imgW" src="images/rs01.png" alt="恭喜您中奖啦， 请配合填写信息！" /></h3><form><input type="text" id="name" name="name" placeholder="请输入您的真实名字" required="required"/><input type="tel" pattern="[0-9]*" id="tel" name="tel" placeholder="请输入您的电话号码" required="required"/>' + style + '<input type="button" class="submit submitInfo" value="" /></form></div><span class="closeBtn"></span><span class="noteBox">请认真填写获奖信息，避免好运跟您擦肩而过！</span>');
+}
+
+function prizeBox(prize, eleBtn) { //中奖弹出框的信息
+    popStyle(".popBox", '<div class="popText"><div class="twoTime info"><h3><img src="images/rs02.png" alt="恭喜您！" /></h3>获得<span class="cYellow">' + prize + '</span><form><input type="button" class="submit ' + eleBtn + '" value="" /></form></div></div><span class="closeBtn"></span>');
+}
+
+function popStyle(obj, con) { //抽奖结果显示
+    $(obj).css("display", "block");
+    $(".popCon").html(con);
+
+}
+
+// 请求排行榜 getRank
+function getRank() {
+    //请求排行榜
+    $.ajax({
+        type: "GET",
+        url: "/app_miaoturn/lib/lhj_ajax_list.php",
+        dataType: "json",
+        success: function(data) {
+            var luckList = "";
+            for (i = 0; i < data.length; i++) {
+                var res = data[i].tel;
+                var obj = res.replace(/(.)(?=[^$])/g, "$1,").split(",");
+                obj[3] = "*";
+                obj[4] = "*";
+                obj[5] = "*";
+                obj[6] = "*";
+                obj = obj.join("");
+                luckList += '<li><div class="item"><span class="tepNum">' + obj + '</span><span class="things">' + data[i].hit + '</span></div></li>';
+            }
+            $(".resultInner").html(luckList);
+            var lHeight=$(".resultInner li").eq(0).height();
+            $(".luckyList").css("height",(lHeight+2)*6);
+        }
+    });
+};
+getRank();
+
+function autoScroll(obj, ul_bz){
+$(obj).find(ul_bz).animate({
+    marginTop : "-28px"
+    },500,function(){
+        $(this).css({marginTop : "0px"}).find("li:first").appendTo(this);
+    });
+}
+setInterval('autoScroll(".luckyList", ".resultInner")',1000);
+
+//获取用户登录成功的状态
+function isLogin(isLogin){
+    if (isLogin == true) {
+        startLucky();
+    }
+}
+//获取用户的uid，初始化页面的情况下的情况下用
+function setValueToH5(userid,type) {
+   // alert(userid+"初始化");
+    if(type == 1){
+        uid = userid;
+    }
+}
+
+//获取用户的uid
+function applicationLogin(userid) {
+    //alert(userid);
+    uid = userid;
+}
+
+function setBtnStatus(id,type){
+ //分享按钮点击，分享成功后cookie加一
+ //uid + 'addTime'记录由分享成功而多加的抽奖次数
+    if(type==5){
+        if($.cookie(uid + 'addTime')<2||$.cookie(uid + 'addTime')== undefined){
+            addTime++;
+            clearTime = clearTi();
+            $.cookie(uid + 'addTime', addTime, {
+                    expires: clearTime
+                });
+            //alert($.cookie(uid + 'addTime')); 
+            //alert(uid); 
+            if($.cookie("user" + uid)){//查看页面是否有存在uid该用户的cookie
+                clearTime = clearTi();
+                chanceRemained++;//存在的话就在该用户上加分享额外追加的次数
+                $.cookie("user" + uid, chanceRemained, {
+                    expires: clearTime
+                });
+            }
+            else{//不存在的话就在初始次数上加分享额外追加的次数
+                chance = 3 + addTime;//抽奖次数
+            }       
+        }      
+    }
+}
+
+/*$(".go").click(function(){
+    startLucky();
+});
+$(".shareBox").click(function(){
+        clearTime = clearTi();
+        chanceRemained++;
+        $.cookie("user" + uid, chanceRemained, {
+            expires: clearTime
+        });
+
+});*/
+
+
+var host = window.location.host;//获取当前域名
+if(browser.versions.android) {
+    //页面加载后就开始判断是否登录
+    $(".go").click(function(){
+        window.bridge.startLottery(0);
+    })
+    $(".shareBox").click(function(){
+        if(uid==0){
+            window.bridge.javascriptJumpAction(15,"登录后才可以分享哦！！！","1","");
+
+        }
+        else{
+            //设置分享
+            var title = "不止50% 吃货狂欢，不玩虚的11.11",
+            desc = "登陆就送211元现金券！感恩有礼，全场满赠！小喵喊你赢大奖，错过了真的再等一年！",
+            imgUrl = "http://" + host + "/app_miaoturn/lucky/images/shareIcon.PNG";
+            window.bridge.setShareInfo(0, desc,title, imgUrl,"http://" + host + "/app_miaoturn/lucky/shareIndex.html",0);
+        }
+     });
+    $(".popBox").on("click", ".tellShare",function() { //关闭抽奖结果框
+        var title = "不止50% 吃货狂欢，不玩虚的11.11",
+        desc = "登陆就送211元现金券！感恩有礼，全场满赠！小喵喊你赢大奖，错过了真的再等一年！",
+        imgUrl = "http://" +  host + "/app_miaoturn/lucky/images/shareIcon.PNG";
+        window.bridge.setShareInfo(0, desc,title, imgUrl,"http://" + host + "/app_miaoturn/lucky/shareIndex.html",0);
+    });
+    //设置title
+     window.bridge.setAppTitle("小喵喊你赢大奖，错过再等一年！");
+    
+
+}else if(browser.versions.iPhone || browser.versions.iPad){
+
+     connectWebViewJavascriptBridge(function(bridge) {
+
+        // Init your app here 
+        // 设置页面标题 == 小喵喊你赢大奖，错过再等一年！
+        bridge.callHandler("setAppTitle",{title : "小喵喊你赢大奖，错过再等一年！"},function(data,responseCallback){})
+
+        // 点击转盘的中间按钮，要开始转盘行动
+        document.querySelector(".go").onclick = function() {
+            bridge.callHandler("onCheckBtnOnTap",
+            function(data, responseCallback) {})
+        }
+        document.querySelector(".shareBox").onclick = function() {
+            if(uid==0){
+                bridge.callHandler("javascriptJumpAction",{
+                    type : 15,
+                    title : "登录后才可以分享哦！！！",
+                    param1 : "1"
+
+                },function(data, responseCallback) {})
+            }
+            else{
+                bridge.callHandler("setShareInfo", {
+                id: 0,
+                desc: "登陆就送211元现金券！感恩有礼，全场满赠！小喵喊你赢大奖，错过了真的再等一年！",
+                title: "不止50% 吃货狂欢，不玩虚的11.11",
+                imgUrl: "http://" + host + "/app_miaoturn/lucky/images/shareIcon.PNG",
+                contentUrl: "http://" + host + "/app_miaoturn/lucky/shareIndex.html",
+                type: 0
+                },function(data,responseCallback){});
+            }
+            
+        }
+        // 点击开始抽奖判断用户是否登录
+        bridge.registerHandler("startLottery",
+        function(data, responseCallback) {
+              // 如果用户已经登录
+              startLucky();
+
+        });
+
+         bridge.registerHandler("applicationLogin",
+        function(data, responseCallback) {
+            //如果登录成功
+            //alert(data.uid);
+            var uid = data.uid;
+            applicationLogin(uid);  
+        });
+
+        bridge.registerHandler("setBtnStatus",
+        function(data, responseCallback) {
+            //alert(data.type);
+            // 如果分享成功
+            var type = data.type;
+            var id = 0;
+            setBtnStatus(id,type);
+
+        });
+        // 点击分享设置分享标题还有分享图片描述
+
+        $(".popBox").on("click", ".tellShare",function(e) { 
+            bridge.callHandler("setShareInfo", {
+                id: 0,
+                desc: "登陆就送211元现金券！感恩有礼，全场满赠！小喵喊你赢大奖，错过了真的再等一年！",
+                title: "不止50% 吃货狂欢，不玩虚的11.11",
+                imgUrl: "http://" + host + "/app_miaoturn/lucky/images/shareIcon.PNG",
+                contentUrl: "http://" + host + "/app_miaoturn/lucky/shareIndex.html",
+                type: 0
+            },function(data,responseCallback){
+                    //log(data);
+                })
+            })
+    });
+}
+
+</script>
+</body>
+</html>

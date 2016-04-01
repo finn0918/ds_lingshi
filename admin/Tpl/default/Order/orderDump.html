@@ -1,0 +1,156 @@
+<include file="Public:header" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/js/calendar/calendar-blue.css"/>
+<script type="text/javascript" src="__ROOT__/statics/js/calendar/calendar.js"></script>
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/admin/css/jquery.datetimepicker.css"/>
+<script type="text/javascript" src="__ROOT__/statics/admin/js/jquery.datetimepicker.js"></script>
+<style>
+.list_item{margin-bottom:20px;border:1px solid #ddd;box-shadow:2px 2px 5px #ddd}
+.list_item .header{position:relative;background-color:#f3f3f3;height:33px;line-height:32px;padding-left:10px;}
+.list_item h3,
+.list_item h4{display:inline-block;*display:block; *float:left;margin-right:10px;border-right:1px solid #ddd;padding-right:10px;}
+.list_item .status img {margin:10px 0;}
+.list_item .op {position:absolute;right:0;border-right:0 none; padding-right:20px;}
+.list_item .op a {margin-left:15px}
+.list_item .content {padding:10px;}
+.list_item .content img {width:60px;text-align:left}
+
+.mutiControl{
+    display:block;
+    height:14px;
+    line-height:14px;
+    padding:10px 0 20px 6px;
+    font-size:14px;
+}
+.inputRadio{
+    float:left;
+    height:14px;
+    display:block;
+}
+.inputRadio.mr8{
+    margin-right:8px;
+}
+.mutiControl .btn{
+    color:#0081c2;
+}
+</style>
+
+<div class="pad-10">
+    <form name="searchform" action="{:u('Order/orderDump')}" method="get" >
+        <table width="100%" cellspacing="0" class="search-form">
+            <tbody>
+            <tr>
+                <td>
+                    <div class="explain-col">
+                        查询时间：
+                        <input type="text" name="time_start" id="time_start" class="date datetimepicker" size="20" value="{$time_start}">
+                        -
+                        <input type="text" name="time_end" id="time_end" class="date datetimepicker" size="20" value="{$time_end}">
+                        &nbsp;&nbsp;订单状态：
+                        <select name="type">
+                            <option value="10" >全部状态</option>
+                            <option value="0" >未付款</option>
+                            <option value="1" >付款</option>
+                            <option value="2" >已发货</option>
+                            <option value="3" >交易成功(待评价)</option>
+                            <option value="4" >交易成功(已评价)</option>
+                            <option value="5" >售后处理中(待审核)</option>
+                            <option value="6" >售后处理中(售后处理中)</option>
+                            <option value="7" >交易关闭</option>
+                            <option value="8" >结算完成</option>
+                        </select>
+ <!--                       <select name="type">
+							<volist name="orderType" id="v">
+							<option value="{$v.key}" <if condition="$v.key eq $status">selected="selected"</if>>{$v['value']}</option>
+							</volist>
+                        </select>
+-->
+                        &nbsp;&nbsp;供应商：
+                        <select name="supplier" id="supplier" style="font-size:15px;">
+                           <!--   <option value="0">--全部供应商--</option>-->
+                            <volist name="suppliers" id="val">
+                                <option value="{$val.suppliers_id}" <if condition="$select_supplier eq $val['suppliers_id']"> selected="true"</if> <if condition="$val['suppliers_id'] gt 0"><else /> class="color"</if>>
+                                {$val.suppliers_name}
+                                </option>
+                            </volist>
+                        </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="hidden" name="m" value="Order" />
+                        <input type="hidden" name="a" value="orderDump" />
+
+                        <input type="submit"  class="button" value="导出为excel" />
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+
+</div>
+<script language="javascript">
+
+    $(function(){
+    $('.datetimepicker').datetimepicker({value:'',step:"30"});
+        $("#checkAll").on("click",function() {
+            var mystatue = $(this).attr("checked");
+            var checkStatus = '';
+            $(".becheck").each(function(i) {
+                checkStatus = $(this).attr("checked");
+                if(mystatue) {
+                    !checkStatus && $(this).attr("checked","checked");
+                } else {
+                    $(this).removeAttr("checked");
+                }
+            })
+        })
+        $(".inputRadio").on("click",function() {
+            var $numBox = $(".checked_num");
+            var totalNum = 0;
+            $(".becheck").each(function(i) {
+                var checkStatus = $(this).attr("checked");
+                checkStatus && totalNum++;
+            })
+            $numBox.text(totalNum);
+        })
+        $(".delete").on("click",function(){
+            var checkStatus = '';
+            var myid = '';
+            var delArr = [];
+            $(".becheck").each(function(i) {
+                checkStatus = $(this).attr("checked");
+                myid = $(this).attr("data-id");
+                if(checkStatus){
+                    delArr.push(myid);
+                }
+            });
+            setTimeout(function(){
+                $.ajax({
+                    type : "post",
+                    url  : "admin.php?&m=Order&a=del",
+                    data : {
+                        did : delArr
+                    },
+                    success : function(d){
+                        if(d.flag) {
+                            alert("删除成功！");
+                        } else {
+                            alert("删除失败");
+                        }
+                    }
+                })
+            },100);
+        })
+    })
+
+function afterSale(orderSn) {
+    var lang_edit = "售后处理";
+    window.top.art.dialog({id:'afterSale'}).close();
+    window.top.art.dialog({title:'售后处理',id:'afterSale',iframe:'?m=Order&a=afterSale&order_sn='+orderSn,width:'700',height:'480'},
+            function(){
+                var d = window.top.art.dialog({id:'afterSale'}).data.iframe;
+                d.document.getElementById('dosubmit').click();
+                return false;
+            }, function(){window.top.art.dialog({id:'afterSale'}).close();});
+}
+
+</script>
+</body>
+</html>

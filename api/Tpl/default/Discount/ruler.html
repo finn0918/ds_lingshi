@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+		<meta name="apple-itunes-app" content="app-id=641895599">
+		<meta name="format-detection" content="telephone=no" searchtype="map">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+	</head>
+	<script>
+		var version = location.href.indexOf("?tdev") > 0 ? (1 + Math.round(Math.random() * 9999 - 1)) : '1.2';
+		document.write('<link href="__ROOT__/statics/css/ruler.css?v='+version+'" rel="stylesheet" type="text/css" />');
+		document.write('<link href="__ROOT__/statics/css/tBase.css?v='+version+'" rel="stylesheet" type="text/css" />');
+		(function(b, c) {
+			var d = b.documentElement,
+				resizeEvt = 'orientationchange' in c ? 'orientationchange' : 'resize',
+				recalc = function() {
+					var a = d.clientWidth;
+					if (!a) return;
+					d.style.fontSize = (20 * (a / 320)) > 40 ? 40 + "px" : (20 * (a / 320)) + 'px'
+				},
+				anime = c.requestAnimationFrame || c.webkitRequestAnimationFrame || c.mozRequestAnimationFrame || c.oRequestAnimationFrame ||
+			function(e) {
+				return setTimeout(e, 16.67)
+			};
+			if (!b.addEventListener) return;
+			c.addEventListener(resizeEvt, recalc, false);
+			b.addEventListener('DOMContentLoaded', recalc, false)
+		})(document, window);
+	</script>
+	<body>
+		<div class="rulerMain">
+			<ul>
+				<li>
+					<div class="questionBox">
+						<div class="query">
+							<i>Q</i>
+							<div class="asktext">	
+								什么是优惠券？
+							</div>
+							<div class="cl"></div>
+						</div>
+						<div class="ask">
+							<i>A</i>
+							<div class="text">	优惠券时零食小喵平台提供给用户专享的优惠措施，下单时可直接抵扣相应的订单金额。
+							</div>
+							<div class="cl"></div>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="questionBox">
+						<div class="query">
+							<i>Q</i>
+							<div class="asktext">	
+								如何获得优惠券？
+							</div>
+							<div class="cl"></div>
+						</div>
+						<div class="ask">
+							<i>A</i>
+							<div class="text">	小喵用户可通过“活动参与，平台推送”等多种形式获得相应金额的优惠券，用于购买支付的减免。
+							</div>
+							<div class="cl"></div>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="questionBox">
+						<div class="query">
+							<i>Q</i>
+							<div class="asktext">	
+								如何使用优惠券？
+							</div>
+							<div class="cl"></div>
+						</div>
+						<div class="ask">
+							<i>A</i>
+							<div class="text">	用户可以在订单结算页面，查看结算详情时，进入“可用券”列表选择一张想使用的优惠券，抵扣相应的金额。
+							</div>
+							<div class="cl"></div>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="questionBox">
+						<div class="query">
+							<i>Q</i>
+							<div class="asktext">	
+								优惠券使用次数？
+							</div>
+							<div class="cl"></div>
+						</div>
+						<div class="ask">
+							<i>A</i>
+							<div class="text">	单笔订单只能使用一张符合条件的优惠券，且每张优惠券只能使用一次，在订单支付成功后该优惠券立即失效。
+							</div>
+							<div class="cl"></div>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="questionBox">
+						<div class="query">
+							<i>Q</i>
+							<div class="asktext">	
+								优惠券使用限制？
+							</div>
+							<div class="cl"></div>
+						</div>
+						<div class="ask">
+							<i>A</i>
+							<div class="text">	
+								优惠券的使用时限和商品购买限额见每张优惠券上的文字描述。
+							</div>
+							<div class="cl"></div>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="questionBox">
+						<div class="query">
+							<i>Q</i>
+							<div class="asktext">	
+								关于申请售后的优惠券？
+							</div>
+							<div class="cl"></div>
+						</div>
+						<div class="ask">
+							<i>A</i>
+							<div class="text">	
+								用户对使用优惠券支付成功后的订单申请售后时，优惠券不会返还给用户。
+							</div>
+							<div class="cl"></div>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</body>
+</html> 

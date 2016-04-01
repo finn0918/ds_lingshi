@@ -1,0 +1,174 @@
+/* 
+ * @charset UTF-8
+ * @author wyh
+ * @version v1.0
+ * @date 2015-01-05 9:43
+ */
+.download-main {
+  background: url(../images/bg.jpg) repeat;
+  width: 100%;
+  height: 100%;
+}
+.download-main .download-listbox {
+  width: 880px;
+  margin: 0 auto;
+  padding-top: 70px;
+  margin-bottom: 75px;
+}
+.download-main .app-pic-list {
+  float: left;
+  display: inline;
+  position: relative;
+  margin-left: 50px;
+}
+.download-main .app-pic-list .app-logo {
+  background: url(../images/app-logo.png) no-repeat;
+  height: 180px;
+  width: 180px;
+  display: inline-block;
+  position: absolute;
+  bottom: 0;
+  left: -90px;
+  z-index: 2;
+}
+.download-main .app-pic-list .app-list-bg {
+  background: url(../images/app-pic-list01.png?1) no-repeat;
+  height: 585px;
+  width: 290px;
+  position: relative;
+}
+.s-name {
+	margin-bottom:66px;
+}
+.download-main .app-pic-list .app-list-bg .scroll-list {
+  width: 226px;
+  margin: 0 auto;
+  position: absolute;
+  height: 407px;
+  overflow: hidden;
+  right: 44px;
+  top: 72px;
+}
+.download-main .app-pic-list .app-list-bg .scroll-list-inset {
+  position: absolute;
+}
+.download-main .app-txt-list {
+  float: left;
+  display: inline;
+  width: 480px;
+  color: #fff;
+  margin-left: 30px;
+}
+.download-main .app-txt-list > i {
+  display: block;
+}
+.download-main .app-txt-list .app-name {
+  background: url(../images/app-icon-unit.png) no-repeat 0 0;
+  width: 380px;
+  height: 70px;
+  margin-top: 42px;
+}
+.download-main .app-txt-list .app-sname {
+  background: url(../images/app-icon-unit.png) no-repeat 0 -75px;
+  width: 300px;
+  height: 50px;
+}
+.download-main .app-txt-list .app-ssname {
+  background: url(../images/app-icon-unit.png) no-repeat 0 -135px;
+  width: 300px;
+  height: 50px;
+  margin-bottom: 70px;
+}
+.download-main .app-txt-list .app-robort {
+  background: url(../images/app-icon-unit.png) no-repeat 0 -223px;
+  width: 30px;
+  height: 30px;
+}
+.download-main .app-txt-list .app-apple {
+  background: url(../images/app-icon-unit.png) no-repeat -33px -224px;
+  width: 30px;
+  height: 31px;
+}
+.download-main .app-txt-list .app-way-txt {
+  background: url(../images/app-icon-unit.png) no-repeat 0 -190px;
+  width: 170px;
+  height: 25px;
+  display: block;
+  margin-bottom: 18px;
+}
+.download-main .app-txt-list .download-btn {
+  text-align: center;
+  display: inline-block;
+  color: #fff;
+  font-family: "Microsoft yahei";
+  font-size: 14px;
+  width: 200px;
+  height: 60px;
+  font-weight: bold;
+  line-height: 60px;
+}
+.download-main .app-txt-list .download-btn > i {
+  display: inline-block;
+  vertical-align: middle;
+}
+.download-main .app-txt-list .download-btn > i.app-no-pub {
+  background: url(../images/app-icon-unit.png) no-repeat -63px -225px;
+  width: 40px;
+  height: 42px;
+  display: inline-block;
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin: 0;
+}
+.download-main .app-txt-list .red_btn {
+  box-shadow: 0 3px #df5458;
+  background: #ff6166;
+}
+.download-main .app-txt-list .gray_btn {
+  box-shadow: 0 3px #0a8bd9;
+  background: #15a1f6;
+}
+.download-main .app-txt-list .app-download-platform {
+  margin-bottom: 55px;
+}
+.download-main .app-txt-list .app-to-attention > a {
+  display: inline-block;
+  width: 45px;
+  height: 45px;
+  margin: 0 4px;
+}
+.download-main .app-txt-list .app-to-attention .w-sina-wb {
+  background: url(../images/app-icon-unit.png) no-repeat 0 -270px;
+}
+.download-main .app-txt-list .app-to-attention .w-tx-wb {
+  background: url(../images/app-icon-unit.png) no-repeat -65px -270px;
+}
+.download-main .app-txt-list .app-to-attention .w-qq-qzone {
+  background: url(../images/app-icon-unit.png) no-repeat -127px -270px;
+}
+.download-main .app-txt-list .app-to-attention .w-qq-wx {
+  background: url(../images/app-icon-unit.png) no-repeat -193px -270px;
+}
+.download-main .download-footer {
+  background: #52c2b4;
+  height: 103px;
+  position: relative;
+}
+.download-main .download-footer .half-circle {
+  background: url(../images/bolang.png) repeat-x;
+  height: 10px;
+  display: inline-block;
+  position: absolute;
+  top: -10px;
+  left: 0;
+  width: 100%;
+}
+.download-main .download-footer .footer-txt {
+  text-align: center;
+  color: #fff;
+  padding-top: 30px;
+  font-family: "Microsoft Yahei";
+  font-weight: 500;
+  font-size: 14px;
+}

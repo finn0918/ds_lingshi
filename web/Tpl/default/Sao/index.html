@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+		<meta name="format-detection" content="telephone=no" searchtype="map">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="360-site-verification" content="188bc9bbbe2e50aaf86c811cf61d5cdb" />
+		<meta name="baidu-site-verification" content="ayLnKZTrby" />
+		<meta name="sogou_site_verification" content="gz86ImwtMQ" />
+		<link href="__ROOT__/statics/css/active.css" rel="stylesheet" type="text/css" />
+		<title>零食小喵扫“喵”大动员</title>
+	</head>
+
+	<body class="joinBody">
+		<div class="banner">
+			<img src="__ROOT__/statics/images/active/1_01.jpg" />
+			<img src="__ROOT__/statics/images/active/1_02.jpg" />
+			<img src="__ROOT__/statics/images/active/1_03.jpg" />
+			<img src="__ROOT__/statics/images/active/1_04.jpg" />
+			<img src="__ROOT__/statics/images/active/1_05.jpg" />
+			<img src="__ROOT__/statics/images/active/1_06.jpg" />
+			<img src="__ROOT__/statics/images/active/1_07.jpg" />
+		</div>
+		<div id="join" style="display: none;" class="bottom bottom-center">
+			<input type="tel" id="mobile" value="" placeholder="输入手机号，领取礼包" maxlength="11" class="text" />
+			<button class="btn doneBtn">确认</button>
+		</div>
+		<div id="get" style="display: none;" class="bottom">
+			<div class="mobile">
+				<span>当期使用手机号：<span id="value"></span></span> <a class="modify" href="javascript:;">修改</a></div>
+			<button class="btn tyGift" onclick="">领取当日礼包</button>
+		</div>
+	</body>
+	<script src="__ROOT__/statics/js/jquery.min.js"></script>
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script>
+		function checkMobile() {
+			var sMobile = $('#mobile').val();
+			var reg = !!sMobile.match(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/);
+			if (reg == false) {
+				showDialog("手机格式有误，请重新输入");
+				return false;
+			}
+		}
+		var init = {
+			getCookie: function(name) {
+				var strCookie = document.cookie;
+				var arrCookie = strCookie.split("; ");
+				for (var i = 0; i < arrCookie.length; i++) {
+					var arr = arrCookie[i].split("=");
+					if (arr[0] == name) return arr[1];
+				}
+				return "";
+			},
+			ajax_all: function() {
+				var ajax_data = {
+					url: 'web.php?m=Sao&a=getMobile',
+					data: {
+						'open_id': init.getCookie("openId")
+					},
+					dataType: 'json',
+					type: 'get',
+					success: function(d) {
+						if (d.flag) {
+							$("#get").show(),
+								$("#value").html(d.mobile);
+						} else {
+							$("#join").show();
+						}
+					}
+				};
+				$.ajax(ajax_data);
+			},
+			setMobile: function() {
+				var ajax_data = {
+					url: 'web.php?m=Sao&a=setMobile',
+					data: {
+						'mobile': parseInt($("#mobile").val())
+					},
+					dataType: 'json',
+					type: 'get',
+					success: function(d) {
+						if (d.flag) {
+							window.location.href = "web.php?m=Sao&a=register&mobile=" + $("#mobile").val();
+						} else {
+							showDialog("该手机已经被注册过，请前往登录");
+							window.location.href = "web.php?m=Sao&a=login&mobile=" + $("#mobile").val();
+						}
+					}
+				};
+				$.ajax(ajax_data);
+			},
+			getToday: function() {
+				var ajax_data = {
+					url: 'web.php?m=Sao&a=checkGift',
+					data: {
+						'is_ajax': 1,
+						'mobile': parseInt($("#value").text())
+					},
+					dataType: 'json',
+					type: 'get',
+					success: function(d) {
+						if (d.flag) {
+							window.location.href = "web.php?m=Sao&a=prize&mobile=" + $("#value").text();
+						} else {
+							showDialog(d.message);
+						}
+					}
+				};
+				$.ajax(ajax_data);
+			}
+		}
+
+		function ajax_share() {
+			//读取配置
+			$.ajax({
+				type: "post",
+				url: "web.php?m=Sao&a=signPackage",
+				data: {
+					url: location.href.split('#')[0]
+				},
+				dataType: "json",
+				success: function(d) {
+					//					showDialog(JSON.stringify(d));
+					wx.config({
+						debug: false,
+						appId: d.appId,
+						timestamp: d.timestamp,
+						nonceStr: d.nonceStr,
+						signature: d.signature,
+						jsApiList: [
+							'onMenuShareTimeline',
+							'onMenuShareAppMessage'
+						]
+					});
+					wx.ready(function() {
+						var gurl = window.location.origin + '/web.php?m=Sao&a=index';
+						var title = '天天扫不断粮   送20元代金券';
+						var descript = '微信扫描零食小喵二维码，送馋嘴代金券最高20元，还有喵语祝福哦！天天扫天天送！';
+						var img_url = window.location.origin + '/statics/images/active/icon_share.jpg';
+						//分享给朋友
+						wx.onMenuShareAppMessage({
+							title: title,
+							desc: descript,
+							link: gurl,
+							imgUrl: img_url,
+							type: 'link',
+							dataUrl: '',
+							success: function() {},
+							cancel: function() {}
+						});
+						//分享到朋友圈
+						wx.onMenuShareTimeline({
+							title: descript,
+							link: gurl,
+							imgUrl: img_url,
+							success: function() {},
+							cancel: function() {}
+						});
+					});
+				}
+			});
+		}
+
+		function showDialog(msg) {
+			if ($('.dialog').length == 0) {
+				var bg = document.createElement('div');
+				bg.classList.add('bg');
+				document.body.appendChild(bg);
+				var picket = document.createElement('div');
+				picket.classList.add('dialog');
+				picket.innerHTML = '<p>' + msg + '</p>' + '<a href="javascript:;" class="enter">确认</a>';
+				document.body.appendChild(picket);
+				$('.bg,.enter').on('click', function() {
+					$('.bg,.dialog').hide();
+					$(document.body).css({
+						"overflow-y": "auto"
+					});
+				});
+			}
+			$('.dialog p').html(msg);
+			var height = document.body.scrollHeight;
+			$(".bg").height(height);
+			$(document.body).css({
+				"overflow-y": "hidden"
+			});
+			$(".dialog,.bg").fadeIn();
+		}
+		
+		$(function() {
+			init.ajax_all();
+			setTimeout(function() {
+				ajax_share();
+			}, 10);
+		});
+		$("#get").on("click", ".modify", function() {
+			$("#join").show(), $("#get").hide();
+		})
+		$("#join").on("click", ".doneBtn", function() {
+			var sMobile = $('#mobile').val();
+			var reg = !!sMobile.match(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/);
+			if (reg == false) {
+				showDialog("手机格式有误，请重新输入");
+				return false;
+			} else {
+				init.setMobile();
+			}
+		})
+		$("#get").on("click", ".tyGift", function() {
+			init.getToday();
+		})
+	</script>
+
+</html>

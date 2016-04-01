@@ -1,0 +1,105 @@
+<include file="Public:header" />
+<script language="javascript" type="text/javascript" src="__ROOT__/statics/js/jquery/jquery.article_cate.js"></script>
+<div class="pad-lr-10" >
+    <form name="searchform" action="" method="get" >
+    <input type="hidden" name="m" value="cate" />
+    <input type="hidden" name="a" value="brand_index" />
+    <table width="100%" cellspacing="0" class="search-form">
+        <tbody>
+            <tr>
+            <td>
+            <div class="explain-col">
+            	关键词 :
+            	<input type="text" name="keyword" class="input-text" value='{$keyword}' />
+                <input type="submit" name="search" class="button" value="搜索" />
+        	</div>
+            </td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+    <form id="myform" name="myform" action="{:u('Cate/del')}" method="post" onsubmit="return check();">
+    <div class="table-list">
+        <div class="content-menu ib-a blue line-x">
+    	<a class="add fb" href="{:u('cate/brand_add')}"><em>添加品牌</em></a>
+    	</div>
+    <table width="100%" cellspacing="0" class="tb_rec">
+        <thead>
+            <tr>
+              	<th width="50">编号</th>
+                <th width="100">品牌名称</th>
+              	<th width="100">品牌缩略图</th>
+                <th>关联分类</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+    	<tbody>
+        <volist name="brand" id='val'>
+        <tr>
+            <td align="center"><em style="color:green;">{$val.key}</em></td>
+			<td align="center">{$val.name}</td>
+			<td align="center"><img width="60" src="{$val.image_src}" /></td>
+            <td align="center">{$val.cates}</td>
+            <td align="center" width='200'>
+            	<a class="blueBtn" href="javascript:edit_brand({$val.id},'{$val.name}',0)">{$Think.lang.edit}</a>
+            	<a class="blueBtn" href="javascript:del_cate({$val.id})">删除</a>
+            	<!--  <a class="blueBtn" href="?m=cate&a=publish&id={$val.id}">立即发布</a>-->
+            </td>
+        </tr>
+        </volist>
+    	</tbody>
+    </table>
+	<div class="btn"><div id="pages">{$page}</div>
+    </div>
+    </form>
+
+</div>
+<script type="text/javascript">
+function edit(id, name) {
+	var lang_edit = "{$Think.lang.edit}";
+	window.top.art.dialog({id:'edit'}).close();
+	window.top.art.dialog({title:lang_edit+'--'+name,id:'edit',iframe:'/admin.php?m=Cate&a=edit&id='+id,width:'500',height:'420'}, function(){var d = window.top.art.dialog({id:'edit'}).data.iframe;d.document.getElementById('dosubmit').click();return false;}, function(){window.top.art.dialog({id:'edit'}).close()});
+}
+function themeEdit(id, name) {
+	var lang_edit = "模版{$Think.lang.edit}";
+	window.top.art.dialog({id:'edit'}).close();
+	window.top.art.dialog({title:lang_edit+'--'+name,id:'edit',iframe:'/admin.php?m=Cate&a=themeEdit&id='+id,width:'800',height:'450'}, function(){var d = window.top.art.dialog({id:'edit'}).data.iframe;d.document.getElementById('dosubmit').click();return false;}, function(){window.top.art.dialog({id:'edit'}).close()});
+}
+
+function hlEdit(id, name) {
+	var lang_edit = "首页{$Think.lang.edit}";
+	window.top.art.dialog({id:'edit'}).close();
+	window.top.art.dialog({title:lang_edit+'--'+name,id:'edit',iframe:'/admin.php?m=Cate&a=hledit&id='+id,width:'800',height:'450'}, function(){var d = window.top.art.dialog({id:'edit'}).data.iframe;d.document.getElementById('J_form').submit();return false;}, function(){window.top.art.dialog({id:'edit'}).close()});
+}
+
+var lang_cate_name = "{$Think.lang.article_cate_name}";
+function check(){
+	if($("#myform").attr('action') != '{:u("Cate/sort")}') {
+		var ids='';
+		$("input[name='id[]']:checked").each(function(i, n){
+			ids += $(n).val() + ',';
+		});
+
+		if(ids=='') {
+			window.top.art.dialog({content:lang_please_select+'要删除的分类',lock:true,width:'200',height:'50',time:1.5},function(){});
+			return false;
+		}
+	}
+	return true;
+}
+function del_cate(id) { //删除分类
+        if (confirm("确认要删除品牌？这个操作会删除品牌并且取消所有商品和这个品牌的关联")) {
+
+			window.location="{:u('Cate/del_brand','id=')}"+id;
+        }
+    }
+
+function edit_brand(id, name,cate) {
+    var lang_edit = "{$Think.lang.edit}";
+    window.top.art.dialog({id:'edit_brand'}).close();
+    window.top.art.dialog({title:lang_edit+'--'+name,id:'edit_brand',iframe:'?m=Cate&a=edit_brand&id='+id+'&cate='+cate,width:'500',height:'480'}, function(){var d = window.top.art.dialog({id:'edit_brand'}).data.iframe;d.document.getElementById('dosubmit').click();return false;}, function(){window.top.art.dialog({id:'edit_brand'}).close()});
+
+}
+</script>
+</body>
+</html>

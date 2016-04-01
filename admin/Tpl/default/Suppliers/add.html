@@ -1,0 +1,102 @@
+<include file="Public:header" />
+<form action="{:u('Suppliers/add')}" method="post" name="myform" onsubmit="return submitOnce(this)" id="myform" enctype="multipart/form-data" style="margin-top:10px;">
+  <div class="pad-10">
+    <div class="col-tab">
+       <ul class="tabBut cu-li">
+			<li id="tab_setting_1" class="on" onclick="SwapTab('setting','on','',3,1);">新增供应商信息</li>
+      </ul>
+      <div id="div_setting_1" class="contentList pad-10">
+        <table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+
+          <tbody id="item_body">
+          <tr>
+            <th width="100">供应商 :</th>
+            <td><input type="text" name="supplier" id="supplier" class="input-text" size="30"></td>
+          </tr>
+          <tr>
+              <th width="100">店铺名称 :</th>
+              <td><input type="text" name="name" id="name" class="input-text" size="30"><span style="color: red">最多只能11个字</span></td>
+          </tr>
+		  <tr>
+          	<th>供应商联系电话 :</th>
+            <td><input type="text" name="phone" id="phone" class="input-text" size="20"></td>
+          </tr>
+          <tr>
+            <th width="100">发货地址 :</th>
+            <td><input type="text" name="address" id="address" class="input-text" size="50"></td>
+          </tr>
+          <tr>
+            <th width="100">收款账号 :</th>
+            <td><select name='bank' id='bank'>
+                <option value="">--银行选择--</option>
+                <volist name="bank" id="val">
+                <option value="{$val.k}">{$val.v}</option>
+                </volist>
+                </select>
+            <input type="text" name="bankNum" id="bankNum" class="input-text" size="40" placeholder="卡号"></td>
+          </tr>
+          <tr>
+           <th>
+            <input type="submit" onclick="return checkSubmit()" value="确认提交" name="dosubmit" class="button" id="dosubmit"></div>
+    		</th>
+    		</tr>
+          </table>
+		</div>
+
+  </div>
+  <script type="text/javascript">
+      function submitOnce() {
+          var name = document.getElementById("name").value;
+          if(name.length>11){
+              alert("店铺名称不能多于11个字哦");
+              return false;
+          }
+          return true;
+      }
+$(function(){
+
+
+		    $.formValidator.initConfig({
+		        formid:"myform",
+		        autotip:true,
+		        onerror:function(msg,obj){
+		            window.top.art.dialog({
+		                content:msg,
+		                lock:true,
+		                width:'250',
+		                height:'50'}, function(){
+		                    this.close();$(obj).focus();
+		                    submitone =false;
+		                    })}});
+
+		    $("#supplier").formValidator({
+		        onshow:"输入供应商名称，不能为空",
+		        onfocus:"不能为空"
+		        }).inputValidator({
+		            min:1,
+		            onerror:"请填写供应商名称"
+		            });
+		    $("#phone").formValidator({
+		        onshow:"输入供应商电话，不能为空",
+		        onfocus:"不能为空"
+		        }).inputValidator({
+		            min:1,
+		            onerror:"请填写供应商电话"
+		            });
+		    $("#address").formValidator({
+		        onshow:"输入供应商地址，不能为空",
+		        onfocus:"不能为空"
+		        }).inputValidator({
+		            min:1,
+		            onerror:"请填写供应商地址"
+		            });
+		    $("#bankNum").formValidator({
+		        onshow:"输入供应商卡号，不能为空",
+		        onfocus:"不能为空"
+		        }).inputValidator({
+		            min:1,
+		            onerror:"请填写供应商银行卡号"
+		            });
+		})
+</script>
+</body></html>

@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+		<meta name="format-detection" content="telephone=no" searchtype="map">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="360-site-verification" content="188bc9bbbe2e50aaf86c811cf61d5cdb" />
+		<meta name="baidu-site-verification" content="ayLnKZTrby" />
+		<meta name="sogou_site_verification" content="gz86ImwtMQ"/>
+		<title>11.11主会场</title>
+		<script>
+			var version = location.href.indexOf("?tdev") > 0 ? (1 + Math.round(Math.random() * 9999 - 1)) : '1.2';
+			document.write('<link href="/statics/css/1111themes.css?v='+version+'" rel="stylesheet" type="text/css" />');
+			document.write('<link href="/statics/css/tBase.css?v='+version+'" rel="stylesheet" type="text/css" />');
+			(function(b, c) {
+				var d = b.documentElement,
+					resizeEvt = 'orientationchange' in c ? 'orientationchange' : 'resize',
+					recalc = function() {
+						var a = d.clientWidth
+						if (!a) return;
+						d.style.fontSize = (20 * (a / 320)) > 40 ? 40 + "px" : (20 * (a / 320)) + 'px'
+					},
+					anime = c.requestAnimationFrame || c.webkitRequestAnimationFrame || c.mozRequestAnimationFrame || c.oRequestAnimationFrame ||
+				function(e) {
+					return setTimeout(e, 16.67)
+				};
+				if (!b.addEventListener) return;
+				c.addEventListener(resizeEvt, recalc, false);
+				b.addEventListener('DOMContentLoaded', recalc, false)
+			})(document, window);
+			function connectWebViewJavascriptBridge(callback) {
+			    if (window.WebViewJavascriptBridge) {
+			        callback(WebViewJavascriptBridge)
+			    } else {
+			        document.addEventListener('WebViewJavascriptBridgeReady',
+			        function() {
+			            callback(WebViewJavascriptBridge)
+			        },
+			        false)
+			    }
+			}
+			connectWebViewJavascriptBridge(function(bridge) {
+
+			    /* Init your app here */
+
+			    // 刚进来就调用
+			    bridge.init(function(message, responseCallback) {
+			        if (responseCallback) {
+			            responseCallback("Right back atcha")
+			        }
+			    });
+			    bridge.send('Please respond to this',
+			    function responseCallback(responseData) {
+			        console.log("Javascript got its response", responseData)
+			    });
+			}); 
+
+			var browser = {
+			  versions: function () {
+			      var u = navigator.userAgent, app = navigator.appVersion;
+			      return { //移动终端浏览器版本信息 
+			          mobile: !!u.match(/AppleWebKit.*Mobile.*/),
+			          ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端 
+			          android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器 
+			          iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器 
+			         iPad: u.indexOf('iPad') > -1, //是否iPad]
+			         weixin : u.match("MicroMessenger")
+			     };
+			 }(),
+			};
+		</script>
+	</head>
+	<body>
+		<div class="mainHost">
+			<div class="headBanner1">
+				<!-- banner区域 -->
+				<div class="headerBanner">
+					<img src="/statics/images/1111themes/mainBanner01.jpg" />
+					<img src="/statics/images/1111themes/mainBanner02.jpg" />
+					<img src="/statics/images/1111themes/mainBanner03.jpg" />
+					<img src="/statics/images/1111themes/mainBanner04.jpg" />
+					<img src="/statics/images/1111themes/mainBanner05.jpg" />
+					<img src="/statics/images/1111themes/mainBanner06.jpg" />
+					<img src="/statics/images/1111themes/mainBanner07.jpg" />
+					<img src="/statics/images/1111themes/mainBanner08.jpg" />
+				</div>
+				<!-- 限时抢购 -->
+				<div class="Timebox">
+					<img src="/statics/images/1111themes/mainBanner09.jpg" title="TimeboxBanner" />
+					<!-- 一分钱秒杀 -->
+					<div class="TimeboxWrapper">
+						<div class="tabs">
+							<ul>
+								<li class="current">10:00<span>未开始</span></li>
+								<li>15:00<span>未开始</span></li>
+								<li>20:00<span>未开始</span></li>
+								<div class="cl"></div>
+							</ul>
+						</div>
+						<div class="TimeboxStart">
+							<div class="ten listbox">
+								<ul>
+									<li>
+										<i></i>
+										<img src="" />
+										<p class="proname"></p>
+										<p class="oldprice"></p>
+										<a href="javascript:;" class="msBtn grayBtn">0.01元秒杀</a>
+									</li>
+									<li>
+										<i></i>
+										<img src="" />
+										<p class="proname"></p>
+										<p class="oldprice"></p>
+										<a href="javascript:;" class="msBtn grayBtn">0.01元秒杀</a>
+									</li>
+									<div class="cl"></div>
+								</ul>
+							</div>
+							<div class="thirty listbox disn">
+								<ul>
+									<li>
+										<i></i>
+										<img src="" />
+										<p class="proname"></p>
+										<p class="oldprice"></p>
+										<a href="javascript:;" class="msBtn grayBtn">0.01元秒杀</a>
+									</li>
+									<li>
+										<i></i>
+										<img src="" />
+										<p class="proname"></p>
+										<p class="oldprice"></p>
+										<a href="javascript:;" class="msBtn grayBtn">0.01元秒杀</a>
+									</li>
+									<div class="cl"></div>
+								</ul>
+							</div>
+							<div class="eighty disn listbox">
+								<ul>
+									<li>
+										<i></i>
+										<img src="" />
+										<p class="proname"></p>
+										<p class="oldprice"></p>
+										<a href="javascript:;" class="msBtn grayBtn">0.01元秒杀</a>
+									</li>
+									<li>
+										<i></i>
+										<img src="" />
+										<p class="proname"></p>
+										<p class="oldprice"></p>
+										<a href="javascript:;" class="msBtn grayBtn">0.01元秒杀</a>
+									</li>
+									<div class="cl"></div>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="headBanner2">
+				<!-- banner区域 -->
+				<div class="headerBanner">
+					<img src="/statics/images/1111themes/mainFan01.jpg" />
+					<img src="/statics/images/1111themes/mainFan02.jpg" />
+					<img src="/statics/images/1111themes/mainFan03.jpg" />
+					<img src="/statics/images/1111themes/mainFan04.jpg" />
+					<img src="/statics/images/1111themes/mainFan05.jpg" />
+					<img src="/statics/images/1111themes/mainFan06.jpg" />
+					<img src="/statics/images/1111themes/mainFan07.jpg" />
+				</div>
+			</div>
+
+			<!-- 今日抄底价 -->
+			<div class="ThemesBigBox">
+				<img src="/statics/images/1111themes/mainBanner10.jpg" title="ThemesboxBanner" class="BannerTitle"/>
+				<div class="ThemesBanner">
+				</div>
+			</div>
+			<!-- 商品列表1 -->
+			<div class="proList">
+				<img src="/statics/images/1111themes/mainBanner11.jpg" class="BannerTitle" />
+				<ul class="gmPro clearFix">
+				</ul>
+			</div>
+			<!-- 商品列表2 -->
+			<div class="proList">
+				<img src="/statics/images/1111themes/mainBanner12.jpg" class="BannerTitle" />
+				<ul class="wlPro clearFix">
+				</ul>
+			</div>
+			<!-- 商品列表3 -->
+			<div class="proList">
+				<img src="/statics/images/1111themes/mainBanner13.jpg" class="BannerTitle" />
+				<ul class="wrPro clearFix">
+				</ul>
+			</div>
+			<!-- 商品列表4 -->
+			<div class="proList">
+				<img src="/statics/images/1111themes/mainBanner14.jpg" class="BannerTitle" />
+				<ul class="czPro clearFix">
+				</ul>
+			</div>
+			<i class="toTop"></i>
+		</div>
+		<!-- 主题会场 -->
+		<div class="ThemesBox">
+			<img src="/statics/images/1111themes/mainBanner22.jpg" title="ThemesboxBanner" />
+			<div class="ThemesItem">
+				<a href="javascript:;" class="otherThemes_link" pros-status="0" data-id="44" pro-type="1"><img src="/statics/images/1111themes/mainBanner15.jpg" title="ThemesboxBanner" /></a>
+				<a href="javascript:;" class="otherThemes_link" pros-status="0" data-id="39" pro-type="2"><img src="/statics/images/1111themes/mainBanner16.jpg" title="ThemesboxBanner" /></a>
+				<a href="javascript:;" class="otherThemes_link" pros-status="0" data-id="41" pro-type="3"><img src="/statics/images/1111themes/mainBanner17.jpg" title="ThemesboxBanner" /></a>
+				<a href="javascript:;" class="otherThemes_link" pros-status="0" data-id="32" pro-type="4"><img src="/statics/images/1111themes/mainBanner18.jpg" title="ThemesboxBanner" /></a>
+				<a href="javascript:;" class="otherThemes_link" pros-status="0" data-id="40" pro-type="5"><img src="/statics/images/1111themes/mainBanner19.jpg" title="ThemesboxBanner" /></a>
+				<a href="javascript:;" class="jumpH5"><img src="/statics/images/1111themes/mainBanner20.jpg" title="ThemesboxBanner" /></a>
+			</div>
+		</div>
+		<a href="javascript:;" class="bBanner"><img data-original="/statics/images/1111themes/mainBanner21.jpg"/></a>
+	</body>
+	
+	<script src="http://img1.static.feibo.com/double11/jquery-1.8.0.min.js"></script>
+	<script src="http://img1.static.feibo.com/double11/jquery.lazyload.js"></script>
+		
+	<script>
+		
+		$(".tabs ul li").on("click",function(){
+			var index = $(this).index();
+			var $list = $(".TimeboxStart").children("div.listbox");
+			$(this).addClass("current").siblings().removeClass("current");
+			$list.eq(index).show().siblings("div.listbox").hide();
+		})
+		var $win = $(window),$doc = $(document);
+		
+		var init = {
+			aFuc : function(){
+				var c = function(data){
+					var d = data.data, kbPro = "", proL = "", k = d.list['口碑爆款'], gm = d.list['国民小食'], gmLenght = gm.length, wl = d.list['味蕾旅行'], wlLenght = wl.length, wr = d.list['无肉不欢'], wrLenght = wr.length, cz = d.list['超值精选'], czLenght = cz.length;
+
+					if(d.isDouble11 == true){//11号零点后将banner图进行替换
+						$(".headBanner2").show().siblings(".headBanner1").hide();
+					}
+
+					//口碑爆款信息加载
+					for(i = 0;i<k.length;i++){
+						kbPro += '<a href="javascript:void(0)" class="themes_link"><img data-original="' + k[i].image_src + '" /></a>' 
+					}
+					$(".ThemesBanner").html(kbPro);
+
+					//商品列表信息加载
+					var proList = function(obj,data,dLenghth,proL){
+						for(i = 0;i<dLenghth;i++){
+							if(data[i].title==""||data[i].title==null||data[i].title==" "){
+								data[i].title = "该商品暂无标题";
+							}
+							if(data[i].desc==""||data[i].desc==null||data[i].desc==" "){
+								data[i].desc = "该商品暂无描述";
+							}
+							proL += '<li><i></i><a href="javascript:;" class="themes_link"><div class="img"><div class="imgBox"><img data-original="' + data[i].image_src + '" /></div><div class="imgTitle"><span class="bigTitle">' + data[i].title + '</span><span class="smallTitle">' + data[i].desc + '</span></div></div><div class="priceBox clearFix"><div class="priceFl priceFlBox"><span class="current_price"><span class="market_price">¥</span>' + data[i].price + '</span></div><span class="themes_link nowBtn" title="now"></span></div></a></li>';	
+						}
+						obj.html(proL); 
+					}
+					proList($('.gmPro'),gm,gmLenght,proL);
+					proList($('.wlPro'),wl,wlLenght,proL);
+					proList($('.wrPro'),wr,wrLenght,proL);
+					proList($('.czPro'),cz,czLenght,proL);
+
+					$("img[data-original]").lazyload({
+						"effect" : "fadeIn"
+					});
+
+					var w=$(".TimeboxStart ul li img").width();
+					var w2=$(".imgBox img").width();
+					var w3=$(".priceBox .nowBtn").width();
+					$(".TimeboxStart ul li img").css("height",w);
+					$(".imgBox").css("height",w2);
+					$(".priceBox .nowBtn").css("height",w3/(1.3))
+
+					var o = d.list['秒杀'];
+					var ten = o.ten,fif = o.fifteenth, twe = o.twenty;
+					var $p = $(".listbox");
+					var pbMs = function(a,t){//设置一分钱秒杀区商品状态，加上对应的商品状态和商品id
+						for(var i in a){
+							$p.eq(t).find("ul").children("li").eq(i).attr("data-id",a[i].spu_id).attr("pro-status",a[i].status);
+						 	$p.eq(t).find("ul").children("li").eq(i).find("img").attr("src",a[i].image_src);
+						 	$p.eq(t).find("ul").children("li").eq(i).find(".proname").html(a[i].title);
+						 	$p.eq(t).find("ul").children("li").eq(i).find(".oldprice").html("￥" + a[i].price);
+						}
+					};
+					var setStatus = function(a,t){//设置一分钱秒杀区商品状态，加上对应的售空样式
+						for(var i in a){
+							var status = a[i].status;
+							// 类型：0，正常状态；1,已售空
+							switch(status) {
+								case 0 : $p.eq(t).find("ul").children("li").eq(i).find(".msBtn").attr("class","msBtn normalBtn"); break;
+								case 1 : $p.eq(t).find("ul").children("li").eq(i).addClass("out");break;
+ 							}
+						}
+					};
+					pbMs(ten,0),pbMs(fif,1),pbMs(twe,2);
+
+					/* mid */
+					for(var i in k) {//给口碑爆款商品加上商品id和商品状态
+						$(".ThemesBanner").children("a").eq(i).attr("data-id",k[i].spu_id).attr("pros-status",k[i].status);
+					}
+					var proMs = function(a,t){//商品状态判断，加上对应的售空样式
+						for(var i in a) {
+							var status = a[i].status;
+							// 类型：0，正常状态；1,已售空;
+							switch(status) {
+								case 0 : ''; break;
+								case 1 : $(".proList:eq("+t+") ul").children("li").eq(i).addClass("out");break;
+							}
+							$(".proList:eq("+t+") ul").children("li").find("a").eq(i).attr("data-id",a[i].spu_id).attr("pros-status",a[i].status);
+						}
+					}
+					/* 商品状态判断，加上对应的售空样式方法调用 */
+					proMs(gm,0),proMs(wl,1),proMs(wr,2),proMs(cz,3);
+					
+					var t = d.now,t1 = d.ten, t2 = d.fifteenth, t3 = d.twenty;
+					/*主会场判断*/
+					var start = function(tt){
+						// 0 不可点
+						$(".listbox").eq(tt).show().siblings(".listbox").hide(),
+						//$(".listbox:eq("+tt+")").attr("data-status",1).siblings().attr("data-status",0),
+						$(".listbox:eq("+tt+")").children("li").find(".msBtn").attr("class","msBtn grayBtn"),
+						$(".tabs ul").find("li").eq(tt).addClass("current").siblings().removeClass("current");
+						
+						var cfunc = function(num,a){
+							$(".listbox ul").eq(num).children("li").each(function(i){
+								var status = $(this).attr("pro-status");
+								if(status == 1) {//如果状态为售空，则加入数组
+									a.push(i);
+								}
+								if(a.length == 2) {//如果两样秒杀的商品都售空了，则将状态改为已结束
+									$(".tabs ul").children("li").eq(num).find("span").html("已结束");
+									$(".listbox:eq("+num+")").attr("data-status",0);
+								}else {
+									$(".tabs ul").children("li").eq(num).find("span").html("进行中");
+									$(".listbox:eq("+num+")").attr("data-status",1);
+								}
+							})
+						};
+						
+						if(tt == 0) {
+							var array = [];
+							cfunc(tt,array);
+							$(".tabs ul").find("li").not(".current").find("span").html("未开始");
+						}else if(tt == 1) {
+							var array = [],array1 = [];
+							cfunc(tt-1,array);
+							cfunc(tt,array1);
+							$(".listbox").eq(t+1).children("li").find("span").html("未开始");
+						}else if(tt == 2) {
+							var array = [],array1 = [],array2 = [];
+							cfunc(tt-2,array);
+							cfunc(tt-1,array1);
+							cfunc(tt,array2);
+						}
+					};
+
+					// 10:00 未开始
+					if(t < t1) {
+						$(".tabs ul").find("li").find("span").html("未开始");
+						$(".tabs ul").find("li").eq(0).addClass("current"),
+						$(".listbox ul").eq(0).show();
+						$(".listbox").attr("data-status",0);
+					// 10:00 场
+					}else if(t < t2) {
+						setStatus(ten,0);
+						start(0);
+					// 15:00 场
+					}else if(t < t3){
+						setStatus(ten,0);
+						setStatus(fif,1);
+						start(1);
+					// 20:00 场				
+					}else {
+						setStatus(ten,0);
+						setStatus(fif,1);
+						setStatus(twe,2);
+						start(2);
+					}
+					
+
+					var host = window.location.host;//获取当前域名
+					var changeUrl = "http://s.click.taobao.com/zQEVtkx";
+					if(d.isDouble10 == true){//判断时间是否在11月10号凌晨，是的话，分会场链接修改为双十一主会场
+						changeUrl = "http://s.click.taobao.com/WrxxNkx";
+					}
+					if(browser.versions.android) {
+						$(".listbox ul li").on("click",function(){
+						// 在进行中，而且在没有售空的状态下可跳转商品详情
+							var data = $(this).parents(".listbox").attr("data-status");
+							if(data == 1){
+								var status = $(this).attr("pro-status");
+								if(status == 0) {
+									var id = parseInt($(this).attr("data-id"));
+									//alert(id);
+									window.bridge.javascriptJumpAction(16,"",id,"");
+								}
+							}
+						});
+						$(".themes_link").on("click",function(){
+							// 在进行中，而且在没有售空的状态下可跳转商品详情
+							var status = $(this).attr("pros-status");
+							if(status == 0) {
+								var id = parseInt($(this).attr("data-id"));
+								//alert(id);
+								window.bridge.javascriptJumpAction(16,"",id,"");
+							}
+						});
+						$(".otherThemes_link").on("click",function(){
+							// 在进行中，而且在没有售空的状态下可跳转商品详情
+							var status = $(this).attr("pros-status");
+							if(status == 0) {
+								var id = parseInt($(this).attr("data-id"));
+								var typeStr = $(this).attr("pro-type");
+								if(typeStr==1){
+									typeStr = "进口零食";
+								}
+								if(typeStr==2){
+									typeStr = "无肉不欢";
+								}
+								if(typeStr==3){
+									typeStr = "甜蜜风暴";
+								}
+								if(typeStr==4){
+									typeStr = "坚果狂欢";
+								}
+								if(typeStr==5){
+									typeStr = "国民小食";
+								}
+								window.bridge.javascriptJumpAction(4,typeStr,id,"");
+							}
+						});
+						$(".jumpH5").on("click",function(){
+								window.bridge.javascriptJumpAction(1,"淘宝分会场",changeUrl,"");
+						});
+						$(".bBanner").on("click",function(){
+								window.bridge.javascriptJumpAction(1,"N元任意购","http://ds.lingshi.cccwei.com/api/Tpl/default/Doublele/index.html","");
+						});
+						//设置title
+    					 window.bridge.setAppTitle("11.11主会场");
+					}else if(browser.versions.iPhone || browser.versions.iPad){
+
+					     connectWebViewJavascriptBridge(function(bridge) {
+					     	$(".listbox ul li").on("click",function(){
+							// 在进行中，而且在没有售空的状态下可跳转商品详情
+								var data = $(this).parents(".listbox").attr("data-status");
+								if(data == 1){
+									var status = $(this).attr("pro-status");
+									if(status == 0) {
+										var id = parseInt($(this).attr("data-id"));
+										//alert(id);
+										bridge.callHandler("javascriptJumpAction",{
+					                    type : 16,
+					                    title : "",
+					                    param1 : id
+
+					                },function(data, responseCallback) {})
+									}
+								}
+							});
+							
+							$(".themes_link").on("click",function(){
+								// 在进行中，而且在没有售空的状态下可跳转商品详情
+								var status = $(this).attr("pros-status");
+								if(status == 0) {
+									var id = parseInt($(this).attr("data-id"));
+									bridge.callHandler("javascriptJumpAction",{
+					                    type : 16,
+					                    title : "",
+					                    param1 : id
+
+					                },function(data, responseCallback) {})
+								}
+							});
+
+							$(".otherThemes_link").on("click",function(){
+								// 在进行中，而且在没有售空的状态下可跳转商品详情
+								var status = $(this).attr("pros-status");
+								if(status == 0) {
+									var id = parseInt($(this).attr("data-id"));
+									var typeStr = $(this).attr("pro-type");
+									if(typeStr==1){
+										typeStr = "进口零食";
+									}
+									if(typeStr==2){
+										typeStr = "无肉不欢";
+									}
+									if(typeStr==3){
+										typeStr = "甜蜜风暴";
+									}
+									if(typeStr==4){
+										typeStr = "坚果狂欢";
+									}
+									if(typeStr==5){
+										typeStr = "国民小食";
+									}
+									bridge.callHandler("javascriptJumpAction",{
+					                    type : 4,
+					                    title : typeStr,
+					                    param1 : id
+
+					                },function(data, responseCallback) {})
+								}
+							});
+							$(".jumpH5").on("click",function(){
+								bridge.callHandler("javascriptJumpAction",{
+				                    type : 1,
+				                    title : "淘宝分会场",
+				                    param1 : changeUrl
+
+				                },function(data, responseCallback) {})
+							});
+							$(".bBanner").on("click",function(){
+								bridge.callHandler("javascriptJumpAction",{
+				                    type : 1,
+				                    title : "N元任意购",
+				                    param1 : "http://ds.lingshi.cccwei.com/api/Tpl/default/Doublele/index.html"
+
+				                },function(data, responseCallback) {})
+							});
+							//设置title
+							bridge.callHandler("setAppTitle",{title : "11.11主会场"},function(data,responseCallback){})
+
+					    });
+					}
+
+
+				};
+				var e = function(d){//输出错误信息
+					console.log(d);
+				};
+
+				var url = "/api.php?apptype=0&srv=2218&cid=10002&uid=0&tms=20150721190147&sig=8c35f5a024148111&wssig=308efe4382a088e0&os_type=3&version=13";
+
+				var d = {
+					url : url, 
+					dataType : "json",
+					type : "get",
+					success : c,
+					error : e
+				};
+				$.ajax(d);
+			}
+
+		}
+		init.aFuc();
+
+		$win.on("scroll",function(){
+			var t = $win.scrollTop();
+			t > 1000 ? $(".toTop").show().addClass("rotateIn") : $(".toTop").hide();
+		})
+		$(".toTop").on("click",function(){
+			$('body,html').animate({ scrollTop: 0 }, 800),
+			$(this).hide();
+		})
+	</script>
+</html>

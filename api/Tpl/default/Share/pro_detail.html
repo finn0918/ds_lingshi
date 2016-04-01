@@ -1,0 +1,265 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+		<meta name="apple-itunes-app" content="app-id=641895599">
+		<meta name="format-detection" content="telephone=no" searchtype="map">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="360-site-verification" content="188bc9bbbe2e50aaf86c811cf61d5cdb" />
+		<meta name="baidu-site-verification" content="ayLnKZTrby" />
+		<meta name="sogou_site_verification" content="gz86ImwtMQ"/>
+		<title>商品详情页</title>
+		<style>.main .fl-title {min-height:0}</style>
+		<script>
+			var version = location.href.indexOf("?tdev") > 0 ? (1 + Math.round(Math.random() * 9999 - 1)) : '1.2';
+			document.write('<link href="statics/css/index.css?v='+version+'" rel="stylesheet" type="text/css" />');
+			document.write('<link href="statics/css/tBase.css?v='+version+'" rel="stylesheet" type="text/css" />');
+			document.write('<link href="statics/css/swiper.min.css?v='+version+'" rel="stylesheet" type="text/css" />');
+			(function(b, c) {
+				var d = b.documentElement,
+					resizeEvt = 'orientationchange' in c ? 'orientationchange' : 'resize',
+					recalc = function() {
+						var a = d.clientWidth
+						if (!a) return;
+						d.style.fontSize = (20 * (a / 320)) > 40 ? 40 + "px" : (20 * (a / 320)) + 'px'
+					},
+					anime = c.requestAnimationFrame || c.webkitRequestAnimationFrame || c.mozRequestAnimationFrame || c.oRequestAnimationFrame ||
+				function(e) {
+					return setTimeout(e, 16.67)
+				};
+				if (!b.addEventListener) return;
+				c.addEventListener(resizeEvt, recalc, false);
+				b.addEventListener('DOMContentLoaded', recalc, false)
+			})(document, window);
+		</script>
+		<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	</head>
+	<body>
+		<div class="main">
+			<!-- silder 轮播图-->
+			<!--<div class="slider-main posiR">
+				<div class="swiper-slider swiper-container">
+					<div class="swiper-wrapper">
+					</div><!-- /.swiper-slider 
+				</div>
+			</div>-->
+			<div class="swiper-container" style="height:16rem">
+				<div class="swiper-wrapper">
+				</div>
+				<div class="swiper-span">
+					<span id="active-num">&nbsp;</span>/<span id="all-num">&nbsp;</span>
+				</div>
+			</div>
+			
+			<!-- header 商品标题-->
+			<div class="detail-header">
+				<div class="detail-header-title">
+					<div class="title">
+						<div class="fl-title">
+						</div>
+						<!--<i class="br-right"></i>
+						<div class="fr-title fl">
+							<i></i>收藏
+						</div>
+						<div class="cl"></div>-->
+					</div>
+					<div class="price-ui-icon">
+						<p>
+							<a class="price-current red_txt">&yen;<em></em>.<i></i></a>
+							<div class="dis_icon fl">
+								<!--<span class="discount red_bg">3.4折</span>
+								<span class="free-post blue_bg">包邮</span>
+								<span class="authentication green_bg">认证</span>
+								<span class="userControl green_bg">买一送一</span>
+								<span class="userControl green_bg">认证</span> -->
+							</div>
+							<div class="cl"></div>
+						</p>
+						<div class="discount-percent a0a0a0 posiR">
+							<span class="market-price">超市价：<a>&yen;<i></i></a></span>
+							<div class="sold-num">
+								<span class="has-solded">已售<a></a>件</span>
+								<span class="only-store-num">仅剩<a class="red_txt"></a>件</span>
+							</div>
+							<div class="cl"></div>
+						</div>
+					</div>
+				</div>
+				<div class="count-down">
+					<p>
+						<i class="clock"></i>
+						<span class="count-down-time">倒计时<i>999</i>天<i>999</i>小时<i>999</i>分<i>999</i>秒</span>
+					</p>
+				</div>
+			</div><!-- /.detail-header -->
+			
+			<!-- imgbox 长图图片 -->
+			<div class="img-wrap">
+				<div class="img-box">
+					<!--<img src="" data-original="statics/images/pro_01.jpg"/> -->
+					<!--<img src="" data-original="statics/images/pro_02.jpg"/> -->
+					<!--<img src="" data-original="statics/images/pro_03.jpg"/> -->
+				</div>
+			</div><!-- /.img-wrap -->
+			
+			<!-- info -->
+			<div class="info-table">
+				<div class="info-header">
+					<i class="red_bg line"></i><span>美味信息</span>
+				</div>
+				<div class="info-box">
+					<div class="info-msg">
+					</div>
+				</div>
+			</div>
+			
+			<!-- comment 评论列表-->
+			<div class="comment-main">
+				<div class="comment-wrap-outside">
+					<div class="comment-list">
+						<div class="info-header">
+							<i class="line red_bg"></i><span>喵亲口碑(<a class="Cnum"></a>)</span>
+						</div>
+						<ul>
+							<!--<li>
+								<div class="comment-wrap">
+									<div class="comment-user">
+										<span class="img"><img src="statics/images/user.png" /></span>
+										<span class="user-name">小沫abc</span>
+									</div>
+									<div class="comment-txt">
+										第一次点到试吃 非常惊喜，味道还不错就是独立包装是封口袋有点寒碜 降低了档次，有的陷都流出来了 ，东西是很新鲜的 ，总体还不错！
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="comment-wrap">
+									<div class="comment-user">
+										<span class="img"><img src="statics/images/user.png" /></span>
+										<span class="user-name">小沫abc</span>
+									</div>
+									<div class="comment-txt">
+										第一次点到试吃 非常惊喜，味道还不错就是独立包装是封口袋有点寒碜 降低了档次，有的陷都流出来了 ，东西是很新鲜的 ，总体还不错！
+									</div>
+								</div>
+							</li>-->
+						</ul>
+						<a class="comment-more" href="javascript:;">
+							<i class="more-icon"></i>
+							<span>查看更多评价</span>
+						</a>
+					</div>
+				</div><!--/.comment-wrap -->
+			</div><!--/.comment-main -->
+			
+			<!-- you like 猜你喜欢 -->
+			<div class="user-liked">
+				<div class="info-header">
+					<i class="line red_bg"></i><span>猜你喜欢</span>
+				</div>
+				<div class="pro-list">
+					<ul>
+						<!--<li>
+							<a href="http://www.baidu.com">
+								<div class="img">
+									<img src="" data-original="statics/images/list_01.jpg" />
+								</div>
+								<div class="nr">
+									<div class="title">
+										顺丰包邮费列罗巧克力礼盒装意大利进口金非公开房间刚开放
+									</div>
+									<div class="price">
+										<span class="current_price red_txt">&yen;75.00</span>
+										<span class="mark_price a0a0a0">&yen;75.00</span>
+									</div>
+								</div>
+							</a>
+						</li>
+						<li>
+							<div class="img">
+								<img src="" data-original="statics/images/list_01.jpg" />
+							</div>
+							<div class="nr">
+								<div class="title">
+									顺丰包邮费列罗巧克力礼盒装意大利进口金非公开房间刚开放
+								</div>
+								<div class="price">
+									<span class="current_price red_txt">&yen;75.00</span>
+									<span class="mark_price a0a0a0">&yen;75.00</span>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="img">
+								<img src="" data-original="statics/images/list_01.jpg" />
+							</div>
+							<div class="nr">
+								<div class="title">
+									顺丰包邮费列罗巧克力礼盒装意大利进口金非公开房间刚开放
+								</div>
+								<div class="price">
+									<span class="current_price red_txt">&yen;75.00</span>
+									<span class="mark_price a0a0a0">&yen;75.00</span>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="img">
+								<img src="" data-original="statics/images/list_01.jpg" />
+							</div>
+							<div class="nr">
+								<div class="title">
+									顺丰包邮费列罗巧克力礼盒装意大利进口金非公开房间刚开放
+								</div>
+								<div class="price">
+									<span class="current_price red_txt">&yen;75.00</span>
+									<span class="mark_price a0a0a0">&yen;75.00</span>
+								</div>
+							</div>
+						</li>-->
+					</ul>
+				</div>
+			</div><!-- /.you liked -->
+			
+			<div class="download-banner">
+				<img src="../../../statics/images/down-icon.png" />
+				<a href="javascript:;" class="download-btn"></a>
+				<i onclick=""></i>
+			</div>
+			
+			<!-- cart-box 购物车按钮-->
+			<!--<div class="cart-box">
+				<div class="cart-market">
+					<a href="javascript:;" class="cart-icon"><i><em class="cart-num red_bg"></em></i></a>
+					<a href="javascript:;" class="add_cart red_bg">加入购物车</a>
+					<div class="cl"></div>
+				</div>
+			</div>-->
+		</div>
+	</body>
+	
+	<script src="sea-modules/seajs/seajs/2.2.0/sea.js"></script>
+		
+	<script>
+		
+		 // Set configuration
+		 seajs.config({
+			base: "sea-modules/",
+			alias: {
+			  "jquery": "sea-modules/jquery/jquery/1.10.1/jquery.js"
+			}
+		 });
+		 // For development
+		 if (location.href.indexOf("?dev") > 0) {
+			seajs.use("/statics/js/main");
+		 }
+		 // For production
+		 else {
+			seajs.use("/statics/js/main");
+		 }
+			
+	</script>
+</html>

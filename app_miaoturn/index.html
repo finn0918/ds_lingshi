@@ -1,0 +1,580 @@
+﻿<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta name='apple-itunes-app' content='app-id=973356324'> 
+		<title>幸运大转盘</title>
+		<link href="statics/css/common.css?v=1.3" rel="stylesheet" type="text/css" />
+		<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	</head>
+	<body>
+		<div class="cover_bg">
+			<i></i>
+		</div>
+		<div class="formBox">
+			<img src="statics/images/reaf.png" class="reaf" />
+			<img src="statics/images/text_congratulations.png" class="formTitle" />
+			<div class="innerBox"></div>
+			请认真填写获奖信息，避免好运跟您擦肩而过！
+		</div>
+		<div class="noticeBox">
+			<a href="javascript:;" class="btn-close"></a>
+			<div class="textplan"></div>
+			<input type="button" class="btn-flybox" />
+		</div>
+		<div class="shadow"></div>
+		<div class="share"></div>
+		<div class="container">
+			<img src="http://img1.static.feibo.com/ls_917/images/zhuanpan/reaf.png?2" class="reaf" />
+			<img src="http://img1.static.feibo.com/ls_917/images/zhuanpan/title.png?4" class="pagetitle" />
+			<div class="turntableBox">
+				<a href="javascript:;" class="turntableArrow" ></a>
+				<img src="http://img1.static.feibo.com/ls_917/images/zhuanpan/turntableInner.png?13" class="turntableBG" />
+			</div>
+			<p class="num" style="visibility:hidden;">您有3次抽奖机会</p>
+			<!--<div class="rubbit"><img src="http://img1.static.feibo.com/ls_917/images/zhuanpan/icon_rubbit.png?1" class="icon-rubbit"></div>
+			<a href="help.html" class="publicBtn">抽奖规则</a>-->
+			<a href="javascript:;" class="publicBtn shareBox"></a>
+			<div class="result"><div class="resultInner">中奖号码公告</div></div>
+			<img src="http://img1.static.feibo.com/ls_917/images/zhuanpan/stitle.png" class="stitle"/>
+			<div class="proList">
+				<ul>
+					<li>
+						<a href="javascript:;" class="appDetailLink" data-id="6339">
+							<p>
+								<img src="http://img1.static.feibo.com/ls_917/images/zhuanpan/1.jpg" />
+							</p>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:;" class="appDetailLink" data-id="6340">
+							<p>
+								<img src="http://img1.static.feibo.com/ls_917/images/zhuanpan/2.jpg" />
+							</p>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:;" class="appDetailLink" data-id="6352">
+							<p>
+								<img src="http://img1.static.feibo.com/ls_917/images/zhuanpan/3.jpg" />
+							</p>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:;" class="appDetailLink" data-id="6157">
+							<p>
+								<img src="http://img1.static.feibo.com/ls_917/images/zhuanpan/4.jpg" />
+							</p>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:;" class="appDetailLink" data-id="6707">
+							<p>
+								<img src="http://img1.static.feibo.com/ls_917/images/zhuanpan/5.jpg" />
+							</p>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:;" class="appDetailLink" data-id="5433">
+							<p>
+								<img src="http://img1.static.feibo.com/ls_917/images/zhuanpan/6.jpg" />
+							</p>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:;" class="appDetailLink" data-id="6343">
+							<p>
+								<img src="http://img1.static.feibo.com/ls_917/images/zhuanpan/7.jpg" />
+							</p>
+						</a>
+					</li>
+				</ul>
+			</div>
+			<img src="http://img1.static.feibo.com/ls_917/images/zhuanpan/feibologo.png" class="feibologo" />
+		</div>
+	</body>
+	
+	<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>	
+	<script src="statics/qx/js/wx.js"></script>
+	<script>
+	
+	// base
+	/*** cookie ***/
+	function cookie(name, value, options) {
+        if (typeof value != "undefined") {
+            options = options || {};
+            if (value === null) {
+                value = "";
+                options.expires = -1
+            }
+            var expires = "";
+            if (options.expires && (typeof options.expires == "number" || options.expires.toUTCString)) {
+                var date;
+                if (typeof options.expires == "number") {
+                    date = new Date();
+                    date.setTime(date.getTime() + (options.expires * 24 * 60 * 60 * 1000))
+                } else {
+                    date = options.expires
+                }
+                expires = "; expires=" + date.toUTCString()
+            }
+            var path = options.path ? "; path=" + options.path : "";
+            var domain = options.domain ? "; domain=" + options.domain : "";
+            var secure = options.secure ? "; secure" : "";
+            document.cookie = [name, "=", encodeURIComponent(value), expires, path, domain, secure].join("")
+        } else {
+            var cookieValue = null;
+            var len = parseInt(name.length + 1);
+            if (document.cookie && document.cookie != "") {
+                var cookies = document.cookie.split(";");
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].replace(/(^\s+|\s+$)/g, "");
+                    if (cookie.substring(0, len) == (name + "=")) {
+                        cookieValue = decodeURIComponent(cookie.substring(len));
+                        break
+                    }
+                }
+            }
+            return cookieValue
+        }
+    };
+	/*** random ***/
+	function getRandom(e, t){
+		if (!t) {
+			var n = e;
+			if (!n || n < 0) {
+				n = 0
+			}
+			return Math.round(Math.random() * n)
+		}
+		return Math.round(Math.random() * (t - e) + e)
+	};
+	/*** version ***/
+	function versions(){
+		var u = navigator.userAgent,
+			app = navigator.appVersion;
+		return {
+			//移动终端浏览器版本信息
+			trident: u.indexOf('Trident') > -1, //IE内核
+			presto: u.indexOf('Presto') > -1, //opera内核
+			webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+			gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+			mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+			ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+			android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器
+			iPhone: u.indexOf('iPhone') > -1 , //是否为iPhone或者QQHD浏览器
+			iPad: u.indexOf('iPad') > -1, //是否iPad
+			webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
+		};
+	};
+	/*** getItem ***/
+	function getItem(key) {
+        if (localStorage) {
+            return localStorage.getItem(key)
+        } else {
+            return cookie(key)
+        }
+    };
+	/*** setItem ***/
+	function setItem(key, val) {
+        if (localStorage) {
+            if (!val) {
+                localStorage.removeItem(key)
+            } else {
+                localStorage.setItem(key, val)
+            }
+        } else {
+            cookie(key, val)
+        }
+    };
+	// ===== end base.js
+	
+	// raffle
+	var appKey = '';
+	var limit = true;               //是否有限制
+	var limit_count = 999;           //剩余的次数
+	var limit_time = 3600;           //次数多久刷新一次（cookie超时时间）
+	var resData = '';
+	
+	var extra = 0;                   //当前已使用的 额外次数
+	var maxExtra = 1;                //最多可使用的 额外次数
+	
+	// 判断浏览器类型
+	var browser = {
+		versions:function(){
+			var u = navigator.userAgent, app = navigator.appVersion;
+			return {
+				mobile: !!u.match(/AppleWebKit.*Mobile.*/),
+				ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),
+				android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1,
+				iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器 
+				iPad: u.indexOf('iPad') > -1, //是否iPad]
+				weixin : u.match("MicroMessenger")
+			};
+		}(),
+		language:(navigator.browserLanguage || navigator.language).toLowerCase()
+	};
+	//初始化，配置 init
+	function init(keyName,limits,count,times){
+		appKey = keyName;
+		limit = limits;
+		limit_count = count;
+		limit_time = times;
+		var checkCookie = cookie(appKey);
+		//将次数记录cookie
+		var exp = {"expires":1};
+		!checkCookie && cookie(appKey,limit_count,exp);
+	};
+	//检测抽奖次数 getLimit
+	function getLimit(){
+		//从cookie中获取当前次数
+		//num == 0 =》 switchs == false;
+		var count = cookie(appKey) ? cookie(appKey) : 0;
+		var onoff = count > 0 ? true : false;
+		var data = {
+			num     : count,              //剩余次数
+			switchs : onoff               //是否还能抽
+		}
+		return data;
+	};
+	// 请求排行榜 getRank
+	function getRank(callback){
+		//请求排行榜
+		$.ajax({
+			type: "GET",
+			url: "lib/lhj_ajax_list.php",
+			dataType : "json",
+			success : callback
+		});
+	};
+	//增加额外次数的操作
+	function setExtra(){
+		var extraKey = appKey + "extra";
+		var extraNow = cookie(extraKey);
+		if(extraNow > 0){
+			extra -- ;
+			limit_count ++;
+			//记录cookie
+			cookie(appKey,limit_count,{"expires":1});
+			cookie(extraKey,extra,{"expires":1});
+		}
+		return limit_count;
+	};
+	//获取cookie
+	function getCookie(name) { 
+		var arr,reg = new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+		if(arr = document.cookie.match(reg)) {
+			return unescape(arr[2]);
+		} else {
+			return null; 
+		}
+	};
+	//请求抽奖结果
+	function setRequest(conf,done,err){
+		//conf   配置信息
+		//done   成功回调
+		//err    错误回调
+		var checkCookie = cookie(appKey);
+		var ajaxCallback = function(data){
+			resData = data;
+			checkCookie --;
+			cookie(appKey,checkCookie,{"expires":1});
+			done(data,checkCookie,{"expires":1});
+		};
+		if(checkCookie > 0){
+			$.ajax({
+				type: "undefined" == typeof conf.postType ? "GET" : conf.postType,
+				url: conf.url,
+				data:conf.datas,
+				dataType : "json",
+				success : ajaxCallback,
+				error : err
+			});
+		}else{
+			if(!browser.versions.weixin){
+				alert("抽奖次数已用完");
+			}else {
+				var share = getCookie("share")?getCookie("share"):'';
+				if(!share){
+					$(".cover_bg").show();
+				}
+			}
+		}
+	};
+	// 中奖表单
+	function creatForm(){
+		var formHtml = '';
+		formHtml += '<input type="text" class="ptext" id="'+appKey+'name" placeholder="请输入您的名字" />';
+		formHtml += '<input type="tel" pattern="[0-9]*" class="ptext" id="'+appKey+'tel" placeholder="请输入您的电话号码" />';
+		formHtml += '<input type="text" class="ptext" id="'+appKey+'address" placeholder="请输入您的收货地址" />';
+		formHtml += '<input type="text" class="ptext" id="'+appKey+'mail" placeholder="请输入您的电子邮箱" />';
+		formHtml += '<input type="button" class="psubmit" id="'+appKey+'submit" value="提交信息" />';
+		return formHtml;
+	};
+	//收集用户信息(表单提交)
+	function collectUserInfo(urls,suc,err){
+		//urls 请求地址
+		//suc  成功回调
+		//err  错误回调
+		var telVal = $("#" + appKey + "tel").val(),
+			nameVal = $("#" + appKey + "name").val(),
+			addressVal = $("#" + appKey + "address").val(),
+			emailVal = $("#" + appKey + "mail").val();
+		
+		if(telVal == '' || nameVal == '' || addressVal == '' || emailVal == ''){
+			alert("请认真填写您的信息!");
+			return false;
+		}
+		
+		var formdata = {
+			hit_id : resData.hit_id,
+			auth_code : resData.auth_code,
+			tel : telVal,
+			name : nameVal,
+			address : addressVal,
+			mail : emailVal
+		};
+		$.ajax({
+			type: "POST",
+			url: "lib/lhj_coll.php",
+			dataType : "json",
+			data : formdata,
+			success : suc,
+			error : err
+		});
+		return false;
+	};
+	// 抽奖请求错误
+	function errFun(){
+		alert("Requset Error!");
+	}
+	
+	$(".cover_bg").on("click",function(){	
+		$(this).hide();
+	})
+	
+	
+	var holdLottery = true;
+	function setCollectInfo(){
+		var innerHtml = creatForm();
+		$(".innerBox").html(innerHtml);
+		$(".formBox").show();
+		hideFlybox();
+	};
+	function noticebox(flag,text){
+		var $box = $(".noticeBox"),
+			$shadow = $(".shadow"),
+			boxCenter = ($(window).width() - 257) / 2,
+			btnClass = flag == 1 ? "btn-flybox get" : (flag == 2 ? "btn-flybox hide" : "btn-flybox again"),
+			textPlanClass = flag == 1 ? "textplan get" : (flag == 2 ? "textplan normal" : "textplan again");
+		$box.find(".btn-flybox").attr("class",btnClass);
+		$box.find(".textplan").attr("class",textPlanClass).html(text);
+		$box.css("left",boxCenter+"px").show();
+		// $shadow.show();
+	};
+	function setGetit(res,num){
+		//res 请求成功的返回值
+		//num 剩余抽奖次数
+		
+		//清除连续点击限制
+		setTimeout(function(){
+			holdLottery = true;
+		},3200);
+		
+		var giftName = '',
+			giftCate = 'number' == typeof res.cate ? res.cate : parseInt(res.cate),
+			flag = res.flag;
+		var id_id = res.hit_id;
+		var expp  = {"expires":1};// 设置1天过期
+		var afterAnimate = function(){
+			var $num = $(".num");
+			var noticeText = '';        //提示框内容
+			var picDir = 'http://img1.static.feibo.com/ls_917/images/zhuanpan/'
+			var giftInfo = [
+				{giftPic:"",giftName:""},
+				{giftPic:picDir+"bigGift.png",giftName:"199元大礼包"},
+				{giftPic:picDir+"250g.png",giftName:"200M流量"},
+				{giftPic:picDir+"80g.png",giftName:"100M流量"},
+				{giftPic:picDir+"5s.png",giftName:"50M流量"},
+				{giftPic:picDir+"3s.png",giftName:"20M流量"}
+			];
+
+			if(flag == 1){
+				cookie("id_d",id_id,expp);
+				//中奖
+				$(".btn-close").hide();
+				noticeText += '<p>恭喜你！</p>';
+				noticeText += '<p>获得 <span class="giftCate">'+giftCate+'</span> 等奖！</p>';
+				noticeText += '<p><img src="'+giftInfo[giftCate].giftPic+'" class="giftPic" /></p>';
+				noticeText += '<p>'+giftInfo[giftCate].giftName+'</p>';
+			}else if(flag == 0){
+				noticeText += '没中奖！<br/>';
+				noticeText += '差一点点就中奖了！<br/>';
+				
+				if (num==0) {
+					noticeText += '分享给好友，明天<br/>还有3次机会';
+					
+				}else{
+					noticeText += '还有'+num+'次机会哟~<br/>';
+					noticeText += '加油！加油！';
+				}
+				
+			}else{
+				alert("返回值错误");
+			}
+			noticebox(flag,noticeText);
+			if (num==0) {
+				$(".btn-flybox.again").addClass("over");
+			}
+			
+			$num.text("您有"+num+"次抽奖机会");
+			num <= 0 && setShareNotice();
+		};
+		var lotteryAnimate = function(){
+			var $tbg = $(".turntableBG"),
+				nowRotate = parseInt($tbg.attr("data-tran")) || 0;
+			//计算转动角度
+			var a = nowRotate,										
+				b = 1800,
+				c = b * Math.round(a/b) - a,
+				less = 60*(giftCate-1) + giftCate-(giftCate-1),
+				max = less + 58;
+				nowRotate += 1800 - (giftCate == 0 ? getRandom(max,less) : getRandom(less,max)) + c;
+			//执行
+			$(".turntableBG").css({"transform":"rotate("+nowRotate+"deg)","-webkit-transform":"rotate("+nowRotate+"deg)"}).attr("data-tran",nowRotate);
+			//动画执行后回调
+			setTimeout(afterAnimate,3200);
+		};
+		lotteryAnimate();
+	}
+	function setShareNotice(){
+		// var $shareNotice = $(".share");
+		// $shareNotice.show();
+		// $shareNotice.on("click",function(){
+		// 	$shareNotice.hide();
+		// });
+	}
+	function setError(){
+		alert("Request Error!");
+	}
+	function hideFlybox(){
+		var $noticeBox = $(".noticeBox"), 
+			$shadow = $(".shadow");
+		$noticeBox.hide();
+		$shadow.hide();
+	};
+	function doLottery(){
+		if(holdLottery){
+			holdLottery = false;
+			// 补充
+			var id_d = cookie("id_d");
+			var confData = {
+				postType : "POST",
+				datas:{id_d:id_d},
+				url : "lib/lhj.php"
+			}	
+			setRequest(confData,setGetit,setError);
+		}
+	};
+	function submitForm(){
+		collectUserInfo("",submitDone,setError);
+	};
+	function submitDone(data){
+		$(".btn-close").show();
+		var noticeText = '';
+		if(data.flag == 1){
+			noticeText += '<strong>信息提交成功！</strong><br/>';
+			noticeText += '请耐心等待我们客服与您核实！';
+			$(".formBox").hide();
+			noticebox(2,noticeText);
+		}
+	};
+	function fillTheRank(data){
+		var rankHtml = '', runnerTime = 0, runnerTop = 0;
+		//自动播放
+		var rankRunner = function(){
+				var runnerLen = $(".resultInner p").length;
+				if(runnerTime >= runnerLen-1){
+					runnerTime = 0;
+					runnerTop = 0;
+				}else{
+					runnerTop += 30;
+					runnerTime++;
+				}
+				$(".resultInner").css("top","-"+runnerTop+"px");
+			},
+			rankJoin = function(){
+				var rank_tel = '';
+
+				//遍历结果，输出
+				for(var i in data){
+					rank_tel =data[i].tel;//新增
+	
+					rank_tel = rank_tel.replace(data[i].tel.substring(3,7),"****");//修改
+				
+					rankHtml += '<p>' + rank_tel + ' 获得'+ (parseInt(data[i].hit) == 5 ? ("幸运奖</p>") :(data[i].hit+'等奖</p>'));
+				}
+				$(".resultInner").html(rankHtml);
+			};
+		rankJoin();
+		setInterval(rankRunner,3000);
+	};
+	//页面初始化
+	function lotteryInit(){
+		var $num = $(".num");
+		/* 
+		 * 模块初始化
+		 * 设置抽奖次数为3次
+		 */
+		init("keys",true,3,7200);
+		//获取排行榜
+		getRank(fillTheRank);
+		$num.css({"visibility":"visible"});
+		$num.text("您有"+getLimit().num+"次抽奖机会");
+	};
+	function lotteryEvent(){
+		
+		$(".noticeBox").on("click",".btn-close",hideFlybox);
+		$(".noticeBox").on("click",".again",hideFlybox);
+		$(".noticeBox").on("click",".get",setCollectInfo);
+		
+		$(".turntableArrow").on("click",function(){
+			window.SnacksApp.isLogin();
+		});
+		$(".turntableArrow").on("touchstart",function(e){
+			var $self = $(this);
+			$self.addClass("hovered");
+		});
+		$(".turntableArrow").on("touchend",function(){
+			var $self = $(this);
+			$self.removeClass("hovered");
+		});
+		$("body").on("click","#keyssubmit",submitForm);
+	};
+	
+		lotteryInit();
+		lotteryEvent();
+		$(".shareBox").on("click",function(){
+			var title = "全名喜迎流量君",
+			desc = "天呐撸！天上掉流量？天上掉馅饼？！917全民吃货节，5重福利送不停！最高免单917元赶快抢啊！！！通过各大应用市场均可下载零食小喵APP。",
+			imgUrl = "http://qing.comwei.com:8888/new_miaoturn/statics/images/shareIcon.jpg";
+			window.SnacksApp.onClickShare(title,desc,imgUrl);
+		})
+		
+		$("body").delegate(".btn-close","click",function(){
+			$(".noticeShare").remove();
+		})
+		
+		$(".appDetailLink").on("click",function(){
+			var id = parseInt($(this).attr("data-id"));
+			window.SnacksApp.openGoodsDetail(id);
+		})
+		
+		function checkLogin(param){
+			param == true ? doLottery() : '';
+		}
+		window.SnacksApp.setTitle("幸运大转盘");
+
+	</script>
+</html>

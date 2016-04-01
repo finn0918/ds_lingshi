@@ -1,0 +1,142 @@
+<include file="Public:header" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/js/calendar/calendar-blue.css"/>
+<script type="text/javascript" src="__ROOT__/statics/js/calendar/calendar.js"></script>
+<style>
+.list_item{margin-bottom:20px;border:1px solid #ddd;box-shadow:2px 2px 5px #ddd}
+.list_item .header{position:relative;background-color:#f3f3f3;height:33px;line-height:32px;padding-left:10px;}
+.list_item h3,
+.list_item h4{display:inline-block;*display:block; *float:left;margin-right:10px;border-right:1px solid #ddd;padding-right:10px;}
+.list_item .status img {margin:10px 0;}
+.list_item .op {position:absolute;right:0;border-right:0 none; padding-right:20px;}
+.list_item .op a {margin-left:15px}
+.list_item .content {padding:10px;}
+.list_item .content img {width:60px;text-align:left}
+</style>
+<link href="__ROOT__/statics/admin/css/pubStyle.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/admin/css/jquery.datetimepicker.css"/>
+<script type="text/javascript" src="__ROOT__/statics/admin/js/jquery.datetimepicker.js"></script>
+<div class="pad-10">
+    <!--查询-->
+    <form name="searchform" action="" method="get" >
+        <table width="100%" cellspacing="0" class="search-form">
+            <tbody>
+            <tr>
+                <td>
+                    <div class="explain-col">
+                        添加日期：
+                        <input type="text" name="time_start" id="time_start" class="date datetimepicker" size="20" value="{$time_start}">
+                        -
+                        <input type="text" name="time_end" id="time_end" class="date datetimepicker" size="20" value="{$time_end}">
+                        <!--
+                        &nbsp;&nbsp;商品品牌：
+                        <select name="brand">
+                            <option value="">--选择--</option>
+                            <volist name="brand_option" id="bval">
+                                <option value="{$bval.id}">{$bval.name}</option>
+                            </volist>
+                        </select>
+                        -->
+                        &nbsp;&nbsp;发布状态：
+                        <select name="status">
+                            <option value="">--选择--</option>
+                            <option value="published" <if condition="$status eq 'published'">selected</if>>已发布</option>
+                            <option value="scheduled" <if condition="$status eq 'scheduled'">selected</if>>定时</option>
+                            <option value="locked" <if condition="$status eq 'locked'">selected</if>>已下架</option>
+                        </select>
+                        &nbsp;商品编号 :
+                        <input name="keyword" type="text" class="input-text" size="10" value="{$keyword}" />
+                        <input type="hidden" name="query" value="1" />
+                        <input type="hidden" name="m" value="Everydaynews" />
+                        <input type="hidden" name="a" value="index" />
+                        <input type="submit" name="search" class="button" value="搜索" />
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+    <!-- 批量 -->
+    <div class="mutiControl">
+        <input type="checkbox" name="chk" class="inputRadio mr8" id="checkAll" />全选&nbsp;&nbsp;已选中&nbsp;<span class="checked_num">0</span>&nbsp;个&nbsp;&nbsp;<!--<a href="javascript:;" class="btn delete">批量删除</a>&nbsp;&nbsp;--><a href="javascript:;" class="btn upTable" data-type="published">批量上架</a>&nbsp;&nbsp;<a href="javascript:;" class="btn downTable" data-type="locked">批量下架</a>
+    </div>
+    <!-- 列表 -->
+    <div>
+        <div class="table-list">
+            <table width="100%" cellspacing="0" class="tb_rec">
+                <thead>
+                    <tr>
+                        <th width="12"></th>
+                        <th width="6%" align="center" >序号</th>
+                        <th align="center">商品编号</th>
+                        <th align="center" width="150">商品标题</th>
+                        <th align="center">活动配图</th>
+                        <th align="center">活动时间</th>
+                        <th align="center">商品品牌</th>
+                        <th align="center">活动顺序</th>
+                        <th align="center">状态</th>
+                        <th align="center">更新时间</th>
+                        <th align="center">责任编辑</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <volist name="topic_list" id='val'>
+                        <tr>
+                            <td><input type="checkbox" name="chk" data-id="{$val.rid}" class="inputRadio becheck" /></td>
+                            <td align="center">{$val.rid}</td>
+                            <td align="center">{$val.spu_id}</td>
+                            <td align="center">{$val.title}</td>
+                            <td align="center"><img src = "{$val.image_src}" width="80"></td>
+                            <td align="center" width="15%">{$val.publish_time}<br/>{$val.end_time}</td>
+                            <td align="center">{$val.brand}</td>
+                            <td align="center"><a href="javascript:up_order({$val.rid})"><font color="blue">上移</font></a>&nbsp;&nbsp;&nbsp;<a href="javascript:down_order({$val.rid})"><font color="blue">下移</font></a></td>
+                            <td align="center">{$val.statusText}</td>
+                            <td align="center">{$val.update_time}</td>
+                            <td align="center">{$val.admin}</td>
+                            <td align="center"><a href="?m=Everydaynews&a=edit&id={$val.rid}">编辑</a><!--&nbsp;|&nbsp;<a href="javascript:;" class="singleDelete" data-id="{$val.rid}">删除</a>-->
+                        </tr>
+                    </volist>
+                </tbody>
+            </table>
+        </div>
+        <div class="btn"><div id="pages">{$page}</div></div>
+    </div>
+</div>
+    <script src="__ROOT__/statics/admin/js/pubEvent.js"></script>
+    <script language="javascript">
+
+        $('.datetimepicker').datetimepicker({value : '',step:"30"});
+
+        var apiConfig = {
+            list : "admin.php?&m=Everydaynews&a=index",
+            publish : "admin.php?&m=Everydaynews&a=changeStatus",
+            del : "admin.php?&m=Everydaynews&a=del",
+            updownline : "?m=Everydaynews&a=upDownTopic"
+        };
+
+        //上移下移
+        function up_order(id){
+            $.get(apiConfig.updownline + '&type='+1+'&id='+id ,function(data){
+                if(data>0){
+                    alert('上移成功');
+                    location.reload();
+                }else{
+                    alert('sorry...不能移动');
+                    location.reload();
+                }
+            })
+        }
+        function down_order(id){
+            $.get(apiConfig.updownline + '&type='+3+'&id='+id,function(data){
+                if(data>0){
+                    alert('下移成功');
+                    location.reload();
+                }else{
+                    alert('sorry...不能移动');
+                    location.reload();
+                }
+            })
+        }
+    </script>
+</body>
+</html>

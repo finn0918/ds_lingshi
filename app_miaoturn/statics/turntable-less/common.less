@@ -1,0 +1,324 @@
+﻿@import 'base.less';
+.container{
+	width:100%;
+	max-width:320px;
+	margin:0 auto;
+}
+.publicBtn{
+	width:265px;
+	height:40px;
+	line-height:40px;
+	text-align:center;
+	color:#fff;
+	font-size:20px;
+	background:#CC290E;
+	border-radius:20px;
+	display:inline-block;
+	margin-bottom:5px;
+}
+.result{
+	position:relative;
+	width:265px;
+	height:30px;
+	line-height:30px;
+	border:1px solid #680F01;
+	font-size:16px;
+	text-align:center;
+	color:#680F01;
+	display:inline-block;
+	margin-bottom:5px;
+	overflow:hidden;
+}
+.resultInner{
+	position:absolute;
+	left:0;
+	top:0;
+	width:100%;
+	height:auto;
+	transition: all 0.5s ease-out;
+	-webkit-transition: all 0.5s ease-out;
+}
+.reaf{
+	position:absolute;
+	width:98%;
+	max-width:309px;
+	left:1%;
+	right:1%;
+	top:0;
+	z-index:0;
+	pointer-events:none;
+}
+.formBox .reaf{
+	z-index:-1;
+}
+.num{
+	margin-bottom:5px;
+}
+.pagetitle{
+	width:318px;
+	display:inline-block;
+	margin-bottom:20px;
+}
+.feibologo{
+	width:124px;
+	display:inline-block;
+}
+
+.share{
+	position:fixed;
+	left:0;
+	right:0;
+	top:0;
+	bottom:0;
+	z-index:288;
+	width:100%;
+	height:100%;
+	background:url(../images/share.png) rgba(0,0,0,0.5) center 10px no-repeat;
+	background-size:250px;
+	display:none;
+}
+
+.flybox{
+	position:fixed;
+	left:0;
+	top:100px;
+	z-index:299;
+	width:257px;
+	height:193px;
+	background:url(../images/flybox.png) no-repeat;
+	background-size:257px auto;
+	display:none;
+}
+.flybox_btn{
+	position:absolute;
+	right:20px;
+	bottom:20px;
+	width:80px;
+	height:83px;
+	display:block;
+}
+.flybox_btn.again{
+	background:url(../images/btn_again.png) no-repeat;
+	background-size:80px auto;
+}
+.flybox_btn.getgift{
+	background:url(../images/btn_getgift.png) no-repeat;
+	background-size:80px auto;
+}
+.flybox_text{
+	position:absolute;
+	left:10px;
+	top:20px;
+	width:160px;
+	line-height:26px;
+	color:#FFF;
+	font-size:18px;
+}
+.flybox_text .fs14{
+	font-size:14px;
+}
+.flybox_text img{
+	margin-top:5px;
+}
+.flybox_close{
+	position:absolute;
+	right:10px;
+	top:10px;
+	z-index:289;
+	width:25px;
+	height:25px;
+	background:url(../images/btn_close.png) no-repeat;
+	background-size:25px 25px;
+	display:block;
+}
+
+
+.turntableBox{
+	width:271px;
+	height:271px;
+	display:inline-block;
+	position:relative;
+	margin-bottom:5px;
+	background:url(../images/turntableBor.png) no-repeat;
+	background-size:271px 271px;
+}
+.turntableArrow{
+	position:absolute;
+	left:97px;
+	top:78px;
+	width:78px;
+	height:97px;
+	background:url(../images/arrow.png) no-repeat;
+	background-size:78px auto;
+	display:block;
+	z-index:28;
+	cursor:pointer;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+.turntableArrow.hovered{
+	background:url(../images/arrowHover.png) no-repeat;
+	background-size:78px auto;
+}
+.turntableBG{
+	width:257px;
+	height:257px;
+	position:absolute;
+	left:8px;
+	top:8px;
+	bottom:8px;
+	right:8px;
+	z-index:26;
+	transform:rotate(0deg);
+	-ms-transform:rotate(0deg);
+	-moz-transform:rotate(0deg);
+	-webkit-transform:rotate(0deg);
+	-o-transform:rotate(0deg);
+	transition: all 3s ease-out;
+	-webkit-transition: all 3s ease-out;
+}
+.turntableBG.ani{
+	transform:rotate(1800deg);
+	-ms-transform:rotate(1800deg);
+	-moz-transform:rotate(1800deg);
+	-webkit-transform:rotate(1800deg);
+	-o-transform:rotate(1800deg);
+}
+
+.formBox{
+	position:fixed;
+	left:0;
+	top:0;
+	bottom:0;
+	right:0;
+	z-index:288;
+	padding:20px;
+	height:100%;
+	display:none;
+	background:url("../images/bg.png") #FBD209 top center no-repeat;
+	background-size:100% auto;
+	text-align:center;
+	color:#666;
+	font-size:14px;
+}
+.formTitle{
+	width:198px;
+	display:inline-block;
+	margin-bottom:30px;
+}
+.innerBox{
+	width:100%;
+}
+.ptext{
+	margin-bottom:20px;
+	width:100%;
+	height:40px;
+	background:#FFF;
+	display:block;
+	border:none;
+	color:#888;
+	font-size:18px;
+	text-align:center;
+	line-height:40px;
+	border-radius:20px;
+	outline:none;
+}
+.psubmit{
+	margin-bottom:20px;
+	width:100%;
+	height:50px;
+	background:#CC290E;
+	display:block;
+	border:none;
+	color:#FFF;
+	font-size:18px;
+	text-align:center;
+	line-height:50px;
+	border-radius:20px;
+	-webkit-appearance: none;
+}
+.noticeBox{
+	position:fixed;
+	left:0;
+	top:150px;
+	z-index:88;
+	width:257px;
+	height:193px;
+	background:url(../images/flybox.png) no-repeat;
+	background-size:257px auto;
+	display:none;
+}
+.noticeBox .btn-close{
+	position:absolute;
+	right:10px;
+	top:10px;
+	width:25px;
+	height:25px;
+	background:url(../images/btn_close.png) no-repeat;
+	background-size:25px auto;
+	display:block;
+	cursor:pointer;
+}
+.noticeBox .textplan{
+	position:absolute;
+	width:150px;
+	text-align:center;
+	line-height:25px;
+	font-size:16px;
+	color:#FFF;
+}
+.noticeBox .textplan.get{
+	top:28px;
+	left:15px;
+}
+.noticeBox .textplan.again{
+	top:38px;
+	left:10px;
+}
+.noticeBox .textplan.normal{
+	width:250px;
+	top:75px;
+	text-align:left;
+	left:20px;
+}
+.noticeBox .textplan.normal strong{
+	font-size:18px;
+}
+.btn-flybox{
+	position:absolute;
+	right:20px;
+	top:90px;
+	width:80px;
+	height:84px;
+	border:none;
+	display:block;
+	cursor:pointer;
+	outline:none;
+}
+.btn-flybox.again{
+	background:url(../images/btn_again.png) no-repeat;
+	background-size:80px auto;
+}
+.btn-flybox.get{
+	background:url(../images/btn_getgift.png) no-repeat;
+	background-size:80px auto;
+}
+.btn-flybox.hide{
+	display:none;
+}
+.giftPic{
+	height:60px;
+	display:block;
+	margin:5px auto 0 auto;
+}
+.shadow{
+	position:fixed;
+	left:0;
+	top:0;
+	right:0;
+	bottom:0;
+	z-index:58;
+	width:100%;
+	height:100%;
+	background:rgba(0,0,0,0.5);
+	display:none;
+}

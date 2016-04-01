@@ -1,0 +1,47 @@
+<include file="Public:header" />
+
+<div class="pad_10">
+<form action="{:u('Map/edit',array('id'=>$info['id']))}" method="post" name="myform" id="myform" enctype="multipart/form-data">
+<table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+    <th>版本号</th>
+    <td >
+        <input type="text" name="version_number" id="version_number" value="{$map.version_num}"/>
+    </td>
+    <tr >
+        <th>原有地址文件</th>
+        <td>{$map.map_url}&nbsp;</td>
+    </tr>
+    <tr id="SW_replace" class="bill_media" >
+        <th>新上传地址文件</th>
+        <td><input type="file" name="map" value="上传文件">&nbsp;</td>
+    </tr>
+</table>
+    <input type="hidden" name="id" value="{$map.id}">
+    <input type="submit" name="dosubmit" id="dosubmit" class="dialog" value="">
+</form>
+<script type="text/javascript">
+		$(function(){
+		    $.formValidator.initConfig({
+		        formid:"myform",
+		        autotip:true,
+		        onerror:function(msg,obj){
+		            window.top.art.dialog({
+		                content:msg,
+		                lock:true,
+		                width:'250',
+		                height:'50'}, function(){
+		                    this.close();$(obj).focus();
+		                    })}});
+
+	 $("#version_number").formValidator({
+        onshow : "填写版本号",
+        onfocus : "填写版本号"
+    }).inputValidator({
+        min : 1,
+        onerror : "填写版本号"
+    });
+		})
+</script>
+</div>
+</body>
+</html>

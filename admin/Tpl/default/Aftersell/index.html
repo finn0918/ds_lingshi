@@ -1,0 +1,260 @@
+<include file="Public:header" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/js/calendar/calendar-blue.css"/>
+<script type="text/javascript" src="__ROOT__/statics/js/calendar/calendar.js"></script>
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/admin/css/jquery.datetimepicker.css"/>
+<script type="text/javascript" src="__ROOT__/statics/admin/js/jquery.datetimepicker.js"></script>
+<style>
+.list_item{margin-bottom:20px;border:1px solid #ddd;box-shadow:2px 2px 5px #ddd}
+.list_item .header{position:relative;background-color:#f3f3f3;height:33px;line-height:32px;padding-left:10px;}
+.list_item h3,
+.list_item h4{display:inline-block;*display:block; *float:left;margin-right:10px;border-right:1px solid #ddd;padding-right:10px;}
+.list_item .status img {margin:10px 0;}
+.list_item .op {position:absolute;right:0;border-right:0 none; padding-right:20px;}
+.list_item .op a {margin-left:15px}
+.list_item .content {padding:10px;}
+.list_item .content img {width:60px;text-align:left}
+</style>
+<link href="__ROOT__/statics/admin/css/pubStyle.css" rel="stylesheet" type="text/css" />
+<div class="pad-10">
+    <!--查询-->
+    <form name="searchform" action="" method="get" >
+        <table width="100%" cellspacing="0" class="search-form">
+            <tbody>
+            <tr>
+                <td>
+                    <div class="explain-col">
+                        申请时间：
+                        <input type="text" name="time_start" id="time_start" class="date datetimepicker" size="18" value="{$time_start}">
+                        -
+                        <input type="text" name="time_end" id="time_end" class="date datetimepicker" size="18" value="{$time_end}">
+                        &nbsp;&nbsp;售后状态：
+                        <select name="afterSell">
+                            <option value="0" <if condition="$afterSell eq 0">selected</if>>售后待审核</option>
+                            <option value="1" <if condition="$afterSell eq 1">selected</if>>审核通过,支付宝退款中</option>
+                            <option value="4" <if condition="$afterSell eq 4">selected</if>>等待批量退款</option>
+                            <option value="2" <if condition="$afterSell eq 2">selected</if>>审核不通过</option>
+                            <option value="3" <if condition="$afterSell eq 3">selected</if>>交易关闭</option>
+                        </select>
+                        &nbsp;&nbsp;紧急程度：
+                        <select name="status">
+                            <option value="">--选择--</option>
+                            <option value="1" <if condition="$status eq 1">selected</if>>普通</option>
+                            <option value="2" <if condition="$status eq 2">selected</if>>紧急</option>
+                            <option value="3" <if condition="$status eq 3">selected</if>>当天处理</option>
+                        </select>
+                        &nbsp;主单号或者电话号码 :
+                        <input name="keyword" type="text" class="input-text" size="20" value="{$keyword}" />
+                        <input type="hidden" name="query" value="1" />
+                        <input type="hidden" name="m" value="Aftersell" />
+                        <input type="hidden" name="a" value="index" />
+                        <input type="submit" name="search" class="button" value="搜索" />
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+    <!-- 列表 -->
+    <div>
+        <div class="table-list">
+            <table width="100%" cellspacing="0" class="tb_rec">
+                <thead>
+                    <tr>
+                        <th align="center">商品信息</th>
+                        <th align="center">实付款</th>
+                        <th align="center">买家昵称</th>
+                        <th align="center">收货人信息</th>
+                        <th align="center">售后备注</th>
+                        <th align="center">售后状态</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <volist name="order_list" id='val'>
+                        <tr>
+                            <td colspan="7">
+                                {$val.add_time|date="Y-m-d H:i:s",###}
+                                主订单编号：{$val.order_sn}
+                                子订单编号：
+                                {$val.sub_order_sn}
+                                供应商：
+                                {$val.suppliers_name}
+                                物流信息：
+                                {$val.shipping_com}
+                                单号：
+                                {$val.shipping_id}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left" width="366">
+                                <img src="{$val.spu_image}" width="80" style="float:left;margin-right:10px;" />
+                                <p>{$val.spu_name}<br/>{$val.attr_key} : {$val.attr_value}</p>
+                            </td>
+                            <td align="center">{$val.sum_price}<br/>(含运费：{$val.shipping_fee})</td>
+                            <td align="center">{$val.user_nickname}</td>
+                            <td align="center" width="188">{$val.consignee}，{$val.mobile}，{$val.address}</td>
+                            <td align="center"><a href="javascript:;" onclick="remark('{$val.sub_order_sn}');">添加备注</a></td>
+                            <td align="center" data-id="{$val.status}">{$val.status_text}</td>
+                            <td align="center">
+                                <a href="?m=Order&a=detail&order_sn={$val.sub_order_sn}&status={$val.order_status}">订单详情</a><br/>
+                                <if condition="$val.status_text eq '售后待审核'">
+                                    <a href="javascript:;" onclick="allRefund('{$val.user_nickname}','{$val.pay_sn}','{$val.sum_price}','{$val.sub_order_sn}');">加入到批量退款</a><br/>
+                                    <a href="javascript:;" onclick='agree("{$val.user_nickname}","{$val.pay_sn}","{$val.sum_price}","{$val.why}","{$val.sub_order_sn}");'>同意退款</a><br/>
+                                    <a href="javascript:;" onclick="refuse('{$val.user_nickname}','{$val.why}','{$val.sub_order_sn}');">不同意退款</a><br/>
+                                </if>
+                                <if condition="$val.status_text eq '审核通过,支付宝退款中'">
+                                    <a href="javascript:;" onclick="cancelRefund('{$val.sub_order_sn}');">取消退款</a><br/>
+                                </if>
+                                <if condition="$val.status_text eq '等待批量退款'">
+                                    <a href="javascript:;" onclick="moneyAgain('{$val.sub_order_sn}','{$val.user_nickname}','{$val.pay_sn}');">再次确认退款金额</a><br/>
+                                    <a href="javascript:;" onclick="move('{$val.sub_order_sn}');">取消批量，回归审核</a><br/>
+                                </if>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="7">买家留言：{$val.postscript}</td>
+                        </tr>
+                    </volist>
+                </tbody>
+            </table>
+        </div>
+        <div class="btn"><if condition="$afterSell eq 4"><a href='javascript:;' onclick="refundOnce();">一键批量批量退款</a></if><div id="pages">{$page}</div></div>
+    </div>
+
+<script src="__ROOT__/statics/admin/js/pubEvent.js"></script>
+<script language="javascript">
+
+    var apiConfig = {
+        list : "admin.php?&m=Aftersell&a=index",
+        publish : "admin.php?&m=Aftersell&a=changeStatus",
+        del : "admin.php?&m=Aftersell&a=del"
+    };
+
+    $(function() {
+        $('.datetimepicker').datetimepicker({value: '', step: "30"});
+    })
+    function remark(orderSn){
+        var lang_edit = "售后备注";
+        window.top.art.dialog({id:'remark'}).close();
+        window.top.art.dialog({title:'售后处理',id:'remark',iframe:'?m=Aftersell&a=remark&order_sn='+orderSn,width:'700',height:'480'},
+                function(){
+                    var d = window.top.art.dialog({id:'remark'}).data.iframe;
+                    d.document.getElementById('dosubmit').click();
+                    return false;
+                }, function(){window.top.art.dialog({id:'remark'}).close();});
+    }
+    function post(URL, PARAMS) {
+        var temp = document.createElement("form");
+        temp.action = URL;
+        temp.method = "post";
+        temp.target = "_blank";
+        temp.style.display = "none";
+        for (var x in PARAMS) {
+            var opt = document.createElement("textarea");
+            opt.name = x;
+            opt.value = PARAMS[x];
+            // alert(opt.name)
+            temp.appendChild(opt);
+        }
+        document.body.appendChild(temp);
+        temp.submit();
+        return temp;
+    }
+    function agree(name,num,money,reason,orderSn){
+        if(confirm("请考虑好要退款的金额")){
+            $.ajax({
+                type: "GET",
+                success: function(data){
+                     window.top.art.dialog({id:'refundResult'}).close();
+                     window.top.art.dialog({title:'退款处理',id:'refundResult',iframe:'?m=Aftersell&a=refundResult&orderSn='+orderSn+'&name='+name+'&num='+num+'&money='+money,width:'600',height:'200'},
+                     function(){
+                         var d = window.top.art.dialog({id:'refundResult'}).data.iframe;
+                         var refundMoney = d.document.getElementById('money').value;
+                         var detail = num+"^"+refundMoney+"^"+reason;
+                         post('?m=Pay&a=refund',{ reason: reason,num: 1,detail:detail});
+                         d.document.getElementById('dosubmit').click();
+                     return false;
+                     }, function(){window.top.art.dialog({id:'refundResult'}).close();});
+                }
+            });
+        }
+    }
+    function refuse(name,why,orderSn){
+        var lang_edit = "不同意售后";
+        window.top.art.dialog({id:'refuse'}).close();
+        window.top.art.dialog({title:'不同意售后',id:'refuse',iframe:'?m=Aftersell&a=refuse&order_sn='+orderSn+'&name='+name+'&why='+why,width:'700',height:'480'},
+                function(){
+                    var d = window.top.art.dialog({id:'refuse'}).data.iframe;
+                    d.document.getElementById('dosubmit').click();
+                    return false;
+                }, function(){window.top.art.dialog({id:'refuse'}).close();});
+    }
+    function cancelRefund(orderSn){
+        if(confirm("这个操作是因为你前面误点击了退款成功按钮，但你并没有真的退款给用户，现在这个操作会把这个订单回归审核状态！")){
+            if(confirm("你确定真的要回归审核状态吗？要考虑清楚哦！")){
+                window.location = "?m=Aftersell&a=cancelRefund&orderSn="+orderSn;
+            }
+        }
+    }
+    function allRefund(name,num,money,orderSn){
+        if(confirm("请考虑好要退款的金额")) {
+            window.top.art.dialog({id: 'allRefund'}).close();
+            window.top.art.dialog({
+                        title: '确认之后将会把订单转入批量处理',
+                        id: 'allRefund',
+                        iframe: '?m=Aftersell&a=allRefund&orderSn=' + orderSn + '&name=' + name + '&num=' + num + '&money=' + money,
+                        width: '600',
+                        height: '200'
+                    },
+                    function () {
+                        var d = window.top.art.dialog({id: 'allRefund'}).data.iframe;
+                        d.document.getElementById('dosubmit').click();
+                        return false;
+                    }, function () {
+                        window.top.art.dialog({id: 'allRefund'}).close();
+                    });
+        }
+    }
+    function refundOnce(){
+        if(confirm("要一键退款所有订单？？？")) {
+            $.post("{:u('Aftersell/refundOnce')}",{data:"0"},function(data){
+                        var num = parseInt(data.num);
+                        var detail = data.detail;
+                        post('?m=Pay&a=refund',{ reason: '一键批量退款',num: num,detail:detail});
+                        $.post("{:u('Aftersell/refundOnce')}",{data:"1"},function(data){
+                                    location.reload();
+                                }
+                        );
+                    },"json"//设置了获取数据的类型，所以得到的数据格式为json类型的
+            );
+
+        }
+    }
+    function moneyAgain(order_sn,name,num){
+        window.top.art.dialog({id: 'moneyAgain'}).close();
+        window.top.art.dialog({
+                    title: '再次确认退款金额',
+                    id: 'allRefund',
+                    iframe: '?m=Aftersell&a=moneyAgain&orderSn=' + order_sn+ '&name=' + name + '&num=' + num,
+                    width: '600',
+                    height: '200'
+                },
+                function () {
+                    var d = window.top.art.dialog({id: 'moneyAgain'}).data.iframe;
+                    d.document.getElementById('dosubmit').click();
+                    return false;
+                }, function () {
+                    window.top.art.dialog({id: 'moneyAgain'}).close();
+                });
+    }
+    function move(order_sn){
+        if(confirm('真的要取消批量退款吗！')){
+            $.post("{:u('Aftersell/move')}",{data:order_sn},function(data){
+                        location.reload();
+                    }
+            );
+        }
+    }
+</script>
+</body>
+</html>

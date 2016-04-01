@@ -1,0 +1,121 @@
+<include file="Public:header" />
+
+
+<form action="{:u('Cate/edit')}" method="post" name="myform" id="myform" enctype="multipart/form-data" style="margin-top:10px;">
+  <div class="pad-10">
+    <div class="col-tab">
+       <ul class="tabBut cu-li">
+			<li id="tab_setting_1" class="on" onclick="SwapTab('setting','on','',3,1);">分类详情|修改</li>
+
+      </ul>
+      <div id="div_setting_1" class="contentList pad-10">
+        <table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+
+          <tbody id="item_body">
+          <tr>
+            <th width="100">商品分类名 :</th>
+            <td>{$cate.name}</td>
+            <td><a class="blueBtn" href="javascript:edit_cate({$cate.id},'{$cate.name}')">修改</a></td>
+          </tr>
+          <tr>
+              <th width="100">分类描述 :</th>
+              <td>{$cate.desc}</td>
+          </tr>
+          <tr>
+          	<th>分类缩略图片 :</th>
+            <td>
+            	<img src = "{$cate.image_src}" width="80" height="80"></td>
+            </td>
+          </tr>
+			<tr>
+          	<th>首页顺序 :</th>
+            <td>
+            {$cate.index_num}</td>
+          </tr>
+          <tr>
+          	<th>列表顺序 :</th>
+            <td>{$cate.list_num}</td>
+          </tr>
+          <volist name="detail_cate_msg" id="val">
+			<tr>
+          	<th>详细品类 :</th>
+            <td width="100">
+            	<img src = "{$val.image_src}" width="80" height="80"></td>
+            </td>
+            <th width="100"> 品类名称 :</th>
+            <td width="200">{$val.name}</td>
+            <th width="100"> 是否搜索热词 :</th>
+            <td><if condition="$val.is_search_hot gt 0 ">是
+ 				<else /> 否
+ 				</if></td>
+ 			<th width="100"> 是否客户端显示 :</th>
+            <td><if condition="$val.is_show gt 0 ">是
+ 				<else /> 否
+ 				</if></td>
+ 				<td><a class="blueBtn" href="javascript:edit_detail_cate({$val.id},'{$val.name}')">修改</a> <a class="blueBtn" href="javascript:del_detail_cate({$val.id},'{$val.name}')">删除</a></td>
+          </tr>
+          </volist>
+          <volist name="cate_brands" id="val">
+			<tr>
+          	<th>推荐品牌 :</th>
+            <td width="100">
+            	<img src = "{$val.image_src}" width="80" height="80"></td>
+            <th width="100"> 品牌名称 :</th>
+            <td>{$val.name}</td>
+            <th width="100"> 是否搜索热词 :</th>
+            <td><if condition="$val.is_search_hot gt 0 ">是
+ 				<else /> 否
+ 				</if></td>
+ 			<th width="100"> 是否客户端显示 :</th>
+            <td><if condition="$val.is_cate_brand_show gt 0 ">是
+ 				<else /> 否
+ 				</if></td>
+            <td><a class="blueBtn" href="javascript:edit_brand({$val.id},'{$val.name}',{$cate.id})">修改</a>  <a class="blueBtn" href="javascript:del_link({$val.id},'{$val.name}','{$cate.name}',{$cate.id})">取消品牌关联</a>&nbsp;&nbsp;&nbsp;&nbsp;<a class="blueBtn" href="javascript:delcfm({$val.id})">删除</a></td>
+          </tr>
+          </volist>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</form>
+<script language="javascript">
+function edit_brand(id, name,cate) {
+    var lang_edit = "{$Think.lang.edit}";
+    window.top.art.dialog({id:'edit_brand'}).close();
+    window.top.art.dialog({title:lang_edit+'--'+name,id:'edit_brand',iframe:'?m=Cate&a=edit_brand&id='+id+'&cate='+cate,width:'500',height:'480'}, function(){var d = window.top.art.dialog({id:'edit_brand'}).data.iframe;d.document.getElementById('dosubmit').click();return false;}, function(){window.top.art.dialog({id:'edit_brand'}).close()});
+
+}
+function edit_detail_cate(id, name) {
+    var lang_edit = "{$Think.lang.edit}";
+    window.top.art.dialog({id:'edit_detail_cate'}).close();
+    window.top.art.dialog({title:lang_edit+'--'+name,id:'edit_detail_cate',iframe:'?m=Cate&a=edit_detail_cate&id='+id,width:'500',height:'480'}, function(){var d = window.top.art.dialog({id:'edit_detail_cate'}).data.iframe;d.document.getElementById('dosubmit').click();return false;}, function(){window.top.art.dialog({id:'edit_detail_cate'}).close()});
+
+}
+function edit_cate(id, name) {
+    var lang_edit = "{$Think.lang.edit}";
+    window.top.art.dialog({id:'edit_cate'}).close();
+    window.top.art.dialog({title:lang_edit+'--'+name,id:'edit_cate',iframe:'?m=Cate&a=edit_cate&id='+id,width:'500',height:'480'}, function(){var d = window.top.art.dialog({id:'edit_cate'}).data.iframe;d.document.getElementById('dosubmit').click();return false;}, function(){window.top.art.dialog({id:'edit_cate'}).close()});
+
+}
+function delcfm(id) { //删除品牌
+        if (confirm("确认要删除品牌？这个操作会删除品牌并且取消所有商品和这个品牌的关联")) {
+
+			window.location="{:u('Cate/del_brand','id=')}"+id;
+        }
+    }
+function del_link(id,brand,cate,cate_id) { //取消品牌关联
+        var str = "确认要取消品牌："+brand+" 和分类："+cate+"的关联吗";
+        if (confirm(str)) {
+			window.location="{:u('Cate/cancel_brand','id=')}"+id+"&cid="+cate_id;
+        }
+    }
+function del_detail_cate(id,name) { //删除品类
+        var str = "确认要删除详细品类："+name+" 吗？";
+        if (confirm(str)) {
+			window.location="{:u('Cate/del_detail_cate','id=')}"+id;
+        }
+    }
+</script>
+</body>
+</html>

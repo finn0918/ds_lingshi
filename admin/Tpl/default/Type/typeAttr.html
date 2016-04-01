@@ -1,0 +1,60 @@
+<include file="Public:header" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/admin/css/jquery.datetimepicker.css"/>
+<script type="text/javascript" src="__ROOT__/statics/admin/js/jquery.datetimepicker.js"></script>
+<script type="text/javascript" src="__ROOT__/statics/js/jquery/plugins/jquery.imagePreview.js"></script>
+<style>
+.color{
+		color:#c90000;
+}
+
+</style>
+<div class="pad-10" >
+    <form id="myform" name="myform" action="{:u('Type/delAttr')}" method="post">
+    <div class="table-list">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th width=15><input type="checkbox" value="" id="check_box" onclick="selectall('id[]');"></th>
+                 <th width="100">属性id</th>
+                 <th width="300">属性名称</th>
+                 <th width="300">属性类型</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+    	<tbody>
+        <volist name="typeAttr" id="val" >
+        <tr>
+            <td align="center"><input type="checkbox" value="{$val.attr_id}" name="id[]"></td>
+            <td align="center">{$val.attr_id}</td>
+            <td align="center">{$val.attr_name}</td>
+            <td align="center"><if condition="$val.attr_type eq 1">规格<else/>属性</if></td>
+            <td align="center" width='200' class="edit_btn">
+            	<a class="blueBtn" href="?m=Type&a=typeAttr&id={$val.type_id}">修改</a>
+            	<a class="blueBtn" href="javascript:del({$val.id})">删除</a>
+            </td>
+            </tr>
+        </volist>
+    	</tbody>
+    </table>
+
+    <div class="btn">
+    	<label for="check_box" style="float:left;">全选/取消</label>
+    	<input type="submit" class="button" name="dosubmit" value="{$Think.lang.delete}" onclick="return confirm('{$Think.lang.sure_delete}')" style="float:left;margin:0 10px 0 10px;"/>
+    	<input type="button" class="button" onclick="newAttr({$typeId});" value="新增属性">
+    	<div id="pages">{$page}</div>
+    </div>
+
+    </div>
+    </form>
+</div>
+<script language="javascript">
+$(function(){
+		$('.datetimepicker').datetimepicker({value:'',step:"30"});
+
+	})
+	function newAttr(id){
+		window.location="?m=Type&a=typeAttrAdd&id="+id;
+	}
+	</script>
+</body>
+</html>

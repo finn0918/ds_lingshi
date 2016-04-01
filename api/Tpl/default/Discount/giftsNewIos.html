@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+		<meta name="format-detection" content="telephone=no" searchtype="map">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="360-site-verification" content="188bc9bbbe2e50aaf86c811cf61d5cdb" />
+		<meta name="baidu-site-verification" content="ayLnKZTrby" />
+		<meta name="sogou_site_verification" content="gz86ImwtMQ"/>
+		<script>
+			var version = location.href.indexOf("?tdev") > 0 ? (1 + Math.round(Math.random() * 9999 - 1)) : '1.2';
+			document.write('<link href="__ROOT__/statics/css/tBase_h.css?v='+version+'" rel="stylesheet" type="text/css" />');
+			document.write('<link href="__ROOT__/statics/css/disCountDetail.css?v='+version+'" rel="stylesheet" type="text/css" />');
+			document.write('<link href="__ROOT__/statics/css/gift.css?v='+version+'" rel="stylesheet" type="text/css" />');
+			(function(b, c) {
+				var d = b.documentElement,
+					resizeEvt = 'orientationchange' in c ? 'orientationchange' : 'resize',
+					recalc = function() {
+						var a = d.clientWidth;
+						if (!a) return;
+						d.style.fontSize = (20 * (a / 320)) > 40 ? 40 + "px" : (20 * (a / 320)) + 'px'
+					},
+					anime = c.requestAnimationFrame || c.webkitRequestAnimationFrame || c.mozRequestAnimationFrame || c.oRequestAnimationFrame ||
+				function(e) {
+					return setTimeout(e, 16.67)
+				};
+				if (!b.addEventListener) return;
+				c.addEventListener(resizeEvt, recalc, false);
+				b.addEventListener('DOMContentLoaded', recalc, false)
+			})(document, window);
+		</script>
+	</head>
+	<body>
+		<div id="box">
+			<!--点击领取-->
+			<div class="banner1212">
+				<img src="__ROOT__/statics/images/share/top_316.jpg" alt="">
+			</div>
+			<div class="fixed-banner">
+			</div>
+			
+		<!--详情-->
+		<div class="disCountDetail fl">
+			
+			<div class="disWrapper">
+				
+				<div class="disPicWrapper"></div>
+				<div class="disRuler">
+					<div class="RulerTitle">
+						<img src="__ROOT__/statics/images/line.png" class="lineImg">
+						<span>活动详情</span>
+					</div>
+					<div class="RulerMain fl">
+						
+						<p style="display: none;">
+							<a href="javascript:;" class="moreP lq_color gift_look"><i></i>点击查看全部促销商品</a>
+						</p> 
+					</div>
+				</div>
+			
+			</div>
+		</div>
+	
+			<!--优惠券-->
+			<div id="cp-list">
+				<ul class="cp-Main"></ul>
+			</div>
+		
+		</div>
+	</body>
+	<script src="__ROOT__/statics/js/jquery.min.js"></script>
+	<script>
+		setTimeout(function(){
+			$('#box').show();
+		},100)
+		var siteUrl = "{$site_url}";
+        var uid = "{$uid}";
+        var tms = "{$tms}";
+        var sig = "{$sig}";
+        var cid = "{$cid}";
+        var wssig = "{$wssig}";
+        var os_type = "{$os_type}";
+        var version = "{$version}";
+        var gifts_id = 8;
+        //console.log(gifts_id);
+		//var url = siteUrl+"/api.php?srv=2925&cid="+cid+"&uid="+uid+"&tms="+tms+"&sig="+sig+"&wssig="+wssig+"&os_type="+os_type+"&version="+version+"&channel_name=feibo&gifts_id="+gifts_id+"";
+		var url = "{$url}";
+		//判断新人进入优惠券详情页
+		var Cookie={
+			/**增加cookie*/
+			add:function(key,value,expires,domain,path){
+				var str=key+"="+value;
+				if(expires&&(expires instanceof Date)){
+					str+=";expires="+expires;
+				}
+				if(domain){
+					str+=";domain="+domain;
+				}
+				if(path){
+					str+=";path="+path;
+				}
+				document.cookie=str;
+			},
+			/**  获取cookie*/
+			 get:function(name){
+				if(document.cookie.length>0){
+					var arr=document.cookie.split('; ');//以分号和空格作为分隔符号
+					for(var i=0;i<arr.length;i++){
+						var arr2=arr[i].split('=');
+						if(arr2[0]==name){
+							return arr2[1];
+						}
+					}	
+				}
+				return '';
+			},
+			/**  删除cookie*/
+			remove:function(key){
+				var d=new Date(0);
+				document.cookie=key+"=1;expires="+d;
+			}
+	};
+		var oDate=new Date();
+		oDate.setDate(oDate.getDate()+1);
+		Cookie.add('giftsNew',0,oDate);
+		
+		var init = {
+			getQueryString :function(name,url){
+				if (!url) url = location.href;
+				name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+				var regexS = "[\\?&]"+name+"=([^&#]*)";
+				var regex = new RegExp( regexS );
+				var results = regex.exec( url );
+				return results == null ? null : results[1];
+			},
+			converDate : function(timestamp){
+				var date = new Date();
+				date.setTime(timestamp*1000);
+				year = date.getFullYear(),
+				month = date.getMonth(),
+				day = date.getDate(),
+				hours = date.getHours(),
+				mins = date.getMinutes();
+				
+				month = ((date.getMonth()+1) > 9) ? (date.getMonth()+1) : "0" + (date.getMonth()+1);
+				day = (date.getDate() > 9) ? date.getDate() : "0" + date.getDate();
+				hours = (date.getHours() > 9) ? date.getHours() : "0" + date.getHours();
+				mins = (date.getMinutes() > 9) ? date.getMinutes() : "0" + date.getMinutes();
+
+//				newtime = year.toString().substring(2) +"/"+ month +"/"+ day + " " + hours + ":" + mins;
+				newtime = year.toString()+"-"+ month +"-"+ day;
+				return newtime;
+			},
+			ajax_all : function(){
+				var callback = function(d) {
+					var data = d.data;
+					//banner图填充
+					$('.header-banner').find('img').attr('src',data.image.img_url);
+//					$('.banner1212').find('img').attr('src',data.image.img_url);
+					// 填充优惠劵信息
+					$(".disPicWrapper").attr("data-id",data.id).attr("data-status",status);
+					// 优惠劵价格
+					$(".disPrice").find("i").text(data.validation_amount);
+					// 是否显示剩余几张
+					// 1显示 0不显示
+					var isshow = data.is_show;
+					if(isshow == 1) {
+						// 优惠劵剩余张数以及总张数
+						var a = data.remaining_count,b = data.total_count;
+						var converse = function(p){
+							var a = p.toString();
+							if(a.length >= 5) { 
+								var c = a.length - 4, d = a.substr(c);
+								return a.substr(0,c)+d.replace(/^[0-9][0-9][0-9][0-9]/g,"万");
+							}else {
+								return a;
+							}
+						};
+						$(".soldnum").html("仅剩"+converse(a)+"张/总计"+converse(b)+"张");
+					}else {
+						$(".disPrice").css("margin-top","1.3rem");
+					};
+					// 优惠劵名称
+					$(".disinfo .title").text(data.title);
+					// 优惠劵使用限制
+					var htmls = '';
+					var cphtml = '';
+					htmls += '<li>'+data.using_range+'</li>';
+					console.log(data.using_range);
+					htmls += '<li>'+data.msg+'</li>';
+					$(".disinfo ul").append(htmls);
+					var start_time = data.start_time,end_time = data.end_time;
+					// 优惠劵使用时间
+					$(".disTime").html(init.converDate(start_time)+" - "+init.converDate(end_time));
+					
+					// 优惠劵活动规则
+					var rulerhtml = '';
+					rulerhtml = '<p>' + data.desc + '</p>';
+					$(".RulerMain").prepend(rulerhtml);
+					
+					/**
+						0  商品促销与特殊优惠页面：若是供应商满包邮活动，跳转到相应的供应商商品列表
+						1  商品促销与特殊优惠页面：若满包邮是平台全场活动，跳转到特卖
+						2  （1）商品详情页：点击促销与优惠信息字段：进入促销与优惠信息页面。
+						   （2）购物车：点击促销与优惠信息字段：进入促销与优惠信息页面。
+					**/
+					var status = data.status;
+					//0：未领取  1：已领取, 2：优惠券被抢光了 3：发放时间结束了 4: 优惠券还没开始发放
+					
+					var status = data.status, btnHtmls = '',type = data.action.type,info = data.action.info;
+					// 客户端判断跳转类型
+					$(".moreP").attr("data-type",type).attr("data-info",info);
+					
+					if(status == 0) {
+						btnHtmls = '<a href="javascript:;" class="lqNow lqBtn" data-status="'+status+'">点击领取</a>';
+						$(".fixed-banner").append(btnHtmls);
+					}else if(status == 1) {
+						btnHtmls = '<a href="javascript:;" class="lqNow lqed" data-status="'+status+'">优惠劵已领取-查看</a>';
+						$(".fixed-banner").append(btnHtmls);
+					}else if(status == 2){
+						btnHtmls = '<a href="javascript:;" class="lqNow lqOut" data-status="'+status+'">优惠劵被抢光啦</a>';
+						$(".fixed-banner").append(btnHtmls);
+					}else if(status == 3){
+						btnHtmls = '<a href="javascript:;" class="lqNow lqOut" data-status="'+status+'">发放时间结束啦</a>';
+						$(".fixed-banner").append(btnHtmls);
+					}else if(status == 4){
+//						btnHtmls = '<a href="javascript:;" class="lqNow nonrelease" data-status="'+status+'">优惠券还没开始发放</a>';
+						btnHtmls = '<a href="javascript:;" class="lqNow lqOut" data-status="'+status+'">优惠券还没开始发放</a>';
+						$(".fixed-banner").append(btnHtmls);
+					}					
+					//优惠券
+					for (var i in data.items) {
+						var obj = data.items[i];
+						cphtml +='<li data-id='+obj.id+'><div class="Wrapper"><a href="javascript:;" class="goDetail" onclick="">';
+						cphtml +='<div class="cp-Price posiR"> <em>¥</em><i>'+obj.validation_amount+'</i> </div>';
+						cphtml +='<div class="cp-info"><p class="title">'+obj.title+'</p>';
+						cphtml +='<ul><li>'+obj.using_range+'</li></ul>';
+						cphtml +='<div class="cp-Time lq_color">有效期至:&nbsp;'+init.converDate(obj.end_time)+' </div></div>';
+						cphtml +='<div class="cl"></div>';
+//						cphtml +='</a> <a href="javascript:;" class="lqFrBtn">详情</a>';
+						cphtml +='<div class="cl"></div></div></li>';
+					};
+					
+					$('.cp-Main').append(cphtml);
+					ajax_all.callback1();
+				};
+				var callback1 = function(d) {
+
+					var id = parseInt($(".disPicWrapper").attr("data-id")),
+						status = $(".lqNow").attr("data-status"),
+//						id_2 = "{$gifts_id}",
+						type = 1,
+						id_2 =init.getQueryString('gifts_id',url);
+					bridge.callHandler("achieveCouponAction",{id : id_2, type : type,status : status},function(data,responseCallback){
+						
+						//0：未领取  1：已领取, 2：优惠券被抢光了 3：发放时间结束了 4: 优惠券还没开始发放
+					})
+
+				};
+				$('.fixed-banner').on('click',function(){
+					//在这里实现对优惠劵的领取操作
+					var new_url = url.replace("3003","3004");
+					var ajax_data = {
+						url : new_url,
+						data : {
+							type : 1
+						},
+						dataType : "json",
+						type : "get",
+						success : callback1
+					}
+					$.ajax(ajax_data);
+
+				});
+				var ajax_data = {
+					url : url,
+					data : {
+						//goods_id : "5070",
+						// goods_id : init.getQueryString("goods_id")
+						discoupon_id : init.getQueryString("discoupon_id")
+					},
+					dataType : "json",
+					type : "get",
+					success : callback
+				}
+				$.ajax(ajax_data);
+			}
+		}
+		init.ajax_all();
+		
+		// ios交互
+		 function connectWebViewJavascriptBridge(callback) {
+				if (window.WebViewJavascriptBridge) {
+					callback(WebViewJavascriptBridge)
+				} else {
+					document.addEventListener('WebViewJavascriptBridgeReady', function() {
+						callback(WebViewJavascriptBridge)
+					}, false)
+				}
+			}
+			connectWebViewJavascriptBridge(function(bridge) {	
+
+				/* Init your app here */
+			
+				// 刚进来就调用
+				bridge.init(function(message, responseCallback) {
+					if (responseCallback) {
+						responseCallback("Right back atcha")
+					}
+				})
+				bridge.send('Please respond to this', function responseCallback(responseData) {
+					console.log("Javascript got its response", responseData)
+				})
+				//标题
+				bridge.callHandler("setAppTitle",{title : "小喵福利，送46元现金"},function(data,responseCallback){});
+
+				// 点击查看全部促销商品跳转链接
+				$(".moreP").on("click",function(){
+					// type 接口返回action的type ，info表示跳转地址url
+   	 				var url = "http://ds.lingshi.cccwei.com/api/Tpl/default/Activity/shareGuide1212.html";					
+					var type = parseInt($(this).attr("data-type")),
+						info = parseInt($(this).attr("data-info"));
+//					bridge.callHandler("discountCouponAction",{type : 1, info : info},function(data,responseCallback){
+//					})
+					bridge.callHandler("javascriptJumpAction",{
+	                    type : 1,
+	                    title : "猴年抢年货，爆款0.1元抢",
+	                    param1 : url
+	                },function(data, responseCallback) {})
+				})
+
+				
+
+				//点击跳转优惠券详情
+				$('body').delegate('.lqFrBtn','click',function(){
+					var id = $(this).parents('li').attr('data-id');
+					bridge.callHandler("javascriptJumpAction",{
+	                    type : 12,
+	                    title : "",
+	                    param1 : id
+	                },function(data, responseCallback) {})
+				})
+
+
+				// 点击领取弹窗 --要判断是否登录
+				$("body").delegate(".lqNow","click",function(){
+					var id = parseInt($(".disPicWrapper").attr("data-id")),
+						status = $(this).attr("data-status"),
+						id_2 =init.getQueryString('gifts_id',url),
+						type = 1;
+					bridge.callHandler("achieveCouponAction",{id : id_2, type : type,status : status},function(data,responseCallback){
+						
+						//0：未领取  1：已领取, 2：优惠券被抢光了 3：发放时间结束了 4: 优惠券还没开始发放
+					})
+				})
+
+				bridge.registerHandler("couponBtnStatus",function(data,responseCallback){
+					var status = data.status;
+					//0：未领取  1：已领取, 2：优惠券被抢光了 3：发放时间结束了 4: 优惠券还没开始发放
+					if(status == 1) {
+						$(".lqNow").attr("data-status",1).attr("class","lqNow lqed").text("优惠劵已领取-查看");
+					}else if(status == 2) {
+						$(".lqNow").attr("data-status",2).attr("class","lqNow lqOut").text("优惠劵被抢光啦");
+					}else if(status == 3) {
+						$(".lqNow").attr("data-status",3).attr("class","lqNow lqOut").text("发放时间结束啦");
+					}
+				})
+
+		   })
+	</script>
+</html>

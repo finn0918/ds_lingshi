@@ -1,0 +1,50 @@
+<include file="Public:header" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/js/calendar/calendar-blue.css"/>
+<script type="text/javascript" src="__ROOT__/statics/js/calendar/calendar.js"></script>
+<style>
+.list_item{margin-bottom:20px;border:1px solid #ddd;box-shadow:2px 2px 5px #ddd}
+.list_item .header{position:relative;background-color:#f3f3f3;height:33px;line-height:32px;padding-left:10px;}
+.list_item h3,
+.list_item h4{display:inline-block;*display:block; *float:left;margin-right:10px;border-right:1px solid #ddd;padding-right:10px;}
+.list_item .status img {margin:10px 0;}
+.list_item .op {position:absolute;right:0;border-right:0 none; padding-right:20px;}
+.list_item .op a {margin-left:15px}
+.list_item .content {padding:10px;}
+.list_item .content img {width:60px;text-align:left}
+</style>
+<div class="pad-10">
+
+<div class="pad-lr-10" >
+    <div class="table-list">
+<form id="myform" name="myform" action="{:u('Map/add')}" method="post" onsubmit="return check();">
+    <table width="100%" cellspacing="0" class="tb_rec">
+        <thead>
+            <tr>
+                <th width="12%" align="center">省份（直辖市）</th>
+                <th width="78%" align="center">城市（地区）</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+    	<tbody>
+        <volist name="data" id='val'>
+        	<tr>
+				<td align="center">{$val.province}</td>
+                <td align="center">{$val.citys}</td>
+				<td align="center">
+              	<a class="blueBtn" href="?m=Map&a=editProvince&province={$val.province}">{$Think.lang.edit}</a>
+              </td>
+            </tr>
+        </volist>
+    	</tbody>
+    </table>
+</form>
+</div>
+<script language="javascript">
+    $(function(){
+        $('#search').click(function(){
+            window.location.href="?m=Map&a=search";
+        });
+    })
+</script>
+</body>
+</html>

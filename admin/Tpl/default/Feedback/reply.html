@@ -1,0 +1,256 @@
+<include file="Public:header" />
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<script type="text/javascript" src="/statics/ueditor/editor_config.js?t=20120942"></script>
+<script type="text/javascript" src="/statics/ueditor/editor_all_min.js?t=20120942"></script>
+<script type="text/javascript" src="/statics/ueditor/_src/plugins/selectmodule.js"></script>
+<script type="text/javascript" src="__ROOT__/statics/js/calendar/calendar.js"></script>
+<script type="text/javascript" src="/statics/swfupload/js/jquery.js"></script>
+<script type="text/javascript" src="/statics/swfupload/js/swfupload.js"></script>
+<script type="text/javascript" src="/statics/swfupload/js/handlers.js"></script>
+<link href="/statics/swfupload/default.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="/statics/ueditor/themes/default/ueditor.css?t=20120942" />
+<style>
+    .extra_tab_c {
+        display:none;
+        padding:10px;
+        background:#ffffff;
+    }
+
+    .ipt_btn {
+        padding:5px 10px;
+    }
+
+    .add_music {
+        width:100%;
+        height:225px;
+        border:0 none;
+    }
+
+    .add_comment p {
+        margin:10px;
+    }
+
+    .music_list .mp4_list {
+        border:1px solid #cccccc;;
+        box-shadow:0 0 4px #cccccc;
+        margin:10px 0;
+        padding:5px;
+        overflow:hidden;
+        zoom:1;
+    }
+    .music_list .cover,
+    .music_list .other,
+    .music_list .delete {
+        float:left;
+        height:55px;
+    }
+    .music_list .other,
+    .music_list .cover {
+        margin-right:10px;
+    }
+    .music_list .cover img {
+        width:55px;
+        height:55px;
+    }
+
+    .music_list .delete a {
+        height: 32px;
+        line-height: 32px;
+        border: 1px solid #CCC;
+        display: block;
+        padding: 0 20px;
+        background: #EEE;
+        margin-top: 10px;
+    }
+
+    .mp4_list {
+        border:1px solid #cccccc;;
+        box-shadow:0 0 4px #cccccc;
+        margin:10px 0;
+        padding:5px;
+        overflow:hidden;
+        zoom:1;
+    }
+    .mp4_list .cover,
+    .mp4_list .other,
+    .mp4_list .delete {
+        float:left;
+        height:55px;
+    }
+    .mp4_list .other,
+    .mp4_list .cover {
+        margin-right:10px;
+    }
+    .mp4_list .cover img {
+        width:55px;
+        height:55px;
+    }
+
+    .mp4_list .delete a {
+        height: 32px;
+        line-height: 32px;
+        border: 1px solid #CCC;
+        display: block;
+        padding: 0 20px;
+        background: #EEE;
+        margin-top: 10px;
+    }
+    .comm_single {
+        margin:5px 0;
+    }
+    .editor {
+        height:150px;
+        margin-left:55px
+    }
+
+    .mod_upload_close {
+        float:right;
+        padding:0 8px;
+        cursor:pointer;
+    }
+    .popbox2{position:fixed; left:50%; top:50%; width:740px; height:440px; margin:-220px 0 0 -370px; border-radius:5px; box-shadow:0 0 10px 2px #E2E2E2; background:#fff; z-index:910; padding:10px; display:none;}
+    .popbox2 a:hover{text-decoration:none;}
+    .popbox2 .close{position:absolute; right:10px; top:5px; width:25px; height:25px; line-height:25px; font-size:18px; text-align:center; vertical-align:middle; font-weight:bold; border-radius:5px;}
+    .popbox2 .close:hover{text-decoration:none; background:#930; color:#fff;}
+    .popbox2 h3{font-size:16px; color:#666; line-height:20px; padding-bottom:10px;}
+    .popbox2 .mbox{height:400px; overflow:auto;}
+    .popbox2 .sort{overflow:hidden; padding-top:10px; border-top:solid 1px #efefef;}
+    .popbox2 .sort li{float:left; padding:5px; background:#efefef; margin:0 10px 5px 0; border-radius:5px; width:100px; text-align:center; cursor:pointer;}
+    .popbox2 .list{border:1px solid #EEE; margin:5px; border-radius:5px;}
+    .popbox2 .list .conbox{overflow:hidden; padding:10px;}
+    .popbox2 .list .img{float:left; width:90px; height:74px; padding-right:10px;}
+    .popbox2 .list .img img{width:90px; height:74px;}
+    .popbox2 .list .txt{float:left; width:580px;}
+    .popbox2 .list .btnbox{overflow:hidden;}
+    .popbox2 .list .btn{height:25px; background:#F5F8FA; text-align:center; line-height:25px; display:block; border-radius:0 0 5px 5px;}
+    .popbox2 .list .btn:hover{background:#DCE9EB;}
+
+    .count{
+        height:30px;line-height:30px
+    }
+    .count ul li{
+        float:left;color:#A0B581;width:120px;
+    }
+    .count ul li:first-child{
+        width:450px;padding:0 0 0 20px
+    }
+    .align_right{
+        text-align:right;
+    }
+</style>
+
+<form action="{:u('Feedback/reply')}" method="post" name="myform" id="myform"  enctype="multipart/form-data" style="margin-top:10px;">
+    <div class="pad-10">
+        <div class="col-tab">
+            <ul class="tabBut cu-li">
+                <li id="tab_setting_1" class="on" onclick="SwapTab('setting','on','',2,1);">{$Think.lang.general_info}</li>
+            </ul>
+            <div id="div_setting_1" class="contentList pad-10">
+                <table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+                    <tr>
+                        <td colspan="2">
+                            <div style="margin:10px 0">用户昵称：{$data['nickname']}</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div style="width:500px;margin:10px 0;float:left;">反馈内容：
+                                <volist name='feedback_list' id='vo'><br>
+                                    <span style="display: block;float: left;width: 240px;padding: 5px;background: none repeat scroll 0% 0% #FFC;text-align: center;border-radius: 6px;">{$vo['content']}<br/>{$vo['create_time']|date="Y-m-d H:i:s",###}</span><br/><br/>
+                                    <if condition="$vo['reply_content']">
+                                        <span style="display: block;float: right;width: 320px;padding: 5px;background: none repeat scroll 0% 0% #00AAFF;text-align: center;border-radius: 6px;">{$vo['reply_content']}<br/>{$vo['reply_time']|date="Y-m-d H:i:s",###}</span>
+                                        <else />
+                                        <span style="display: block;float: right;width: 320px;padding: 5px;background: none repeat scroll 0% 0% #00AAFF;text-align: center;border-radius: 6px;"><a href="?m=Feedback&a=reply&id={$vo['id']}#replay_content">没有回复,点击迅速回复</a></span>
+                                    </if>
+                                </volist>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div style="margin:10px 0">反馈时间：{$data.create_time|date="Y-m-d H:i:s",###}</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div style="margin:10px 0">系统平台：{$data['os_type']}</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div style="margin:10px 0">版本号：{$data['version']}</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div style="margin:10px 0;">回复内容：<textarea name="reply_content"  class="excerpt" rows="5" cols="60" id="replay_content">{$data['reply_content']}</textarea></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="mod_upload_btn">
+                                <input type="hidden" id="count" value="1"/>
+                                <input type="hidden" name="id" value="{$data['id']}"/>
+                                <input type="submit" value="提交" onclick="" name="dosubmit" class="button_submit" id="dosubmit" style="cursor:pointer;width:80px;height:35px; vertical-align: middle;">
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+
+
+    $("#myform").submit(function(e){
+        var flag=true;
+        $(this).find("textarea").each(function(){
+            if($(this).val()==""){
+                flag=false;
+                return false;
+            }
+        });
+        if(!flag){
+            //alert("内容不能为空");
+            //return false;
+        }
+    });
+    function submitFrom(){
+        if($("#CATE_ID").val()==0)
+        {
+            alert('请选择文章分类');
+            return false;
+        }
+
+    }
+
+    //添加手机报的精华评论的添加
+
+    function commentAdd(that){
+        var self = $(that),
+                parent = self.closest('.add_comment'),
+                data_id = +self.attr('data-id');
+
+        var flag=true;
+
+        var content=parent.find(".comment_cont").val();
+        if(!content){
+            alert("内容不能为空");
+            flag=false;
+        }
+
+        var user_token=$("#user_token").val();
+
+        if(flag){
+            $.post("{:u('comment/articleCommentAdd')}", {content:content,cont_key:data_id,user_token:user_token}, function(jsondata){
+                jsondata=eval("("+jsondata+")");
+                var html='<li class="comm_single"><span style="padding-right:5px">'+jsondata.data.author+'</span>:<span style="padding-left:5px">'+jsondata.data.content+'</span><span class="comm_close"><a href="javascript:;" onclick="commentDel(this,'+jsondata.data.id+')">x</a></span></li>';
+                $("#comment_prepend_"+data_id).append(html);
+            });
+        }
+        parent.find(".comment_cont").val('');
+    }
+
+</script>
+<include file="Public:footer" />

@@ -1,0 +1,560 @@
+<include file="Public:header" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/css/hdjs.css" />
+<css file="__ROOT__/statics/uploadify/uploadify.css" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/js/calendar/calendar-blue.css" />
+<script type="text/javascript" src="__ROOT__/statics/js/calendar/calendar.js"></script>
+<script type="text/javascript" src="__ROOT__/statics/js/ngjs/hdjs.min.js"></script>
+<script src="__ROOT__/statics/admin/js/layer/layer.min.js"></script>
+<js file="__ROOT__/statics/uploadify/jquery.uploadify.js" />
+<style type="text/css">
+    .uploadify-queue{
+        display: none;
+    }
+</style>
+<script type="text/javascript">
+    $(function(){
+        // 表单提交
+        $("#startSubmit").click(function(){
+            var form = $("#startForm").serialize();
+            $.ajax({
+                url:"{:U('add')}",
+                type:"POST",
+                data:form,
+                dataType:"json",
+                success:function(data){
+                    if(data.status==1){
+                        hd_alert({
+                            message: data.msg,//显示内容
+                            timeout: 2,//显示时间
+                            success:function(){
+                                location.href="{:U('index')}";
+                            }
+                        })
+                    }else{
+
+                        hd_alert({
+                            message: data.msg,//显示内容
+                            timeout: 3//显示时间
+                        })
+
+                    }
+                }
+            })
+        })
+    })
+</script>
+<style>
+	.list_item {
+		margin-bottom: 20px;
+		border: 1px solid #ddd;
+		box-shadow: 2px 2px 5px #ddd
+	}
+	.list_item .header {
+		position: relative;
+		background-color: #f3f3f3;
+		height: 33px;
+		line-height: 32px;
+		padding-left: 10px;
+	}
+	.list_item h3,
+	.list_item h4 {
+		display: inline-block;
+		*display: block;
+		*float: left;
+		margin-right: 10px;
+		border-right: 1px solid #ddd;
+		padding-right: 10px;
+	}
+	.list_item .status img {
+		margin: 10px 0;
+	}
+	.list_item .op {
+		position: absolute;
+		right: 0;
+		border-right: 0 none;
+		padding-right: 20px;
+	}
+	.list_item .op a {
+		margin-left: 15px
+	}
+	.list_item .content {
+		padding: 10px;
+	}
+	.list_item .content img {
+		width: 60px;
+		text-align: left
+	}
+	.panel_out{
+		padding: 10px;
+	}
+	.date_link{
+	 	background: none repeat scroll 0 0 #4f6e8f;
+	    border: 1px solid #315070;
+	    color: #dfeeff;
+	    cursor: pointer;
+	    height: 30px;
+	    margin-right: 5px;
+	    padding: 5px 10px;
+	}
+	#video{
+		display:none;
+		padding:10px;
+	}
+    .topic_desc{
+        border-bottom: 1px solid #CBCBCB;
+        line-height: 20px;
+        padding: 8px 10px;
+    }
+    .pic{
+        float: left;
+    }
+    .text_desc{
+        float:left;
+        padding-left: 10px;
+    }
+    .oper{
+        float: left;
+        padding-left: 5px;
+        padding-top: 70px;
+    }
+    .clearall{
+        clear: both;
+    }
+    .red{
+        color:#FD5F5F;
+    }
+    .tb_rec tr td{
+        font-size: 15px;
+    }
+    .pic{
+        border: 1px solid #E5E5E5;padding: 5px; width：100px;height:100px;
+    }
+    .filemargin{
+        margin-right: 80px;
+    }
+    .margin10{
+        margin-right:10px;
+    }
+</style>
+
+<div class="hd-tab panel_out">
+    <ul class="hd-tab-menu">
+        <a href="{:U('index')}" class="nava">启动页列表</a>
+        <a href="{:U('add')}" class="nava active">添加启动页</a>
+    </ul>
+    <div class="form">
+
+        <table class="hd-table hd-table-form hd-form">
+            <thead>
+            <tr>
+                <td colspan="2">添加启动页</td>
+            </tr>
+            </thead>
+            <tbody>
+            <form action="" method="post" id="startForm">
+                <tr>
+                    <th class="hd-w150">标题</th>
+                    <td>
+                        <input type="text" name="title" value="" class="hd-h30" />
+                    </td>
+                </tr>
+                <tr>
+                    <th width="100">推送平台</th>
+                    <td>
+                        <select name="os_type" class="hd-h30" id="changePla">
+                            <option value="0" >全部</option>
+                            <option value="1" >IOS</option>
+                            <option value="3" >Android</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>生效时间：</th>
+                    <td>
+                        <input type="text" name="start_time" size="22" id="stime" class="hd-h30" />-<input type="text" name="end_time" value="" id="etime" size="22" class="hd-h30"/>
+
+                        <script language="javascript" type="text/javascript">
+                            Calendar.setup({
+                                inputField     :    "stime",
+                                ifFormat       :    "%Y-%m-%d %H:%M:%S",
+                                showsTime      :    'true',
+                                timeFormat     :    "24"
+                            });
+                        </script>
+                        <script language="javascript" type="text/javascript">
+                            Calendar.setup({
+                                inputField     :    "etime",
+                                ifFormat       :    "%Y-%m-%d %H:%M:%S",
+                                showsTime      :    'true',
+                                timeFormat     :    "24"
+                            });
+                        </script>
+                    </td>
+                </tr>
+                <tr class="hd-h100 ios_piclist">
+                    <th>IOS启动图片：</th>
+                    <td>
+                        <div class="fl filemargin" >
+                            <input type="file" name="iospic1" id="ios1"/>&nbsp;&nbsp;640x960像素
+                            <input type="hidden" name="ios[]" id="ios1_h"/>
+                        </div>
+                        <div class="fl filemargin" >
+                            <input type="file" name="iospic2" id="ios2"/>&nbsp;&nbsp;640x1136像素
+                            <input type="hidden" name="ios[]" id="ios2_h"/>
+                        </div>
+                        <div class="fl filemargin">
+                            <input type="file" name="iospic3" id="ios3"/>&nbsp;&nbsp;750x1334像素
+                            <input type="hidden" name="ios[]" id="ios3_h"/>
+                        </div>
+                        <div class="fl" >
+                            <input type="file" name="iospic4" id="ios4"/>&nbsp;&nbsp;1242x2208像素
+                            <input type="hidden" name="ios[]" id="ios4_h"/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="hd-h130 ios_piclist" >
+                    <th></th>
+                    <td >
+                        <div class="fl hd-w200" id="iospic1">
+                            <div class="pic">
+                                <img src="__ROOT__/statics/images/gray-img.png" alt="" width="100" />
+                            </div>
+
+                        </div>
+                        <div class="fl hd-w200" id="iospic2">
+                            <div class="pic">
+                                <img src="__ROOT__/statics/images/gray-img.png" alt="" width="100" />
+                            </div>
+
+                        </div>
+                        <div class="fl hd-w200"  id="iospic3">
+                            <div class="pic">
+                                <img src="__ROOT__/statics/images/gray-img.png" alt="" width="100" />
+                            </div>
+
+                        </div>
+                        <div class="fl hd-w200" id="iospic4">
+                            <div class="pic">
+                                <img src="__ROOT__/statics/images/gray-img.png" alt="" width="100" />
+                            </div>
+
+                        </div>
+                    </td>
+                </tr>
+
+                <tr class="hd-h100 android_piclist">
+                    <th>Android启动图片：</th>
+                    <td>
+                        <div class="fl filemargin" >
+                            <input type="file" name="pic_and1" id="and1"/>&nbsp;&nbsp;480x800像素
+                            <input type="hidden" name="and[]" id="and1_h"/>
+                        </div>
+                        <div class="fl filemargin" >
+                            <input type="file" name="pic_and2" id="and2"/>&nbsp;&nbsp;540x960像素
+                            <input type="hidden" name="and[]" id="and2_h"/>
+                        </div>
+                        <div class="fl filemargin" >
+                            <input type="file" name="pic_and3" id="and3"/>&nbsp;&nbsp;720x1280像素
+                            <input type="hidden" name="and[]" id="and3_h"/>
+                        </div>
+                        <div class="fl" >
+                            <input type="file" name="pic_and4" id="and4"/>&nbsp;&nbsp;1080x1920像素
+                            <input type="hidden" name="and[]" id="and4_h"/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="hd-h130 android_piclist" >
+                    <th></th>
+                    <td >
+                        <div class="fl hd-w200" id="andpic1">
+                            <div class="pic">
+                                <img src="__ROOT__/statics/images/gray-img.png" alt="" width="100" />
+                            </div>
+
+                        </div>
+                        <div class="fl hd-w200" id="andpic2">
+                            <div class="pic">
+                                <img src="__ROOT__/statics/images/gray-img.png" alt="" width="100" />
+                            </div>
+
+                        </div>
+                        <div class="fl hd-w200" id="andpic3">
+                            <div class="pic">
+                                <img src="__ROOT__/statics/images/gray-img.png" alt="" width="100" />
+                            </div>
+
+                        </div>
+                        <div class="fl hd-w200" id="andpic4">
+                            <div class="pic">
+                                <img src="__ROOT__/statics/images/gray-img.png" alt="" width="100" />
+                            </div>
+
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th></th>
+                    <td>
+                        <input type="button" value="确定" class="hd-btn hd-btn-default hd-btn-lg" id="startSubmit"/>
+                    </td>
+                </tr>
+            </form>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+<script type="text/javascript" >
+    $(function(){
+        // 缓加载
+        setTimeout(function(){
+
+            $("#ios1").uploadify({
+                fileTypeDesc : '请选择图片',
+                uploadLimit : 1000,
+                fileTypeExts : '*.gif; *.jpeg; *.jpg; *.png',
+                buttonImage : "__ROOT__/statics/uploadify/btn.png",
+                width	: 120,
+                height  : 30,
+                multi 	: false,
+                swf		: "__ROOT__/statics/uploadify/uploadify.swf",
+                uploader: "{:U('upload',array('type'=>1))}",
+                //解决某些浏览器(主要是FF)Uploadify上传时丢失SESSION问题
+                formData : {'<?php echo session_name();?>' : '<?php echo session_id();?>'},
+                onUploadSuccess : function(file, data, response) {
+                    eval('data=' + data);
+                    if(data.status == 1){
+                        var str = '<div class="pic"><img src="' + data.name + '" width="100" height="100" /></div><div class="oper"></div>';
+                        $('#iospic1').empty().append(str).fadeIn(2000,"swing",function(){
+                            $("#ios1_h").val(data.img);
+                        });
+                    }else{
+                        alert(data.msg);
+                    }
+                }
+            });
+            $("#ios2").uploadify({
+                fileTypeDesc : '请选择图片',
+                uploadLimit : 1000,
+                fileTypeExts : '*.gif; *.jpeg; *.jpg; *.png',
+                buttonImage : "__ROOT__/statics/uploadify/btn.png",
+                width	: 120,
+                height  : 30,
+                multi 	: false,
+                swf		: "__ROOT__/statics/uploadify/uploadify.swf",
+                uploader: "{:U('upload',array('type'=>1))}",
+                //解决某些浏览器(主要是FF)Uploadify上传时丢失SESSION问题
+                formData : {'<?php echo session_name();?>' : '<?php echo session_id();?>'},
+                onUploadSuccess : function(file, data, response) {
+                    eval('data=' + data);
+                    if(data.status == 1){
+                        var str = '<div class="pic"><img src="' + data.name + '" width="100" height="100" /></div><div class="oper"></div>';
+                        $('#iospic2').empty().append(str).fadeIn(2000,"swing",function(){
+                            $("#ios2_h").val(data.img);
+                        });
+                    }else{
+                        alert(data.msg);
+                    }
+                }
+            });
+            $("#ios3").uploadify({
+                fileTypeDesc : '请选择图片',
+                uploadLimit : 1000,
+                fileTypeExts : '*.gif; *.jpeg; *.jpg; *.png',
+                buttonImage : "__ROOT__/statics/uploadify/btn.png",
+                width	: 120,
+                height  : 30,
+                multi 	: false,
+                swf		: "__ROOT__/statics/uploadify/uploadify.swf",
+                uploader: "{:U('upload',array('type'=>1))}",
+                //解决某些浏览器(主要是FF)Uploadify上传时丢失SESSION问题
+                formData : {'<?php echo session_name();?>' : '<?php echo session_id();?>'},
+                onUploadSuccess : function(file, data, response) {
+                    eval('data=' + data);
+                    if(data.status == 1){
+                        var str = '<div class="pic"><img src="' + data.name + '" width="100" height="100" /></div><div class="oper"></div>';
+                        $('#iospic3').empty().append(str).fadeIn(2000,"swing",function(){
+                            $("#ios3_h").val(data.img);
+                        });
+                    }else{
+                        alert(data.msg);
+                    }
+                }
+            });
+            $("#ios4").uploadify({
+                fileTypeDesc : '请选择图片',
+                uploadLimit : 1000,
+                fileTypeExts : '*.gif; *.jpeg; *.jpg; *.png',
+                buttonImage : "__ROOT__/statics/uploadify/btn.png",
+                width	: 120,
+                height  : 30,
+                multi 	: false,
+                swf		: "__ROOT__/statics/uploadify/uploadify.swf",
+                uploader: "{:U('upload',array('type'=>1))}",
+                //解决某些浏览器(主要是FF)Uploadify上传时丢失SESSION问题
+                formData : {'<?php echo session_name();?>' : '<?php echo session_id();?>'},
+                onUploadSuccess : function(file, data, response) {
+                    eval('data=' + data);
+                    if(data.status == 1){
+                        var str = '<div class="pic"><img src="' + data.name + '" width="100" height="100" /></div><div class="oper"></div>';
+                        $('#iospic4').empty().append(str).fadeIn(2000,"swing",function(){
+                            $("#ios4_h").val(data.img);
+                        });
+                    }else{
+                        alert(data.msg);
+                    }
+                }
+            });
+
+            $("#and1").uploadify({
+                fileTypeDesc : '请选择图片',
+                uploadLimit : 1000,
+                fileTypeExts : '*.gif; *.jpeg; *.jpg; *.png',
+                buttonImage : "__ROOT__/statics/uploadify/btn.png",
+                width	: 120,
+                height  : 30,
+                multi 	: false,
+                swf		: "__ROOT__/statics/uploadify/uploadify.swf",
+                uploader: "{:U('upload',array('type'=>0))}",
+                //解决某些浏览器(主要是FF)Uploadify上传时丢失SESSION问题
+                formData : {'<?php echo session_name();?>' : '<?php echo session_id();?>'},
+                onUploadSuccess : function(file, data, response) {
+                    eval('data=' + data);
+                    if(data.status == 1){
+                        var str = '<div class="pic"><img src="' + data.name + '" width="100" height="100" /></div><div class="oper"></div>';
+                        $('#andpic1').empty().append(str).fadeIn(2000,"swing",function(){
+                            $("#and1_h").val(data.img);
+                        });
+
+                    }else{
+                        alert(data.msg);
+                    }
+                }
+            });
+            $("#and2").uploadify({
+                fileTypeDesc : '请选择图片',
+                uploadLimit : 1000,
+                fileTypeExts : '*.gif; *.jpeg; *.jpg; *.png',
+                buttonImage : "__ROOT__/statics/uploadify/btn.png",
+                width	: 120,
+                height  : 30,
+                multi 	: false,
+                swf		: "__ROOT__/statics/uploadify/uploadify.swf",
+                uploader: "{:U('upload',array('type'=>0))}",
+                //解决某些浏览器(主要是FF)Uploadify上传时丢失SESSION问题
+                formData : {'<?php echo session_name();?>' : '<?php echo session_id();?>'},
+                onUploadSuccess : function(file, data, response) {
+                    eval('data=' + data);
+                    if(data.status == 1){
+                        var str = '<div class="pic"><img src="' + data.name + '" width="100" height="100" /></div><div class="oper"></div>';
+                        $('#andpic2').empty().append(str).fadeIn(2000,"swing",function(){
+                            $("#and2_h").val(data.img);
+                        });
+
+                    }else{
+                        alert(data.msg);
+                    }
+                }
+            });
+            $("#and3").uploadify({
+                fileTypeDesc : '请选择图片',
+                uploadLimit : 1000,
+                fileTypeExts : '*.gif; *.jpeg; *.jpg; *.png',
+                buttonImage : "__ROOT__/statics/uploadify/btn.png",
+                width	: 120,
+                height  : 30,
+                multi 	: false,
+                swf		: "__ROOT__/statics/uploadify/uploadify.swf",
+                uploader: "{:U('upload',array('type'=>0))}",
+                //解决某些浏览器(主要是FF)Uploadify上传时丢失SESSION问题
+                formData : {'<?php echo session_name();?>' : '<?php echo session_id();?>'},
+                onUploadSuccess : function(file, data, response) {
+                    eval('data=' + data);
+                    if(data.status == 1){
+                        var str = '<div class="pic"><img src="' + data.name + '" width="100" height="100" /></div><div class="oper"></div>';
+                        $('#andpic3').empty().append(str).fadeIn(2000,"swing",function(){
+                            $("#and3_h").val(data.img);
+                        });
+
+                    }else{
+                        alert(data.msg);
+                    }
+                }
+            });
+            $("#and4").uploadify({
+                fileTypeDesc : '请选择图片',
+                uploadLimit : 1000,
+                fileTypeExts : '*.gif; *.jpeg; *.jpg; *.png',
+                buttonImage : "__ROOT__/statics/uploadify/btn.png",
+                width	: 120,
+                height  : 30,
+                multi 	: false,
+                swf		: "__ROOT__/statics/uploadify/uploadify.swf",
+                uploader: "{:U('upload',array('type'=>0))}",
+                //解决某些浏览器(主要是FF)Uploadify上传时丢失SESSION问题
+                formData : {'<?php echo session_name();?>' : '<?php echo session_id();?>'},
+                onUploadSuccess : function(file, data, response) {
+                    eval('data=' + data);
+                    if(data.status == 1){
+                        var str = '<div class="pic"><img src="' + data.name + '" width="100" height="100" /></div><div class="oper"></div>';
+                        $('#andpic4').empty().append(str).fadeIn(2000,"swing",function(){
+                            $("#and4_h").val(data.img);
+                        });
+
+                    }else{
+                        alert(data.msg);
+                    }
+                }
+            });
+
+        },10);
+
+
+
+
+
+
+        // 删除图片
+
+        $(".del").live("click",function(){
+            var url = $(this).attr("url");
+            var delUrl = "{:U('delPic')}";
+            var names  = $(this).attr("name");
+            var that = $(this);
+            // 删除操作
+            $.post(delUrl,{url:url},function(data){
+                // 删除成功
+                if(data.status==1){
+                    $("#"+names).val('');
+                    that.parent().prev().find('img').attr("src","/statics/images/gray-img.png");
+                    that.remove();
+                }
+            },'json');
+        })
+        // 选择平台切换效果
+        $("#changePla").change(function(){
+            // 获取到 选中值之后就进行切换
+            var sel = $("#changePla option:selected").val();
+            switch(sel){
+                case "0":
+                        $(".android_piclist").show();
+                        $(".ios_piclist").show();
+                    break;
+                case "1":
+                        $(".android_piclist").hide();
+                        $(".ios_piclist").show();
+                    break;
+                case "3":
+                        // 安卓显示
+                        $(".android_piclist").show();
+                        $(".ios_piclist").hide();
+                    break;
+            }
+        })
+    })
+
+</script>
+</body>
+</html>

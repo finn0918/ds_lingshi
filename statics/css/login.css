@@ -1,0 +1,85 @@
+@media only screen and (max-width:320px ) {
+	html{font-size:50%;}
+}
+@media only screen and (max-width:375px )and (min-width:321px ) {
+	html{font-size:56%;}
+}
+@media only screen and (min-width:376px ) {
+	html{font-size:60%;}
+}
+*{box-sizing: border-box;margin: 0; padding: 0;}
+a{text-decoration:none; color: #000; -webkit-tap-highlight-color:rgba(255,255,255,0);}
+*:focus { outline: none; }
+
+
+body{background: #F3F4F5;}
+body.login{background: #fff;}
+
+
+.login-img{position:relative;width: 100%;height:120px;display: -webkit-box;-webkit-box-align: center;-webkit-box-pack: center;}
+.login-img p{position:absolute;bottom:-5px;font-size: 1.8rem; color: #FF2D4B; left:50%; margin-left:-72px;}
+.login-img img{height:80%;}
+
+.login-tel{padding:0 5%;width:100%;}
+.login-tel p{width:100%; height: 43px;border-bottom: 1px solid #ccc;line-height: 43px;}
+.login-tel p input{float: left;width:72%;height:42px;line-height: 43px; display: inline-block;border:0;font-size:1.6rem;}
+
+.login-tel p span{float: left;margin-right: 3%;display: inline-block;font-size: 1.5rem;height: 100%;}
+.login-tel p img.eye{position:absolute;right:10px;top:50%;margin-top:-6px;}
+
+.login-tel p span img{height: 50%;position:absolute;top:50%;margin-top:-11px;}
+
+.login-tel p input{ -webkit-appearance:none; float: right;margin-right:6%;width:72%;height:42px;line-height:normal; display: inline-block;border:0;font-size:1.6rem;}
+
+.login-tel p .eye{float: right;margin-top:4%;}
+.login-instance{width:92%;margin:7% 4% 18px; text-align: center;border-radius:5px;height:35px;line-height:35px; background: #E0E0E1;display: block;font-size: 1.7rem;color: #BBBBBF;}
+.login-forgetPwd{font-size:1.2rem; display: block;float: right;margin-right: 10%;}
+.login-mid{margin-top:17%; text-align:center;}
+.login-mid span{font-size:1.4rem;display: inline-block;}
+.login-mid a.login-mobileReg{width:80px;color:#FF2D4B;font-size:1.4rem;height:22px;line-height:20px;display: inline-block;border-radius: 5px;text-align: center;line-height:20px;border:1px solid #FF2D4B;}
+footer.login-three{width: 100%; margin-top:60px;text-align: center;padding:5% 5%;}
+.login-three1 span{width: 100%;position: absolute;border-top:1px solid #ccc;left:0;top:50%;z-index: -1;}
+.login-three1 { position: relative; font-size: 1.5rem;color: #A0A0A0;text-align: center;}
+.login-three1 i{width: 30%;height: 30px;font-size:1.2rem; line-height: 30px;background: #fff;font-style: normal;display: inline-block;}
+.login-three dl{float: left;margin:5% 0;width:33.3%;}
+.login-three dl img{width: 33%;}
+
+/*login+++++++++++++++++++++++++++++++++++++++*/
+.login-top p input{float: none;margin-right: 7%;}
+.login-top p:first-of-type{border-bottom: 1px solid #D3D0D0;}
+.login-top{margin:0 5%;width:90%; padding:0;border:1px solid #D3D0D0;margin-top:20px; border-radius: 5px;}
+.login-top p{position:relative;border:0;width:100%; height: 43px;color:#CBCBCB;font-size:1.4rem;padding-left:5%;line-height: 43px;}
+.login-top p span{padding-top:2%;}
+
+
+
+.login-tel p{border:0; padding-left: 5%;background: #fff;}
+
+/*register+++++++++++++++++++++++++++++++++++++++*/
+.register-tel{width: 100%; padding: 0;}
+.register-tel p{border:0; padding-left: 5%;}
+.register-tel p:first-of-type{background:#F3F4F5;}
+.register-tel p:first-of-type span{font-size: 1.1rem; color:#CBCBCB; }
+.register-tel p:nth-of-type(2) span{font-size: 1.3rem;}
+.register-tel p:nth-of-type(2) input{font-size: 1.3rem;}
+
+.login-right{margin-top:10%; text-align:right;margin-right: 5%;}
+.login-right a.login-mobileReg{width:50px;}
+/*loginPwd++++++++++++++++++++++++++++++++++++++++++*/
+.loginPwd-tel{width:100%;padding: 0;}
+.loginPwd-tel p{position:relative;padding:0 2%;margin:0;}
+.loginPwd-tel p:first-of-type{margin:11px 0;}
+.loginPwd-tel p:nth-of-type(2){border-bottom: 1px solid #E0E0E0;}
+.loginPwd-tel img.delete{height: 40%;}
+#resetSend span{float:none;}
+.loginPwd-tel a.login-mobileGray{position:absolute;right:10px;top:25%;width:24%;color:#000;font-size:1.3rem;padding:0 3px;height:22px;display: inline-block;border-radius: 5px;text-align: center;line-height:22px;  background: rgba(240, 240, 240, 1); }
+.loginPwd-tel a.login-mobileReg{position:absolute;right:10px;top:25%;width:24%;color:#FF2D4B;font-size:1.3rem;padding:0 3px;height:22px;display: inline-block;border-radius: 5px;text-align: center;line-height:20px;border:1px solid #FF2D4B;}
+.loginPwd-tel p img{position:absolute;right:10px;top:50%;margin-top:-9px;height: 28%;}
+.login-tel i.login-back{width:100%; height:10px; background: #F8F8F8;display: block;}
+.loginPwd-mid{margin-top:0%; text-align:left;margin-left:2%;}
+.loginPwd-mid span{float: left;font-size: 1rem;}
+.loginPwd-mid a.login-server{display: inline-block;float: left;font-size: 1rem;}
+/*forgetPwd++++++++++++++++++++++++++++++++++++++++++*/		
+
+
+

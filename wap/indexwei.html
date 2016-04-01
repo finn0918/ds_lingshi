@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>零食小喵</title>
+        <meta name="viewport" content="width=device-width, maximum-scale=1, user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <meta name="full-screen" content="yes"/>
+        <meta name="x5-fullscreen" content="true"/>
+		<meta name="msapplication-tap-highlight" content="no" />
+		<link rel="stylesheet" type="text/css" href="/statics/css/tBase.css">
+		<!--<script type="text/javascript" src="index.js"></script>-->
+		<script>
+		(function (doc, window) {
+			var docEl = doc.documentElement,
+				resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+				recalc = function () {
+					var clientWidth = docEl.clientWidth;
+					if (!clientWidth) return;
+					docEl.style.fontSize = (20 * (clientWidth / 320)) > 40 ? 40 + "px" : (20 * (clientWidth / 320)) + 'px';
+				},
+			anime = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame ||
+			function(e){
+				return setTimeout(e,16.67);
+			};
+			if (!doc.addEventListener) return;
+			window.addEventListener(resizeEvt, recalc, false);
+			doc.addEventListener('DOMContentLoaded', recalc, false);
+		})(document, window);
+
+        	var browser = {
+				versions: function () {
+					var u = navigator.userAgent, app = navigator.appVersion;
+					return { //移动终端浏览器版本信息 
+						mobile: !!u.match(/AppleWebKit.*Mobile.*/),
+						ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端 
+						android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器 
+						iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器 
+						iPad: u.indexOf('iPad') > -1, //是否iPad]
+						weixin : u.match("MicroMessenger")
+					};
+				}(),
+			};
+			if(!browser.versions.mobile){
+				window.location.href = "http://lingshi.cccwei.com/";
+			}
+		</script>
+		<style>
+img{
+	width: 100%;
+}
+html{
+	font-size:100%;
+}
+.bg-top,.bg-bottom{
+	max-width: 640px;
+	margin: 0 auto;
+}
+.bg-top{
+	background: #ffd303;
+	padding-top: 2.35rem;
+	padding-left: 1.8rem;
+}
+.bg-top-img{
+	max-width: 14rem;
+
+}
+.bg-bottom{
+	padding-top: 0.8rem;
+}
+.download-img{
+	margin: 0 auto;
+	max-width: 9.425rem;
+}
+.download-img a{
+	display: block;
+	margin-bottom: 0.4rem;
+}
+.shadow {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 18;
+	display: none;
+	width: 100%;
+	height: 100%;
+	background: url(images/shadow.png) center 10px rgba(0,0,0,0.7) no-repeat;
+	background-size: 90%;
+}
+
+.shadowAd {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 18;
+	display: none;
+	width: 100%;
+	height: 100%;
+	background: url(images/shadow2.png) center 10px rgba(0,0,0,0.7) no-repeat;
+	background-size: 90%;
+}
+.shareicon{
+	position:absolute;
+	left:-2000px;
+	top:-2000px;
+	z-index:-9999;
+}
+
+		
+</style>
+	</head>
+	<body>
+		<div class="shareicon"><img src="images/miaoIcon.png?1" /></div>
+		<div class="shadow" id="shadow"></div>
+		<div class="shadowAd" id="shadowAd"></div>
+		<div class="bg-top">
+			<div class="bg-top-img">
+				<img src="/statics/images/lingshi_wap/bg.png?2020" alt="">
+			</div>
+		</div>
+		<div class="bg-bottom">
+			<div class="download-img">
+				<a class="phone" id="android"><img src="/statics/images/lingshi_wap/android.png" alt=""></a>
+				<a class="android" id="ios"><img src="/statics/images/lingshi_wap/iphone.png" alt=""></a>
+			</div>
+		</div>
+	</body>
+	<div style="display:none;">
+		<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1254054224'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/stat.php%3Fid%3D1254054224' type='text/javascript'%3E%3C/script%3E"));</script>
+	</div>
+	<script type="text/javascript">
+		function getQueryValue(key,url){
+			var strurl=url || jin.nowUrl;
+			var vals=new RegExp("[\&|\?]"+key+"=([^&]*)&{0,1}","ig").exec(strurl);
+			return vals?(vals[1].replace(/#.*/gi,"")):"";
+		}
+		var from = getQueryValue("from",window.location.href);
+
+		if(from){
+			if(from == "weibo_1"){
+				document.getElementById('android').onclick = function(){
+					_czc.push(﻿["_trackEvent","小喵-非微信-Andorid","下载按钮"]);
+					setTimeout(function(){
+						//window.location.href = "http://dl.lengxiaohua.cn/static/lingshi/lingshi-feibo.apk";
+						window.location.href = 'http://up.dl.lengxiaohua.cn/lingshi/weibo/Snacks-weibo_1-release.apk';
+					},200);
+				}
+			}else if(from == "weibo_2") {
+				document.getElementById('android').onclick = function(){
+					_czc.push(﻿["_trackEvent","小喵-非微信-Andorid","下载按钮"]);
+					setTimeout(function(){
+						//window.location.href = "http://dl.lengxiaohua.cn/static/lingshi/lingshi-feibo.apk";
+						window.location.href = 'http://up.dl.lengxiaohua.cn/lingshi/weibo/Snacks-weibo_2-release.apk';
+					},200);
+				}
+			}
+		}else {
+			document.getElementById('android').onclick = function(){
+				_czc.push(﻿["_trackEvent","小喵-非微信-Andorid","下载按钮"]);
+				setTimeout(function(){
+					//window.location.href = "http://dl.lengxiaohua.cn/static/lingshi/lingshi-feibo.apk";
+					window.location.href = "http://up.dl.lengxiaohua.cn/lingshi/weibo/Snacks-weibo-release.apk";
+				},200);
+			}
+		}
+		document.getElementById('ios').onclick = function(){
+			_czc.push(﻿["_trackEvent","小喵-非微信-iOS","下载按钮"]);
+			setTimeout(function(){
+				window.location.href = "https://itunes.apple.com/us/app/ling-shi-xiao-miao-pin-pai/id973356324?l=zh&ls=1&mt=8";
+			},200);
+		}
+	</script>
+</html>

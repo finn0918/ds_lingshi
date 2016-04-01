@@ -1,0 +1,75 @@
+<include file="Public:header" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/admin/css/jquery.datetimepicker.css"/>
+<script type="text/javascript" src="__ROOT__/statics/admin/js/jquery.datetimepicker.js"></script>
+<style>
+.list_item{margin-bottom:20px;border:1px solid #ddd;box-shadow:2px 2px 5px #ddd}
+.list_item .header{position:relative;background-color:#f3f3f3;height:33px;line-height:32px;padding-left:10px;}
+.list_item h3,
+.list_item h4{display:inline-block;*display:block; *float:left;margin-right:10px;border-right:1px solid #ddd;padding-right:10px;}
+.list_item .status img {margin:10px 0;}
+.list_item .op {position:absolute;right:0;border-right:0 none; padding-right:20px;}
+.list_item .op a {margin-left:15px}
+.list_item .content {padding:10px;}
+.list_item .content img {width:60px;text-align:left}
+</style>
+<div class="pad-10">
+    <form name="searchform" action="{:u('push/index')}" method="get" >
+    <table width="100%" cellspacing="0" class="search-form">
+        <tbody>
+            <tr>
+            <td>
+            <div class="explain-col">
+            	时间：
+            	<input type="text" name="time" id="time" class="date datetimepicker" size="15" value="{$time}">
+
+                &nbsp;内容关键字 :
+                <input name="keyword" type="text" class="input-text" size="25" placeholder="搜索内容" value="{$keyword}" />
+                <input type="hidden" name="m" value="push" />
+                <input type="submit" name="search" class="button" value="搜索" />
+        	</div>
+            </td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+<div class="pad-lr-10" >
+    <div class="table-list">
+    <table width="100%" cellspacing="0" class="tb_rec">
+        <thead>
+            <tr>
+              	<th width="10%">内容编号</th>
+              	<th width="15%">标题</th>
+                <th >内容</th>
+                <th width="25%">生效时间</th>
+                <th width="10%">推送平台</th>
+                <th  width="10%">状态</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+    	<tbody>
+        <volist name="push_list" id='sval'>
+        	<tr>
+                <td align="center">{$sval.id}</td>
+                <td align="center">{$sval.title}</td>
+                <td align="center">{$sval.content}</td>
+                         <td align="center">{$sval.start_time|date="Y-m-d H:i:s",###}</td>
+                 <td align="center">{$sval.os_type}</td>
+				 <td align="center">{$sval.status}</td>
+				<td align="center"><a href="?m=Push&a=edit&id={$sval.id}">编辑</a>|<a href="?m=Push&a=del&id={$sval.id}" onclick="return confirm('{$Think.lang.sure_delete}')">删除</a>
+            </tr>
+        </volist>
+    	</tbody>
+    </table>
+
+
+    </div>
+        <div class="btn"><div id="pages">{$page}</div></div>
+    </div>
+</div>
+<script language="javascript">
+$(function(){
+			$('.datetimepicker').datetimepicker({value:'',step:"30"});
+})
+</script>
+</body>
+</html>

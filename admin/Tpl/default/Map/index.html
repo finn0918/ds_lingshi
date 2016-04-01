@@ -1,0 +1,87 @@
+<include file="Public:header" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/js/calendar/calendar-blue.css"/>
+<script type="text/javascript" src="__ROOT__/statics/js/calendar/calendar.js"></script>
+<style>
+.list_item{margin-bottom:20px;border:1px solid #ddd;box-shadow:2px 2px 5px #ddd}
+.list_item .header{position:relative;background-color:#f3f3f3;height:33px;line-height:32px;padding-left:10px;}
+.list_item h3,
+.list_item h4{display:inline-block;*display:block; *float:left;margin-right:10px;border-right:1px solid #ddd;padding-right:10px;}
+.list_item .status img {margin:10px 0;}
+.list_item .op {position:absolute;right:0;border-right:0 none; padding-right:20px;}
+.list_item .op a {margin-left:15px}
+.list_item .content {padding:10px;}
+.list_item .content img {width:60px;text-align:left}
+</style>
+<div class="pad-10">
+
+<div class="pad-lr-10" >
+    <div class="btn">
+        <input type="button" class="ipt_btn2" name="search" id="search" value="编辑省份城市关系" />
+    </div>
+    <div class="table-list">
+<form id="myform" name="myform" action="{:u('Map/add')}" method="post" onsubmit="return check();">
+    <table width="100%" cellspacing="0" class="tb_rec">
+        <thead>
+            <tr>
+              	<th width="6% align="left">ID</th>
+                <th align="left" width="8%">版本号</th>
+                <th align="center">下载地址</th>
+                <th width="12%" align="left">创建时间</th>
+                <th width="12%" align="left">更新时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+    	<tbody>
+        <volist name="map" id='val'>
+        	<tr>
+                <td align="right">{$val.id}</td>
+				<td align="center">{$val.version_num}</td>
+                <td align="center">{$val.map_url}</td>
+                <td align="center">{$val.create_time|date="Y-m-d H:i:s",###}</td>
+                <td align="center">{$val.update_time|date="Y-m-d H:i:s",###}</td>
+				<td align="center">
+               <neq name="val.status" value="删除">
+              <a class="blueBtn" href="?m=Map&a=delete&id={$val.id}" onclick="return confirm('{$Think.lang.sure_delete}')">删除</a></neq>
+              	<a class="blueBtn" href="javascript:edit({$val.id},'{$val.version_num}')">{$Think.lang.edit}</a>
+              
+              </td>
+            </tr>
+        </volist>
+    	</tbody>
+    </table>
+       
+     <div class="btn">
+    <input type="submit" class="ipt_btn2" name="dosubmit" value="添加版本" />
+     </div> 
+    </div>
+        <div class="btn"><div id="pages">{$page}</div></div>
+    </div>
+</form>
+</div>
+<script language="javascript">
+function edit(id,name) {
+	var lang_edit = "{$Think.lang.edit}";
+	window.top.art.dialog({id:'edit'}).close();
+	window.top.art.dialog({
+    	title:lang_edit+'--'+name+'版本',
+        id:'edit',
+        iframe:'?m=Map&a=edit&id='+id,
+        width:'800',
+        height:'200'
+    }, function(){
+    	var d = window.top.art.dialog({id:'edit'}).data.iframe;
+        d.document.getElementById('dosubmit').click();
+        return false;
+    }, function(){
+    	window.top.art.dialog({id:'edit'}).close()
+    });
+}
+    $(function(){
+        $('#search').click(function(){
+            window.location.href="?m=Map&a=search";
+        });
+    })
+
+</script>
+</body>
+</html>

@@ -1,0 +1,225 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<meta content="telephone=no" name="format-detection">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>专题详情</title>
+	</head>
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<style>
+		.themes_detail {
+			padding-bottom:3rem;
+		}
+	</style>
+	<script>
+        var subject_id={$subject_id};
+        var rootPath = "__ROOT__";
+		var version = location.href.indexOf("?tdev") > 0 ? (1 + Math.round(Math.random() * 9999 - 1)) : '1.2';
+		document.write('<link href="__ROOT__/statics/css/themes.css?v='+version+'" rel="stylesheet" type="text/css" />');
+		document.write('<link href="__ROOT__/statics/css/tBase.css?v='+version+'" rel="stylesheet" type="text/css" />');
+		(function(b, c) {
+			var d = b.documentElement,
+				resizeEvt = 'orientationchange' in c ? 'orientationchange' : 'resize',
+				recalc = function() {
+					var a = d.clientWidth
+					if (!a) return;
+					d.style.fontSize = (20 * (a / 320)) > 40 ? 40 + "px" : (20 * (a / 320)) + 'px'
+				},
+				anime = c.requestAnimationFrame || c.webkitRequestAnimationFrame || c.mozRequestAnimationFrame || c.oRequestAnimationFrame ||
+			function(e) {
+				return setTimeout(e, 16.67)
+			};
+			if (!b.addEventListener) return;
+			c.addEventListener(resizeEvt, recalc, false);
+			b.addEventListener('DOMContentLoaded', recalc, false)
+		})(document, window);
+	</script>
+	<body subject_id = {$subject_id}>
+		<div class="themes_main">
+			<!--主图图片-->
+			<div class="themes_headerImg">
+				<p>
+					<img src="./statics/images/themes-header-bg.jpg" class="themes_headerImg_img">
+				</p>
+				<!--图片小标题-->
+				<div class="themes_headerImg_txt">
+					<span></span>
+				</div>
+			</div>
+			<!--描述-->
+			<div class="themes_descript-main themes_descript">
+				<div class="themes_desc">
+				</div>
+				<div class="themes_detail">
+
+				</div>
+			</div>
+
+			<div class="download-banner">
+				<img src="__ROOT__/statics/images/down-icon.png" />
+				<a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.feibo.snacks" class="download-btn"></a>
+				<i onclick="" class="CloseUI"></i>
+			</div>
+		</div>
+		<div style="display:none;">
+			<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1254054224'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/stat.php%3Fid%3D1254054224' type='text/javascript'%3E%3C/script%3E"));</script>
+		</div>
+	</body>
+	<script src="__ROOT__/statics/js/jquery-1.8.0.min.js"></script>
+	<script src="__ROOT__/statics/js/jquery.lazyload.js"></script>
+
+	<script>
+		var siteUrl = "{$site_url}";
+		 var shareData = {
+			title: $(".themes_headerImg_txt").text(),
+			desc: $(".themes_desc").text(),
+			link: window.location.href,
+			imgUrl: $(".themes_headerImg").find("img").attr("src"),
+			trigger: function (res) {
+
+			},
+			success: function (res) {
+
+			},
+			cancel: function (res) {
+
+			},
+			fail: function (res) {
+
+			},
+			complete: function (res) {
+
+			}
+		};
+		var init = {
+			ajax_all : function(){
+				var callback = function(d){
+					if(d){
+						var data = d.data;	
+					
+						/* 获取赞的次数，分享次数 */
+						var zanNum = data.subject.hotindex;
+						var shareNum = data.subject.share_num;
+						
+						$(".fix-banner .zan").find("span").text(zanNum),
+						$(".zan-fl span").text(zanNum+"人喜欢"),
+						$(".fix-banner .share").find("span").text(shareNum),
+						$(".share-fl span").text(shareNum+"次分享");
+						
+						/* 商品标题 */
+						$(".themes_headerImg_txt span").text(data.subject.title);	
+						shareData.title = data.subject.title;
+						/* 主图 */
+						$(".themes_headerImg_img").attr("data-original",data.subject.img.img_url);
+						shareData.imgUrl = data.subject.img.img_url;
+						/* 商品描述 */
+						$(".themes_desc").text(data.subject.desc);
+						shareData.desc = data.subject.desc;
+						
+						/* 专题商品列表 */
+						var list = data.goodses;
+						for(var i in list) {
+							var htmls = '';
+							htmls += '<div class="themes_list" data-id='+list[i].id+'>';
+							htmls += '	<div class="themes_detail_title">';
+							htmls += '<span>'+ ((parseInt(i)+1) >= 10 ? (parseInt(i)+1) : "0" + (parseInt(i)+1)) +'</span>'+list[i].title;
+							htmls += '	</div>';
+							htmls += '	<div class="themes_detail_txt">';
+							htmls += '<div class="themes_descript">'+list[i].desc+'</div>';
+							htmls += '		<div class="themes_detail_Img">';
+							var imgList = list[i].posters;
+							for(var s in imgList) {
+								htmls += '			<p>';
+								htmls += '				<a href="http://ds.lingshi.cccwei.com/web.php?&m=Share&a=pro_detail&spu_id='+list[i].id+'" class="themes_link" onclick="">';
+								htmls += '					<img src="./statics/images/themes-detail-bg.jpg" data-original="'+imgList[s].img_url+'">';
+								htmls += '				</a>';
+								htmls += '			</p>';
+							}
+							htmls += '</div>';
+							htmls += '			<div class="themes_detail_price">';
+							// 2015-08-11 by eherry
+							var current_price;
+							var prime_price;
+							if(list[i].price.current.toString().split(".")[1]){
+								if(list[i].price.current.toString().split(".")[1].length == 1) {
+									current_price = list[i].price.current + "0";
+								}else if(list[i].price.current.toString().split(".")[1].length == 2){
+									current_price = list[i].price.current;
+								}
+							}else {
+								current_price = list[i].price.current + ".00";
+							}
+							if(list[i].price.prime.toString().split(".")[1]){
+								if(list[i].price.prime.toString().split(".")[1].length == 1) {
+									prime_price = list[i].price.prime + "0";
+								}else if(list[i].price.prime.toString().split(".")[1].length == 2){
+									prime_price = list[i].price.prime;
+								}
+							}else {
+								prime_price = list[i].price.prime + ".00";
+							}
+							htmls += '	<span class="current_price">￥'+current_price+'</span>';
+							htmls += '	<span class="non_price">￥'+prime_price+'</span>';
+							htmls += '	<a class="detail_link themes_link" href="http://ds.lingshi.cccwei.com/web.php?&m=Share&a=pro_detail&spu_id='+list[i].id+'">商品详情</a>';
+							htmls += '			</div>';
+							htmls += '		</div>';
+							htmls += '	</div>';
+							htmls += ' </div>';
+							$(".themes_detail").append(htmls);
+						}
+						$("img[data-original]").lazyload({
+							"effect" : "fadeIn"
+						});
+					}
+				};
+				var ajax_data = {
+                    url : siteUrl+"/api.php?apptype=0&srv=2404&cid=10002&uid=0&tms=20150713151836&sig=e9f75a3bdae950ea&wssig=9de6f856100a21ab&os_type=1&version=7&channel_name=h5",
+					data : {
+						subject_id : subject_id
+					},
+					type : "get",
+					dataType : "json",
+					success : callback
+				}
+				$.ajax(ajax_data);
+			}
+		}
+		init.ajax_all();
+		 setTimeout(function(){
+            $.ajax({
+                type : "post",
+                url  : "web.php?m=Share&a=signPackage",
+                data : {
+                    url :location.href.split('#')[0]
+                },
+                dataType : "json",
+                success : function(d){
+                    wx.config({
+                        debug     : false,
+                        appId     : d.appId,
+                        timestamp : d.timestamp,
+                        nonceStr  : d.nonceStr,
+                        signature : d.signature,
+                        jsApiList : [
+                            'onMenuShareTimeline',
+                            'onMenuShareAppMessage',
+                            'onMenuShareQQ',
+                            'onMenuShareWeibo'
+                        ]
+                    });
+                    wx.ready(function(){
+                        wx.onMenuShareAppMessage(shareData);
+                        wx.onMenuShareTimeline(shareData);
+                        wx.onMenuShareQQ(shareData);
+                        wx.onMenuShareWeibo(shareData);
+                    });
+                }
+            });
+        },10)
+
+        $(".CloseUI").on("click",function(){
+			$(this).parents(".download-banner").hide();
+		})
+	</script>
+</html>

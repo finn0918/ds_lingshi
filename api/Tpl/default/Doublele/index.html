@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+		<meta name="apple-itunes-app" content="app-id=641895599">
+		<meta name="format-detection" content="telephone=no" searchtype="map">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="360-site-verification" content="188bc9bbbe2e50aaf86c811cf61d5cdb" />
+		<meta name="baidu-site-verification" content="ayLnKZTrby" />
+		<meta name="sogou_site_verification" content="gz86ImwtMQ"/>
+		<script>
+			var version = location.href.indexOf("?tdev") > 0 ? (1 + Math.round(Math.random() * 9999 - 1)) : '1.2';
+			var version = 2232;
+			document.write('<link href="statics/css/tBase.css?v='+version+'" rel="stylesheet" type="text/css" />');
+			document.write('<link href="statics/css/arbitrarily.css?v='+version+'" rel="stylesheet" type="text/css" />');
+			(function(b, c) {
+				var d = b.documentElement,
+					resizeEvt = 'orientationchange' in c ? 'orientationchange' : 'resize',
+					recalc = function() {
+						var a = d.clientWidth;
+						if (!a) return;
+						d.style.fontSize = (20 * (a / 320)) > 40 ? 40 + "px" : (20 * (a / 320)) + 'px'
+					},
+					anime = c.requestAnimationFrame || c.webkitRequestAnimationFrame || c.mozRequestAnimationFrame || c.oRequestAnimationFrame ||
+				function(e) {
+					return setTimeout(e, 16.67)
+				};
+				if (!b.addEventListener) return;
+				c.addEventListener(resizeEvt, recalc, false);
+				b.addEventListener('DOMContentLoaded', recalc, false)
+			})(document, window);
+		</script>
+	</head>
+	<body>
+		<div id="warper">
+			<div class="header">
+				<img src="statics/images/headerB.jpg?2">
+			</div>
+			<p class="title">
+				今天已有<span class="titnum"></span>人参与了任性打包购买活动
+			</p>
+
+			<!-- 商品列表 -->
+			<ul class="ls-list claerfix">
+			</ul>
+		</div>
+		<a href="javascript:;"  class="btn-place">下一步</a>
+		<div class="popbox1 popbox">
+			<p>告诉好友，更能免费多吃1件！！！</p>
+			<p class="btn">
+				<a href="javascript:;" class="place">任性下单</a>
+				<a href="javascript:;" class="wshare">我要分享</a>
+			</p>
+		</div>
+		<div class="popbox2 popbox">
+			<p class="money"></p>
+			<p class="btn">
+				<a href="javascript:;" class="know">我知道啦</a>
+			</p>
+		</div>
+		<div class="popbox3 popbox">
+			<p>请至少选择一件商品哟~</p>
+			<p class="btn">
+				<a href="javascript:;" class="know">好的</a>
+			</p>
+		</div>
+		<div class="bg"></div>
+	</body>
+<script src="statics/js/jquery-1.8.0.min.js"></script>
+</html>
+<script>
+	//获取用户的uid，提供给服务端使用;
+	function setValueToH5(value,type) {
+		//alert("你调用了：setValueToH5");
+		if(type == 1){
+			if(value > "0"){
+				$("body").attr("userId",1).attr("user",value);
+			}else {
+				$("body").attr("userId",0).attr("user",value);
+			}
+			userid = value;
+			init.ajax_fuc(userid);
+		}
+	}
+	function setBtnStatus(id,type){
+		var share = $("body").attr("share");
+		if(type == "5" && share == 0){
+			var number = parseInt(num)+1;
+			$("body").attr("limitNum",number);
+			$("body").attr("share",1);
+		}
+	}
+	var browser = {
+		versions: function () {
+			var u = navigator.userAgent, app = navigator.appVersion;
+			return { //移动终端浏览器版本信息 
+				mobile: !!u.match(/AppleWebKit.*Mobile.*/),
+				ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端 
+				android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器 
+				iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器 
+				iPad: u.indexOf('iPad') > -1, //是否iPad]
+				weixin : u.match("MicroMessenger")
+			};
+		}(),
+	};
+	//browser.versions.android ? 	window.bridge.startLottery() : "";
+	function connectWebViewJavascriptBridge(callback) {
+		if (window.WebViewJavascriptBridge) {
+			callback(WebViewJavascriptBridge)
+		} else {
+			document.addEventListener('WebViewJavascriptBridgeReady', function() {
+				callback(WebViewJavascriptBridge)
+			}, false)
+		}
+	}
+	connectWebViewJavascriptBridge(function(bridge) {	
+		
+		/* Init your app here */
+		
+		// 刚进来就调用
+		bridge.init(function(message, responseCallback) {
+			if (responseCallback) {
+				responseCallback("Right back atcha")
+			}
+		})
+		bridge.send('Please respond to this', function responseCallback(responseData) {
+			console.log("Javascript got its response", responseData)
+		})	
+		bridge.registerHandler('setValueToH5', function responseCallback(data,responseCallback) {
+			var type = data.type, value = data.value;
+			if(type == 1){
+				if(value > "0"){
+					$("body").attr("userId",1).attr("user",value);
+				}else {
+					$("body").attr("userId",0).attr("user",value);
+				}
+				userid = value;
+				init.ajax_fuc(userid);
+			}
+		})
+	})
+	var num;
+	var sharenum;
+	var init = { 
+		center : function(obj){
+			var windowWidth = document.documentElement.clientWidth;   
+			var windowHeight = document.documentElement.clientHeight;   
+			var popupHeight = $(obj).height();   
+			var popupWidth = $(obj).width();    
+			
+			$(obj).css({   
+				"position": "fixed",   
+				"top": windowHeight/2 - popupHeight/2,   
+				"left":windowWidth/2 - popupWidth/2,
+				"z-index": 99999
+			});  
+		},
+		getCookie : function(name){
+			var strCookie = document.cookie;
+			var arrCookie = strCookie.split("; ");
+			for(var i = 0; i < arrCookie.length; i ++){
+				var arr = arrCookie[i].split("=");
+				if(arr[0] == name) return arr[1];
+			}
+			return "";
+		},
+		ajax_fuc : function(userid){
+			var callback = function(d) {
+				var title = d.data.title;
+				browser.versions.android ? 	window.bridge.setAppTitle(title) : "";
+				connectWebViewJavascriptBridge(function(bridge) {		
+					bridge.callHandler('setAppTitle',{title : title},function responseCallback(data,responseCallback) {
+					})
+				})
+				num = d.data.num;
+				sharenum = d.data.share;
+				$("body").attr("share",sharenum);
+				//alert(sharenum);
+				var nnum = parseInt(num)+1;
+				$("body").attr("limitNum",nnum);
+				// 几元钱限购
+				$(".money").html("亲,"+d.data.money+"元最多只能买"+nnum+"件哟~");
+				if(sharenum == 1) {
+					var nnum = parseInt(num)+1;
+					$("body").attr("limitNum",nnum);
+				}else {
+					$("body").attr("limitNum",num);
+					//document.cookie = "limitNum="+num;
+				};
+				$(".titnum").html(d.data.view_num);
+				var list = d.data.spu_list;
+				var htmls = '';
+				for(var i in list) {
+					htmls += '<li kind-id='+list[i].kind_id+' subkind-id='+list[i].subkind_id+' data-num='+list[i].num+'>';
+					htmls += '<div class="liwrapper">';
+					htmls += '	<img src='+list[i].img.img_url+' alt="" class="lsPic">';
+					if(list[i].status == "1") {
+						htmls += '<i class="soldicon"></i>';
+					};
+					htmls += '	<div class="ls-ifm">';
+					htmls += '		<h3>'+list[i].title+'</h3>';
+					htmls += '		<p>'+list[i].desc+'</p>';
+					htmls += '	</div>';
+					htmls += '	<img class="line_l" src="statics/images/line_l.png" alt="">';
+					htmls += '	<a class="like" href="javascript:;" style="" like-data="close" onclick="" data-id='+list[i].spu_id+' sold-status='+list[i].status+'>';
+					htmls += '		<img src="statics/images/icon_unlike.png" alt="">想要';
+					htmls += '	</a>';
+					htmls += '	<div class="cl"></div>';
+					htmls += '</div>';
+					htmls += '<hr class="hrline" />';
+					htmls += '</li>';
+				};
+				$(".ls-list").html(htmls);
+			};
+			var ajax_data = {
+				url : "/api.php?apptype=0&srv=2217&cid=10002&uid=0&tms=20150721190147&sig=8c35f5a024148111&wssig=308efe4382a088e0&os_type=3&version=13&userid="+userid,
+				type : "get",
+				dataType : "Json",
+				success : callback
+			};
+			$.ajax(ajax_data);
+		},
+		// 立即下单
+		orderNow : function(){
+			var uid = $("body").attr("uid");
+			var listArray = [];
+			var rellen = $(".ls-list li").find(".like").children("img.like_buy").length;
+			if(rellen > 0){
+				$(".ls-list li").each(function(){
+					if($(this).find(".like").children("img").hasClass("like_buy")){
+						var obj = {};
+						obj.goods_id = $(this).find(".like").attr("data-id");
+						obj.kind_id = $(this).attr("kind-id");
+						obj.subkind_id = $(this).attr("subkind-id");
+						obj.num = $(this).attr("data-num");
+						listArray.push(obj);
+					}
+					console.log(JSON.stringify(listArray));
+				});
+				if(browser.versions.android) {
+					var type = 14,title = "",param1 = 1,param2 = JSON.stringify(listArray);
+					window.bridge.javascriptJumpAction(type,title,param1,param2);
+				}else if(browser.versions.iPhone || browser.versions.iPad){
+					connectWebViewJavascriptBridge(function(bridge) {	
+						bridge.callHandler("javascriptJumpAction",{type : 14, title : "title", param1 : "1", param2 : JSON.stringify(listArray)},function(data){	
+						})
+					})
+				}
+			}else {
+				$(".popbox3,.bg").show(),
+				init.center(".popbox3");
+			}
+		},
+		share : function(){
+			$(".bg,.popbox").hide();
+			var id = 0,desc = "双11必BUY款！谁能抵挡这美味！99元购8件，超值有没有！超值有没有！！超值有没有！！！",title = "一箩筐的零食正在打包中……",imgUrl = "http://"+window.location.host+"/api/Tpl/default/Doublele/statics/images/shareIcon.jpg",contentUrl = "http://"+window.location.host+"/api/Tpl/default/Doublele/share.html",type = 2;
+			if(browser.versions.android) {
+				window.bridge.setShareInfo(id,desc,title,imgUrl,contentUrl,type);
+			}else if(browser.versions.iPhone || browser.versions.iPad){
+				connectWebViewJavascriptBridge(function(bridge) {	
+					bridge.callHandler("setShareInfo",{id : id,desc : desc,title : title,imgUrl : imgUrl,contentUrl : contentUrl,type : type},function(data){	
+					})
+					bridge.registerHandler("setBtnStatus", function(data){
+						var type = data.type;
+						var share = $("body").attr("share");
+						if(type == "5" && share == 0){
+							var number = parseInt(num)+1;
+							$("body").attr("limitNum",number);
+							$("body").attr("share",1);
+						}
+					})
+				})
+			}
+		}
+	}
+	
+	$("body").delegate("[data-id]","click",function(){
+		var isLogin = $("body").attr("userId");
+		//alert(isLogin);
+		if(isLogin == 0){
+			if(browser.versions.android){
+				window.bridge.startLottery(2);
+			}else if(browser.versions.iPhone || browser.versions.iPad) {
+				connectWebViewJavascriptBridge(function(bridge) {	
+					bridge.callHandler("javascriptJumpAction",{type : 15, title : "只有登录才能参加活动哟~", param1 : "",param2 : ""},function(data){	
+					})
+					bridge.registerHandler("applicationLogin",function(data){
+						var uid = data.uid;
+						$("body").attr("userId",1);
+						$.ajax({
+							url : "/api.php?apptype=0&srv=2217&cid=10002&uid=0&tms=20150721190147&sig=8c35f5a024148111&wssig=308efe4382a088e0&os_type=3&version=13&userid="+uid,
+							type : "get",
+							dataType : "Json",
+							success : function(d){
+								if(d.data.share == 1) {
+									var number = parseInt(num)+1;
+									$("body").attr("limitNum",number);
+									$("body").attr("share",1);
+								}
+							}
+						})
+					})
+				})
+			}
+		}else {
+			var self = $(this);
+			var $like = self.attr('like-data');
+			var status = self.attr("sold-status");
+			var $img = self.find('img');
+			var len = $(".like[like-data='open']").length;
+			var share = $("body").attr("share");
+			if(status == 0){
+				if(len >= $("body").attr("limitNum") &&	share == 0){
+					if($like == "close"){
+						$(".bg,.popbox1").show(),
+						init.center($(".popbox1"));
+						$(".place").on("click",function(){
+							$(".bg,.popbox").hide();
+						})
+					}else if($like == "open" || !$like){
+						$img.attr('src','statics/images/icon_unlike.png').removeClass("like_buy");
+						self.attr('like-data','close');
+					}
+				}else if(len >= $("body").attr("limitNum") && share == 1){
+					if($like == "close"){
+						$(".bg,.popbox2").show(),
+						init.center($(".popbox2"));
+					}else{
+						$img.attr('src','statics/images/icon_unlike.png').removeClass("like_buy");
+						self.attr('like-data','close');
+					}
+				}else {
+					if($like == "close"){
+						$img.attr('src','statics/images/icon_like.png').addClass("like_buy");
+						self.attr({'like-data':'open'});
+					}else{
+						$img.attr('src','statics/images/icon_unlike.png').removeClass("like_buy");
+						self.attr('like-data','close');
+					}
+				}
+			}
+		}	
+	})
+	
+	function isLogin(isLogin){
+		//alert("你调用isLogin!");
+		if (isLogin == true) {
+			$("body").attr("userId",1);
+			var userid = $("body").attr("user");
+			$.ajax({
+				url : "/api.php?apptype=0&srv=2217&cid=10002&uid=0&tms=20150721190147&sig=8c35f5a024148111&wssig=308efe4382a088e0&os_type=3&version=13&userid="+userid,
+				type : "get",
+				dataType : "Json",
+				success : function(){
+					
+				}
+			})
+		}
+	}
+	$(".btn-place").on("click",function(){
+		init.orderNow();
+	})
+	$("body").delegate(".wshare","click",function(){
+		init.share();
+		//setBtnStatus();
+	})
+	$(".bg").on("click",function(){
+		$(".bg,.popbox").hide();
+	})
+	$(".know").on("click",function(){
+		$(".bg,.popbox").hide();
+	})
+</script>

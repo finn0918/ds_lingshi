@@ -1,0 +1,52 @@
+<include file="Public:header" />
+<form action="{:u('Type/add')}" method="post" name="myform" id="myform" enctype="multipart/form-data" style="margin-top:10px;">
+  <div class="pad-10">
+    <div class="col-tab">
+       <ul class="tabBut cu-li">
+			<li id="tab_setting_1" class="on" onclick="SwapTab('setting','on','',3,1);">新增类型</li>
+      </ul>
+      <div id="div_setting_1" class="contentList pad-10">
+        <table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+
+          <tbody id="item_body">
+          <tr>
+            <th width="100">类型名称 :</th>
+            <td><input type="text" name="name" id="name" class="input-text" size="60"></td>
+          </tr>
+          <tr>
+           <th>
+            <input type="submit" onclick="return checkSubmit()" value="确认新增" name="dosubmit" class="button" id="dosubmit"></div>
+    		</th>
+    		</tr>
+          </table>
+		</div>
+
+  </div>
+  <script type="text/javascript">
+
+$(function(){
+
+
+		    $.formValidator.initConfig({
+		        formid:"myform",
+		        autotip:true,
+		        onerror:function(msg,obj){
+		            window.top.art.dialog({
+		                content:msg,
+		                lock:true,
+		                width:'250',
+		                height:'50'}, function(){
+		                    this.close();$(obj).focus();
+		                    submitone =false;
+		                    })}});
+
+		    $("#name").formValidator({
+		        onshow:"输入类型名称，不能为空，如有多个可以逗号（,）隔开",
+		        onfocus:"不能为空"
+		        }).inputValidator({
+		            min:1,
+		            onerror:"请填写类型名称,如有多个可以逗号（,）隔开"
+		            });
+		})
+</script>
+</body></html>

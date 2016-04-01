@@ -1,0 +1,306 @@
+<include file="Public:header" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/admin/css/jquery.datetimepicker.css"/>
+<!--<script type="text/javascript" src="__ROOT__/statics/js/calendar/calendar.js"></script>-->
+<script type="text/javascript" src="__ROOT__/statics/admin/js/jquery.datetimepicker.js"></script>
+<script type="text/javascript" src="__ROOT__/statics/js/jquery/plugins/jquery.imagePreview.js"></script>
+<style>
+.color{
+		color:#c90000;
+}
+
+</style>
+<div class="pad-10" >
+    <form name="searchform" action="" method="get" >
+    <table width="100%" cellspacing="0" class="search-form">
+        <tbody>
+            <tr>
+            <td>
+            <div class="explain-col">
+            	添加时间：
+            	<input type="text" name="time_start" id="time_start" class="date datetimepicker" size="20" value="{$time_start}">
+            	至
+            	<input type="text" name="time_end" id="time_end" class="date datetimepicker" size="20" value="{$time_end}">
+            	&nbsp;分类：
+                <select name="cate_id" id="cate_id" style="font-size:15px;">
+            	<option value="0">--所有分类--</option>
+				<volist name="cate_list" id="val">
+                <option value="{$val.id}" level="{$val.level}" <if condition="$cate_id eq $val['id']"> selected="selected" </if>>
+                    {:str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',$val['level'])}
+                    {:trim($val['name'])}
+                </option>
+            	</volist>
+              	</select>
+				 &nbsp;品牌：
+                <select name="brands" id="brands" style="font-size:15px;">
+            	<option value="0">--全部品牌--</option>
+            	<volist name="brand" id="val">
+                <option value="{$val.id}" <if condition="$val['id'] eq $brand_id"> selected="selected"</if><if condition="$val['id'] gt 0"><else /> class="color"</if>>
+                    {$val.name}
+                </option>
+            	</volist>
+                </select>
+				 &nbsp;状态：
+                <select name="status" id="status" style="font-size:15px;">
+            	<option value="10">--全部状态--</option>
+            	<volist name="status" id="val">
+                <option value={$val.id} <if condition="$select_status eq $val['id']"> selected="true"</if>>
+                    {$val.status}
+                </option>
+            	</volist>
+                </select>
+                 <br />
+                &nbsp;关键字 :
+                <input name="keyword" type="text" class="input-text" size="40" value="{$keyword}" />
+                &nbsp;价格：
+                <input id="low_price" name="low_price" type="text" class="input-text" size="5" value="{$low_price}" />
+                ~
+                <input id="high_price" name="high_price" type="text" class="input-text" size="5" value="{$high_price}" />
+                &nbsp;包邮:
+                <input type="checkbox" name="free_delivery" {$free_delivery}/>
+                &nbsp;爆款:
+                <input type="checkbox" name="hot" {$hot}/>
+                &nbsp;特色:
+                <input type="checkbox" name="characteristic" {$characteristic}/>
+                &nbsp;需编辑:
+                <input type="checkbox" name="edit" {$edit}/>&nbsp;
+                <input type="hidden" name="m" value="Taobao" />
+                每页显示条数<input id="page_size" name="page_size" type="text" class="input-text" size="2" <if condition="$page_size neq ''">value="{$page_size}"<else />value="20"</if> />
+                <input id="search" type="submit" name="search" class="button" value="搜索" />
+        	</div>
+            </td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <form id="myform" name="myform" action="{:u('Taobao/del')}" method="post" onsubmit="return check();">
+    已选中&nbsp;<span class="checked_num" style="font-size:12pt;">0</span>&nbsp;个
+    <div class="table-list">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th width=15><input type="checkbox" value="" id="check_box" onclick="selectall('id[]');"></th>
+                <th width="30">序号</th>
+                 <th width=60>商品编号</th>
+                <th width=200>商品标题</th>
+                <th width=50>价格（元）</th>
+                <th width=50>销量（件）</th>
+                <th width=50>分类</th>
+                <th width=50>品牌</th>
+                <th width=50>标签</th>
+                <th width=50>归属活动模块</th>
+                <th width=60>商品状态</th>
+                <th width=80>发布时间</th>
+                <th width=30>责编</th>
+                <th width=70>操作</th>
+            </tr>
+        </thead>
+    	<tbody>
+        <volist name="spu" id="val" >
+        <tr>
+            <td align="center"><input type="checkbox" value="{$val.spu_id}" name="id[]" class="box"></td>
+            <td align="center">{$val.key}</td>
+             <td align="center">{$val.spu_id}</td>
+            <td align="left"><div style="float:left"><img width="80" src="{$val.images1}"/></div><div><a href="{$val.taobao_url}" target="_blank">{$val.spu_name}</a></div></td>
+            <td align="center">￥{$val['price_now']}</td>
+            <td align="center">{$val['sales']}</td>
+            <td align="center">{$val['multipleCate']}</td>
+            <td align="center">{$val['spu_brand']['name']}</td>
+            <td align="center">{$val.tags_name}</td>
+            <td align="center">{$val.mod}</td>
+            <td align="center" id="{$val.id}" class="editor"><if condition="0 eq $val['status']">出售中<elseif condition="3 eq $val['status']"/>未上架<elseif condition="2 eq $val['status']"/>已下架<elseif condition="1 eq $val['status']"/>已售空<elseif condition="5 eq $val['status']"/>待编辑</if></td>
+            <td align="center">{$val.publish_time|date="Y-m-d H:i:s",###}</td>
+            <td align="center">{$val['admin']['user_name']}</td>
+            <td align="center" class="edit_btn">
+            	<a class="blueBtn" href="?m=Taobao&a=edit&id={$val.spu_id}">编辑商品</a><br/>
+                <if condition="$val['status'] eq 5"><a class="blueBtn"><font color="green">等待编辑</font></a><br/></if>
+                <if condition="$val['status'] elt 1"><a class="blueBtn"><font color="red">正在出售</font></a><br/><elseif condition="$val['status'] elt 4" /><a class="blueBtn" href="javascript:publish({$val.spu_id})">立即上架</a><br/></if>
+                <if condition="$val['status'] eq 2"><a class="blueBtn"><font color="blue">已经下架</font></a><br/><elseif condition="$val['status'] elt 4" /><a class="blueBtn cancel_to_pub" href="javascript:cancel_pub({$val.spu_id})">立即下架</a><br/></if>
+                <a class="blueBtn" href="javascript:comment({$val.spu_id})">查看评论</a><br/>
+                <a class="blueBtn" href="javascript:del({$val.spu_id})">删除商品</a><br/>
+            	<a class="blueBtn" href="javascript:preview({$val.spu_id})">预览商品</a>
+            </td>
+            </tr>
+        </volist>
+    	</tbody>
+    </table>
+
+    <div class="btn">
+    	<label for="check_box" style="float:left;">全选/取消</label>
+    	<input type="submit" class="button" name="dosubmit" value="{$Think.lang.delete}" onclick="return confirm('{$Think.lang.sure_delete}')" style="float:left;margin:0 10px 0 10px;"/>
+    	<a class="button" onclick="window.location='{:u("Taobao/add")}'">添加淘宝商品</a>
+       	<a class="button" onclick="on_line();">一键上架</a>
+       	<a class="button" onclick="off_line();">一键下架</a>
+        第
+        <input id="jump_page" type="text" class="input-text" size="2" value="{$pageNow}" />
+        页
+        <a class="button" href="javascript:;" attr="&time_start={$Think.get.time_start}&status={$Think.get.status}&brands={$Think.get.brands}&keyword={$Think.get.keyword}&high_price={$Think.get.high_price}&low_price={$Think.get.low_price}" id="jump">GO</a>
+    	<div id="pages">{$page}</div>
+    </div>
+
+    </div>
+    </form>
+</div>
+<script language="javascript">
+$(function(){
+		$('.datetimepicker').datetimepicker({value:'',step:"30"});
+
+		$(".editor").each(function(){
+			var self = $(this);
+			if(self.text() == "已采集"){
+				self.parent().find(".edit_btn").children(".cancel_to_pub").hide();
+			}
+		})
+	})
+	function del(id) { //删除商品
+        if (confirm("确认要删除这个商品吗？")) {
+			window.location="{:u('Taobao/del','id=')}"+id;
+        }
+    }
+    function comment(id) { //评论
+        window.location="{:u('Taobao/comment','spuId=')}"+id;
+    }
+    function off_line() { //一键下架
+        if (confirm("一键下架这些你选中的商品吗？")) {
+			var s = document.getElementsByName("id[]");
+			var array = new Array();
+			var k = 0;
+			for(var i = 0; i < s.length; i++){
+				if(s[i].checked){
+					//alert(s[i].value);
+					array[k] = s[i].value;
+					k++;
+				}
+			}
+			window.location="{:u('Taobao/onceOff','id=')}"+array;
+        }
+    }
+    function on_line() { //一键上架
+        if (confirm("一键上架这些你选中的商品吗？")) {
+			var s = document.getElementsByName("id[]");
+			var array = new Array();
+			var k = 0;
+			for(var i = 0; i < s.length; i++){
+				if(s[i].checked){
+					//alert(s[i].value);
+					array[k] = s[i].value;
+					k++;
+				}
+			}
+			window.location="{:u('Taobao/onceOn','id=')}"+array;
+        }
+    }
+    function preview(id) { //取消发布
+		var lang_edit = "商品详情预览";
+	    window.top.art.dialog({id:'preview'}).close();
+	    window.top.art.dialog({title:lang_edit,id:'preview',iframe:'?m=goods&a=preview&id='+id,width:'360',height:'600'}, function(){var d = window.top.art.dialog({id:'preview'}).data.iframe;});
+	}
+
+	function publish(id) { //立即发布
+		if (confirm("确认要立即上架这个商品吗？")) {
+			window.location="{:u('Taobao/publish','id=')}"+id;
+		}
+	}
+	function cancel_pub(id) { //取消发布
+		if (confirm("确认要立即下架这个商品吗？")) {
+			window.location="{:u('Taobao/cancel_pub','id=')}"+id;
+		}
+	}
+    $("#jump").click(function(){
+        var p = $("#jump_page").val();
+        var attr = $("#jump").attr("attr");
+        window.location = "admin.php?m=Taobao&a=index"+attr+"&p="+p;
+    })
+
+    $("#search").click(function(){
+        var low_price = parseFloat($("#low_price").val());
+        var high_price = parseFloat($("#high_price").val());
+        if(low_price && high_price && low_price > high_price){
+            alert("价格区间输入有误，请重新输入！");
+            return false;
+        }
+    })
+    $("#check_box").click(function(){
+    	var attr = $("#check_box").attr("checked");
+    	var $numBox = $(".checked_num");
+    	var box = document.getElementsByName("id[]");
+    	if(attr == "checked"){
+    		$numBox.text(box.length);
+    	}else{
+    		for(var i=0;i<box.length;i++){
+    			if(box[i].checked){
+    				box[i].checked=false;
+    			}
+    		}
+    		$numBox.text(0);
+    	}
+    })
+    $(".box").click(function(){
+    	var box = document.getElementsByName("id[]");
+    	var num = 0;
+		for(var i=0;i<box.length;i++){
+			if(box[i].checked){
+				num++;
+			}
+    	}
+    	var $numBox = $(".checked_num");
+    	$numBox.text(num);
+    })
+	function up_new(id){ //美味上新
+		/*
+		$.get("{:u('goods/up_new')}", { id: id }, function(data){
+			if(data == 1){
+				$("#status_"+id+" img").attr('src', '__ROOT__/statics/images/status_'+1+'.gif');
+			}else if(data == 2){
+				$("#status_"+id+" img").attr('src', '__ROOT__/statics/images/status_'+0+'.gif');
+			}else{
+				alert("美味上新失败！！稍后请重试！！");
+			}
+		});
+		*/
+        if(confirm("确定要添加到好吃到爆？")){
+            $.ajax({
+    　　　　　　url: "{:u('goods/up_new')}",
+    　　　　　　type: 'GET',
+    　　　　　　data: { id: id },
+    　　　　　　//调小超时时间会引起异常
+    　　　　　　timeout: 3000,
+    　　　　　　//请求成功后触发
+    　　　　　　success: function (data) {
+                if(data == 1){
+                    $("#status_"+id+" img").attr('src', '__ROOT__/statics/images/hot_'+0+'.png');
+                }else if(data == 2){
+                    $("#status_"+id+" img").attr('src', '__ROOT__/statics/images/hot_'+1+'.png');
+                }else{
+                    alert("美味上新失败！！稍后请重试！！");
+                } },
+    　　　　　　//是否使用异步发送
+    　　　　　　async: true
+    　　　　})
+        }
+	}
+	function add_discount(id){ //添加到折扣商品中
+        if(confirm("确定要添加到折扣商品？")){
+            $.ajax({
+    　　　　　　url: "{:u('goods/add_discount')}",
+    　　　　　　type: 'GET',
+    　　　　　　data: { id: id },
+    　　　　　　//调小超时时间会引起异常
+    　　　　　　timeout: 3000,
+    　　　　　　//请求成功后触发
+    　　　　　　success: function (data) {
+                if(data == 2){
+                    $("#discount_"+id+" img").attr('src', '__ROOT__/statics/images/sale_'+0+'.png');
+                }else if(data == 1){
+                    $("#discount_"+id+" img").attr('src', '__ROOT__/statics/images/sale_'+1+'.png');
+                }
+            },
+    　　　　　　//是否使用异步发送
+    　　　　　　async: true
+    　　　　})
+	    }
+    }
+
+	</script>
+</body>
+</html>

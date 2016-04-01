@@ -1,0 +1,155 @@
+/*选产品的框*/
+.selectGoods{
+    position:fixed;
+    left:1%;
+    right:1%;
+    top:1%;
+    bottom:1%;
+    width:98%;
+    height:98%;
+    z-index:699;
+    background:#FFF;
+    display:none;
+}
+.selectGoods .control{
+    position:absolute;
+    width:100%;
+    height:40px;
+    bottom:0px;
+    text-align:center;
+}
+.selectGoods .control input[type='button'] {
+    height:30px;
+    background:#f4f4f4;
+    border:none;
+    width:120px;
+    line-height:30px;
+    display:inline-block;
+    font-size:14px;
+    float:left;
+    margin-left:10px;
+}
+.selectGoods .control input[type='button']#choiceThis{
+    background:#00CC00;
+    color:#fff;
+}
+.selectGoods .innerBox{
+    position:absolute;
+    left:10px;
+    top:100px;
+    bottom:50px;
+    right:10px;
+    overflow:scroll;
+}
+.fullscreen_shadow{
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    right:0;
+    background:rgba(0,0,0,0.5);
+    width:100%;
+    height:100%;
+    z-index:266;
+    display:none;
+}
+.selectGoodsList{
+
+}
+.selectGoodsList li{
+    margin-bottom:20px;
+    width:20%;
+    float:left;
+    overflow:hidden;
+}
+.selectGoodsList li .inner{
+    position:relative;
+    width:160px;
+    height:210px;
+    padding-bottom:5px;
+    border:1px solid #ccc;
+}
+.selectGoodsList li img{
+    width:160px;
+    height:160px;
+    display:block;
+    border:none;
+}
+.selectGoodsList li h3{
+    margin-top:5px;
+    height:20px;
+    line-height:20px;
+    width:100%;
+    font-size:14px;
+    overflow:hidden;
+    width:90%;
+    padding:0 5%;
+}
+.selectGoodsList li p{
+    margin-top:5px;
+    height:20px;
+    line-height:20px;
+    font-size:14px;
+    overflow:hidden;
+    width:90%;
+    padding:0 5%;
+}
+.selectGoodsList li .goodsCheck{
+    position:absolute;
+    right:10px;
+    top:10px;
+    z-index:399;
+}
+.selectGoodsList li strong{
+    font-size:14px;
+    color:red;
+}
+.selectGoodsList li s{
+    font-size:12px;
+}
+.selectGoodsList li .you{
+    float:right;
+    font-size:12px;
+}
+#page{
+    margin-bottom:20px;
+    float:right;
+    width:50%;
+    height:20px;
+    margin-right:5px;
+    text-align:right;
+    margin-top:8px;
+}
+#page a{
+    margin-right:5px;
+    border:1px solid #ccc;
+    height:18px;
+    width:18px;
+    text-align:center;
+    line-height:18px;
+    color:#555;
+    display:inline-block;
+}
+
+.selectgoodsPage{
+    float:right;
+    width:200px;
+    height:32px;
+}
+.selectgoodsPage a{
+    height:30px;
+    padding:0 10px;
+    border:1px solid #ccc;
+    font-size:14px;
+    line-height:30px;
+    display:block;
+    float:left;
+}
+.selectgoodsPage .selectgoodsNowpage{
+    height:30px;
+    padding:0 10px;
+    font-size:14px;
+    line-height:30px;
+    display:block;
+    float:left;
+}

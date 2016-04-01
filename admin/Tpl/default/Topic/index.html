@@ -1,0 +1,214 @@
+<include file="Public:header" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/js/calendar/calendar-blue.css"/>
+<script type="text/javascript" src="__ROOT__/statics/js/calendar/calendar.js"></script>
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/admin/css/jquery.datetimepicker.css"/>
+<script type="text/javascript" src="__ROOT__/statics/admin/js/jquery.datetimepicker.js"></script>
+<style>
+.list_item{margin-bottom:20px;border:1px solid #ddd;box-shadow:2px 2px 5px #ddd}
+.list_item .header{position:relative;background-color:#f3f3f3;height:33px;line-height:32px;padding-left:10px;}
+.list_item h3,
+.list_item h4{display:inline-block;*display:block; *float:left;margin-right:10px;border-right:1px solid #ddd;padding-right:10px;}
+.list_item .status img {margin:10px 0;}
+.list_item .op {position:absolute;right:0;border-right:0 none; padding-right:20px;}
+.list_item .op a {margin-left:15px}
+.list_item .content {padding:10px;}
+.list_item .content img {width:60px;text-align:left}
+
+.mutiControl{
+    display:block;
+    height:14px;
+    line-height:14px;
+    padding:10px 0 20px 6px;
+    font-size:14px;
+}
+.inputRadio{
+    float:left;
+    height:14px;
+    display:block;
+}
+.inputRadio.mr8{
+    margin-right:8px;
+}
+.mutiControl .btn{
+    color:#0081c2;
+}
+</style>
+
+<div class="pad-10">
+    <form name="searchform" action="" method="get" >
+        <table width="100%" cellspacing="0" class="search-form">
+            <tbody>
+            <tr>
+                <td>
+                    <div class="explain-col">
+                        添加日期：
+                        <input type="text" name="time_start" id="time_start" class="date datetimepicker" size="20" value="{$time_start}">
+                        -
+                        <input type="text" name="time_end" id="time_end" class="date datetimepicker" size="20" value="{$time_end}">
+                        &nbsp;&nbsp;发布状态：
+                        <select name="status">
+                            <option value="">--选择--</option>
+                            <option value="published" <if condition="'published' eq $select_status">selected="selected"</if>>已上架</option>
+                            <option value="scheduled" <if condition="'scheduled' eq $select_status">selected="selected"</if>>未上架</option>
+                            <option value="locked" <if condition="'locked' eq $select_status">selected="selected"</if>>已下架</option>
+                        </select>
+                        &nbsp;&nbsp;搜索关键字：
+                        <input name="keyword" type="text" class="input-text" size="25" value="{$keyword}" />
+                        <input type="hidden" name="m" value="Topic" />
+                        <input type="hidden" name="a" value="index" />
+                        <input type="submit" name="search" class="button" value="搜索" />
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+    <div class="mutiControl">
+        <input type="checkbox" name="chk" class="inputRadio mr8" id="checkAll" />全选&nbsp;&nbsp;已选中&nbsp;<span class="checked_num">0</span>&nbsp;个&nbsp;&nbsp;<a href="javascript:;" class="btn delete">批量删除</a>
+    </div>
+    <div>
+        <div class="table-list">
+            <table width="100%" cellspacing="0" class="tb_rec">
+                <thead>
+                    <tr>
+                        <th width="12"></th>
+                        <th width="6%">序号</th>
+                        <th width="6%">专题编号</th>
+                        <th>专题标题</th>
+                        <th style="width:80px;overflow: hidden;">轮播配图</th>
+                        <th>上架时间</th>
+                        <th>下架时间</th>
+                        <th>活动顺序</th>
+                        <th>活动状态</th>
+                        <th>责任编辑</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <volist name="topic" id='sval'>
+                    <tr>
+                        <td><input type="checkbox" name="chk" data-id="{$sval.topic_id}" class="inputRadio becheck" /></td>
+                        <td align="center">{$sval.key}</td>
+                        <td align="center">{$sval.topic_id}</td>
+                        <td align="center">{$sval.title}</td>
+                        <td align="center"><img src ="{$sval.image}" width="120"></td>
+                        <td align="center">{$sval.publish_time|date="Y-m-d H:i:s",###}</td>
+                        <td align="center">{$sval.end_time|date="Y-m-d H:i:s",###}</td>
+                        <td align="center"><a href="javascript:up_order({$sval.topic_id})"><font color="blue">上移</font></a>&nbsp;&nbsp;&nbsp;<a href="javascript:down_order({$sval.topic_id})"><font color="blue">下移</font></a></td>
+                        <td align="center">{$sval.status}</td>
+                        <td align="center">{$sval.userName}</td>
+                        <td align="center">
+                            <a href="?m=Topic&a=edit&id={$sval.topic_id}">编辑</a><br/>
+                            <a href="javascript:publish({$sval.topic_id})">立即上架</a><br/>
+                            <a href="javascript:cancel_pub({$sval.topic_id})">立即下架</a><br/>
+                            <a href="javascript:del({$sval.topic_id})">移除</a><br/>
+                            <a href="#" target="_blank">预览</a>
+                        </td>
+                    </tr>
+                </volist>
+                </tbody>
+            </table>
+        </div>
+        <div class="btn"><div id="pages">{$page}</div></div>
+    </div>
+</div>
+<script language="javascript">
+
+    $(function(){
+    $('.datetimepicker').datetimepicker({value:'',step:"30"});
+        $("#checkAll").on("click",function() {
+            var mystatue = $(this).attr("checked");
+            var checkStatus = '';
+            $(".becheck").each(function(i) {
+                checkStatus = $(this).attr("checked");
+                if(mystatue) {
+                    !checkStatus && $(this).attr("checked","checked");
+                } else {
+                    $(this).removeAttr("checked");
+                }
+            })
+        })
+        $(".inputRadio").on("click",function() {
+            var $numBox = $(".checked_num");
+            var totalNum = 0;
+            $(".becheck").each(function(i) {
+                var checkStatus = $(this).attr("checked");
+                checkStatus && totalNum++;
+            })
+            $numBox.text(totalNum);
+        })
+        $(".delete").on("click",function(){
+            var checkStatus = '';
+            var myid = '';
+            var delArr = [];
+            $(".becheck").each(function(i) {
+                checkStatus = $(this).attr("checked");
+                myid = $(this).attr("data-id");
+                if(checkStatus){
+                    delArr.push(myid);
+                }
+            });
+            setTimeout(function(){
+                $.ajax({
+                    type : "post",
+                    url  : "admin.php?&m=Topic&a=del",
+                    data : {
+                        id : delArr
+                    },
+                    success : function(d){
+                        if(d==1){
+                            alert("删除失败！有专题在其他地方有使用，请检查！");
+                            window.location="{:u('Topic/index')}";
+                        }else if(d==2){
+                            alert("删除成功啦！！");
+                            window.location="{:u('Topic/index')}";
+                        }else{
+                            alert("删除失败！！");
+                            window.location="{:u('Topic/index')}";
+                        }
+
+                    }
+                })
+            },100);
+        })
+    })
+	function publish(id) { //立即发布
+		if (confirm("确认要立即上架这个专题吗？")) {
+			window.location="{:u('Topic/publish','id=')}"+id;
+		}
+	}
+	function cancel_pub(id) { //取消发布
+		if (confirm("确认要立即下架这个专题吗？")) {
+			window.location="{:u('Topic/cancel_pub','id=')}"+id;
+		}
+	}
+	function del(id) { //删除
+		if (confirm("确认要删除这个专题吗？")) {
+			window.location="{:u('Topic/del','id=')}"+id;
+		}
+	}
+    function up_order(id){
+        $.get('?m=Topic&a=upDownTopic&type='+1+'&id='+id,function(data){
+            if(data>0){
+                alert('上移成功');
+                location.reload();
+            }else{
+                alert('sorry...不能移动');
+                location.reload();
+            }
+        })
+    }
+    function down_order(id){
+        $.get('?m=Topic&a=upDownTopic&type='+3+'&id='+id,function(data){
+            if(data>0){
+                alert('下移成功');
+                location.reload();
+            }else{
+                alert('sorry...不能移动');
+                location.reload();
+            }
+        })
+    }
+</script>
+</body>
+</html>

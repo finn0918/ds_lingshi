@@ -1,0 +1,162 @@
+<include file="Public:header" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/js/calendar/calendar-blue.css"/>
+<script type="text/javascript" src="__ROOT__/statics/js/calendar/calendar.js"></script>
+<style>
+.list_item{margin-bottom:20px;border:1px solid #ddd;box-shadow:2px 2px 5px #ddd}
+.list_item .header{position:relative;background-color:#f3f3f3;height:33px;line-height:32px;padding-left:10px;}
+.list_item h3,
+.list_item h4{display:inline-block;*display:block; *float:left;margin-right:10px;border-right:1px solid #ddd;padding-right:10px;}
+.list_item .status img {margin:10px 0;}
+.list_item .op {position:absolute;right:0;border-right:0 none; padding-right:20px;}
+.list_item .op a {margin-left:15px}
+.list_item .content {padding:10px;}
+.list_item .content img {width:60px;text-align:left}
+.blue_link{color:#0000ff;}
+</style>
+<link href="__ROOT__/statics/admin/css/pubStyle.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/admin/css/jquery.datetimepicker.css"/>
+<script type="text/javascript" src="__ROOT__/statics/admin/js/jquery.datetimepicker.js"></script>
+<div class="pad-10">
+
+    <form name="searchform" action="" method="get" >
+        <table width="100%" cellspacing="0" class="search-form">
+            <tbody>
+            <tr>
+                <td>
+                    <div class="explain-col">
+                        创建时间：
+                        <input type="text" name="time_start" id="time_start" class="date" size="12" value="{$time_start}">
+                        <script language="javascript" type="text/javascript">
+                            Calendar.setup({
+                                inputField     :    "time_start",
+                                ifFormat       :    "%Y-%m-%d",
+                                showsTime      :    'true',
+                                timeFormat     :    "24"
+                            });
+                        </script>
+                        -
+                        <input type="text" name="time_end" id="time_end" class="date" size="12" value="{$time_end}">
+                        <script language="javascript" type="text/javascript">
+                            Calendar.setup({
+                                inputField     :    "time_end",
+                                ifFormat       :    "%Y-%m-%d",
+                                showsTime      :    'true',
+                                timeFormat     :    "24"
+                            });
+                        </script>
+                        &nbsp;&nbsp;用户来源：
+                        <select name="pf_type">
+                            <option value="">--选择--</option>
+                            <option value="1">QQ账号</option>
+                            <option value="2">微信</option>
+                            <option value="3">新浪微博</option>
+                            <option value="4">本地注册</option>
+                        </select>
+                        &nbsp;&nbsp;用户状态：
+                        <select name="status">
+                            <option value="">--选择--</option>
+                            <option value="active">活跃</option>
+                            <option value="inactive">不活跃</option>
+                            <option value="locked">锁定</option>
+                        </select>
+                        &nbsp;&nbsp;用户ID/用户昵称：
+                        <input name="keyword" type="text" class="input-text" size="25" value="{$keyword}" />
+                        <input type="hidden" name="m" value="Buyer" />
+                        <input type="hidden" name="a" value="index" />
+                        <input type="submit" name="search" class="button" value="搜索" />
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+
+    <div class="mutiControl">
+        <input type="checkbox" name="chk" class="inputRadio mr8" id="checkAll" />全选&nbsp;&nbsp;已选中&nbsp;<span class="checked_num">0</span>&nbsp;个&nbsp;&nbsp;<a href="javascript:;" class="btn upTable" data-type="locked">锁定账号</a>&nbsp;&nbsp;<a href="javascript:;" class="btn downTable" data-type="active">账号解锁</a>
+    </div>
+    <div>
+    <div class="table-list">
+    <table width="100%" cellspacing="0" class="tb_rec">
+        <thead>
+            <tr>
+                <th width="12"></th>
+              	<th width="6%">用户ID</th>
+                <th style="width:80px;overflow: hidden;">用户昵称</th>
+                <th>头像</th>
+                <th>手机</th>
+                <th>用户来源</th>
+				<th>累计消费金额</th>
+                <th>创建时间</th>
+                <th>最后登录时间</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+    	<tbody>
+        <volist name="buyer_list" id='sval'>
+        	<tr>
+                <td><input type="checkbox" name="chk" data-id="{$sval.user_id}" class="inputRadio becheck" /></td>
+                <td align="center"><a href="?m=Buyer&a=view&id={$sval.user_id}" class="blue_link">{$sval.user_id}</a></td>
+                <td align="center"><a href="?m=Buyer&a=view&id={$sval.user_id}" class="blue_link">{$sval.nickname}</a></td>
+                <td align="center"><img src = "{$sval.avatar}" width="80"></td>
+				<td align="center">{$sval.mobile}</td>
+                <td align="center">{$sval.pf_type}</td>
+				<td align="center">{$sval.money_pay}</td>
+                <td align="center">{$sval.create_time|date="Y-m-d H:i:s",###}</td>
+                <td align="center">{$sval.last_login_time|date="Y-m-d H:i:s",###}</td>
+                <td align="center">{$sval.status}</td>
+				<td align="center"><a href="?m=Buyer&a=view&id={$sval.user_id}" class="blue_link">点击查看详情</a></td>
+            </tr>
+        </volist>
+    	</tbody>
+    </table>
+    </div>
+        <div class="btn"><div id="pages">{$page}</div></div>
+    </div>
+</div>
+<script src="__ROOT__/statics/admin/js/pubEvent.js"></script>
+<script language="javascript">
+    var apiConfig = {
+        list    : "admin.php?&m=Buyer&a=index",
+        publish : "admin.php?&m=Buyer&a=changeStatus"
+    };
+function edit(id, name) {
+	var lang_edit = "编辑资讯";
+	window.top.art.dialog({id:'edit'}).close();
+	window.top.art.dialog({title:lang_edit+'--'+name,id:'edit',iframe:'?m=Article&a=edit&id='+id,width:'550',height:'400'}, function(){var d = window.top.art.dialog({id:'edit'}).data.iframe;d.document.getElementById('dosubmit').click();return false;}, function(){window.top.art.dialog({id:'edit'}).close()});
+}
+
+var lang_cate_name = "资讯标题";
+function check(){
+	if($("#myform").attr('action') != '{:u("Article/sort_order")}') {
+		var ids='';
+		$("input[name='id[]']:checked").each(function(i, n){
+			ids += $(n).val() + ',';
+		});
+
+		if(ids=='') {
+			window.top.art.dialog({content:lang_please_select+lang_cate_name,lock:true,width:'200',height:'50',time:1.5},function(){});
+			return false;
+		}
+	}
+	return true;
+}
+
+function status(id,type){
+    $.get("{:u('Article/status')}", { id: id, type: type }, function(jsondata){
+		var return_data  = eval("("+jsondata+")");
+		if(return_data.data.error == 1)
+			{
+	        $("#"+type+"_"+id+" img").attr('src', '__ROOT__/statics/images/status_'+return_data.data.status+'.gif')
+			alert("您没有权限修改");
+			}
+		else
+			{
+
+	        $("#"+type+"_"+id+" img").attr('src', '__ROOT__/statics/images/status_'+return_data.data+'.gif')
+			}
+	}); 
+}
+</script>
+</body>
+</html>

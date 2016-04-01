@@ -1,0 +1,1 @@
+alter table `ls_coupon_user` add order_id int(11) not Null DEFAULT 0;

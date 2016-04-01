@@ -1,0 +1,185 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<meta content="telephone=no" name="format-detection">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>专题详情</title>
+	</head>
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script>
+        var subject_id = {$subject_id};
+		var version = location.href.indexOf("?tdev") > 0 ? (1 + Math.round(Math.random() * 9999 - 1)) : '1.2';
+		document.write('<link href="statics/css/themes.css?v='+version+'" rel="stylesheet" type="text/css" />');
+		document.write('<link href="statics/css/tBase.css?v='+version+'" rel="stylesheet" type="text/css" />');
+		(function(b, c) {
+			var d = b.documentElement,
+				resizeEvt = 'orientationchange' in c ? 'orientationchange' : 'resize',
+				recalc = function() {
+					var a = d.clientWidth
+					if (!a) return;
+					d.style.fontSize = (20 * (a / 320)) > 40 ? 40 + "px" : (20 * (a / 320)) + 'px'
+				},
+				anime = c.requestAnimationFrame || c.webkitRequestAnimationFrame || c.mozRequestAnimationFrame || c.oRequestAnimationFrame ||
+			function(e) {
+				return setTimeout(e, 16.67)
+			};
+			if (!b.addEventListener) return;
+			c.addEventListener(resizeEvt, recalc, false);
+			b.addEventListener('DOMContentLoaded', recalc, false)
+		})(document, window);
+	</script>
+	<body subject_id={$subject_id}>
+		<div class="themes_main">
+			<!--主图图片-->
+			<div class="themes_headerImg">
+				<p>
+					<img src="../statics/images/themes-header-bg.jpg" class="themes_headerImg_img"/>
+				</p>
+				<!--图片小标题-->
+				<div class="themes_headerImg_txt">
+					<span></span>
+				</div>
+			</div>
+			<!--描述-->
+			<div class="themes_descript themes_descript-main">
+				<div class="themes_desc">		
+				</div>
+				<div class="themes_detail">
+				</div>
+			</div>
+			
+			<div class="edit-zan">
+				<ul>
+					<li class="zan-fl tcenter">
+						<a href="javascript:;" class="addZan zanNow zanjia"><i></i></a>
+						<span></span>
+					</li>
+					<li class="share-fl">
+						<a href="javascript:;" class="addZan addShare sharejia"><i></i></a>
+						<span></span>
+					</li>
+				</ul>
+			</div>
+			
+			<div class="fix-banner">
+				<ul>
+					<li class="zan">
+						<a class="zanjia">
+							<i></i>
+							<span></span>
+						</a>
+					</li>
+					<i class="md-line"></i>
+					<li class="share">
+						<a class="sharejia"><i></i><span></span></a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		
+		<!--<div style="display:none;">
+			<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1254054224'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/stat.php%3Fid%3D1254054224' type='text/javascript'%3E%3C/script%3E"));</script>
+		</div>-->
+	</body>
+	
+	<script src="sea-modules/seajs/seajs/2.2.0/sea.js"></script>
+	<script src="statics/js/jquery.min.js"></script>
+		
+	<script>
+		 // Set configuration
+		 seajs.config({
+			base: "sea-modules/",
+			alias: {
+			  "jquery": "sea-modules/jquery/jquery/1.10.1/jquery.js"
+			}
+		 });
+		 // For development
+		 if (location.href.indexOf("?dev") > 0) {
+			seajs.use("/statics/js/themes_detail");
+		 }
+		 // For production
+		 else {
+			seajs.use("/statics/js/themes_detail");
+		 }
+		 
+		 function connectWebViewJavascriptBridge(callback) {
+			if (window.WebViewJavascriptBridge) {
+				callback(WebViewJavascriptBridge)
+			} else {
+				document.addEventListener('WebViewJavascriptBridgeReady', function() {
+					callback(WebViewJavascriptBridge)
+				}, false)
+			}
+		}
+		connectWebViewJavascriptBridge(function(bridge) {	
+
+			/* Init your app here */
+		
+			// 刚进来就调用
+			bridge.init(function(message, responseCallback) {
+				if (responseCallback) {
+					responseCallback("Right back atcha")
+				}
+			})
+			bridge.send('Please respond to this', function responseCallback(responseData) {
+				console.log("Javascript got its response", responseData)
+			})
+			// 收藏状态 
+			bridge.registerHandler("setCollectionBtnState",function(data,responseCallback){
+				if(data.state == true) {
+					$(".fr-title").children("i").attr("class","zan scale");
+				}else if(data.state == false) {
+					$(".fr-title").children("i").attr("class","scale");
+				}
+			})
+
+			$("body").delegate(".themes_link","click",function(e){
+				var goodsId = parseInt($(this).parents(".themes_list").attr("data-id"));
+				e.preventDefault();
+				bridge.callHandler("pushDetailPage",{"goodsId" : goodsId},function(response){
+				})
+			})
+			
+			$("body").delegate(".zanjia","touchstart",function(e){
+				e.preventDefault();
+				bridge.callHandler("onLikeBtn",function(data,responseCallback){
+					//alert(data,responseCallback);
+				})
+			})
+			
+			$("body").delegate(".sharejia","touchstart",function(e){
+				e.preventDefault();
+				var id = 0,desc = "",imgUrl = "",contentUrl = "",type = 0,title = "";
+				bridge.callHandler("onShareBtn",function(data,responseCallback){
+					//alert(data,responseCallback);
+				})
+				bridge.callHandler("setShareInfo",{id : id, desc : desc,title : title, imgUrl : imgUrl,contentUrl : contentUrl,type : type},function(data,responseCallback){
+				})
+			})
+			
+			bridge.registerHandler("setLikeBtnState",function(data,responseCallback){
+				if(data.state == true) {
+					$(".zanjia").find("i").addClass("zanzan");
+				}else if(data.state == false) {
+					$(".zanjia").find("i").removeClass("zanzan");
+				}
+			})
+			bridge.registerHandler("setLikeCount",function(data,responseCallback){
+				$(".zanjia").find("span").html(data.count),
+				$(".zanNow").parent().find("span").html(data.count+"人喜欢");
+			})
+			
+			bridge.registerHandler("setShareCount",function(data,responseCallback){
+				$(".sharejia").find("span").html(data.count),
+				$(".addShare").parent().find("span").html(data.count+"次分享");
+			})
+			bridge.registerHandler("hideClampBtn",function(data,responseCallback){
+				$(".share-fl").hide(),$(".zan-fl").css("margin-right","auto");
+				$(".sharejia,.md-line").hide(),$(".fix-banner ul li.zan").css("width","100%");
+			})
+			
+		 })
+
+	</script>
+</html>

@@ -1,0 +1,83 @@
+<include file="Public:header" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/js/calendar/calendar-blue.css"/>
+<script type="text/javascript" src="__ROOT__/statics/js/calendar/calendar.js"></script>
+<script type="text/javascript">
+    $(function() {
+        $("#type").change(
+                function() {
+                    var showtype = $("#type option:selected").attr(
+                            'data-showtype');
+                    $(".bill_media").hide();
+                    $("#SW_" + showtype).show();
+                });
+        $("#type").change();
+    })
+</script>
+<div class="pad-10" >
+    <form id="myform" name="myform" action="{:u('SensitiveWord/add')}" method="post" >
+    <div class="col-tab">
+		<ul class="tabBut cu-li">
+		    <li id="tab_setting_1" class="on"
+		        onclick="SwapTab('setting','on','',2,1);">{$Think.lang.add}</li>
+		</ul>
+    <div class="table-list">
+    
+<div id="div_setting_1" class="contentList">
+    <table width="100%" cellspacing="0" class="table_form">
+        <tr>
+            <th>敏感词</th>
+            <td><textarea name="find" id="find"></textarea></td>
+        </tr>
+         <tr>
+            <th>过滤动作</th>
+            <td >
+                <select name="type" id="type">
+                    <volist name="sensitiveWord_type" id="val">
+                        <option value="{$val.id}" data-showtype="{$val.showtype}">{$val.name}</option>
+                    </volist>
+                </select>
+            </td>
+        </tr>
+         <tr id="SW_replace" class="bill_media" >
+            <th>替换词语</th>
+            <td><input name="replacement" id="replacement" value="{$replacement}"/>&nbsp;</td>
+        </tr>
+         <tr>
+            <td align="center" ><input type="submit" name="dosubmit" style="width:80px;height:20px;text-align:center;" value="增加"/></td>
+        </tr>
+    </table>
+    </div>
+
+    </div>
+    </div>
+    </form>
+</div>
+<script language="javascript">
+$(function() {
+    $.formValidator.initConfig({
+        formid : "myform",
+        autotip : true,
+        onerror : function(msg, obj) {
+            window.top.art.dialog({
+                content : msg,
+                lock : true,
+                width : '200',
+                height : '50'
+            }, function() {
+                this.close();
+                $(obj).focus();
+            })
+        }
+    });
+
+    $("#find").formValidator({
+        onshow : "可以多个添加，用中文逗号连接",
+        onfocus : "可以多个添加，用中文逗号连接"
+    }).inputValidator({
+        min : 1,
+        onerror : "请填写敏感词"
+    });
+})
+</script>
+</body>
+</html>

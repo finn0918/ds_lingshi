@@ -1,0 +1,839 @@
+<include file="Public:header" />
+<style type="text/css">
+html{overflow:-moz-scrollbars-vertical;}
+body{padding:0;margin:0;font:12px/1.5 Tahoma,Helvetica,Arial,sans-serif;}
+body,h1,p,blockquote,dl,dt,dd,ul,ol,li,input{margin:0;padding:0;}
+button,input,select,textarea {font:12px/1.5 tahoma,arial,simsun,sans-serif;}
+button,input,select,textarea{font-size:100%;}
+a{text-decoration:none;}
+a:hover{text-decoration:underline;}
+#wrap{width:650px;margin:0 auto;}
+.txt{width:210px;height:25px;border:1px solid #ccc;line-height:25px;padding:0 5px;}
+.autoDis{border:1px solid #999;position:absolute;overflow:hidden;}
+.autoDis p{line-height:25px;cursor:default;padding:0 5px;}
+.autoDis li{line-height:25px;cursor:default;padding:0 5px;background-color:#fff;}
+.autoDis .cur{background:#ccc;}
+</style>
+<form action="{:u('Shipping/edit')}" method="post" name="myform" onsubmit="return submitOnce(this)" id="myform" enctype="multipart/form-data" style="margin-top:10px;">
+  <div class="pad-10">
+      <div id="div_setting_1" class="contentList pad-10">
+        <table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+          <input type="hidden" name="id" value="{$shippingId}">
+          <tbody id="item_body">
+          <tr>
+            <th width="100">运费模板名称 :</th>
+            <td><input name="name" class="input-text" size="30px" value="{$shipping.template_name}"></td>
+          </tr>
+		  <tr>
+          	<th>供应商 :</th>
+            <td><input type="text" name="supplier" id="autoCom" class="input-text txt" size="20px" value="{$shipping.supplier}">通用模板请填“零食小喵”</td>
+          </tr>
+          <tr>
+            <th>是否包邮 :</th>
+            <td><input type="radio" name="shipping" value="1" <if condition="$shipping.type eq 1">checked</if>>买家承担费用
+            	<input type="radio" name="shipping" value="0" <if condition="$shipping.type eq 0">checked</if>>卖家承担费用
+            	</td>
+          </tr>
+          <tr class="buyer">
+            <th>默认邮费 :</th>
+            <td>
+            <input type="text" name="price" id="price" class="input-text" size="20" value="{$shipping.default_price}"></td>
+          </tr>
+          </table>
+  </div>
+  </div>
+
+    <div id="body">
+<link rel="stylesheet" type="text/css" href="http://static.360buyimg.com/shop/skin/shop_comm.css" media="all"/>
+<link rel="stylesheet" type="text/css" href="http://static.360buyimg.com/shop/skin/myDispatching.css" media="all"/>
+
+<script type="text/javascript" src="http://static.360buyimg.com/shop/js/jquery-1.4.2.min.js"></script>
+<style type="text/css">
+div,form,table,a{font-family: "Microsoft YaHei", "微软雅黑", "Microsoft JhengHei", "华文黑体", STHeiti, Georgia, "Times New Roman", Times, serif;}
+table{zoom: 1;}
+#normalShip_setTable a:link {
+    color: blue;
+    text-decoration: none;/*去除链接下划线*/
+}
+#normalShip_setTable a:hover {
+    color: #f90;
+}
+#payAfter_setTable a:link {
+    color: blue;
+    text-decoration: none;/*去除链接下划线*/
+}
+#payAfter_setTable a:hover {
+    color: #f90;
+}
+
+.checkMessageClass{
+    border: 1px #FF2F2F solid;
+    font-size: 12px;
+    padding: 2px 3px 2px 18px;
+    background: url("/common/img/error.jpg") #ffdadc no-repeat 2px 5px scroll ;
+
+}
+
+.template_setItem_label {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+
+.template_setItem_message {
+    font-size: 13px;
+    color: gray;
+}
+
+.rule_set_table_class {
+    border: 0px;
+    width: 800px;
+    font-size: 13px;
+
+}
+
+.one_rule_set_table_class {
+    /*border: 1px solid #95baef;*/
+    background: #fff;
+}
+
+.one_rule_set_table_class th {
+    width: 100px;
+    border-color: #95BAEF;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    height: 30px;
+    background: #F3F3F3;
+}
+.right-no-border{border-right: 0px !important;}
+
+.one_rule_set_table_class td {
+    text-align: center;
+    border-color: #95BAEF;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+}
+table.area-show-item{width: 300px;}
+table.area-show-item td{border: 0px !important;}
+
+input[type="text"] {
+    width: 70px;
+}
+
+#skuFareTemplateNameInput {
+    width: 280px;
+}
+
+#batchSetInputDiv {
+    position: absolute;
+    float: left;
+    width: 700px;
+    display: none;
+}
+td.label-td{width:110px;overflow: hidden;}
+td.stand-position{width:12px;}
+
+.def-rule-bar{
+    height: 35px;
+    line-height: 35px;
+    font-size: 14px;
+    background: #e8f2ff;
+    /*border-top: 1px #bbb solid;*/
+    /*border-left: 1px #bbb solid;*/
+    /*border-right: 1px #bbb solid;*/
+    border-bottom: 1px solid #95BAEF;
+    padding-left: 15px;
+}
+sup{
+    display: inline;
+    line-height: 20px !important;
+}
+
+    /********************* AreaPlugin szz style***********************/
+
+.area-dialog-ct {
+    position: absolute;
+    z-index: 10000;
+    width: 500px;
+    border: 1px solid #C4D5DF;
+    background: #ffffff;
+    font-family: "Microsoft YaHei", "微软雅黑", "Microsoft JhengHei", "华文黑体", STHeiti, Georgia, "Times New Roman", Times, serif;
+    margin: 0 auto;
+    display: none;
+}
+
+.area-dialog-ct .area-dialog-bar {
+    height: 30px;
+    line-height: 30px;
+    font-size: 12px;
+    background: #85BAE2;
+    border-bottom: 1px solid #C4D5DF;
+}
+
+.area-dialog-ct .area-dialog-bar span {
+    float: left;
+    margin-left: 5px;
+}
+
+.area-dialog-ct .area-dialog-bar a {
+    float: right;
+    margin-right: 5px;
+    text-decoration: none;
+    color: #006699;
+}
+
+.area-dialog-content {
+    padding: 10px 0px 10px 0px;
+    overflow: hidden;
+    zoom: 1;
+}
+
+.area-dialog-content li {
+    float: left;
+    margin: 5px 10px 5px 22px;;
+    font-size: 12px;
+    height: 22px;
+    line-height: 22px;
+    width: 90px;
+}
+
+.area-dialog-content li input {
+    vertical-align: middle;
+    position: relative;
+}
+
+.area-dialog-content li .a-city-ct {
+    display: none;
+    width: 270px;
+    position: absolute;
+    z-index: 10009;
+    border: 1px solid #F7E4A5;
+    background: #FFFEC6;
+    zoom: 1;
+}
+
+    /*鼠标移上移下事件*/
+.area-item-mover div.area-m-o {
+    border-top: 1px solid #F7E4A5;
+    border-right: 1px solid #F7E4A5;
+    border-left: 1px solid #F7E4A5;
+    background: #FFFEC6;
+    position: relative;
+    z-index: 10010;
+    zoom: 1;
+}
+
+.area-item-mover div.a-city-ct {
+    display: block !important;
+}
+
+div.a-city-ct  p {
+    float: left;
+    margin: 5px 10px 5px 0px;;
+    font-size: 12px;
+    height: 18px;
+    line-height: 18px;
+    width: 80px;
+}
+
+.area-dialog-bottom {
+    height: 35px;
+    line-height: 35px;
+    clear: both;
+    text-align: center;
+}
+
+.area-dialog-bottom a {
+    text-decoration: none;
+    color: #006699;
+    font-size: 16px;
+}
+
+div.area-clear {
+    clear: both !important;
+    font-size: 0px !important;
+    overflow: hidden;
+    height: 0px;
+}
+
+.a-check-num {
+    display: none;
+    color: indianred;
+}
+
+.a-i-disable {
+    background: #d8d8d8 !important;
+    color: #666666;
+}
+</style>
+
+<script type="text/javascript">
+    jQuery(function () {
+        //避免vm和jquery冲突，定义全局非jquery对象,单例，dom树加载完后初始化
+        window.AreaPlugin = function () {
+            //容器
+            var _a_d_ct = $("#_a_d_ct");
+            //item 一级元素集合
+            var _a_d_li = _a_d_ct.find("li");
+            var _first = 0;
+            var _callback = function (re) {
+            };
+
+            //绑定鼠标移入移出事件
+            _a_d_li.hover(function () {
+                if( $(this).has("div.a-city-ct").length > 0 )
+                    $(this).addClass("area-item-mover");
+            }, function () {
+                $(this).removeClass("area-item-mover")
+
+            });
+
+            _a_d_ct.find("input[name='provinces']").change(function (event, checked) {
+                var t = $(this);
+                var tp = t.parent().parent();
+                tp.find("input[name='citys'][disabled='false']").attr("checked", t.attr("checked"));
+                AreaPlugin._flushNumShow(tp);
+            });
+
+            _a_d_ct.find("input[name='citys']").change(function (event, checked) {
+                var t = $(this);
+                var p = t.parent().parent().parent();
+                var b = true;
+                p.find("input[name='citys']").each(function () {
+                    if (!$(this).attr("checked")) {
+                        b = false;
+                        return false;
+                    }
+                });
+                p.find("input[name='provinces']").attr("checked", b);
+                AreaPlugin._flushNumShow(p);
+            });
+            _a_d_ct.find("label").click(function () {
+                var t = $(this).prev("input[disabled='false']");
+                t.attr("checked", !t.attr("checked"));
+                t.trigger("change");
+            });
+            $("#_a_c_close,#_a_c_cancel").click(function () {
+                _a_d_ct.hide();
+            });
+
+            //确认事件
+            $("#_a_b_sure").click(function () {
+				var ss = "";
+                var re = {ids: [], names: [] };
+                _a_d_li.each(function () {
+                    var t = $(this);
+                    var b = (t.find("input[name='citys'][disabled='true']").size() > 0 || t.find("input[name='citys'][checked='false']").size() > 0);
+                    t.find("input:checked").each(function () {
+                        var o = $(this);
+                        if ((o.is("input[name='citys']") && b) || (o.is("input[name='provinces']") && !b)) {
+                            re.ids.push(o.attr("aid"));
+                            re.names.push(o.next().text());
+							//ss += o.next().text();
+
+                        }
+                    });
+
+
+                });
+				//alert(ss);
+                _a_d_ct.hide();
+                if (_callback)
+                    _callback(re);
+            });
+            //定义事件方法
+            return{
+                test: function () {
+                    $("#skuFareTemplateNameInput").val("2222222222");
+                },
+                reload: function (eventObj, disables, toChecked, callback) {
+                    if (callback)
+                        _callback = callback;
+                    this._reloadChecked(disables, toChecked);
+                    var p = $(eventObj).position();
+                    _a_d_ct.css('top', p.top + 25);
+                    _a_d_ct.css('left', p.left - 30);
+                    _a_d_ct.show();
+                    this._initCityPanelPosition();
+                },
+                _reloadChecked: function (disables, toChecked) {
+                    var t = this;
+                    var m = null;
+                    this._unCheckedAll();
+                    if (disables && disables.length > 0) {
+                        for (var i = 0; i < disables.length; i++) {
+                            if (!disables[i] || disables[i] == null || disables[i] == "")
+                                continue;
+                            m = _a_d_ct.find("[aid='" + disables[i] + "']");
+                            if (m.is("input[name='provinces']"))
+                                m.parent().addClass("a-i-disable").parent().find("input[name='citys']").each(function () {
+                                    $(this).attr("disabled", true);
+                                    $(this).parent().addClass("a-i-disable");
+                                });
+                            else
+                                m.parent().addClass("a-i-disable");
+                            m.attr("disabled", true);
+
+                        }
+                    }
+                    if (toChecked && toChecked.length > 0) {
+                        for (var i = 0; i < toChecked.length; i++) {
+                            if (!toChecked[i] || toChecked[i] == null || toChecked[i] == "")
+                                continue;
+                            m = _a_d_ct.find("[aid='" + toChecked[i] + "']");
+                            if (m.is("input[name='provinces']"))
+                                m.parent().parent().find("input[name='citys']").each(function () {
+                                    $(this).attr("checked", true);
+                                });
+                            m.attr("checked", true);
+                        }
+                    }
+                    _a_d_ct.find("li").each(function () {
+                        var k = $(this);
+                        if (k.find("input[name='citys']").size() > 0 && k.find("input[name='citys'][disabled='false']").size() < 1) {
+                            k.find("input[name='provinces']").attr("disabled", true);
+                            k.find("input[name='provinces']").parent().addClass("a-i-disable");
+                        }
+                        t._flushNumShow($(this));
+                    });
+                },
+                _unCheckedAll: function () {
+                    _a_d_ct.find("input[type='checkbox']").attr("checked", false).attr("disabled", false);
+                    _a_d_ct.find("li,p,div").removeClass("a-i-disable");
+                    _a_d_ct.find(".a-check-num").text("");
+                },
+                _flushNumShow: function (tp) {
+                    var tl = tp.find("input[checked='true'][name='citys']").length;
+                    if (tl > 0)
+                        tp.find('.a-check-num').text("(" + tl + ")").show();
+                    else
+                        tp.find('.a-check-num').hide();
+                },
+                _initCityPanelPosition: function () {
+                    if (_first == 0) {
+                        //初始化city弹出层的坐标
+                        _a_d_li.each(function () {
+                            var t = $(this),
+                                    p = t.find("input[type='checkbox']").position(),
+                                    left = p.left,
+                                    _ct = t.find(".a-city-ct");
+                            if(_ct && _ct.get(0) != null) {
+                                if (_ct.find("p").length == 1)
+                                    _ct.find("p").width(120);
+                                if (p.left + _ct.width() > _a_d_ct.width())
+                                    left = left - _ct.width() + t.width() - 2;
+                                _ct.css('top', p.top + 19);
+                                _ct.css('left', left);
+                            }
+                        });
+                        _first = 1;
+                    }
+                }
+            };
+        }();
+
+    });
+
+    jQuery(function () {
+
+        //绑定编辑区域按钮事件
+        $("#normalShip_setDiv,#payAfter_setDiv").delegate("a[name='_area_edit']", "click", function () {
+            var cid = $(this).attr("did");
+            var vid = "code_" + cid;
+            var shipType = $(this).attr("shipType");
+            //for zhangbo
+            $('#edittingNow').val(cid);
+            //获得所有已选区域
+            var ta = $("#" + shipType + "_ruleTable");
+            var _t_checked = [];
+            ta.find("input[name='" + shipType + "_ruleValue'][mark='0']").each(function () {
+                var _t = $(this);
+                if (_t.attr("id") != vid) {
+                    if (_t.val() && _t.val() != null && _t.val() != ';') {
+                        var c = _t.val().split(";");
+                        for (var i = 0; i < c.length; i++)
+                            _t_checked.push(c[i]);
+                    }
+                }
+            });
+            //获得当前编辑的区域
+            var cids = [];
+            if ($("#" + vid).val() && $("#" + vid).val() != null && $("#" + vid).val() != ";") {
+                cids = $("#" + vid).val().split(";");
+            }
+
+            AreaPlugin.reload(this, _t_checked, cids, function (re) {
+                var edittingNow = document.getElementById("edittingNow");
+                //给用户看的区域名
+                var putValueObj = document.getElementById(edittingNow.value);
+                //用于处理的区域code
+                var putCodeObj = document.getElementById("code_" + edittingNow.value);
+
+                var code = [];
+                for (var i = 0; i < re.ids.length; i++) {
+                    code.push(re.ids[i]);
+                }
+                if (code.length < 1)
+                    return;
+                putCodeObj.value = code.join(";");
+                var names = "";
+                for (var i = 0; i < re.names.length; i++) {
+                    names = names + re.names[i] + " ";
+                }
+                putValueObj.innerHTML = names;
+            });
+        });
+    });
+</script>
+<div id="content" class="shop_main">
+<!-- AreaPlugin by szz -->
+<div id="_a_d_ct" class="area-dialog-ct">
+    <div class="area-dialog-bar">
+        <span>选择区域</span>
+        <a href="javascript:;" id="_a_c_close">关闭</a>
+    </div>
+    <ul class="area-dialog-content">
+        <volist name="map" id="val">
+            <li>
+                <div class="area-m-o">
+                    <input aid="{$val.key}" name="provinces" type="checkbox"/><label>{$val.province}</label><span
+                        class="a-check-num">(4)</span>
+                </div>
+                <div class="a-city-ct">
+                    <volist name="val.city" id="v">
+                        <p><input aid="{$v.code}" pid="{$val.key}" name="citys"
+                                  type="checkbox"/><label>{$v.city}</label></p>
+                    </volist>
+                    <div class="area-clear"></div>
+                </div>
+            </li>
+        </volist>
+            </ul>
+    <div class="area-clear"></div>
+    <div class="area-dialog-bottom">
+        <a href="javascript:;" id="_a_b_sure">确定</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="javascript:;" id="_a_c_cancel">取消</a>
+    </div>
+</div>
+
+<input type="hidden" id="edittingNow"/>
+<table style="line-height: 30px;font-size: 13px;" border="0" cellpadding="0" cellspacing="0" class="buyer buyerTable">
+    <td class="stand-position"></td>
+    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;物流明细：</td>
+    <td>
+        <table border="0" cellpadding="0" cellspacing="0" style="width: 454px;">
+            <tr>
+                <td>
+                    <div id="normalShip_setDiv" style="display: block" class="blue-box">
+                        <table id="normalShip_setTable" class="rule_set_table_class" border="0" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td>
+                                    <table class="one_rule_set_table_class" id="normalShip_ruleTable" border="0" cellpadding="0" cellspacing="0">
+                                        <thead>
+                                        <tr>
+                                            <th style="width: 300px"><span
+                                                    >运送到</span></th>
+                                            <th style="width: 100px"><span
+                                                    name="firstUnitText">运费</span></th>
+
+                                            <th class="right-no-border" style="width: 50px"><span>操作</span></th>
+                                        </tr>
+                                        </thead>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div id="normalShip_noBatchRuleDiv" style="display: block"><a
+                                            href="javascript:addRuleRow('normalShip')"><span
+                                            >为指定地区城市设置运费</span></a></div>
+                                    <div id="normalShip_doBatchRuleDiv" style="display: none"><a
+                                            href="javascript:addRuleRow('normalShip')"><span
+                                            >为指定地区城市设置运费</span></a>&nbsp;&nbsp;</div>
+                                    <div id="normalShip_undoBatchRuleDiv" style="display: none"><a
+                                            href="javascript:addRuleRow('normalShip')"><span
+                                            >为指定地区城市设置运费</span></a>&nbsp;&nbsp;</div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+
+        </table>
+    </td>
+</tr>
+<tr>
+    <td class="stand-position"></td>
+    <td class="label-td"></td>
+</tr>
+<tr>
+</table>
+<table>
+	<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+	<tr>
+		<td><input type="submit" class="button" name="dosubmit" value="保存提交"></td>
+	</tr>
+</table>
+</div>
+
+<script language="javascript">
+function clickShipType(shipType) {
+    if (document.getElementById(shipType + "_select").checked == true) {
+        document.getElementById(shipType + "_setDiv").style.display = "block";
+    } else {
+        document.getElementById(shipType + "_setDiv").style.display = "none";
+    }
+}
+
+function clickDelRow(tdChildObj, shipType){
+    if(confirm("确定要删除？")){
+        delRow(tdChildObj, shipType);
+    }
+}
+
+function delRow(tdChildObj, shipType) {
+    var tr = tdChildObj.parentNode.parentNode;
+    tr.parentNode.removeChild(tr);
+    var table = document.getElementById(shipType + "_ruleTable");
+    if (table.rows.length == 1) {
+        document.getElementById(shipType + "_noBatchRuleDiv").style.display = "block";
+        document.getElementById(shipType + "_undoBatchRuleDiv").style.display = "none";
+        document.getElementById(shipType + "_doBatchRuleDiv").style.display = "none";
+        var td = document.getElementById(shipType + "_dealBatchDiv").parentNode;
+        td.parentNode.parentNode.removeChild(td.parentNode);
+    }
+}
+
+//添加一行规则
+function addRuleRow(shipType, ruleValue) {
+    var batches = $("div[name='" + shipType + "_ruleRowSelectDiv']");
+    //检查是否是批量选择状态
+    var checkStyle = "none"
+    if (batches != null && batches.length > 0) {
+        if (batches[0].style.display == "block") {
+            checkStyle = "block";
+        }
+    }
+    if (checkStyle == "block") {
+        document.getElementById(shipType + "_noBatchRuleDiv").style.display = "none";
+        document.getElementById(shipType + "_undoBatchRuleDiv").style.display = "block";
+        document.getElementById(shipType + "_doBatchRuleDiv").style.display = "none";
+    } else {
+        document.getElementById(shipType + "_noBatchRuleDiv").style.display = "none";
+        document.getElementById(shipType + "_undoBatchRuleDiv").style.display = "none";
+        document.getElementById(shipType + "_doBatchRuleDiv").style.display = "block";
+    }
+
+    var table = document.getElementById(shipType + "_ruleTable");
+    var rowIndex = parseInt(table.rows.length);
+    if(rowIndex > 30){
+        alert("您所添加的运费规则数量已超上限");
+        return ;
+    }
+    var addRow = table.insertRow(rowIndex);
+//    jQuery(addRow).addClass("tr-rule-class");
+    addRow.id = shipType + "_ruleTable_" + rowIndex;
+    if (null == ruleValue) {
+        var col1 = addRow.insertCell(0);
+        col1.innerHTML = "<table class='area-show-item'><tr><td style='text-align: left'><div  name='" + shipType + "_ruleRowSelectDiv" + "' style='display:" + checkStyle + "'><input type='checkbox' onclick=clickRowCheckBox(this,\"" + shipType + "\"); name='" + shipType + "_ruleTableRowCheck' id='" + shipType + "_ruleTableRowCheck" + rowIndex + "' /></div></td><td rowspan='2' valign='top' style='text-align: right;width: 50px;'><a shipType='" + shipType + "' did='" + shipType + "_areaTextDiv_" + rowIndex + "' name='_area_edit'  href='javascript:;' >编辑</a></td></tr>"
+                + "<tr><td style='width: 250px;text-align: left'><input type='hidden' name='citys[]'" + " mark='0' id='code_" + shipType + "_areaTextDiv_" + rowIndex + "' /> <span id='" + shipType + "_areaTextDiv_" + rowIndex + "'>未添加地区</span</td></tr></table>";
+        var col2 = addRow.insertCell(1);
+        col2.innerHTML = "<input type='text' name='ccityPrice[]' id='firstNum_" + shipType + "_ruleTableRowCheck" + rowIndex + "'/>";
+
+        var col6 = addRow.insertCell(2);
+        jQuery(col6).addClass("right-no-border");
+        col6.innerHTML = "<a href='javascript:;' onclick=clickDelRow(this,\"" + shipType + "\");><span>删除</span></button>";
+    } else {
+        var values = ruleValue.split("|");
+        var col1 = addRow.insertCell(0);
+        col1.innerHTML = "<table class='area-show-item'><tr><td style='text-align: left'><div  name='" + shipType + "_ruleRowSelectDiv" + "' style='display:" + checkStyle + "'><input type='checkbox' onclick=clickRowCheckBox(this, \"" + shipType + "\"); name='" + shipType + "_ruleTableRowCheck' id='" + shipType + "_ruleTableRowCheck" + rowIndex + "' /></div></td><td rowspan='2' valign='top' style='text-align: right;width: 50px;'><a shipType='" + shipType + "' did='" + shipType + "_areaTextDiv_" + rowIndex + "'  name='_area_edit'  href='javascript:;' >编辑</a></td></tr>"
+                + "<tr><td style='width: 250px;text-align: left'><input type='hidden' name='citys[]'" + " mark='0'  id='code_" + shipType + "_areaTextDiv_" + rowIndex + "' value='" + values[0] + "' /> <span id='" + shipType + "_areaTextDiv_" + rowIndex + "'>" + values[1] + "</span</td></tr></table>";
+        var col2 = addRow.insertCell(1);
+        col2.innerHTML = "<input type='text' name='ccityPrice[]' value='" + values[2] + "' id='firstNum_" + shipType + "_ruleTableRowCheck" + rowIndex + "'/>";
+        var col6 = addRow.insertCell(2);
+        jQuery(col6).addClass("right-no-border");
+        col6.innerHTML = "<a href='javascript:;' onclick=clickDelRow(this,\"" + shipType + "\");><span>删除</span></button>";
+    }
+}
+</script>
+<script type="text/javascript">
+$(function(){
+		$("input[name=shipping]").click(function(){
+  			 switch($("input[name=shipping]:checked").attr("value")){
+  				case "0":
+				alert("将会是全国包邮哦，全国哦");
+				$('.buyer').attr('style','display:none');
+   				break;
+   				case "1":
+				$('.buyer').attr('style','display');
+				$('.buyerTable').attr('style','line-height: 30px;font-size: 13px;');
+   				break;
+			    default:
+			    break;
+ 			}
+		});
+		$("#addCity").click(function(){
+			alert("shirt");
+		})
+		if({$shipping.type}==0){
+			$('.buyer').attr('style','display:none');
+		}
+		$.ajax({
+            type : "post",
+            url  : "admin.php?&m=Shipping&a=getArea",
+            data : {
+                id : "{$shippingId}"
+            },
+            success : function(d){
+                if(d) {
+                	var result = eval("("+d+")");
+                	for(var i=0;i<result.length;i++){
+                		addRuleRow("normalShip", result[i]);
+                	}
+                }
+           	}
+        })
+
+})
+</script>
+<script type="text/javascript">
+	(autoComplete={
+		pop_len:10,
+		pop_cn:'autoDis',
+		hover_cn:'cur',
+		source:"{$suppliers}".split('|'),
+		init:function(){
+		this.setDom();
+		return this;
+	},
+	bind:function(x){
+		if(x.getAttribute('type') != 'text' || x.nodeName != 'INPUT')
+		return null;
+		var self = this;
+		x.onkeyup = function(e){
+			e = e || window.event;
+			var lis = self.pop.getElementsByTagName('li'),lens = self.pop.getElementsByTagName('li').length,n=lens,temp;
+			if(e.keyCode == 38){ //键盘up键被按下
+				if(self.pop.style.display != 'none'){
+					for(var i=0;i<lens;i++){ //遍历结果数据，判断是否被选中
+						if(lis[i].className)
+							temp = i;
+						else
+							n--;
+					}
+					if(n==0){ //如果没有被选中的li元素，则选中最后一个
+						lis[lens-1].className = self.hover_cn;
+						this.value = lis[lens-1].innerHTML;
+					}else{ //如果有被选中的元素，则选择上一个元素并赋值给input
+						if(lis[temp] == lis[0]){ //如果选中的元素是第一个孩子节点则跳到最后一个选中
+							lis[lens-1].className = self.hover_cn;
+							this.value = lis[lens-1].innerHTML;
+							lis[temp].className = '';
+						}else{
+							lis[temp-1].className = self.hover_cn;
+							this.value = lis[temp-1].innerHTML;
+							lis[temp].className = '';
+						}
+					}
+			}else //如果弹出层没有显示则执行插入操作，并显示弹出层
+				self.insert(this);
+			}else if(e.keyCode == 40){ //down键被按下，原理同up键
+				if(self.pop.style.display != 'none'){
+					for(var i=0;i<lens;i++){
+						if(lis[i].className)
+							temp = i;
+						else
+							n--;
+						}
+						if(n==0){
+							lis[0].className = self.hover_cn;
+							this.value = lis[0].innerHTML;
+						}else{
+							if(lis[temp] == lis[lens-1]){
+								lis[0].className = self.hover_cn;
+								this.value = lis[0].innerHTML;
+								lis[temp].className = '';
+							}else{
+								lis[temp+1].className = self.hover_cn;
+								this.value = lis[temp+1].innerHTML;
+								lis[temp].className = '';
+							}
+						}
+				}else
+					self.insert(this);
+				}else //如果按下的键既不是up又不是down那么直接去匹配数据并插入
+					self.insert(this);
+				};
+	x.onblur = function(){ //这个延迟处理是因为如果失去焦点的时候是点击选中数据的时候会发现先无法触发点击事件
+	setTimeout(function(){self.pop.style.display='none';},300);
+	};
+	return this;
+	},
+	setDom:function(){
+	var self = this;
+	var dom = document.createElement('div'),frame=document.createElement('iframe'),ul=document.createElement('ul');
+	document.body.appendChild(dom);
+	with(frame){ //用来在ie6下遮住select元素
+	setAttribute('frameborder','0');
+	setAttribute('scrolling','no');
+	style.cssText='z-index:-1;position:absolute;left:0;top:0;'
+	}
+	with(dom){ //对弹出层li元素绑定onmouseover，onmouseover
+	className = this.pop_cn;
+	appendChild(frame);
+	appendChild(ul);
+	onmouseover = function(e){ //在li元素还没有加载的时候就绑定这个方法，通过判断target是否是li元素进行处理
+	e = e || window.event;
+	var target = e.srcElement || e.target;
+	if(target.tagName == 'LI'){ //添加样式前先把所有的li样式去掉，这里用的是一种偷懒的方式，没有单独写removeClass方法
+	for(var i=0,lis=self.pop.getElementsByTagName('li');i<lis.length;i++)
+	lis[i].className = '';
+	target.className=self.hover_cn; //也没有写addClass方法，直接赋值了
+	}
+	};
+	onmouseout = function(e){
+	e = e || window.event;
+	var target = e.srcElement || e.target;
+	if(target.tagName == 'LI')
+	target.className='';
+	};
+	}
+	this.pop = dom;
+	},
+	insert:function(self){
+	var bak = [],s,li=[],left=0,top=0,val=self.value;
+	for(var i=0,leng=this.source.length;i<leng;i++){ //判断input的数据是否与数据源里的数据一致
+	if(!!val&&val.length<=this.source[i].length&& this.source[i].substr(0,val.length) == val){
+	bak.push(this.source[i]);
+	}
+	}
+	if(bak.length == 0){ //如果没有匹配的数据则隐藏弹出层
+	this.pop.style.display='none';
+	return false;
+	}//这个弹出层定位方法之前也是用循环offsetParent，但发现ie跟ff下差别很大（可能是使用方式不当），所以改用这个getBoundingClientRect
+	left=self.getBoundingClientRect().left+document.documentElement.scrollLeft;
+	top=self.getBoundingClientRect().top+document.documentElement.scrollTop+self.offsetHeight;
+	with(this.pop){
+	style.cssText = 'width:'+self.offsetWidth+'px;'+'position:absolute;left:'+left+'px;top:'+top+'px;display:none;';
+	getElementsByTagName('iframe')[0].setAttribute('width',self.offsetWidth);
+	getElementsByTagName('iframe')[0].setAttribute('height',self.offsetHeight);
+	onclick = function(e){
+	e = e || window.event;
+	var target = e.srcElement || e.target;
+	if(target.tagName == 'LI')
+	self.value = target.innerHTML;
+	this.style.display='none';
+	};
+	}
+	s = bak.length>this.pop_len?this.pop_len:bak.length;
+	for(var i=0;i<s;i++)
+	li.push( '<li>' + bak[i] +'</li>');
+	this.pop.getElementsByTagName('ul')[0].innerHTML = li.join('');
+	this.pop.style.display='block';
+	}
+	}).init().bind(document.getElementById('autoCom')).bind(document.getElementById('autoC'));
+</script>
+            </div>
+  </form>
+</body></html>

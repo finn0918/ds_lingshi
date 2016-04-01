@@ -1,0 +1,189 @@
+<include file="Public:header" />
+
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/swfupload/default.css" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/ueditor/themes/default/ueditor.css?t=20120942" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/admin/css/upload.css?t=20120942" />
+<script type="text/javascript" src="__ROOT__/statics/ueditor/editor_config.js?t=20120942"></script>
+<script type="text/javascript" src="__ROOT__/statics/ueditor/editor_all_min.js?t=20120942"></script>
+<script type="text/javascript" src="__ROOT__/statics/ueditor/_src/plugins/selectmodule.js"></script>
+<script type="text/javascript" src="__ROOT__/statics/js/calendar/calendar.js"></script>
+<script type="text/javascript" src="__ROOT__/statics/swfupload/js/jquery.js"></script>
+<script type="text/javascript" src="__ROOT__/statics/swfupload/js/swfupload.js"></script>
+<script type="text/javascript" src="__ROOT__/statics/swfupload/js/handlers.js"></script>
+
+<link href="__ROOT__/statics/admin/css/pubStyle.css" rel="stylesheet" type="text/css" />
+<style>
+    .blue_link{color:#0000ff;}
+</style>
+
+<!--地址-->
+<div class="flyBox" id="addressFlybox" style="width:80%;left:10%;">
+    <div class="head"><a href="javascript:;" class="flyBox_close">×</a></a></div>
+    <div class="table-list">
+        <table width="100%" cellspacing="0" class="tb_rec">
+            <thead>
+            <tr>
+                <th>收货人</th>
+                <th width="30%">所在地区</th>
+                <th width="30%">详细地址</th>
+                <th>电话/手机</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="address_list" id='sval'>
+                <tr>
+                    <td align="center">{$sval.consignee}</td>
+                    <td align="center">{$sval.province}{$sval.city}{$sval.proper}</td>
+                    <td align="center">{$sval.street}</td>
+                    <td align="center">{$sval.phone}</td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!--购物车-->
+<div class="flyBox" id="addressFlybox" style="width:80%;left:10%;">
+    <div class="head"><a href="javascript:;" class="flyBox_close">×</a></a></div>
+    <div class="table-list">
+        <table width="100%" cellspacing="0" class="tb_rec">
+            <thead>
+            <tr>
+                <th>收货人</th>
+                <th width="30%">所在地区</th>
+                <th width="30%">详细地址</th>
+                <th>电话/手机</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="address_list" id='sval'>
+                <tr>
+                    <td align="center">{$sval.consignee}</td>
+                    <td align="center">{$sval.province}{$sval.city}{$sval.proper}</td>
+                    <td align="center">{$sval.street}</td>
+                    <td align="center">{$sval.phone}</td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="fullscreen_shadow"></div>
+
+<form action="{:u('buyer/edit')}" method="post" name="myform" id="myform"  enctype="multipart/form-data" style="margin-top:10px;">
+  <div class="pad-10">
+    <div class="col-tab">
+      <ul class="tabBut cu-li">
+        <li id="tab_setting_1" class="on" onclick="SwapTab('setting','on','',2,1);">{$Think.lang.general_info}</li>
+      </ul>
+      <div id="div_setting_1" class="contentList pad-10">
+
+        <table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+            <tr>
+                <td rowspan="2" width="120" height="57" align="center"><img src="{$data['avatar']}" width="100" style="border:1px solid #ccc;padding:1px;" /></td>
+                <td align="center"><b>用户ID</b></td>
+                <td align="center"><b>用户昵称</b></td>
+                <td align="center"><b>联系电话</b></td>
+                <td align="center"><b>收件地址</b></td>
+                <!--<td>购物车</td>-->
+                <td align="center"><b>个人收藏</b></td>
+                <td align="center"><b>累计消费金额</b></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td height="57" align="center">{$data['user_id']}</td>
+                <td align="center">{$data['nickname']}</td>
+                <td align="center">{$data['mobile']}</td>
+                <td align="center"><a href="javascript:;" id="addressTrigger" class="blue_link">点击查看</a></td>
+                <!--<td><a href="javascript:;">点击查看</a></td>-->
+                <td align="center"><a href="javascript:;" class="blue_link">点击查看</a></td>
+                <td align="center">{$data['money_pay']}</td>
+                <td align="center"></td>
+            </tr>
+            <tr>
+                <td height="38" align="center"><b>账号来源</b></td>
+                <td align="center"><b>创建时间</b></td>
+                <td align="center"><b>最近登录时间</b></td>
+                <td align="center"><b>最近登录设备</b></td>
+                <td align="center"><b>账号状态</b></td>
+                <td align="center"><b>锁定原因</b></td>
+                <td align="center"><b>锁定时间</b></td>
+                <td align="center"><b>锁定天数</b></td>
+            </tr>
+            <tr>
+                <td align="center" height="57">{$data['pf_type']}</td>
+                <td align="center">{$data.create_time|date="Y-m-d H:i:s",###}</td>
+                <td align="center">{$data.last_login_time|date="Y-m-d H:i:s",###}</td>
+                <td align="center">{$data['last_device_id']}</td>
+                <td align="center">{$data['status']}</td>
+                <td align="center">{$data['lock_reason']}</td>
+                <td align="center">{$data.lock_time|date="Y-m-d H:i:s",###}</td>
+                <td align="center">{$data['lock_day']}</td>
+            </tr>
+        </table>
+        <!-- info -->
+        <h2 style="margin-top:20px;font-size:18px;" >购物历史</h2>
+        <!--
+        <div style="margin-top:10px;" >
+            <div class="fr" style="float:right">订单状态：<select><option>订单关闭</option></select></div>
+            <a href="javascript:;">全选</a>&nbsp;&nbsp;I&nbsp;&nbsp;已选中<span class="checked_num">0</span>个&nbsp;&nbsp;<a href="javascript:;">删除订单</a>
+        </div>
+        -->
+        <div style="margin-top:10px;" >
+          <div class="table-list">
+              <table width="100%" cellspacing="0" class="tb_rec">
+                  <thead>
+                  <tr>
+                      <th><input type="radio" /></th>
+                      <th width="6%">商品编号</th>
+                      <th>供应商</th>
+                      <th>结算金额</th>
+                      <th>订单状态</th>
+                      <th>添加时间</th>
+                      <th>状态更新时间</th>
+                      <th>操作</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <volist name="order_list" id='sval'>
+                      <tr>
+                          <td align="center"><input type="radio" /></td>
+                          <td align="center"><a href="?m=Spu&a=edit&spu_id={$sval.spu_id}" class="blue_link">{$sval.order_id}</a></td>
+                          <td align="center"><a href="?m=Suppliers&a=detail&id={$sval.user_id}" class="blue_link">{$sval.suppliers}</a></td>
+                          <td align="center">{$sval.price}</td>
+                          <td align="center">{$sval.status}</td>
+                          <td align="center">{$sval.add_time}</td>
+                          <td align="center">{$sval.near_time}</td>
+                          <td align="center"><a href="?m=Spu&a=edit&spu_id={$sval.spu_id}" class="blue_link">查看订单详情</a></td>
+                      </tr>
+                  </volist>
+                  </tbody>
+              </table>
+          </div>
+          <div class="btn"><div id="pages">{$page}</div></div>
+        </div>
+
+    </div>
+  </div>
+</div>
+</form>
+<script src="/statics/admin/js/doo_upload_plusin.js"></script>
+<script type="text/javascript">
+    $("#addressTrigger").on("click",function(){
+        $("#addressFlybox,.fullscreen_shadow").show();
+    })
+    $(".flyBox_close").on("click",function(){
+        $("#addressFlybox,.fullscreen_shadow").hide();
+    })
+
+	$("#gameUploadTrigger").dooupload({
+		actionUrl : "/admin.php?m=upload&a=img_up"
+	});
+	$("#contentPicUpload").dooupload({
+		actionUrl : "/admin.php?m=upload&a=img_up",
+		previewBox : ".contentPic",
+		returnInputName : "pic_img"
+	});
+	
+</script>
+<include file="public:footer" />

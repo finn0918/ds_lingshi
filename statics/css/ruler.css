@@ -1,0 +1,45 @@
+.rulerMain ul {
+	margin:0.75rem;
+	font-size:0.65rem;
+	line-height:0.8rem;
+}
+.questionBox .query,
+.questionBox .ask {
+	margin-bottom:0.5rem;
+}
+.questionBox .query i,
+.questionBox .ask i {
+	width:0.7rem;
+	height:0.7rem;
+	display:box;
+	display:-webkit-box;
+	float:left;
+	color:#fff;
+	border-radius:100%;
+	align-items:center;
+	-webkit-align-items:center;
+	justify-content:center;
+	-webkit-justify-content:center;
+	-webkit-box-pack:center;
+	margin-right:0.25rem;
+	font-size:0.5rem;
+	text-align:center;
+	line-height:0.7rem;
+}
+.questionBox .query i {
+	background:#ff2d4b;
+}
+.questionBox .ask i {
+	background:#aeaeae;
+}
+.questionBox .text,
+.questionBox .asktext {
+	display:box;
+	display:-webkit-box;
+}
+.questionBox .asktext {
+	color:#535353;
+}
+.questionBox .text {
+	color:#737373;
+}

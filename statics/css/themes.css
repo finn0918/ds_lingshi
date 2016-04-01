@@ -1,0 +1,304 @@
+@charset "utf-8";
+/*
+ * 通用
+ * wyh
+ * 2015/05/04 11:50 ----- v1.0
+ */
+.themes_descript img {
+	width:100%;
+	min-height:10rem;
+}
+.themes_headerImg img {
+	width:100%;
+	height:7.5rem;
+}
+.themes_main .themes_headerImg {
+	position:relative;
+	background:#8c8c8c;
+	margin-bottom:1rem;
+	height:7.5rem;
+	overflow:hidden;
+}
+.themes_main .themes_headerImg .themes_headerImg_txt{
+	position:absolute;
+	bottom:0;
+	right:0;
+	left:0;
+	font-size:0.8rem;
+	width:100%;
+	height:1.6rem;
+	line-height:1.6rem;
+	color:#fff;
+	background:-webkit-linear-gradient(top,transparent,rgba(0, 0, 0, 0.36));
+}
+.themes_main .themes_headerImg .themes_headerImg_txt span{
+	padding-left:0.475rem;
+	text-shadow:0 1px rgba(27, 19, 14, 0.35);
+}
+.themes_main .themes_descript{
+	margin:0 0.475rem;
+	font-size:0.62rem;
+	color:#a0a0a0;
+	line-height:1rem;
+}
+.themes_descript-main {
+	min-height:10rem;
+}
+.themes_main .themes_descript .themes_desc {
+	padding-bottom:1rem;
+	word-wrap: break-word;
+	word-break: break-all;
+	border-bottom:1px solid #d6d6d6;
+	margin-bottom:1rem;
+	line-height:1rem;
+}
+.themes_main .themes_descript .themes_detail .themes_detail_title {
+	color:#262626;
+	overflow : hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical;
+	margin-bottom:0.3rem;
+	font-size:0.72rem;
+}
+.themes_main .themes_descript .themes_detail .themes_detail_title span{
+	display:inline-block;
+	background:url(../images/circle.png) no-repeat;
+	background-size:1.25rem auto;
+	width:1.3rem;
+	height:1.32rem;	
+	color:#ff2d4b;
+	font-size:0.7rem;
+	text-align:center;
+	align-items:center;
+	line-height:1.25rem;
+	margin-bottom:0.3rem;
+	vertical-align:middle;
+	margin-right:0.3rem;
+}
+.themes_main .themes_descript .themes_detail .themes_detail_txt .themes_detail_Img{
+	margin:0.5rem 0; 
+}
+.themes_detail_Img a {
+	display:block;
+}  
+.themes_main .themes_descript .themes_detail .themes_detail_txt .themes_detail_Img img{
+	margin-bottom:0.5rem;
+} 
+.themes_main .themes_descript .themes_detail .themes_detail_txt .themes_detail_Img .themes_detail_price {
+	margin-top:0.525rem;
+}
+.themes_detail_price .current_price{
+	color:#ff6166;
+	font-family:"Verdana";
+	font-size:1rem;
+	vertical-align: middle;
+}
+.themes_detail_price .non_price{
+	font-family:"Verdana";
+	font-size:0.55rem;
+	text-decoration:line-through;
+	margin-right:0.3rem;
+	vertical-align: sub;
+}
+.themes_detail_price .detail_link{
+	display:inline-block;
+	border:1px solid #ff2d4b;
+	padding:0.1rem 0.5rem;
+	border-radius:10px;
+	color:#ff2d4b;
+	-webkit-tap-highlight-color:rgba(0,0,0,0);
+	outline:none;
+}
+.themes_list {
+	margin-bottom:1rem;
+}
+.fixed_download {
+	position:fixed;
+	bottom:0;
+	left:0;
+	right:0;
+	width:100%;
+	background:rgba(159, 216, 204, 0.9);
+	max-width:640px;
+	margin:0 auto;
+}
+.fixed_download img {
+	width: 2.5rem;
+	height: 2.5rem;
+	margin: 0.5rem;
+	display: inline;
+	float: left;
+}
+.fixed_download span {
+	float: left;
+	display: inline;
+	margin: 0.5rem 0.2rem;
+}
+.fixed_download span a:nth-child(1){
+	background:url(http://lingshi.cccwei.com/statics/index/images/ban_01.png) no-repeat;
+	background-size:5.55rem auto;
+	width:5.55rem;
+	height:0.9rem;
+	margin-top: 0.3rem;
+	margin-bottom: 0.4rem;
+	display:block;
+}
+.fixed_download span a:nth-child(2){
+	background:url(http://lingshi.cccwei.com/statics/index/images/ban_02.png) no-repeat;
+	background-size:5.55rem auto;
+	width:5.55rem;
+	height:0.6rem;
+	display:block;
+}
+.fixed_download .download {
+	background: #ff6267;
+	border-radius: 4px;
+	text-align: center;
+	width: 4.05rem;
+	height: 1.5rem;
+	line-height: 1.5rem;
+	display: inline-block;
+	color: #fff;
+	font-size: 0.75rem;
+	margin-top: 0.9rem;
+	margin-left: 1rem;
+	-webkit-tap-highlight-color:rgba(0,0,0,0);
+	margin-right:0.2rem;
+}
+.fixed_download .close {
+	color: #fff;
+	display: block;
+	font-size: 0.8rem;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	margin-left: 0.rem;
+	position: absolute;
+	right: 0.6rem;
+	top: 1.2rem;
+}
+.edit-zan p {
+	text-align:center;
+}
+.edit-zan {
+	text-align:center;
+	margin-top:1.5rem;
+	margin-bottom:1.5rem;
+}
+.zan-fl,
+.share-fl {
+	display:inline-block;
+}
+.zan-fl span,
+.share-fl span {
+	color:#a0a0a0;
+	font-size:0.55rem;
+}
+.addZan {
+	border:1px solid #ff2d4b;
+	border-radius:50%;
+	display:block;
+	width:2rem;
+	height:2rem;
+	line-height:2rem;
+	margin:0 auto 0.35rem;
+}
+.addZan i {
+	background:url(../images/themes_love.png) no-repeat;
+	background-size:100% auto;
+	width:0.8rem;
+	height:0.85rem;
+	display:block;
+	margin:0.7rem auto;
+}
+.addShare i {
+	background:url(../images/themes_share.png) no-repeat;
+	background-size:100% auto;
+	width:0.925rem;
+	height:0.925rem;
+	display:block;
+	margin:0.6rem auto;
+}
+.themes_detail {
+	min-height:10rem;
+}
+.zan-fl {
+	margin-right:2.75rem;
+}
+.fix-banner {
+	height:1.875rem;
+	line-height:1.875rem;
+	background:#f8f8f8;
+	width:100%;
+	max-width:640px;
+	position:fixed;
+	bottom:0;
+	left:0;
+	right:0;
+	margin:0 auto;
+}
+.fix-banner ul  {
+	text-align:center;
+}
+.fix-banner ul li {
+	width: 49%;
+	display: block;
+	float: left;
+	text-align: center;
+	font-size:0.75rem;
+	font-family:"Verdana";
+}
+.zanjia,.themes_link {
+	cursor:pointer;
+}
+.fix-banner ul li a {
+	display:block;
+}
+.zan i{
+	background:url(../images/themes_love.png) no-repeat;
+	background-size:100% auto;
+	width:0.8rem;
+	height:0.85rem;
+	display:inline-block;
+	vertical-align:middle;
+	margin-right:0.2rem;
+}
+.share i{
+	background:url(../images/themes_share.png) no-repeat;
+	background-size:100% auto;
+	width:0.8rem;
+	height:0.9rem;
+	display:inline-block;
+	vertical-align:middle;
+	margin-right:0.2rem;
+}
+.themes_main .zanzan {
+	background:url(../images/btn_like_selected.png) no-repeat;
+	background-size:100% auto;
+	width:0.8rem;
+	height:0.85rem;
+	display:inline-block;
+	vertical-align:middle;
+	animation:scale 0.6s ease-in;
+	-webkit-animation:scale 0.6s ease-in;
+}
+@keyframes scale {
+	50% {
+		transform:scale(1.2);
+	}
+}
+@-webkit-keyframes scale {
+	50% {
+		-webkit-transform:scale(1.2);
+	}
+}
+.md-line {
+	background: url(../images/md-line.png) no-repeat;
+	background-size: 100% auto;
+	width: 1px;
+	height: 0.5rem;
+	display: block;
+	float: left;
+	margin-top: 0.7rem;
+}
+

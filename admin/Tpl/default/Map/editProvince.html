@@ -1,0 +1,106 @@
+<include file="Public:header" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/js/calendar/calendar-blue.css"/>
+<script type="text/javascript" src="__ROOT__/statics/js/calendar/calendar.js"></script>
+<style>
+.list_item{margin-bottom:20px;border:1px solid #ddd;box-shadow:2px 2px 5px #ddd}
+.list_item .header{position:relative;background-color:#f3f3f3;height:33px;line-height:32px;padding-left:10px;}
+.list_item h3,
+.list_item h4{display:inline-block;*display:block; *float:left;margin-right:10px;border-right:1px solid #ddd;padding-right:10px;}
+.list_item .status img {margin:10px 0;}
+.list_item .op {position:absolute;right:0;border-right:0 none; padding-right:20px;}
+.list_item .op a {margin-left:15px}
+.list_item .content {padding:10px;}
+.list_item .content img {width:60px;text-align:left}
+</style>
+<div class="pad-10">
+        <input type="button" class="ipt_btn2" name="search" id="search" value="新增{$province}的二级城市（地区）" />
+<div class="pad-lr-10" >
+    <div class="table-list">
+<form id="myform" name="myform" action="{:u('Map/add')}" method="post" onsubmit="return check();">
+    <table width="100%" cellspacing="0" class="tb_rec">
+        <thead>
+            <tr>
+                <th width="30%" align="center">编码</th>
+                <th width="30%" align="center">省份（直辖市）</th>
+                <th width="30%" align="center">城市（地区）</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+    	<tbody>
+        <volist name="data" id='val'>
+        	<tr>
+                <td align="center">{$val.code}</td>
+				<td align="center">{$val.province}</td>
+                <td align="center"><input type="text" value="{$val.city}" onchange="modifyCity({$val.code},this);"></td>
+				<td align="center">
+                    <a class="blueBtn" href="#" onclick="del({$val.id})">{$Think.lang.delete}</a>
+              </td>
+            </tr>
+        </volist>
+    	</tbody>
+    </table>
+</form>
+</div>
+<script language="javascript">
+    $(function(){
+        $('#search').click(function(){
+            window.top.art.dialog({id:'addCity'}).close();
+            window.top.art.dialog({
+                title:"新增{$province}的二级城市地区",
+                id:'addCity',
+                iframe:'?m=Map&a=addCity&province={$province}',
+                width:'600',
+                height:'300'
+            }, function(){
+                var d = window.top.art.dialog({id:'addCity'}).data.iframe;
+                d.document.getElementById('dosubmit').click();
+                return false;
+            }, function(){
+                window.top.art.dialog({id:'addCity'}).close();
+            });
+        });
+    })
+    function modifyCity(code,self){
+        $.ajax({
+            type     : "POST",
+            url      : "admin.php?m=Map&a=modifyCity",
+            data     : {
+                code : code,
+                city  : self.value
+            },
+            dataType : "json",
+            success  : function(d){
+                if(d.flag) {
+                    alert(d.data);
+                    location.reload();
+                } else {
+                    alert("修改失败！");
+                    location.reload();
+                }
+            }
+        })
+    }
+    function del(id){
+        if(confirm("是否真的要删除？")) {
+            $.ajax({
+                type: "POST",
+                url: "admin.php?m=Map&a=delCity",
+                data: {
+                    id: id
+                },
+                dataType: "json",
+                success: function (d) {
+                    if (d.flag) {
+                        alert("删除成功！");
+                        location.reload();
+                    } else {
+                        alert("删除失败！");
+                        location.reload();
+                    }
+                }
+            })
+        }
+    }
+</script>
+</body>
+</html>

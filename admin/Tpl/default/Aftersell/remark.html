@@ -1,0 +1,19 @@
+<include file="Public:header" />
+<form action="{:u('Aftersell/remark')}" method="post" name="myform" id="myform" enctype="multipart/form-data" style="margin-top:10px;">
+  <div class="pad-10">
+	  <div id="div_setting_2" class="contentList pad-10">
+        <table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+            </tr>
+            <tr>
+                <th>售后备注:</th>
+                <td colspan="2">
+                    <textarea name="info" cols="80" rows="15">{$remark}</textarea>
+                </td>
+            </tr>
+            <input type="hidden" name="order_sn" id="order_sn" value="{$orderSn}" />
+            <input type="submit" name="dosubmit" id="dosubmit" class="dialog" value=" ">
+        </table>
+  	  </div>
+  </div>
+</form>
+</body></html>

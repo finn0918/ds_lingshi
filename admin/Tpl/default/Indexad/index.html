@@ -1,0 +1,187 @@
+<include file="Public:header" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/js/calendar/calendar-blue.css"/>
+<script type="text/javascript" src="__ROOT__/statics/js/calendar/calendar.js"></script>
+<style>
+.list_item{margin-bottom:20px;border:1px solid #ddd;box-shadow:2px 2px 5px #ddd}
+.list_item .header{position:relative;background-color:#f3f3f3;height:33px;line-height:32px;padding-left:10px;}
+.list_item h3,
+.list_item h4{display:inline-block;*display:block; *float:left;margin-right:10px;border-right:1px solid #ddd;padding-right:10px;}
+.list_item .status img {margin:10px 0;}
+.list_item .op {position:absolute;right:0;border-right:0 none; padding-right:20px;}
+.list_item .op a {margin-left:15px}
+.list_item .content {padding:10px;}
+.list_item .content img {width:60px;text-align:left}
+.published td{background:#f0f0ff;}
+</style>
+<link href="__ROOT__/statics/admin/css/pubStyle.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/admin/css/jquery.datetimepicker.css"/>
+<script type="text/javascript" src="__ROOT__/statics/admin/js/jquery.datetimepicker.js"></script>
+<div class="pad-10">
+    <form name="searchform" action="" method="get" >
+        <table width="100%" cellspacing="0" class="search-form">
+            <tbody>
+            <tr>
+                <td>
+                    <div class="explain-col">
+                        添加日期：
+                        <input type="text" name="time_start" id="time_start" class="date datetimepicker" size="20" value="{$time_start}">
+                        -
+                        <input type="text" name="time_end" id="time_end" class="date datetimepicker" size="20" value="{$time_end}">
+                        &nbsp;&nbsp;发布状态：
+                        <select name="status">
+                            <option value="">--选择--</option>
+                            <option value="published" <if condition="$status eq 'published'">selected</if>>已发布</option>
+                            <option value="scheduled" <if condition="$status eq 'scheduled'">selected</if>>定时</option>
+                            <option value="locked" <if condition="$status eq 'locked'">selected</if>>锁定</option>
+                        </select>
+                        &nbsp;&nbsp;搜索关键字：
+                        <input name="keyword" type="text" class="input-text" size="25" value="{$keyword}" />
+                        <input type="hidden" name="m" value="Indexad" />
+                        <input type="hidden" name="a" value="index" />
+                        <input type="hidden" name="query" value="1" />
+                        <input type="submit" name="search" class="button" value="搜索" />
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+    <!-- 批量 -->
+    <div class="mutiControl">
+        <input type="checkbox" name="chk" class="inputRadio mr8" id="checkAll" />全选&nbsp;&nbsp;已选中&nbsp;<span class="checked_num">0</span>&nbsp;个&nbsp;&nbsp;<a href="javascript:;" class="btn delete">批量删除</a>
+    </div>
+    <div>
+        <div class="table-list">
+            <table width="100%" cellspacing="0" class="tb_rec">
+                <thead>
+                    <tr>
+                        <th width="12"></th>
+                        <th>编号</th>
+                        <th width="6%">窗口位置</th>
+                        <th>广告标题</th>
+                        <th style="width:80px;overflow: hidden;">广告缩略图</th>
+                        <th>广告类型</th>
+                        <th>活动时间</th>
+                        <th>广告状态</th>
+                        <th>责任编辑</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <volist name="ad_list" id='sval'>
+                    <if condition="$sval.status eq '已发布'">
+                        <tr class="published">
+                    <else />
+                        <tr>
+                    </if>
+                        <td><input type="checkbox" name="chk" data-id="{$sval.id}" class="inputRadio becheck" /></td>
+                        <td align="center">{$sval.id}</td>
+                        <td align="center">{$sval.positionText}</td>
+                        <td align="center">{$sval.title}</td>
+                        <td align="center"><img src ="{$sval.image_src}" width="80"></td>
+                        <td align="center">{$sval.link_to}</td>
+                        <td align="center">{$sval.publish_time|date="Y-m-d H:i:s",###}<br/>{$sval.end_time|date="Y-m-d H:i:s",###}</td>
+                        <td align="center">{$sval.status}</td>
+                        <td align="center">{$sval.admin}</td>
+                        <td align="center">
+                            <a href="?m=Indexad&a=edit&id={$sval.id}">编辑</a><br/>
+                            <if condition="$sval.status eq '已发布'">
+                                <a href="javascript:;" data-id="{$sval.id}" data-posi="{$sval.position}" onclick="downtable({$sval.id});" style="color:red">立即下架</a>
+                                <else/>
+                                <a href="javascript:;" data-id="{$sval.id}" data-posi="{$sval.position}" onclick="uptable({$sval.id},{$sval.position});">立即上架</a>
+                            </if>
+                            <!--<a href="#" target="_blank">预览</a>-->
+                        </td>
+                    </tr>
+                </volist>
+                </tbody>
+            </table>
+        </div>
+        <div class="btn"><div id="pages">{$page}</div></div>
+    </div>
+</div>
+
+<script src="__ROOT__/statics/admin/js/pubEvent.js"></script>
+<script language="javascript">
+
+    $('.datetimepicker').datetimepicker({value : '',step:"30"});
+
+    var apiConfig = {
+        list    : "admin.php?&m=Indexad&a=index",
+        publish : "admin.php?&m=Indexad&a=changeStatus",
+        del     : "admin.php?&m=Indexad&a=del"
+    };
+    //上架
+    function uptable(myid,myposi){
+        $.ajax({
+            type : "post",
+            url  : "admin.php?&m=Indexad&a=setUpTable",
+            data : {
+                id : myid,
+                posi : myposi
+            },
+            success : function(d) {
+                alert(d.msg);
+                if(d.flag) {
+                    window.location.href = apiConfig.list;
+                }
+            }
+        })
+    }
+    //下架
+    function downtable(myid){
+        $.ajax({
+            type : "post",
+            url  : "admin.php?&m=Indexad&a=setDownTable",
+            data : {
+                id : myid
+            },
+            success : function(d) {
+                alert(d.msg);
+                if(d.flag) {
+                    window.location.href = apiConfig.list;
+                }
+            }
+        })
+    }
+
+function edit(id, name) {
+	var lang_edit = "编辑资讯";
+	window.top.art.dialog({id:'edit'}).close();
+	window.top.art.dialog({title:lang_edit+'--'+name,id:'edit',iframe:'?m=Article&a=edit&id='+id,width:'550',height:'400'}, function(){var d = window.top.art.dialog({id:'edit'}).data.iframe;d.document.getElementById('dosubmit').click();return false;}, function(){window.top.art.dialog({id:'edit'}).close()});
+}
+
+var lang_cate_name = "资讯标题";
+function check(){
+	if($("#myform").attr('action') != '{:u("Article/sort_order")}') {
+		var ids='';
+		$("input[name='id[]']:checked").each(function(i, n){
+			ids += $(n).val() + ',';
+		});
+
+		if(ids=='') {
+			window.top.art.dialog({content:lang_please_select+lang_cate_name,lock:true,width:'200',height:'50',time:1.5},function(){});
+			return false;
+		}
+	}
+	return true;
+}
+
+function status(id,type){
+    $.get("{:u('Article/status')}", { id: id, type: type }, function(jsondata){
+		var return_data  = eval("("+jsondata+")");
+		if(return_data.data.error == 1)
+			{
+	        $("#"+type+"_"+id+" img").attr('src', '__ROOT__/statics/images/status_'+return_data.data.status+'.gif')
+			alert("您没有权限修改");
+			}
+		else
+			{
+
+	        $("#"+type+"_"+id+" img").attr('src', '__ROOT__/statics/images/status_'+return_data.data+'.gif')
+			}
+	});
+}
+</script>
+</body>
+</html>

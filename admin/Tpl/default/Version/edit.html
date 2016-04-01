@@ -1,0 +1,65 @@
+<include file="Public:header" />
+
+<div class="pad_10">
+<form action="{:u('Version/edit',array('id'=>$info['id']))}" method="post" name="myform" id="myform" enctype="multipart/form-data">
+<table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+	<th width="15%">外部版本号</th>
+            <td >
+              <input type="text" name="version_outnumber" value="{$info['version_outnumber']}"/>
+            </td>
+    <tr>
+     <th width="15%">内部版本号</th>
+            <td >
+              <input type="text" name="version_innumber" value="{$info['version_innumber']}"/>
+            </td>
+    </tr>
+        <tr>
+            <th>版本描述</th>
+            <td><textarea name="describle" id="describle" value="{$info['describle']}">{$info['describle']}</textarea></td>
+        </tr>
+         <tr>
+            <th>操作系统</th>
+            <td >
+                <select name="os_type" id="os_type">                  
+                        <option value="3" <if condition="3 eq $info['os_type']"> selected=select</if>>Android</option>
+                        <option value="1" <if condition="1 eq $info['os_type']"> selected=select</if> >IOS</option>
+                </select>
+            </td>
+        </tr>
+         <tr id="SW_replace" class="bill_media" >
+            <th>下载地址</th>
+            <td ><input style="width:300px" name="upd_url" id="upd_url" value="{$info['upd_url']}">&nbsp;</td>
+        </tr>
+       <!--  <tr id="SW_replace" class="bill_media" >
+            <th>取消地址</th>
+            <td><input style="width:300px" name="cancel_url" id="cancel_url" value="{$info['cancel_url']}"/>&nbsp;</td>
+        </tr>-->
+</table>
+<input type="submit" name="dosubmit" id="dosubmit" class="dialog" value="">
+</form>
+<script type="text/javascript">
+		$(function(){
+		    $.formValidator.initConfig({
+		        formid:"myform",
+		        autotip:true,
+		        onerror:function(msg,obj){
+		            window.top.art.dialog({
+		                content:msg,
+		                lock:true,
+		                width:'250',
+		                height:'50'}, function(){
+		                    this.close();$(obj).focus();
+		                    })}});
+
+	 $("#describle").formValidator({
+        onshow : "填写版本详细描述",
+        onfocus : "字数控制字25字以内"
+    }).inputValidator({
+        min : 1,
+        onerror : "请填写描述"
+    });
+		})
+</script>
+</div>
+</body>
+</html>

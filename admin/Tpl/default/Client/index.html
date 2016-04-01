@@ -1,0 +1,115 @@
+<include file="Public:header" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/js/calendar/calendar-blue.css"/>
+<script type="text/javascript" src="__ROOT__/statics/js/calendar/calendar.js"></script>
+<style>
+.list_item{margin-bottom:20px;border:1px solid #ddd;box-shadow:2px 2px 5px #ddd}
+.list_item .header{position:relative;background-color:#f3f3f3;height:33px;line-height:32px;padding-left:10px;}
+.list_item h3,
+.list_item h4{display:inline-block;*display:block; *float:left;margin-right:10px;border-right:1px solid #ddd;padding-right:10px;}
+.list_item .status img {margin:10px 0;}
+.list_item .op {position:absolute;right:0;border-right:0 none; padding-right:20px;}
+.list_item .op a {margin-left:15px}
+.list_item .content {padding:10px;}
+.list_item .content img {width:60px;text-align:left}
+</style>
+<div class="pad-10">
+    <form name="searchform" action="{:u('Client/index')}" method="post" >
+    <table width="100%" cellspacing="0" class="search-form">
+        <tbody>
+            <tr>
+            <td>
+            <div class="explain-col">
+           	 来源帐号 :
+               <select name="ttype">
+            	<option value="">--所有渠道--</option>
+                <volist name="ttype" id="val">
+            	<option value="{$key}" <if condition="$key eq $search['ttype']"> selected=select</if>>{$val}</option>
+				</volist>
+              </select>
+            
+            	创建时间：
+            	<input type="text" name="time_start" id="time_start" class="date" size="12" value="{$search['time_start']}">
+				<script language="javascript" type="text/javascript">
+                    Calendar.setup({
+                        inputField     :    "time_start",
+                        ifFormat       :    "%Y-%m-%d",
+                        showsTime      :    'true',
+                        timeFormat     :    "24"
+                    });
+                </script>
+                -
+                <input type="text" name="time_end" id="time_end" class="date" size="12" value="{$search['time_end']}">
+				<script language="javascript" type="text/javascript">
+                    Calendar.setup({
+                        inputField     :    "time_end",
+                        ifFormat       :    "%Y-%m-%d",
+                        showsTime      :    'true',
+                        timeFormat     :    "24"
+                    });
+                </script>
+            	
+                &nbsp;用户昵称 :
+                <input name="nickname" type="text" class="input-text" size="25" placeholder="输入用户昵称筛选" value="{$search['nickname']}" />
+                <input type="hidden" name="m" value="client" />
+                <input type="submit" name="search" class="button" value="搜索" />
+        	</div>
+            </td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+<div class="pad-lr-10" >
+    <form id="myform" name="myform" action="{:u('Client/dels')}" method="post" onsubmit="return check();">
+    <div class="table-list">
+    <table width="100%" cellspacing="0" class="tb_rec">
+        <thead>
+            <tr>
+                <th width="5%">全选<input type="checkbox" value="" id="check_box" onclick="selectall('id[]');"></th>
+              	<th width="6% align="left" >用户ID</th>
+                <th align="left"width="8%">用户头像</th>
+                <th align="left">用户昵称</th>
+                <th width="6%" align="left">登录帐号</th>
+                <th align="center">标签数</th>
+                <th width="12%" align="left">创建时间</th>
+                <th width="12%" align="left">最后登录时间</th>
+
+                <th align="left">状态</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+    	<tbody>
+        <volist name="client_list" id='val'>
+        	<tr>
+                <td align="center"><input type="checkbox" value="{$val.id}" name="id[]"></td>
+                <td align="center">{$val.user_id}</td>
+               	<td align="center"><notempty name="val.avatar"><img src="{$val.avatar}" width="60"></notempty></td>
+                
+				<td align="center">{$val.nickname}</td>
+                <td align="center"><em style="color:green;">{$val.platform_type}</em></td>
+                <td align="center">{$val.tag_count}
+                </td>
+				<td align="center">{$val.create_time|date="Y-m-d H:i:s",###	}</td>
+                <td align="center">{$val.last_login_time|date="Y-m-d H:i:s",###}</td>
+
+				<td align="center">{$val.status}</td>
+				<td align="center">
+               <neq name="val.status" value="删除">
+              <a class="blueBtn" href="{:u('Client/delete/', array('id'=>$val["id"]))}" onclick="return confirm('{$Think.lang.sure_delete}')">删除</a></neq>
+              <a class="blueBtn" href="{:u('Client/show/', array('id'=>$val["id"]))}">查看</a>
+              </td>
+            </tr>
+        </volist>
+    	</tbody>
+    </table>
+   
+     <div class="btn">
+    <input type="submit" class="ipt_btn2" name="dosubmit" value="批量删除" onclick="return confirm('确定批量删除？')"/>
+     </div> 
+    </div>
+        <div class="btn"><div id="pages">{$page}</div></div>
+    </div>
+    </form>
+</div>
+</script>
+</body>
+</html>

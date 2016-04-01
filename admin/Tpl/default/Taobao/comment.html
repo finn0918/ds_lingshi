@@ -1,0 +1,258 @@
+<include file="Public:header" />
+<style>
+				*{
+				margin:0;
+				padding:0;
+			}
+			.fileControl{
+				position:relative;
+				padding:5px;
+			}
+			.vqdTrigger{
+				position:relative;
+				width:60px;
+				height:25px;
+				line-height:25px;
+				text-align:center;
+				border-radius:4px;
+				background:#CC290E;
+				color:#FFF;
+				font-size:12px;
+				border:none;
+				cursor:pointer;
+				outline:none;
+			}
+			.vqdfile{
+				position:absolute;
+				opacity:0;
+			}
+			.fileList li{
+				position:relative;
+				margin-top:5px;
+				height:50px;
+				padding:6px;
+				display:block;
+				border:1px solid #CCC;
+				border-radius:4px;
+			}
+			.fileList li img{
+				float:left;
+				height:50px;
+				display:block;
+			}
+			.fileList li .del{
+				position:absolute;
+				right:5px;
+				top:20px;
+				width:18px;
+				height:18px;
+				line-height:19px;
+				text-align:center;
+				border:1px solid #CCC;
+				border-radius:20px;
+				text-decoration:none;
+				color:#888;
+				font-size:16px;
+			}
+			.uploadSubmit{
+				position:absolute;
+				left:70px;
+				top:5px;
+				z-index:8;
+				width:60px;
+				height:25px;
+				line-height:25px;
+				text-align:center;
+				border-radius:4px;
+				background:#58BC40;
+				color:#FFF;
+				font-size:12px;
+				border:none;
+				cursor:pointer;
+				outline:none;
+				display:none;
+			}
+		</style>
+
+<script type="text/javascript" src="__ROOT__/includes/kindeditor/kindeditor-min.js"></script>
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/js/calendar/calendar-blue.css"/>
+<style>
+	.removeTr{
+		cursor:pointer;
+		font-weight:bold;
+		right:30px;
+		top:42px;
+	}
+</style>
+<script type="text/javascript" src="__ROOT__/statics/js/calendar/calendar.js"></script>
+<script type="text/javascript" src="__ROOT__/statics/js/jquery/plugins/jquery.imagePreview.js"></script>
+<script type="text/javascript">
+	function removeTr(e){
+		var self = $(this), parent = self.parents(".comment_tr") ,wrap = $("#table>tbody>tr");
+		if(wrap.length > 1){
+			parent.remove();
+		}else if(wrap.length == 1){
+			alert("这是最后一条不能删除了哦!~");
+			return;
+		}
+	}
+
+	$(function(){
+
+		$("#add_comment").click(function(){
+			$("#comment_tr").clone().prependTo($("#comment_tr").parent());
+		});
+
+		$("body").delegate(".removeTr","click",removeTr);
+
+		$(".delete_pic").click(function(){
+			var item_id = $("#items_id").val();
+			var id = $(this).attr('id');
+			$.get("admin.php?m=items&a=delete_pic&item_id="+item_id+"&id="+id, function(data){
+				$("#list_"+id).hide();
+			});
+		});
+
+	})
+
+
+
+		</script>
+  <div class="pad-10">
+    <div class="col-tab">
+       <ul class="tabBut cu-li">
+			<li id="tab_setting_1" class="on" onclick="SwapTab('setting','on','',3,1);">已有的商品评论</li>
+
+      </ul>
+
+      <div id="div_setting_3" class="contentList pad-10">
+        <table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+			<tbody>
+				<volist name="comments" id="val">
+				<tr>
+					<th width="100">买家头像 :</th>
+				<td>
+					<img src="{$val.avatar_src}" width="40" heirht="40"/>
+				</td>
+				<th width="100">买家昵称 :</th>
+				<td>{$val.nickname}</td>
+				<th width="100">评论内容 :</th>
+				<td><div style="width:400px;overflow-wrap:break-word">{$val.comment}</div></td>
+				<td><a class="blueBtn" href="javascript:del_comment({$val.id})">删除</a><a class="blueBtn" href="javascript:edit_comment({$val.id},'{$val.nickname}')">修改</a></td>
+				</tr>
+				</volist>
+			</tbody>
+        </table>
+      </div>
+  </div>
+
+
+
+<form action="{:u('Taobao/comment')}" method="post" name="myform" id="myform" enctype="multipart/form-data" style="margin-top:10px;">
+  <div class="pad-10">
+    <div class="col-tab">
+       <ul class="tabBut cu-li">
+			<li id="tab_setting_1" class="on" onclick="SwapTab('setting','on','',3,1);">添加商品评论</li>
+      </ul>
+      <div id="div_setting_3" class="contentList pad-10">
+        <table width="100%" cellpadding="2" cellspacing="1" class="table_form" id="table">
+			<tbody>
+				<tr id="comment_tr" style="position:relative" class="comment_tr">
+					<th width="200">买家头像(建议分辨率：70x70) :</th>
+				<td width="100">
+				<div data-role="main">
+				<div class="fileControl">
+					<input type="button" class="vqdTrigger" value="上传" /><br/>
+					<input type="file" class="vqdfile" multiple="multiple" />
+				</div>
+				<ul class="fileList"></ul>
+			</div>
+            </td>
+				<th width="150">买家昵称 :</th>
+				<td><input type="text" name="nickname[]" id="nickname" class="input-text" size="10"></td>
+				<th width="100">评论内容 :</th>
+				<td><textarea name="comment[]" id="comment" cols="50" rows="3"></textarea></td>
+				<td class="removeTr">x</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<th></th>
+					<td><input type="hidden" value={$id} name="id" /></td><td><input type="button" value="添加评论" id="add_comment" class="button"><input type="submit" value="{$Think.lang.submit}" name="dosubmit" class="button" id="dosubmit"></td>
+				</tr>
+			</tfoot>
+        </table>
+      </div>
+
+  </div>
+</form>
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+<script type="text/javascript">
+function del_comment(id) { //删除评论
+        if (confirm("确认要删除这条评论吗？")) {
+			window.location="{:u('Taobao/delComment','id=')}"+id;
+        }
+    }
+function edit_comment(id, name) {
+    window.top.art.dialog({id:'edit_comment'}).close();
+    window.top.art.dialog({title:'修改评论--'+name,id:'edit_comment',iframe:'?m=Taobao&a=editComment&id='+id,width:'800',height:'480'}, function(){var d = window.top.art.dialog({id:'edit_comment'}).data.iframe;d.document.getElementById('dosubmit').click();return false;}, function(){window.top.art.dialog({id:'edit_comment'}).close()});
+
+}
+</script>
+<script>
+			(function($) {
+				function fileClick(e){
+					var mef = $(this).closest("[data-role='main']");
+					mef.find(".vqdfile").trigger("click");
+				};
+				function fileTrigger(e){
+					var master = $(this).closest("[data-role='main']");
+					var self = $(this)[0];
+					var myfile = self.files;
+					var myfileLen = myfile.length;
+					var reader = new FileReader();
+					var fileHiddenHtml;
+					var fileHtml = '<input type="file" multiple="multiple" class="vqdfile" />';
+					var replace = function(i){
+						var index = i ? i : 0;
+						var fileListHtml = '';
+						if(index < myfileLen){
+							reader.readAsDataURL(myfile[index]);
+							reader.onload = function(e) {
+								fileHiddenHtml = '<input type="hidden" name="file[]" class="fileHidden" data-index="'+index+'" value="'+e.target.result+'" />';
+
+								fileListHtml += '<li>';
+								fileListHtml += '<img src="'+e.target.result+'" />';
+								fileListHtml += '<a href="javascript:;" class="del" data-id="'+index+'">×</a>';
+								fileListHtml += '</li>';
+
+								master.find(".fileControl").append(fileHiddenHtml);
+								master.find(".fileList").append(fileListHtml);
+								index++;
+								replace(index);
+							}
+						}else{
+							master.find(".vqdfile").remove();
+							master.find(".fileControl").append(fileHtml);
+							index = 0;
+							console.log("上传成功");
+						}
+					};
+					replace();
+				};
+				function fileDel(e){
+					var master = $(this).closest("[data-role='main']"),
+						$self = $(this),
+						selfLi = $self.closest("li"),
+						selfIndex = $self.attr("data-id"),
+						liLen = master.find(".fileList li").length;
+					master.find(".fileHidden[data-index="+selfIndex+"]").remove();
+					selfLi.remove();
+				};
+				$("body").on("click",".vqdTrigger",fileClick);
+				$("body").on("click",".del",fileDel);
+				$("body").on("change",".vqdfile",fileTrigger);
+			})(jQuery);
+
+		</script>
+</body></html>

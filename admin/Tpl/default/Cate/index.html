@@ -1,0 +1,114 @@
+<include file="Public:header" />
+<script language="javascript" type="text/javascript" src="__ROOT__/statics/js/jquery/jquery.article_cate.js"></script>
+<div class="pad-lr-10" >
+    <form name="searchform" action="" method="get" >
+    <input type="hidden" name="m" value="Cate" />
+    <input type="hidden" name="a" value="index" />
+    <table width="100%" cellspacing="0" class="search-form">
+        <tbody>
+            <tr>
+            <td>
+            <div class="explain-col">
+            	关键词 :
+            	<input type="text" name="keyword" class="input-text" value='{$keyword}' />
+                <input type="submit" name="search" class="button" value="搜索" />
+        	</div>
+            </td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+    <form id="myform" name="myform" action="{:u('Cate/del')}" method="post" onsubmit="return check();">
+    <div class="table-list">
+        <div class="content-menu ib-a blue line-x">
+    	<a class="add fb" href="{:u('Cate/add')}"><em>添加分类</em></a>
+    	</div>
+    <table width="100%" cellspacing="0" class="tb_rec">
+        <thead>
+            <tr>
+                <th width="5%"><input type="checkbox" value="" id="check_box" onclick="selectall('id[]');"></th>
+              	<th align="left" width="5%">编号</th>
+                <th width="100">商品分类名称</th>
+                <th width="100">分类描述</th>
+              	<th width="100">首页顺序</th>
+              	<th width="100">列表顺序</th>
+                <th>详细品类</th>
+                <th>责编</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+    	<tbody>
+        <volist name="cate_list" id='val'>
+        <tr>
+            <td align="center"><input type="checkbox" value="{$val.id}" name="id[]"></td>
+            <td><em style="color:green;">{$val.key}</em></td>
+			<td align="center">{$val.name}</td>
+            <td align="center">{$val.desc}</td>
+			<td align="center">{$val.index_num}</td>
+			<td align="center">{$val.list_num}</td>
+            <td align="center">{$val.detail_cates}</td>
+            <td align="center" width='100'>{$val.editor}</td>
+            <td align="center" width='200'>
+            	<a class="blueBtn" href="?m=Cate&a=edit&id={$val.id}">{$Think.lang.edit}</a>
+            	<a class="blueBtn" href="javascript:del_cate({$val.id})">删除</a>
+            	<!--  <a class="blueBtn" href="?m=cate&a=publish&id={$val.id}">立即发布</a>-->
+            </td>
+        </tr>
+        </volist>
+    	</tbody>
+    </table>
+	<div class="btn">
+	<input type="submit" class="ipt_btn2" name="dosubmit" value="{$Think.lang.delete}" onclick="return confirm('{$Think.lang.sure_delete}')"/>
+	<div id="pages">{$page}</div>
+    </div>
+    </form>
+
+</div>
+<script type="text/javascript">
+function edit(id, name) {
+	var lang_edit = "{$Think.lang.edit}";
+	window.top.art.dialog({id:'edit'}).close();
+	window.top.art.dialog({title:lang_edit+'--'+name,id:'edit',iframe:'/admin.php?m=cate&a=edit&id='+id,width:'500',height:'420'}, function(){var d = window.top.art.dialog({id:'edit'}).data.iframe;d.document.getElementById('dosubmit').click();return false;}, function(){window.top.art.dialog({id:'edit'}).close()});
+}
+function themeEdit(id, name) {
+	var lang_edit = "模版{$Think.lang.edit}";
+	window.top.art.dialog({id:'edit'}).close();
+	window.top.art.dialog({title:lang_edit+'--'+name,id:'edit',iframe:'/admin.php?m=cate&a=themeEdit&id='+id,width:'800',height:'450'}, function(){var d = window.top.art.dialog({id:'edit'}).data.iframe;d.document.getElementById('dosubmit').click();return false;}, function(){window.top.art.dialog({id:'edit'}).close()});
+}
+
+function hlEdit(id, name) {
+	var lang_edit = "首页{$Think.lang.edit}";
+	window.top.art.dialog({id:'edit'}).close();
+	window.top.art.dialog({title:lang_edit+'--'+name,id:'edit',iframe:'/admin.php?m=cate&a=hledit&id='+id,width:'800',height:'450'}, function(){var d = window.top.art.dialog({id:'edit'}).data.iframe;d.document.getElementById('J_form').submit();return false;}, function(){window.top.art.dialog({id:'edit'}).close()});
+}
+
+var lang_cate_name = "{$Think.lang.article_cate_name}";
+function check(){
+	if($("#myform").attr('action') != '{:u("cate/sort")}') {
+		var ids='';
+		$("input[name='id[]']:checked").each(function(i, n){
+			ids += $(n).val() + ',';
+		});
+
+		if(ids=='') {
+			window.top.art.dialog({content:lang_please_select+'要删除的分类',lock:true,width:'200',height:'50',time:1.5},function(){});
+			return false;
+		}
+	}
+	return true;
+}
+function del_cate(id) { //删除分类
+        if (confirm("确认要删除分类？请谨慎操作！！！")) {
+
+			window.location="{:u('Cate/del','id=')}"+id;
+        }
+    }
+function status(id,type){
+    $.get("{:u('article_cate/status')}", { id: id, type: type }, function(jsondata){
+		var return_data  = eval("("+jsondata+")");
+		$("#"+type+"_"+id+" img").attr('src', '__ROOT__/statics/images/status_'+return_data.data+'.gif')
+	});
+}
+</script>
+</body>
+</html>

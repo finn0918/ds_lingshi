@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+		<meta name="apple-itunes-app" content="app-id=641895599">
+		<meta name="format-detection" content="telephone=no" searchtype="map">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="360-site-verification" content="188bc9bbbe2e50aaf86c811cf61d5cdb" />
+		<meta name="baidu-site-verification" content="ayLnKZTrby" />
+		<meta name="sogou_site_verification" content="gz86ImwtMQ"/>
+		<script>
+			var version = location.href.indexOf("?tdev") > 0 ? (1 + Math.round(Math.random() * 9999 - 1)) : '1.2';
+			var version = 2232;
+			document.write('<link href="statics/css/tBase.css?v='+version+'" rel="stylesheet" type="text/css" />');
+			document.write('<link href="statics/css/arbitrarily.css?v='+version+'" rel="stylesheet" type="text/css" />');
+			(function(b, c) {
+				var d = b.documentElement,
+					resizeEvt = 'orientationchange' in c ? 'orientationchange' : 'resize',
+					recalc = function() {
+						var a = d.clientWidth;
+						if (!a) return;
+						d.style.fontSize = (20 * (a / 320)) > 40 ? 40 + "px" : (20 * (a / 320)) + 'px'
+					},
+					anime = c.requestAnimationFrame || c.webkitRequestAnimationFrame || c.mozRequestAnimationFrame || c.oRequestAnimationFrame ||
+				function(e) {
+					return setTimeout(e, 16.67)
+				};
+				if (!b.addEventListener) return;
+				c.addEventListener(resizeEvt, recalc, false);
+				b.addEventListener('DOMContentLoaded', recalc, false)
+			})(document, window);
+		</script>
+	</head>
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<body>
+		<div id="warper">
+			<div class="header">
+				<img src="statics/images/headerB.jpg?2" />
+			</div>
+			<p class="title">
+				今天已有<span class="titnum"></span>人参与了任性打包购买活动
+			</p>
+
+			<!-- 商品列表 -->
+			<ul class="ls-list claerfix">
+				<!-- <li kind-id='' subkind-id='' data-num=''>
+					<div class="liwrapper">
+						<div class="lsPic">
+							<img src='http://img.lingshi.cccwei.com/lingshi/f42/42/2/ba40a6501bac4d30871e07e405dc0f42.jpeg' alt="" />
+						</div>
+						<div class="ls-ifm" style="width:55%">
+							<h3>[双11测试]</h3>
+							<p>双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试</p>
+						</div>
+						<img class="line_l" src="statics/images/line_l.png" alt="">
+						<a class="like" href="javascript:;" style="" like-data="close" onclick="" data-id='' data-status=''>
+							<img src="http://test.ds.lingshi.cccwei.com/api/Tpl/default/Doublele/statics/images/icon_unlike.png" alt="">想要
+						</a>
+						<div class="cl"></div>
+					</div>
+					<hr class="hrline" />
+					</li>
+					<li kind-id='' subkind-id='' data-num=''>
+					<div class="liwrapper">
+						<div class="lsPic">
+							<img src='http://img.lingshi.cccwei.com/lingshi/6a8/a8/8/86ef47581b343ff5803fd4066d80e6a8.jpeg' alt="" />
+						</div>
+						<div class="ls-ifm" style="width:55%">
+							<h3>[双11测试]</h3>
+							<p>双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试双11测试</p>
+						</div>
+						<img class="line_l" src="statics/images/line_l.png" alt="">
+						<a class="like" href="javascript:;" style="" like-data="close" onclick="" data-id='' data-status=''>
+							<img src="http://test.ds.lingshi.cccwei.com/api/Tpl/default/Doublele/statics/images/icon_unlike.png" alt="">想要
+						</a>
+						<div class="cl"></div>
+					</div>
+					<hr class="hrline" />
+					</li> -->
+			</ul>
+		</div>
+		<a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.feibo.snacks&g_f=991653"  class="btn-place">我要去扫货</a>
+		<div class="bg"></div>
+	</body>
+<script src="statics/js/jquery-1.8.0.min.js"></script>
+</html>
+<script>
+	 var shareData = {
+		title: '一箩筐的零食正在打包中……',
+		desc: '双11必BUY款！谁能抵挡这美味！99元购8件，超值有没有！超值有没有！！超值有没有！！！',
+		link: window.location.href,
+		imgUrl: "http://"+window.location.host+"/api/Tpl/default/Doublele/statics/images/shareIcon.jpg",
+		trigger: function (res) {
+
+		},
+		success: function (res) {
+
+		},
+		cancel: function (res) {
+
+		},
+		fail: function (res) {
+
+		},
+		complete: function (res) {
+
+		}
+	};
+	var init = { 
+		center : function(obj){
+			var windowWidth = document.documentElement.clientWidth;   
+			var windowHeight = document.documentElement.clientHeight;   
+			var popupHeight = $(obj).height();   
+			var popupWidth = $(obj).width();    
+			
+			$(obj).css({   
+				"position": "fixed",   
+				"top": windowHeight/2 - popupHeight/2,   
+				"left":windowWidth/2 - popupWidth/2,
+				"z-index": 99999
+			});  
+		},
+		getCookie : function(name){
+			var strCookie = document.cookie;
+			var arrCookie = strCookie.split("; ");
+			for(var i = 0; i < arrCookie.length; i ++){
+				var arr = arrCookie[i].split("=");
+				if(arr[0] == name) return arr[1];
+			}
+			return "";
+		},
+		ajax_fuc : function(userid){
+			var callback = function(d) {	
+				num = d.data.num;
+				sharenum = d.data.share;
+				$("body").attr("share",sharenum);
+				//alert(sharenum);
+				if(sharenum == 1) {
+					var nnum = parseInt(num)+1;
+					$("body").attr("limitNum",nnum);
+					// 几元钱限购
+					$(".money").html("亲,"+d.data.money+"元最多只能买"+nnum+"件哟~");
+				}else {
+					$("body").attr("limitNum",num);
+					//document.cookie = "limitNum="+num;
+				};
+				$(".titnum").html(d.data.view_num);
+				var list = d.data.spu_list;
+				var htmls = '';
+				for(var i in list) {
+					htmls += '<li kind-id='+list[i].kind_id+' subkind-id='+list[i].subkind_id+' data-num='+list[i].num+'>';
+					htmls += '<div class="liwrapper">';
+					htmls += '	<img src='+list[i].img.img_url+' alt="" class="lsPic">';
+					if(list[i].status == "1") {
+						htmls += '<i class="soldicon"></i>';
+					};
+					htmls += '	<div class="ls-ifm">';
+					htmls += '		<h3>'+list[i].title+'</h3>';
+					htmls += '		<p>'+list[i].desc+'</p>';
+					htmls += '	</div>';
+					htmls += '	<img class="line_l" src="statics/images/line_l.png" alt="">';
+					htmls += '	<a class="like" href="javascript:;" style="" like-data="close" onclick="" data-id='+list[i].spu_id+' data-status='+list[i].status+'>';
+					htmls += '		<img src="statics/images/icon_unlike.png" alt="">想要';
+					htmls += '	</a>';
+					htmls += '	<div class="cl"></div>';
+					htmls += '</div>';
+					htmls += '<hr class="hrline" />';
+					htmls += '</li>';
+				};
+				$(".ls-list").html(htmls);
+			};
+			var ajax_data = {
+				url : "/api.php?apptype=0&srv=2217&cid=10002&uid=0&tms=20150721190147&sig=8c35f5a024148111&wssig=308efe4382a088e0&os_type=3&version=13",
+				type : "get",
+				dataType : "Json",
+				success : callback
+			};
+			$.ajax(ajax_data);
+		},
+		ajax_share : function(){
+            $.ajax({
+                type : "post",
+                url  : "/web.php?m=Share&a=signPackage",
+                data : {
+                    url :location.href.split('#')[0]
+                },
+                dataType : "json",
+                success : function(d){
+                    wx.config({
+                        debug     : false,
+                        appId     : d.appId,
+                        timestamp : d.timestamp,
+                        nonceStr  : d.nonceStr,
+                        signature : d.signature,
+                        jsApiList : [
+                            'onMenuShareTimeline',
+                            'onMenuShareAppMessage',
+                            'onMenuShareQQ',
+                            'onMenuShareWeibo'
+                        ]
+                    });
+                    wx.ready(function(){
+                        wx.onMenuShareAppMessage(shareData);
+                        wx.onMenuShareTimeline(shareData);
+                        wx.onMenuShareQQ(shareData);
+                        wx.onMenuShareWeibo(shareData);
+                    });
+                }
+            });
+		}
+	}
+	init.ajax_fuc();
+	 setTimeout(function(){
+		init.ajax_share();
+	 },10)
+</script>

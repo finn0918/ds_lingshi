@@ -1,0 +1,309 @@
+<include file="Public:header" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/js/calendar/calendar-blue.css"/>
+<script type="text/javascript" src="__ROOT__/statics/js/calendar/calendar.js"></script>
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/admin/css/jquery.datetimepicker.css"/>
+<script type="text/javascript" src="__ROOT__/statics/admin/js/jquery.datetimepicker.js"></script>
+<style>
+.list_item{margin-bottom:20px;border:1px solid #ddd;box-shadow:2px 2px 5px #ddd}
+.list_item .header{position:relative;background-color:#f3f3f3;height:33px;line-height:32px;padding-left:10px;}
+.list_item h3,
+.list_item h4{display:inline-block;*display:block; *float:left;margin-right:10px;border-right:1px solid #ddd;padding-right:10px;}
+.list_item .status img {margin:10px 0;}
+.list_item .op {position:absolute;right:0;border-right:0 none; padding-right:20px;}
+.list_item .op a {margin-left:15px}
+.list_item .content {padding:10px;}
+.list_item .content img {width:60px;text-align:left}
+
+.mutiControl{
+    display:block;
+    height:14px;
+    line-height:14px;
+    padding:10px 0 20px 6px;
+    font-size:14px;
+}
+.inputRadio{
+    float:left;
+    height:14px;
+    display:block;
+}
+.inputRadio.mr8{
+    margin-right:8px;
+}
+.mutiControl .btn{
+    color:#0081c2;
+}
+
+.subTable{
+    width:100%;
+    border-top:1px solid #F4F4F4;
+    border-left:1px solid #F4F4F4;
+}
+.subTable thead th{
+    background:none;
+    border-right:1px solid #F4F4F4;
+    border-bottom:1px solid #D9D9D9;
+}
+.subTable tbody td{
+    background:none;
+    border-right:1px solid #F4F4F4;
+    border-bottom:1px solid #F4F4F4;
+}
+</style>
+
+<div class="pad-10">
+    <form name="searchform" action="" method="get" >
+        <table width="100%" cellspacing="0" class="search-form">
+            <tbody>
+            <tr>
+                <td>
+                    <div class="explain-col">
+                        供&nbsp;&nbsp;应&nbsp;&nbsp;商：
+                        <select name="supplier" id="supplier" style="font-size:15px;">
+                            <option value="0">--全部供应商--</option>
+                            <volist name="suppliers" id="val">
+                                <option value={$val.suppliers_id} <if condition="$select_supplier eq $val['suppliers_id']"> selected="true"</if> <if condition="$val['suppliers_id'] gt 0"><else /> class="color"</if>>
+                                {$val.suppliers_name}
+                                </option>
+                            </volist>
+                        </select>
+                        &nbsp;&nbsp;发布状态：
+                        <select name="status">
+                            <option value="1" <if condition="$status eq 1">selected</if>>待发货</option>
+                            <option value="2" <if condition="$status eq 2">selected</if>>已发货</option>
+                        </select>
+                        <br/><br/>
+                        创建时间：
+                        <input type="text" name="time_start" id="time_start" class="date datetimepicker" size="20" value="{$time_start}">
+                        -
+                        <input type="text" name="time_end" id="time_end" class="date datetimepicker" size="20" value="{$time_end}">
+                        &nbsp;&nbsp;收货人：
+                        <input name="people" type="text" class="input-text" size="20" value="{$people}" />
+                        &nbsp;&nbsp;主单号：
+                        <input name="keyword" type="text" class="input-text" size="20" value="{$keyword}" />
+
+                        <input type="hidden" name="m" value="Sendorder" />
+                        <input type="hidden" name="a" value="index" />
+                        <input type="submit" name="search" class="button" value="搜索" />
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+    <div>
+        <div class="table-list">
+            <table width="100%" cellspacing="0" class="tb_rec">
+                <thead>
+                    <tr>
+                        <th>展开/收起</th>
+                        <th>订单编号</th>
+                        <th>收货人</th>
+                        <th width="120">收货地址</th>
+                        <th>供应商</th>
+                        <th>创建时间</th>
+                        <th>运单号</th>
+                        <th>快递公司</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <volist name="order" id="val">
+                        <tr>
+                            <td align="center"><a href="javascript:;" class="openTheLine">显示子单</a></td>
+                            <td align="center">{$val.order_sn}</td>
+                            <td align="center">{$val.consignee}</td>
+                            <td align="center">{$val.address}</td>
+                            <td align="center">{$val.suppliers_name}</td>
+                            <td align="center">{$val.add_time|date="Y-m-d",###}</td>
+                            <td align="center" width="200">
+                                <if condition="$val.status eq 1">
+                                    <input type="text" class="shipping" value="" />
+                                </if>
+                            </td>
+                            <td align="center">
+                                <if condition="$val.status eq 1">
+                                    <select class="company">
+                                        <option value="">请选择</option>
+                                        <option value="sf">顺丰</option>
+                                        <option value="sto">申通</option>
+                                        <option value="yt">圆通</option>
+                                        <option value="yd">韵达</option>
+                                        <option value="tt">天天</option>
+                                        <option value="ems">EMS</option>
+                                        <option value="zto">中通</option>
+                                        <option value="ht">汇通</option>
+                                        <option value="qf">全峰</option>
+                                        <option value="yzxb">邮政小包</option>
+                                    </select>
+                                </if>
+                            </td>
+                            <td align="center">
+                                <a href="javascript:;" class="send blueBtn" data-id="{$val.order_sn}" data-suppliers="{$val.suppliers_id}">立即发货</a>
+                            </td>
+                        </tr>
+                        <tr style="background:#f4f4f4;display:none;">
+                            <td colspan="9">
+                                <table width="100%" class="subTable">
+                                    <thead>
+                                        <tr>
+                                            <th>子单号</th>
+                                            <th>商品名</th>
+                                            <th>供应商</th>
+                                            <th>运单号</th>
+                                            <th>快递公司</th>
+                                            <th>订单状态</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <volist name="val.sub_order" id="sal">
+                                        <tr>
+                                            <td align="center">{$sal.sub_order_sn}</td>
+                                            <td align="center">{$sal.sku_name}</td>
+                                            <td align="center" data-id="{$sal.suppliers_id}">{$sal.suppliers_name}</td>
+                                            <td align="center" class="shippingBox">
+                                                <notempty name="sal.shipping">{$sal.shipping}</notempty>
+                                            </td>
+                                            <td align="center" class="companyBox">{$sal.company}</td>
+                                            <td align="center" class="statusBox">
+                                                <switch name="sal.status">
+                                                    <case value="1">待发货</case>
+                                                    <case value="2">已发货</case>
+                                                </switch>
+                                            </td>
+                                        </tr>
+                                    </volist>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </volist>
+                </tbody>
+            </table>
+        </div>
+        <div class="btn"><div id="pages">{$page}</div></div>
+    </div>
+</div>
+<script language="javascript">
+
+    $(function(){
+        $(".openTheLine").on("click",function(){
+            var self = $(this), st = self.attr("data-st");
+            self.closest("tr").next("tr").toggle();
+            if(!st) {
+                $(this).text("收起子单");
+                self.attr("data-st","open");
+            } else {
+                $(this).text("展开子单");
+                self.removeAttr("data-st");
+            }
+        });
+
+        $(".send").on("click",function() {
+
+           var orderSn = $(this).attr("data-id"),
+               orderSuppliers = $(this).attr("data-suppliers"),
+               shipping = $(this).closest("tr").find(".shipping").val(),
+               company = $(this).closest("tr").find(".company option:selected").val(),
+               self = $(this),
+               selfIndex = $(this).closest("tr").index();
+
+            if(!shipping) {
+                alert("请填写运单号。");
+                return false;
+            }
+            if(!company) {
+                alert("请选择快递公司。");
+                return false;
+            }
+            $.ajax({
+                type : "post",
+                url  : "?m=Sendorder&a=send",
+                data : {
+                    ordersn   : orderSn,
+                    suppliers : orderSuppliers,
+                    shipping  : shipping,
+                    company   : company
+                },
+                dataType : "json",
+                success : function(d) {
+                    if(d.flag) {
+                        self.text("发货完成").removeAttr("class");
+                        self.closest("tr").find(".shipping").hide();
+                        self.closest("tr").find(".company").hide();
+                        self.closest("tr").next("tr").find(".shippingBox").text(shipping);
+                        self.closest("tr").next("tr").find(".companyBox").text(company);
+                        self.closest("tr").next("tr").find(".statusBox").text("已发货");
+                    } else {
+                        alert(d.msg);
+                    }
+                }
+            })
+        });
+
+
+    $('.datetimepicker').datetimepicker({value:'',step:"30"});
+        $("#checkAll").on("click",function() {
+            var mystatue = $(this).attr("checked");
+            var checkStatus = '';
+            $(".becheck").each(function(i) {
+                checkStatus = $(this).attr("checked");
+                if(mystatue) {
+                    !checkStatus && $(this).attr("checked","checked");
+                } else {
+                    $(this).removeAttr("checked");
+                }
+            })
+        })
+        $(".inputRadio").on("click",function() {
+            var $numBox = $(".checked_num");
+            var totalNum = 0;
+            $(".becheck").each(function(i) {
+                var checkStatus = $(this).attr("checked");
+                checkStatus && totalNum++;
+            })
+            $numBox.text(totalNum);
+        })
+        $(".delete").on("click",function(){
+            var checkStatus = '';
+            var myid = '';
+            var delArr = [];
+            $(".becheck").each(function(i) {
+                checkStatus = $(this).attr("checked");
+                myid = $(this).attr("data-id");
+                if(checkStatus){
+                    delArr.push(myid);
+                }
+            });
+            setTimeout(function(){
+                $.ajax({
+                    type : "post",
+                    url  : "admin.php?&m=Order&a=del",
+                    data : {
+                        did : delArr
+                    },
+                    success : function(d){
+                        if(d.flag) {
+                            alert("删除成功！");
+                        } else {
+                            alert("删除失败");
+                        }
+                    }
+                })
+            },100);
+        })
+    })
+
+function afterSale(orderSn) {
+    var lang_edit = "售后处理";
+    window.top.art.dialog({id:'afterSale'}).close();
+    window.top.art.dialog({title:'售后处理',id:'afterSale',iframe:'?m=Order&a=afterSale&order_sn='+orderSn,width:'700',height:'480'},
+            function(){
+                var d = window.top.art.dialog({id:'afterSale'}).data.iframe;
+                d.document.getElementById('dosubmit').click();
+                return false;
+            }, function(){window.top.art.dialog({id:'afterSale'}).close();});
+}
+
+</script>
+</body>
+</html>

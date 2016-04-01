@@ -1,0 +1,98 @@
+<include file="Public:header"/>
+<div class="pad-10">
+    <div class="col-tab">
+        <span style="font-size: 20px;">当前订单状态:</span><span style="font-size: 20px;color:#FF0000;">{$status}</span>
+        <br/>
+        <span style="font-size: 20px;">物流信息:</span><br/><span id="shippingInfo" style="font-size: 15px;">{$shipping}</span>
+        <ul class="tabBut cu-li">
+            <li id="tab_setting_1" class="on" onclick="SwapTab('setting','on','',3,1);"><span style="font-weight: bold;font-size: 20px;">订单信息</span></li>
+        </ul>
+        <div id="div_setting_1" class="contentList pad-10">
+            <table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+                <tbody id="item_body">
+                <tr>
+                    <th width="100">收货地址：</th>
+                    <td>{$order.info}</td>
+                </tr>
+                <tr>
+                    <th>买家留言：</th>
+                    <td>{$order.postscript}</td>
+                </tr>
+                <tr>
+                    <th width="100">买家信息：</th>
+                    <td>{$order.buyer}</td>
+                </tr>
+                <tr>
+                    <th width="100">供应商信息：</th>
+                    <td>{$order.suppliers}</td>
+                </tr>
+                <tr>
+                    <th width="100">订单信息：</th>
+                    <td>{$order.orderInfo}</td>
+                </tr>
+            </table>
+            <table width="100%" cellspacing="0" class="tb_rec">
+                <thead>
+                <tr>
+                    <th align="center" width="30%">宝贝</th>
+                    <th align="center" width="10%">宝贝属性</th>
+                    <th align="center" width="10%">状态</th>
+                    <th align="center" width="10%">单价（元）</th>
+                    <th align="center" width="10%">数量</th>
+                    <th align="center" width="10%">优惠</th>
+                    <th align="center" width="20%">商品总价（元）</th>
+                </tr>
+                </thead>
+                <tbody id="item_body">
+                    <volist name="orders" id="val">
+                        <tr>
+                            <td align="center" width="30%"><img src="{$val.spu_image}" width="30">{$val['spu_name']}</td>
+                            <td align="center" width="10%">{$val.spu_attr}</td>
+                            <td align="center" width="10%">{$val.status}</td>
+                            <td align="center" width="10%">{$val.pay}</td>
+                            <td align="center" width="10%">{$val.num}</td>
+                            <td align="center" width="10%">-</td>
+                            <td align="center" width="20%">{$val.sumPrice}</td>
+                        </tr>
+                    </volist>
+            </tbody>
+            </table>
+        </div>
+        <div style="float: right"><span style="font-size: 20px;">实付款：<span style="color:#FF0000;">{$realPrice}</span>元</span></div>
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            var express = "{$order.shipping_com}";
+            var expresssign = "{$order.shipping_com_sign}";
+            var shipping = "{$order.shipping_id}";
+            if(shipping){
+                var string = "物流公司："+express+"<br/>";
+                string += "运单号码："+shipping+"<br/>";
+                string += "物流跟踪：<br/>";
+                var ajax_data = {
+                    url : "admin.php?m=Express&a=query",
+                    dataType : "json",
+                    type : "get",
+                    async: false,
+                    data : {
+                        "com" : expresssign,"expressno" : shipping
+                    },
+                    success : function(d){
+                        if(d.resultcode==200){
+                            var count = d.result.list.length;
+                            if(count){
+                                for(var i=0;i<count;i++){
+                                    string += d.result.list[i]['datetime']+" "+d.result.list[i]['remark']+"<br/>";
+                                }
+                            }
+                        }
+                    }
+                }
+                $.ajax(ajax_data);
+                document.getElementById("shippingInfo").innerHTML=string;
+                //alert(string);
+            }
+
+        })
+    </script>
+    </body></html>

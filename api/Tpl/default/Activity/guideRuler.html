@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+		<meta name="apple-itunes-app" content="app-id=641895599">
+		<meta name="format-detection" content="telephone=no" searchtype="map">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="360-site-verification" content="188bc9bbbe2e50aaf86c811cf61d5cdb" />
+		<meta name="baidu-site-verification" content="ayLnKZTrby" />
+		<meta name="sogou_site_verification" content="gz86ImwtMQ"/>
+		<title>9.17主会场活动攻略</title>
+		<script>
+			var version = location.href.indexOf("?tdev") > 0 ? (1 + Math.round(Math.random() * 9999 - 1)) : '1.2';
+			document.write('<link href="__ROOT__/statics/css/tBase.css?v='+version+'" rel="stylesheet" type="text/css" />');
+			(function(b, c) {
+				var d = b.documentElement,
+					resizeEvt = 'orientationchange' in c ? 'orientationchange' : 'resize',
+					recalc = function() {
+						var a = d.clientWidth
+						if (!a) return;
+						d.style.fontSize = (20 * (a / 320)) > 40 ? 40 + "px" : (20 * (a / 320)) + 'px'
+					},
+					anime = c.requestAnimationFrame || c.webkitRequestAnimationFrame || c.mozRequestAnimationFrame || c.oRequestAnimationFrame ||
+				function(e) {
+					return setTimeout(e, 16.67)
+				};
+				if (!b.addEventListener) return;
+				c.addEventListener(resizeEvt, recalc, false);
+				b.addEventListener('DOMContentLoaded', recalc, false)
+			})(document, window);
+		</script>
+		<style>
+			img {
+				width:100%;
+			}
+			.fixedBtn {
+				background:url(__ROOT__/statics/images/917themes/fixedBtn.png) no-repeat;
+				background-size:100% auto;
+				width:8.75rem;
+				height:2.25rem;
+				display:block;
+				margin:0 auto;
+				position:fixed;
+				bottom:0.8rem;
+				left: 3.8rem;
+			}
+			.cover_bg {
+				width:100%;
+				max-width:640px;
+				margin:0 auto;
+				position:fixed;
+				height:100%;
+				top:0;
+				left:0;
+				right:0;
+				bottom:0;
+				background:rgba(0,0,0,0.5);
+				z-index:999999;
+				display:none;
+			}
+			.cover_bg i{
+				background:url(__ROOT__/statics/images/917themes/coveri.png) center center no-repeat;
+				background-size:100% auto;
+				width:12.125rem;
+				height:6.6rem;
+				display:block;
+				margin:0.9rem auto 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="917Rulermain">
+			<img src="http://img1.static.feibo.com/ls_917/images/banner01.jpg" />
+			<img src="http://img1.static.feibo.com/ls_917/images/banner02.jpg" />
+			<img src="http://img1.static.feibo.com/ls_917/images/banner03.jpg" />
+			<img data-original="http://img1.static.feibo.com/ls_917/images/banner04.jpg" />
+			<img data-original="http://img1.static.feibo.com/ls_917/images/banner05.jpg" />
+			<img data-original="http://img1.static.feibo.com/ls_917/images/banner06.jpg" />
+			<img data-original="http://img1.static.feibo.com/ls_917/images/banner07.jpg" />
+			<img data-original="http://img1.static.feibo.com/ls_917/images/banner08.jpg" />
+			<img data-original="http://img1.static.feibo.com/ls_917/images/banner09.jpg" />
+			<img data-original="http://img1.static.feibo.com/ls_917/images/banner10.jpg" />
+			<img data-original="http://img1.static.feibo.com/ls_917/images/banner11.jpg" />
+			<img data-original="http://img1.static.feibo.com/ls_917/images/banner12.jpg" />
+			<img data-original="http://img1.static.feibo.com/ls_917/images/banner13.jpg" />
+			<img data-original="http://img1.static.feibo.com/ls_917/images/banner14.jpg" />
+			<img data-original="http://img1.static.feibo.com/ls_917/images/banner15.jpg" />
+			<img data-original="http://img1.static.feibo.com/ls_917/images/banner16.jpg" />
+			<img data-original="http://img1.static.feibo.com/ls_917/images/banner17.jpg" />
+			<img data-original="http://img1.static.feibo.com/ls_917/images/banner18.jpg" />
+		</div>
+		<a href="javascript:;" class="fixedBtn"></a>
+	</body>
+	
+	<script src="__ROOT__/statics/js/jquery-1.8.0.min.js"></script>
+	<script src="__ROOT__/statics/js/jquery.lazyload.js"></script>
+		
+	<script>
+		$("img[data-original]").lazyload();
+		$(".fixedBtn").on("click",function(){
+			window.bridge.clickShare();
+		})
+	</script>
+</html>

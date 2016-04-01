@@ -1,0 +1,322 @@
+/* active_join */
+
+body {
+	font-family: "微软雅黑";
+}
+
+.joinBody {
+	margin: 0;
+}
+
+.bottom {
+	/*margin: 40px 40px 0;*/
+	margin: 1.5rem 1.5rem 0.3rem;
+	overflow: hidden;
+}
+
+.banner img {
+	width: 100%;
+	vertical-align: bottom;
+}
+
+.text {
+	width: 92.7%;
+	height: 40px;
+	border-radius: 6px;
+	text-align: center;
+	font-family: "微软雅黑";
+	border: 1px solid #D9D9D9;
+	font-size: 16px;
+}
+
+.bottom-center {
+	text-align: center;
+}
+
+.mobile {
+	width: 100%;
+	padding: 0 5px;
+	position: relative;
+}
+
+.modify {
+	color: #ff316c;
+	position: absolute;
+	right: 12px;
+}
+
+.btn {
+	width: 100%;
+	height: 45px;
+	border-radius: 6px;
+	border: none;
+	background-color: #ff316c;
+	color: #ffffff;
+	font-family: "微软雅黑";
+	font-size: 20px;
+	margin-top: 15px;
+}
+
+.toast-container {
+	position: fixed;
+	z-index: 9999;
+	bottom: 40px;
+	width: 100%;
+}
+
+.toast-message {
+	font-size: 14px;
+	width: 270px;
+	margin: 5px auto 5px auto;
+	padding: 10px 5px 10px 5px;
+	text-align: center;
+	color: #FFFFFF;
+	border-radius: 7px;
+	background-color: #d8d8d8;
+}
+
+
+/* active_reg */
+
+.regBody {
+	background-color: #FFF7C1;
+}
+
+.reg {
+	padding: 30px 10px;
+}
+
+.header {
+	color: #7e4520;
+	text-align: center;
+	height: 52px;
+	line-height: 52px;
+}
+
+.header img {
+	width: 52px;
+}
+
+.header span {
+	font-size: 28px;
+	vertical-align: top;
+	font-family: 黑体, Arial, Helvetica, sans-serif;
+	margin-left: 10px;
+}
+
+.hint {
+	color: #3a1100;
+	margin-top: 25px;
+	font-size: 14px;
+	line-height: 22px;
+}
+
+.title {
+	color: #de314d;
+	margin-bottom: 8px;
+}
+
+.code {
+	position: relative;
+	display: block;
+	background: #fff;
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	margin: 0 auto;
+	border: none;
+	border-radius: 6px;
+}
+
+.btnRow {
+	margin-top: 7px;
+}
+
+.import-code {
+	/*color: #a9a9a9;*/
+	text-indent: 10px;
+	border: none;
+	-webkit-appearance: none;
+	outline: none;
+	font-family: "微软雅黑";
+	margin-left: 5px;
+	width: 80%;
+	height: 25px;
+	/*font-size: 16px;*/
+	font-size: 0.9rem;
+	line-height: 25px;
+	background-color: transparent;
+}
+
+.sendCode {
+	border: 1px solid #fc4f6b;
+	background-color: #FFFFFF;
+	color: #fc4f6b;
+	height: 32px;
+	line-height: 32px;
+	border-radius: 3px;
+	font-family: "微软雅黑";
+	position: absolute;
+	right: 5px;
+	top: 4px;
+}
+
+.dis {
+	border: none;
+	background-color: #c1c1c1;
+	color: #FFFFFF;
+}
+
+.invisible {
+	background-image: url(../images/active/invisible.png);
+	background-size: 25px 18px;
+	background-repeat: no-repeat;
+	background-color: #FFFFFF;
+	height: 18px;
+	width: 25px;
+	border: none;
+	position: absolute;
+	right: 8px;
+	top: 11px;
+	cursor: pointer;
+}
+
+.visible {
+	background-image: url(../images/active/visible.png);
+}
+
+
+/* active_awards */
+
+.awardsBody {
+	background-color: #FFF7C1;
+	color: #3A1100;
+	padding: 10px;
+}
+
+.packet {
+	text-align: center;
+	margin: 50px 10px 0px 10px;
+	/*height: 330px;*/
+}
+
+.packetImg {
+	position: relative;
+	height: 180px;
+	width: 150px;
+	text-align: center;
+	margin: 0 auto 25px;
+	background-image: url('../images/active/packet.png');
+	background-size: contain;
+	border: 1px solid #FFF7C1;
+}
+
+.packetTitle {
+	color: #fe667f;
+	font-size: 22px;
+	font-weight: bold;
+	margin: 60px auto 0;
+}
+
+.hint1 {
+	color: #DE314D;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.hint2 {
+	color: #3A1100;
+	margin-top: 10px;
+}
+
+.btnDownload {
+	border-radius: 25px;
+}
+
+.rankList {
+	height: 204px;
+	overflow: hidden;
+}
+
+.luck {
+	margin-top: 30px;
+	text-align: center;
+}
+
+.luck ul {
+	font-size: 14px;
+	text-align: left;
+	list-style-type: none;
+	padding: 0;
+}
+
+.luck ul li {
+	border-bottom: 1px dotted #DE314D;
+	line-height: 30px;
+	word-wrap: break-word;
+	white-space: normal;
+}
+
+.rule ul li {
+	border-bottom: none;
+	line-height: 23px;
+}
+
+.zhufu {
+	margin-left: 5px;
+}
+
+.gift {
+	color: #DE314D;
+	margin-left: 5px;
+}
+
+
+/*弹框*/
+
+.bg {
+	width: 100%;
+	/*max-width: 16rem;*/
+	height: 100%;
+	background: #000;
+	position: absolute;
+	left: 0;
+	top: 0;
+	opacity: .5;
+}
+
+.dialog,
+.bg {
+	display: none;
+	z-index: 10;
+}
+
+.dialog {
+	position: fixed;
+	width: 15.95rem;
+	border-radius: 10px;
+	background: #fcfcb6;
+	text-align: center;
+	padding: 1.0rem 0 2.3rem;
+	left: 50%;
+	top: 45%;
+	margin: -4.2rem 0 0 -8rem;
+}
+
+.dialog p {
+	color: #de314d;
+	font-size: 1rem;
+}
+
+.dialog a {
+	display: inline-block;
+	background: #fc4f6b;
+	color: #fcfcb6;
+	width: 12.4rem;
+	height: 2.3rem;
+	line-height: 2.3rem;
+	text-align: center;
+	font-size: 1rem;
+	border-radius: 6px;
+	text-decoration: none;
+}

@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+		<meta name="format-detection" content="telephone=no" searchtype="map">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="360-site-verification" content="188bc9bbbe2e50aaf86c811cf61d5cdb" />
+		<meta name="baidu-site-verification" content="ayLnKZTrby" />
+		<meta name="sogou_site_verification" content="gz86ImwtMQ"/>
+		<title>小喵开学季精选满99减50/买1赠1</title>
+		<style>
+		.side{position:fixed;right:0;bottom: 95px;list-style:none;display:none; bottom: 96px; z-index: 1000;}
+		.side li{text-align:center;position:relative;width:66px;height:30px;}
+		.side li:first-of-type{height:52px;}
+		.side li img{width: 100%;height: 100%;}
+		</style>
+		<script>
+			var version = location.href.indexOf("?tdev") > 0 ? (1 + Math.round(Math.random() * 9999 - 1)) : '1.2';
+			document.write('<link href="/statics/css/tBase.css?v='+version+'" rel="stylesheet" type="text/css" />');
+			document.write('<link href="/statics/css/1212themes.css?v='+version+'" rel="stylesheet" type="text/css" />');
+			(function(b, c) {
+				var d = b.documentElement,
+					resizeEvt = 'orientationchange' in c ? 'orientationchange' : 'resize',
+					recalc = function() {
+						var a = d.clientWidth
+						if (!a) return;
+						d.style.fontSize = (20 * (a / 320)) > 40 ? 40 + "px" : (20 * (a / 320)) + 'px'
+					},
+					anime = c.requestAnimationFrame || c.webkitRequestAnimationFrame || c.mozRequestAnimationFrame || c.oRequestAnimationFrame ||
+				function(e) {
+					return setTimeout(e, 16.67)
+				};
+				if (!b.addEventListener) return;
+				c.addEventListener(resizeEvt, recalc, false);
+				b.addEventListener('DOMContentLoaded', recalc, false)
+			})(document, window);
+			function connectWebViewJavascriptBridge(callback) {
+			    if (window.WebViewJavascriptBridge) {
+			        callback(WebViewJavascriptBridge)
+			    } else {
+			        document.addEventListener('WebViewJavascriptBridgeReady',
+			        function() {
+			            callback(WebViewJavascriptBridge)
+			        },
+			        false)
+			    }
+			}
+			connectWebViewJavascriptBridge(function(bridge) {
+
+			    /* Init your app here */
+
+			    // 刚进来就调用
+			    bridge.init(function(message, responseCallback) {
+			        if (responseCallback) {
+			            responseCallback("Right back atcha")
+			        }
+			    });
+			    bridge.send('Please respond to this',
+			    function responseCallback(responseData) {
+			        console.log("Javascript got its response", responseData)
+			    });
+			}); 
+
+			var browser = {
+			  versions: function () {
+			      var u = navigator.userAgent, app = navigator.appVersion;
+			      return { //移动终端浏览器版本信息 
+			          mobile: !!u.match(/AppleWebKit.*Mobile.*/),
+			          ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端 
+			          android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器 
+			          iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器 
+			         iPad: u.indexOf('iPad') > -1, //是否iPad]
+			         weixin : u.match("MicroMessenger")
+			     };
+			 }(),
+			};
+		</script>
+	</head>
+	<body>
+		<!--侧边栏 楼梯-->
+		<ul class="side">
+			<li class="sideBar" ><img src="/statics/images/1212themes/nav1_24.png" /></li>
+			<li class="sideBar" ><img src="/statics/images/1212themes/nav2_29.png" /></li>
+			<li class="sideBar" ><img src="/statics/images/1212themes/nav3_24.png" /></li>
+			<li class="sideBar" ><img src="/statics/images/1212themes/nav4_24.png" /></li>
+			<li class="sideBar" ><img src="/statics/images/1212themes/nav5_24.png" /></li>
+		</ul>
+		<div class="mainHost">
+			<div class="headBanner1">
+				<!-- banner区域 -->
+				<div class="headerBanner">
+					<img src="/statics/images/1212themes/top1_24.jpg" />
+					<img src="/statics/images/1212themes/top2_29.jpg" />
+					<img src="/statics/images/1212themes/top3_29.jpg" />
+					<img src="/statics/images/1212themes/top4_24.jpg" />
+				</div>
+			</div>
+
+			<!-- 今日抄底价       单个商品-->
+			<!--<div class="ThemesBigBox floor">
+				<img src="/statics/images/1212themes/floor1_24.png" title="ThemesboxBanner" class="BannerTitle"/>
+				<div class="ThemesBanner" id="ThemesBanner1">
+				</div>
+			</div>-->
+			<!--两个商品-->
+			<div class="proList floor">
+				<img src="/statics/images/1212themes/floor1_24.png" title="ThemesboxBanner" class="BannerTitle"/>
+				<ul class="kPro clearFix">
+				</ul>
+			</div>
+			<!-- 商品列表1 -->
+			<div class="proList floor">
+				<img src="/statics/images/1212themes/floor2_29.png" class="BannerTitle" />
+				<ul class="gmPro clearFix">
+				</ul>
+				
+			</div>
+			<!-- 商品列表2 -->
+			<div class="proList floor" >
+				<img src="/statics/images/1212themes/floor3_24.png" class="BannerTitle" />
+				<ul class="wlPro clearFix">
+				</ul>
+			</div>
+			<!-- 商品列表3 -->
+			<div class="proList floor" >
+				<img src="/statics/images/1212themes/floor4_24.png" class="BannerTitle" />
+				<ul class="wrPro clearFix">
+				</ul>
+			</div>
+			<!-- 商品列表4 -->
+			<div class="proList floor">
+				<img src="/statics/images/1212themes/floor5_24.png" class="BannerTitle" />
+				<ul class="czPro clearFix">
+				</ul>
+			</div>
+			<!-- <a class="shareBtn" href="javascript:;"></a> -->
+			<i class="toTop"></i>
+		</div>
+		<!-- 主题会场 -->
+		<div class="ThemesBox" style="display: none;">
+			<img src="/statics/images/1212themes/mainBanner22.png" title="ThemesboxBanner" />
+			<div class="ThemesItem" >
+				<a href="javascript:;" class="otherThemes_link" pros-status="0" data-id="44" pro-type="1">
+					<img src="/statics/images/1212themes/More1.png" title="ThemesboxBanner" />
+				</a>
+				<a href="javascript:;" class="otherThemes_link" pros-status="0" data-id="39" pro-type="2">
+					<img src="/statics/images/1212themes/More2.png" title="ThemesboxBanner" />
+				</a>
+				<a href="javascript:;" class="otherThemes_link" pros-status="0" data-id="41" pro-type="3">
+					<img src="/statics/images/1212themes/More3.png" title="ThemesboxBanner" />
+				</a>
+				<a href="javascript:;" class="otherThemes_link" pros-status="0" data-id="32" pro-type="4">
+					<img src="/statics/images/1212themes/More4.png" title="ThemesboxBanner" />
+				</a>
+				<a href="javascript:;" class="otherThemes_link" pros-status="0" data-id="40" pro-type="5">
+					<img src="/statics/images/1212themes/More5.png" title="ThemesboxBanner" />
+				</a>
+				
+				<a href="javascript:;" class="otherThemes_link" pros-status="0" data-id="42" pro-type="6">
+					<img src="/statics/images/1212themes/More6.png" title="ThemesboxBanner" />
+				</a> 
+			</div>
+		<a href="javascript:;" class="tb-meet" ><img src="/statics/images/1212themes/taobao.png"></a>
+		</div>
+		<a href="javascript:;" class="bBanner"><img src="/statics/images/1212themes/footerbanner_24.jpg"/></a>
+		<!-- 下载悬浮窗 -->
+		<!--<div class="download-banner">
+			<img src="/statics/images/down-icon.png" />
+			<a href="http://lingshi.cccwei.com/wap/" class="download-btn"><img src="/statics/images/down-btn.png"/></a>
+			<i class="closeBtn"></i>
+		</div>-->
+	</body>
+	
+	<script src="http://img1.static.feibo.com/double11/jquery-1.8.0.min.js"></script>
+	<script src="http://img1.static.feibo.com/double11/jquery.lazyload.js"></script>
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>	
+	<script>
+		var site_url;
+		//侧边栏楼梯跳转
+		var flag=false; // 事件是否进行中
+		
+		$(".side .sideBar").click(function(){
+			flag=true;
+			var index=$(this).index();
+			var _scrollTop=$('.mainHost .floor').eq(index).position().top;
+			$('body,html').animate({scrollTop:_scrollTop},1000,function(){
+					flag=false;
+			})
+		})
+		
+				
+		$(window).scroll(function(){
+			if(flag){
+				return;
+			}
+			var _scrollTop=$('.mainHost .headBanner1').height();
+			var iScrollTop=$(this).scrollTop();
+			if(iScrollTop>=_scrollTop){
+				$('.side').show();
+			}
+			else{
+				$('.side').hide();
+			}
+		})
+		$(".tabs ul li").on("click",function(){
+			var index = $(this).index();
+			var $list = $(".TimeboxStart").children("div.listbox");
+			$(this).addClass("current").siblings().removeClass("current");
+			$list.eq(index).show().siblings("div.listbox").hide();
+		})
+		function getQueryString(name,url){
+			if (!url) url = location.href;
+			name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+			var regexS = "[\\?&]"+name+"=([^&#]*)";
+			var regex = new RegExp( regexS );
+			var results = regex.exec( url );
+			return results == null ? null : results[1];
+		}
+		var $win = $(window),$doc = $(document);
+		function toDecimal2(x) {    
+	        var f = parseFloat(x);    
+	        if (isNaN(f)) {    
+	            return false;    
+	        }    
+	        var f = Math.round(x*100)/100;    
+	        var s = f.toString();    
+	        var rs = s.indexOf('.');    
+	        if (rs < 0) {    
+	            rs = s.length;    
+	            s += '.';    
+	        }    
+	        while (s.length <= rs + 2) {    
+	            s += '0';    
+	        }    
+	        return s;    
+	    }    
+		var init = {
+			aFuc : function(){
+				var c = function(data){
+					console.log(data);
+					site_url = data.data.site_url;
+					console.log(site_url);
+					var d = data.data, kbPro = "",kbPro1 = "", proL = "", k = d.list['口碑爆款'],kLenght = k.length, gm = d.list['国民小食'], gmLenght = gm.length, wl = d.list['味蕾旅行'], wlLenght = wl.length, wr = d.list['无肉不欢'], wrLenght = wr.length, cz = d.list['超值精选'], czLenght = cz.length;
+
+					//口碑爆款信息加载
+//					for(i = 0;i<k.length;i++){
+//						kbPro += '<a href="javascript:void(0)" class="themes_link"><img data-original="' + k[i].image_src + '" /><i></i></a>' 
+//					}
+//					$("#ThemesBanner1").html(kbPro);
+//					
+//					for(i = 0;i<gm.length;i++){
+//						kbPro1 += '<a href="javascript:void(0)" class="themes_link"><img data-original="' + gm[i].image_src + '" /><i></i></a>' 
+//					}
+//					$("#ThemesBanner2").html(kbPro1);
+
+					//商品列表信息加载
+					var proList = function(obj,data,dLenghth,proL){
+						for(i = 0;i<dLenghth;i++){
+							if(data[i].title==""||data[i].title==null||data[i].title==" "){
+								data[i].title = "该商品暂无标题";
+							}
+							if(data[i].desc==""||data[i].desc==null||data[i].desc==" "){
+								data[i].desc = "该商品暂无描述";
+							}
+							proL += '<li><i></i><a href="javascript:;" class="themes_link"><div class="img"><div class="imgBox"><img data-original="' + data[i].image_src + '" /></div><div class="imgTitle"><span class="bigTitle">' + data[i].title + '</span><span class="smallTitle">' + data[i].desc + '</span></div></div><div class="priceBox clearFix"><div class="priceFl priceFlBox"><span class="current_price"><span class="market_price">¥</span>' + toDecimal2(data[i].price) + '</span></div><span class="themes_link nowBtn" title="now"></span></div></a></li>';	
+						}
+						obj.html(proL); 
+					}
+					proList($('.kPro'),k,kLenght,proL);
+					proList($('.gmPro'),gm,gmLenght,proL);
+					proList($('.wlPro'),wl,wlLenght,proL);
+					proList($('.wrPro'),wr,wrLenght,proL);
+					proList($('.czPro'),cz,czLenght,proL);
+
+					$("img[data-original]").lazyload({
+						"effect" : "fadeIn"
+					});
+
+					var w=$(".TimeboxStart ul li img").width();
+					var w2=$(".imgBox img").width();
+					var w3=$(".priceBox .nowBtn").width();
+					$(".TimeboxStart ul li img").css("height",w);
+					$(".imgBox").css("height",w2);
+					$(".priceBox .nowBtn").css("height",w3/(1.3));
+					
+					//隐藏满减 年货
+//					$(".proList:first-of-type").hide();
+					
+					
+					/* mid */
+//					for(var i in k) {//给口碑爆款商品加上商品id和商品状态
+//						$("#ThemesBanner1").children("a").eq(i).attr("data-id",k[i].spu_id).attr("pros-status",k[i].status);
+//					}
+//					for(var i in gm) {//给口碑爆款商品加上商品id和商品状态
+//						$("#ThemesBanner2").children("a").eq(i).attr("data-id",gm[i].spu_id).attr("pros-status",gm[i].status);
+//					}
+
+//					$('.ThemesBanner').find('a').each(function(){
+//						var pros_status = $(this).attr('pros-status');
+//						if(pros_status == 1){
+//							$(this).addClass('out');
+//						}
+//					})
+
+					var proMs = function(a,t){//商品状态判断，加上对应的售空样式
+						for(var i in a) {
+							var status = a[i].status;
+							// 类型：0，正常状态；1,已售空;
+							switch(status) {
+								case 0 : ''; break;
+								case 1 : $(".proList:eq("+t+") ul").children("li").eq(i).addClass("out");break;
+							}
+							$(".proList:eq("+t+") ul").children("li").find("a").eq(i).attr("data-id",a[i].spu_id).attr("pros-status",a[i].status);
+						}
+					}
+					/* 商品状态判断，加上对应的售空样式方法调用 */
+					proMs(k,0),proMs(gm,1),proMs(wl,2),proMs(wr,3),proMs(cz,4);
+
+
+					var host = window.location.host;//获取当前域名
+					var shareIn = {
+						title : "high购72小时，不止50%",
+				        desc : "登陆就送46元代金券！感恩有礼，全场满赠！你不可错过的零食狂欢节！",
+				        imgUrl : "http://" +  host + "/app_miaoturn/lucky/images/shareIcon.PNG"
+					} 
+
+					if(browser.versions.android) {
+						//分享
+//						var id = 0,
+//						desc = '盆友们！霸道总裁挥泪特批，96元优惠券放送！这个元旦，让你安静的做个吃货！',
+//						title = '96元优惠券拿去花！',
+//						imgUrl = site_url+'/statics/images/share/icon_share_red96.png',
+//						contentUrl = location.href;
+//						window.bridge.setShareData(id,desc,title,imgUrl,contentUrl,1);
+						 
+						$(".themes_link").on("click",function(){
+							// 在进行中，而且在没有售空的状态下可跳转商品详情
+							var status = $(this).attr("pros-status");
+							if(status == 0) {
+								var id = parseInt($(this).attr("data-id"));
+								//alert(id);
+								window.bridge.javascriptJumpAction(16,"",id,"");
+							}
+						});
+						$(".otherThemes_link").on("click",function(){
+							// 在进行中，而且在没有售空的状态下可跳转商品详情
+							var status = $(this).attr("pros-status");
+							if(status == 0) {
+								var id = parseInt($(this).attr("data-id"));
+								var typeStr = $(this).attr("pro-type");
+								if(typeStr==1){
+									typeStr = "进口零食";
+								}
+								if(typeStr==2){
+									typeStr = "无肉不欢";
+								}
+								if(typeStr==3){
+									typeStr = "甜蜜风暴";
+								}
+								if(typeStr==4){
+									typeStr = "坚果狂欢";
+								}
+								if(typeStr==5){
+									typeStr = "国民小食";
+								}
+								window.bridge.javascriptJumpAction(4,typeStr,id,"");
+							}
+						});
+						$(".jumpH5").on("click",function(){
+								window.bridge.javascriptJumpAction(1,"淘宝分会场",changeUrl,"");
+						});
+						$(".bBanner").on("click",function(){
+							if(getQueryString('type',window.location.href)=='pop'){
+								var couponurl=window.location.href.split('couponurl=')[1];								
+							}else{
+								var couponurl=site_url+'/api.php?srv=3002&cid=10002&uid=0&tms=20150721190147&sig=8c35f5a024148111&wssig=308efe4382a088e0&os_type=3&version=13&u=1';		
+							}
+
+							window.bridge.javascriptJumpAction(17,"优惠券",couponurl,"");
+
+						});
+						$('.tb-meet').on("click",function(){
+								window.bridge.javascriptJumpAction(1,"淘宝会场","http://s.click.taobao.com/lmvpkix","");
+						});
+						//设置title
+    					 window.bridge.setAppTitle("小喵开学季精选满99减50/买1赠1");
+    					 $(".shareBtn").on("click",function() { //关闭抽奖结果框
+					        window.bridge.setShareInfo(0, shareIn.desc,shareIn.title, shareIn.imgUrl,"http://" + host + "/api/Tpl/default/Activity/guide1212.html/api/Tpl/default/Activity/guide1212.html",0);
+					    });
+
+
+					}else if(browser.versions.iPhone || browser.versions.iPad){
+
+					     connectWebViewJavascriptBridge(function(bridge) {
+							//分享
+//							var id = 0,
+//							desc = '盆友们！霸道总裁挥泪特批，96元优惠券放送！这个元旦，让你安静的做个吃货！',
+//							title = '96元优惠券拿去花！',
+//							type = 1,
+//							imgUrl = site_url+'/statics/images/share/icon_share_red96.png',
+//							contentUrl = location.href;
+//							bridge.callHandler("setShareData",{id : id, desc : desc,title : title, imgUrl : imgUrl,contentUrl : contentUrl,type : type},function(data,responseCallback){})
+				
+							$(".themes_link").on("click",function(){
+								// 在进行中，而且在没有售空的状态下可跳转商品详情
+								var status = $(this).attr("pros-status");
+								if(status == 0) {
+									var id = parseInt($(this).attr("data-id"));
+									bridge.callHandler("javascriptJumpAction",{
+					                    type : 16,
+					                    title : "",
+					                    param1 : id
+
+					                },function(data, responseCallback) {})
+								}
+							});
+
+							$(".otherThemes_link").on("click",function(){
+								// 在进行中，而且在没有售空的状态下可跳转商品详情
+								var status = $(this).attr("pros-status");
+								if(status == 0) {
+									var id = parseInt($(this).attr("data-id"));
+									var typeStr = $(this).attr("pro-type");
+									if(typeStr==1){
+										typeStr = "进口零食";
+									}
+									if(typeStr==2){
+										typeStr = "无肉不欢";
+									}
+									if(typeStr==3){
+										typeStr = "甜蜜风暴";
+									}
+									if(typeStr==4){
+										typeStr = "坚果狂欢";
+									}
+									if(typeStr==5){
+										typeStr = "国民小食";
+									}
+									if(typeStr==6){
+										typeStr = "冲饮";
+									}
+									bridge.callHandler("javascriptJumpAction",{
+					                    type : 4,
+					                    title : typeStr,
+					                    param1 : id
+
+					                },function(data, responseCallback) {})
+								}
+							});
+							$(".jumpH5").on("click",function(){
+								bridge.callHandler("javascriptJumpAction",{
+				                    type : 1,
+				                    title : "淘宝分会场",
+				                    param1 : changeUrl
+
+				                },function(data, responseCallback) {})
+							});
+							$(".bBanner").on("click",function(){
+								if(getQueryString('type',window.location.href)=='pop'){
+									var couponurl=window.location.href.split('couponurl=')[1];								
+								}else{
+									var couponurl=site_url+'/api.php?srv=3002&cid=10002&uid=0&tms=20150721190147&sig=8c35f5a024148111&wssig=308efe4382a088e0&os_type=1&version=13&u=1';		
+								}
+								bridge.callHandler("javascriptJumpAction",{
+				                    type : 17,
+				                    title : "优惠券",
+				                    param1 : couponurl
+
+				                },function(data, responseCallback) {})
+							});
+							$(".tb-meet").on("click",function(){
+								bridge.callHandler("javascriptJumpAction",{
+				                    type : 1,
+				                    title : "淘宝会场",
+				                    param1 : "http://s.click.taobao.com/lmvpkix"
+
+				                },function(data, responseCallback) {})
+							});
+							//设置title
+							bridge.callHandler("setAppTitle",{title : "小喵开学季精选满99减50/买1赠1"},function(data,responseCallback){});
+							$(".shareBtn").on("click",function(e) { 
+					        bridge.callHandler("setShareInfo", {
+					            id: 0,
+					            desc: shareIn.desc,
+					            title: shareIn.title,
+					            imgUrl: shareIn.imgUrl,
+					            contentUrl: "http://" + host + "/api/Tpl/default/Activity/guide1212.html",
+					            type: 0
+					        },function(data,responseCallback){
+					                //log(data);
+					            })
+					        });
+
+
+					    });
+					}
+
+
+				};
+				var e = function(d){//输出错误信息
+					console.log(d);
+				};
+
+				var url = "/api.php?apptype=0&srv=2218&cid=10002&uid=0&tms=20150721190147&sig=8c35f5a024148111&wssig=308efe4382a088e0&os_type=3&version=13";
+
+				var d = {
+					url : url, 
+					dataType : "json",
+					type : "get",
+					success : c,
+					error : e
+				};
+				$.ajax(d);
+			}
+
+		}
+		init.aFuc();
+
+		$win.on("scroll",function(){
+			var t = $win.scrollTop();
+			t > 1000 ? $(".toTop").show().addClass("rotateIn") : $(".toTop").hide();
+		})
+		$(".toTop").on("click",function(){
+			$('body,html').animate({ scrollTop: 0 }, 800),
+			$(this).hide();
+		});
+		$(".bBanner").on("click",function(){
+//			$('body,html').animate({ scrollTop: 0 }, 800);
+		});
+		$(".closeBtn").click(function(){
+			$(this).parents(".download-banner").hide();
+		});
+	</script>
+	<script>
+	var shareData = {
+	title: 'high购72小时，不止50%',
+	desc: '登陆就送46元优惠券！感恩有礼，全场满赠！你不可错过的零食狂欢节！',
+	link: window.location.href,
+	imgUrl: "http://" + window.location.host +"/statics/images/share/share_icon.jpg",
+	/*imgUrl: 'http://img3.douban.com/view/movie_poster_cover/spst/public/p2166127561.jpg',*/
+	trigger: function (res) {
+	//alert('用户点击分享到朋友圈');
+	//alert(res);
+	},
+	success: function (res) {
+	//alert(res.shareTo);
+	},
+	cancel: function (res) {
+	//alert('已取消');
+	},
+	fail: function (res) {
+	//alert(JSON.stringify(res));
+	},
+	complete: function (res) {
+	//weibo
+	//alert(JSON.stringify(res));
+	}
+	};
+	function ajax_share(){
+	            $.ajax({
+	                type : "post",
+	                url  : "/web.php?m=Share&a=signPackage",
+	                data : {
+	                    url :location.href.split('#')[0]
+	                },
+	                dataType : "json",
+	                success : function(d){
+	                    wx.config({
+	                        debug     : false,
+	                        appId     : d.appId,
+	                        timestamp : d.timestamp,
+	                        nonceStr  : d.nonceStr,
+	                        signature : d.signature,
+	                        jsApiList : [
+	                            'onMenuShareTimeline',
+	                            'onMenuShareAppMessage',
+	                            'onMenuShareQQ',
+	                            'onMenuShareWeibo'
+	                        ]
+	                    });
+	                    wx.ready(function(){
+	                        wx.onMenuShareAppMessage(shareData);
+	                        wx.onMenuShareTimeline(shareData);
+	                        wx.onMenuShareQQ(shareData);
+	                        wx.onMenuShareWeibo(shareData);
+	                    });
+	                }
+	            });
+			}
+	setTimeout(function(){
+		ajax_share();
+	},10);
+	</script>
+</html>

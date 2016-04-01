@@ -1,0 +1,33 @@
+<include file="Public:header" />
+<form action="{:u('Order/afterSale')}" method="post" name="myform" id="myform" enctype="multipart/form-data" style="margin-top:10px;">
+  <div class="pad-10">
+	  <div id="div_setting_2" class="contentList pad-10">
+        <table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+		 <tr>
+          	<th>售后原因:</th>
+            <td>
+                <select name="why" id="why" width="120">
+                    <volist name='why' id='val'>
+                        <option value='{$val.key}'>{$val.val}</option>
+                    </volist>
+                </select>
+            </td>
+             <td>
+                 <label><input name="condition" type="radio" value="1" checked="checked"/>普通&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                 <label><input name="condition" type="radio" value="2" />紧急&nbsp;&nbsp;&nbsp;&nbsp; </label>
+                 <label><input name="condition" type="radio" value="3" />当天处理 </label>
+             </td>
+            </tr>
+            <tr>
+                <th>售后备注:</th>
+                <td colspan="2">
+                    <textarea name="info" cols="80" rows="15"></textarea>
+                </td>
+            </tr>
+            <input type="hidden" name="order_sn" id="order_sn" value="{$orderSn}" />
+            <input type="submit" name="dosubmit" id="dosubmit" class="dialog" value=" ">
+        </table>
+  	  </div>
+  </div>
+</form>
+</body></html>

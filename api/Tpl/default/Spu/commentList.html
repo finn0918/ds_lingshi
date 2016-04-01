@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+		<meta name="apple-itunes-app" content="app-id=641895599">
+		<meta name="format-detection" content="telephone=no" searchtype="map">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="360-site-verification" content="188bc9bbbe2e50aaf86c811cf61d5cdb" />
+		<meta name="baidu-site-verification" content="ayLnKZTrby" />
+		<meta name="sogou_site_verification" content="gz86ImwtMQ"/>
+		<script>
+            var spu_id = {$spu_id};
+			var version = location.href.indexOf("?tdev") > 0 ? (1 + Math.round(Math.random() * 9999 - 1)) : '1.2';
+			document.write('<link href="statics/css/index.css?v='+version+'" rel="stylesheet" type="text/css" />');
+			document.write('<link href="statics/css/tBase.css?v='+version+'" rel="stylesheet" type="text/css" />');
+			(function(b, c) {
+				var d = b.documentElement,
+					resizeEvt = 'orientationchange' in c ? 'orientationchange' : 'resize',
+					recalc = function() {
+						var a = d.clientWidth;
+						if (!a) return;
+						d.style.fontSize = (20 * (a / 320)) > 40 ? 40 + "px" : (20 * (a / 320)) + 'px'
+					},
+					anime = c.requestAnimationFrame || c.webkitRequestAnimationFrame || c.mozRequestAnimationFrame || c.oRequestAnimationFrame ||
+				function(e) {
+					return setTimeout(e, 16.67)
+				};
+				if (!b.addEventListener) return;
+				c.addEventListener(resizeEvt, recalc, false);
+				b.addEventListener('DOMContentLoaded', recalc, false)
+			})(document, window);
+		</script>
+		<style>
+			html,body {
+				background:#fff;
+			}
+			.main .comment-txt {
+				font-size: 0.65rem;
+				color: #353535;
+				padding-bottom: 0.7rem;
+				line-height: 0.9rem;
+				word-break: break-word;
+				word-wrap: break-word;
+				display:block;
+				height:auto;
+				overflow:auto;
+				margin-bottom:0;
+				-webkit-line-clamp:inherit;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="main">
+			<!-- comment 评论列表-->
+			<div class="comment-main nonBB">
+				<div class="comment-wrap-outside">
+					<div class="comment-list">
+						<ul>
+							
+						</ul>
+					</div>
+				</div><!--/.comment-wrap -->
+			</div><!--/.comment-main -->
+			
+		</div>
+	</body>
+	
+	<script src="sea-modules/seajs/seajs/2.2.0/sea.js"></script>
+		
+	<script>
+		
+		 // Set configuration
+		 seajs.config({
+			base: "sea-modules/",
+			alias: {
+			  //"jquery": "../../../sea-modules/jquery/jquery/1.10.1/jquery.js"
+			}
+		 });
+		 // For development
+		 if (location.href.indexOf("?dev") > 0) {
+			seajs.use("/statics/js/dissList");
+		 }
+		 // For production
+		 else {
+			seajs.use("/statics/js/dissList");
+		 }
+	
+	</script>
+</html>

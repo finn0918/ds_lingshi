@@ -1,0 +1,10 @@
+html,body,header,div,input,img,p{margin:0;padding:0;font-family:Microsoft YaHei}
+body{width:100%;max-width:640px;position:relative;background:#fbd503;background-size:100% auto;text-align:center}
+a{text-decoration:none}
+.disn{display:none}
+.container{width:100%;max-width:320px;text-align:center;margin:0 auto}
+.containerInner{padding:50px 20px 0 20px;display:block;position:relative;line-height:30px;font-size:16px;color:#474747}
+.containerInner .backBtn{position:absolute;left:10px;top:15px;width:80px;height:40px;line-height:40px;color:#fff;font-size:16px;background:#cc290e;border-radius:20px;display:block}
+.containerInner strong.red{color:#f52c30;font-size:16px;font-weight:500}
+.containerInner img{width:100%;display:block;}
+.feibologo{width:124px;display:inline-block}

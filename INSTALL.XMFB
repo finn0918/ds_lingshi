@@ -1,0 +1,641 @@
+项目部署：
+【项目配置文件说明】:
+需要修改 数据库 redis 配置为线上的配置
+ 修改人 曾楠林 2015-08-10 21:57 更新
+	'SHIPPING_INFO' => array(
+
+			'appkey' => '7d0dafd7fa980897ae5bc3a32c5f7bcc',
+			'url' => 'http://v.juhe.cn/exp/index',
+			'logo' => array(
+					'sf'   => 'http://ds.lingshi.cccwei.com/statics/images/express/icon_sf.png',
+					'sto'  => 'http://ds.lingshi.cccwei.com/statics/images/express/icon_sto.png',
+					'yt'   => 'http://ds.lingshi.cccwei.com/statics/images/express/icon_yt.png',
+					'yd'   => 'http://ds.lingshi.cccwei.com/statics/images/express/icon_yd.png',
+					'tt'   => 'http://ds.lingshi.cccwei.com/statics/images/express/icon_tt.png',
+					'ems'  => 'http://ds.lingshi.cccwei.com/statics/images/express/icon_ems.png',
+					'zto'  => 'http://ds.lingshi.cccwei.com/statics/images/express/icon_zt.png',
+					'ht'   => 'http://ds.lingshi.cccwei.com/statics/images/express/icon_bsht.png',
+					'qf'   => 'http://ds.lingshi.cccwei.com/statics/images/express/icon_qf.png',
+			),
+	),
+
+ trunk/config.inc.php
+ 数据库:
+    'DB_HOST' => '192.168.45.3',
+    'DB_NAME' => 'ds_lingshi',
+    'DB_USER' => 'phper',
+    'DB_PWD' => 'phper111',
+
+	// Redis 服务
+	'REDIS_CONF'     => array(
+		'host'       => '192.168.45.3',
+		'port'       => '6379',
+		'auth'       => 'feibo667',
+		'persistent' => false,
+		'rw_separate' => false
+	),
+	 'SITE_URL'                      => 'http://ds.lingshi.cccwei.com',
+     'ALIPAY_NOTIFY_URL'             => 'http://58.23.56.98:45380/Pay/notifyUrlAliPay',//请将http://58.23.56.98:45380 替换成线上地址
+      'DEFAULT_ICON' => 'http://ds.lingshi.cccwei.com/statics/default.png',（新增）
+
+
+      支付宝异步通知需要支持pathinfo模式
+
+
+ 需要图形验证码 ，因此需要imagick 支持，建议跟45.4版本相同
+
+【全文检索说明】
+使用软件：xunsearch
+安装目录(固定)：/usr/local/xunsearch
+配置文件： /usr/local/xunsearch/sdk/php/app/ds_lingshi.ini
+配置内容：
+*********不包含星号这一行**************
+project.name = ds_lingshi
+project.default_charset = utf-8
+server.index = 8383
+server.search = 8384
+[spu_id]
+type = id
+
+[spu_name]
+index = both
+
+[desc]
+index = mixed
+*********不包含星号这一行**************
+
+导入 MySQL 数据库的 dbname.tbl_post 表到 demo 项目中，并且平滑重建（第一次执行）
+/usr/local/webserver/php/bin/php  /usr/local/xunsearch/sdk/php/util/Indexer.php --source=mysql://dbuser:dbpasswd@dbhost/ds_lingshi --sql="SELECT * FROM ls_spu" --project=ds_lingshi
+平滑重建索引（每天凌晨执行一次）
+/usr/local/webserver/php/bin/php  /usr/local/xunsearch/sdk/php/util/Indexer.php --rebuild --source=mysql://dbuser:dbpasswd@dbhost/ds_lingshi --sql="SELECT * FROM ls_spu" --project=ds_lingshi
+
+
+// 支付宝异步通知地址 需要支持pathinfo 模式
+
+
+【项目定时任务】:
+ 30分钟执行一次（实时更新淘宝的价格到小喵）
+ php路径 cli.php Price/changePrice
+
+ 5分钟执行一次（定时上下架商品，专题，品牌团，广告位,每日上新,轮播图,特卖）
+ php路径 cli.php Publish/cronPublish
+
+ 1分钟执行一次（回滚过期商品的活动效率和库存）
+ php路径 cli.php Extend/extend
+
+ 1分钟执行一次（回滚超时的未付款订单）
+ php路径 cli.php Order/BackOrder
+
+ 1分钟执行一次（android推送）
+ php路径 cli.php Androidpush/androidPush
+
+ 1分钟执行一次（ios推送）
+ php路径 cli.php Iospush/iosPush
+
+
+
+【项目进程】:
+
+【数据库说明】：
+ 安装数据库。
+
+ 20150804 15:29
+  数据库存放在 trunk/ls_topic_history.sql
+
+  20150810 15:38
+  数据库存放在 /docs/doc/sql/2015-08-10/ls_filter_goods.sql 替换 线上的ls_filter_goods.sql
+  数据库存放在 /docs/doc/sql/2015-08-10/ls_modify.sql 执行
+
+ 20150811 10:57
+ 数据库存放在 /docs/doc/sql/2015-08-11/ls_refund.sql 执行
+
+
+【项目的特殊性说明】
+
+
+
+
+黄华烽 20150811 18:24
+【执行数据迁移】
+1.迁移数据--设备表 执行1次
+/usr/local/webserver/php/bin/php cli.php Transfer/devicesTransfer
+
+2.数据迁移--用户表 执行1次
+/usr/local/webserver/php/bin/php cli.php Transfer/clientTransfer
+
+3.数据迁移--用户平台表 执行1次
+/usr/local/webserver/php/bin/php cli.php Transfer/platformTransfer
+
+4.数据迁移--商品收藏 执行1次
+/usr/local/webserver/php/bin/php cli.php Transfer/spuFavTransfer
+
+5.数据迁移--用户反馈表迁移 执行1次
+/usr/local/webserver/php/bin/php cli.php Transfer/feedbackTransfer
+
+
+2015-08-12 16:38 曾楠琳
+在ds_lingshi 线上数据库执行
+执行 docs\doc\sql\2015-08-12\ls_modify.sql
+
+
+2015-08-19 16:44 曾楠琳
+在ds_lingshi 线上数据库执行
+doc/sql/2015-08-19/ls_update_sub_order.sql
+
+2015-08-21 11:35 曾楠琳
+请在 192.168.45.4的数据库 ds_lingshi  执行sql
+
+doc/sql/2015-08-21/ls_update_refund.sql
+
+2015-08-24 16:05 曾楠琳
+请在 192.168.45.4数据库 ds_lingshi 执行sql
+doc/sql/2015-08-24/ls_update_suppliers.sql
+
+2015-08-25 11:00 黄华烽
+192.168.45.4测试环境admin配置pathinfo模式
+
+2015-08-25 11:00 黄华烽
+192.168.45.4测试环境将admin/Conf/config.php文件里面的'ALIPAY_REFUND_NOTIFY_URL'配置项修改为
+'http://58.23.56.98:45491/admin.php/Notify/notify'
+
+2015-08-27 10:20 曾楠琳
+请在 117.25.155.98 数据库 ds_lingshi 执行sql
+doc/sql/2015-08-27/ls_free_fee_template_update.sql
+doc/sql/2015-08-27/ls_update_refund.sql
+
+
+117.25.155.98 线上环境admin/Conf/config.php文件里面的'ALIPAY_REFUND_NOTIFY_URL'配置项修改为
+http://ds.lingshi.cccwei.com/admin.php/Notify/notify
+同时需要环境能支持这种pathinfo访问方式
+
+
+2015-08-27 16:18 曾楠琳
+请在 117.25.155.98 数据库 ds_lingshi 执行sql
+doc/sql/2015-08-27/ls_update_refund_second.sql
+
+2015-08-31 14:31 曾楠琳
+请在 117.25.155.98 数据库 ds_lingshi 执行sql
+doc/sql/2015-08-31/ls_client_update.sql
+
+
+
+2015-09-01 14:00 曾楠琳 
+配置45.4的tags/2.0 项目
+【全文检索说明】
+使用软件：xunsearch
+安装目录(固定)：/usr/local/xunsearch
+配置文件： /usr/local/xunsearch/sdk/php/app/ds_lingshi_re.ini
+配置内容：
+*********不包含星号这一行**************
+project.name = ds_lingshi_re
+project.default_charset = utf-8
+server.index = 8383
+server.search = 8384
+[spu_id]
+type = id
+
+[spu_name]
+index = both
+
+[desc]
+index = mixed
+*********不包含星号这一行**************
+
+2015-09-06 15:28 黄华烽
+请在 192.168.45.4 数据库 ds_lingshi 执行sql
+doc/sql/2015-09-02/ls_sku_list_update.sql
+
+
+导入 MySQL 数据库的 dbname.tbl_post 表到 demo 项目中，并且平滑重建（第一次执行）
+/usr/local/webserver/php/bin/php  /usr/local/xunsearch/sdk/php/util/Indexer.php --source=mysql://dbuser:dbpasswd@dbhost/ds_lingshi_re --sql="SELECT * FROM ls_spu" --project=ds_lingshi_re
+平滑重建索引（每天凌晨执行一次）
+/usr/local/webserver/php/bin/php  /usr/local/xunsearch/sdk/php/util/Indexer.php --rebuild --source=mysql://dbuser:dbpasswd@dbhost/ds_lingshi_re --sql="SELECT * FROM ls_spu" --project=ds_lingshi_re
+
+
+// 支付宝异步通知地址 需要支持pathinfo 模式
+
+配置45.4的tags/2.0 项目
+【项目定时任务】:
+ 30分钟执行一次（实时更新淘宝的价格到小喵）
+ php路径 cli.php Price/changePrice
+
+ 5分钟执行一次（定时上下架商品，专题，品牌团，广告位,每日上新,轮播图,特卖）
+ php路径 cli.php Publish/cronPublish
+
+ 1分钟执行一次（回滚过期商品的活动效率和库存）
+ php路径 cli.php Extend/extend
+
+ 1分钟执行一次（回滚超时的未付款订单）
+ php路径 cli.php Order/BackOrder
+
+ 1分钟执行一次（android推送）
+ php路径 cli.php Androidpush/androidPush
+
+ 1分钟执行一次（ios推送）
+ php路径 cli.php Iospush/iosPush
+ 
+2015-09-07 15:57 黄华烽
+请在 192.168.45.4 数据库 ds_lingshi_re 执行sql
+doc/sql/2015-09-07/ls_refund_update.sql
+
+2015-09-07 18:32 黄华烽
+请在生产环境 117.25.155.98 数据库 ds_lingshi 执行sql
+doc/sql/2015-09-02/ls_sku_list_update.sql
+
+2015-09-018 11:58 黄华烽
+请在 192.168.45.4 的根目录下config.inc.php配置增加以下内容
+	'STARTPAGE_SIZE'=>array(  //启动页尺寸
+        '1'=>array('3'=>'480x800','1'=>'640x960'),
+        '2'=>array('3'=>'540x960','1'=>'640x1136'),
+        '3'=>array('3'=>'720x1280','1'=>'750x1334'),//默认选择的分辨率
+        '4'=>array('3'=>'1080x1920','1'=>'1080x1920'),
+    ),
+    'START_PAGE_REDIS' => 'start_page_lingshi',
+    'MAP_URL' => 'http://file.v.lengxiaohua.cn',//文件云地址
+    'UPYUN_CONF_VIDEO' =>array(
+        'bucketname' => 'file-v-lxh' ,
+        'username' => 'videolxh' ,
+        'password' => 'videolxh0427ji' ,
+    ),
+
+2015-09-18 11:58 黄华烽
+请在 192.168.45.4 数据库 ds_lingshi 执行sql
+doc/sql/2015-09-18/ls_refund.sql
+doc/sql/2015-09-18/ls_push_ios_update.sql
+doc/sql/2015-09-18/ls_map_version.sql
+doc/sql/2015-09-18/ls_spu_cate_relation.sql
+doc/sql/2015-09-18/ls_start_page.sql
+
+2015-09-18 11:58 黄华烽
+执行商品分类数据迁移
+/usr/local/webserver/php/bin/php cli.php Transfer/transferCate
+
+2015-09-18 16:07 黄华烽
+请在 192.168.45.4 数据库 ds_lingshi 执行sql
+doc/sql/2015-09-06/ls_sub_order_update.sql
+doc/sql/2015-09-13/ls_limit_buy.sql
+
+2015-09-18 16:07 黄华烽
+请在 192.168.45.4 的根目录下config.inc.php配置增加以下内容
+'XUN_SEARCH'                    => "ds_lingshi",// 
+
+2015-09-19 10:57 黄华烽
+请在 192.168.45.4 数据库 ds_lingshi 执行sql
+doc/sql/2015-09-18/ls_site_config.sql
+
+2015-09-19 14:02 黄华烽
+请在 192.168.45.4 数据库 ds_lingshi 执行sql
+doc/sql/2015-09-19/ls_coupon.sql
+doc/sql/2015-09-19/ls_coupon_user.sql
+doc/sql/2015-09-19/ls_coupon_spu.sql
+doc/sql/2015-09-19/ls_order_sku_coupon.sql
+doc/sql/2015-09-19/ls_sub_order_coupon.sql
+doc/sql/2015-09-19/ls_user_search.sql
+
+2015-09-19 15:05 童笃龙
+在ds_lingshi线上数据库执行
+执行 doc/sql/2015-09-19/ls_update_order.sql
+执行 doc/sql/2015-09-19/ls_update_sub_order.sql
+
+2015-09-28 15:18 黄华烽
+请在 192.168.45.4 数据库 ds_lingshi 执行sql
+doc/sql/2015-09-28/ls_suppliers.sql
+
+2015-09-29 14:38 黄华烽
+1分钟执行一次（取消显示过期优惠券）
+ /usr/local/webserver/php/bin/php cli.php Coupon/cancelCouponShow
+
+1分钟执行一次（定时上架优惠券）
+ /usr/local/webserver/php/bin/php cli.php Coupon/publishCoupon
+
+ 2015-09-29 17:45 曾楠琳
+ 执行sql
+ doc/sql/2015-09-29/ls_client_update.sql
+
+  2015-09-29 18:16 曾楠琳
+  执行sql
+  doc/sql/2015-09-29/ls_client_update_two.sql
+
+  2015-09-29
+  ================预发布环境===============================
+  2.1生产环境上线准备，首先更新SVN代码，然后执行下面操作：
+
+  1.数据库操作
+
+  doc/sql/2015-09-29/ls_refund.sql  //退款表新增一个记录退款实际金额字段
+
+  doc/sql/2015-09-29/ls_push_ios_update.sql //iOS推送增加记录小红点字段
+
+  doc/sql/2015-09-29/ls_map_version.sql //新建地址版本表
+
+  doc/sql/2015-09-29/ls_spu_cate_relation.sql //新建多分类表
+
+  doc/sql/2015-09-29/ls_start_page.sql //启动图表更改图片地址存储的字段
+
+  doc/sql/2015-09-29/ls_site_config.sql //新建网站配置表
+
+  doc/sql/2015-09-29/ls_sub_order_update.sql //子订单表新增一个记录所属活动的字段
+
+  doc/sql/2015-09-29/ls_coupon.sql //新增优惠券表
+
+  doc/sql/2015-09-29/ls_coupon_user.sql //新增优惠券用户表
+
+  doc/sql/2015-09-29/ls_coupon_spu.sql //新增优惠券供应商表
+
+  doc/sql/2015-09-29/ls_order_sku_coupon.sql //新建订单SKU对应优惠券表
+
+  doc/sql/2015-09-29/ls_sub_order_coupon.sql //新建订单使用优惠券情况表
+
+  doc/sql/2015-09-29/ls_user_search.sql //新建用户搜索关键词表
+
+  doc/sql/2015-09-29/ls_suppliers.sql //供应商增加一个店铺名称表
+
+  doc/sql/2015-09-29/ls_coupon_is_done.sql //优惠券表新增一个是否被清理字段
+
+  2.新增配置
+
+  根目录下config.inc.php配置增加以下内容
+  'XUN_SEARCH'                    => "ds_lingshi",//
+
+  'STARTPAGE_SIZE'=>array(  //启动页尺寸
+          '1'=>array('3'=>'480x800','1'=>'640x960'),
+          '2'=>array('3'=>'540x960','1'=>'640x1136'),
+          '3'=>array('3'=>'720x1280','1'=>'750x1334'),//默认选择的分辨率
+          '4'=>array('3'=>'1080x1920','1'=>'1242x2208'),
+      ),
+
+  'START_PAGE_REDIS' => 'start_page_lingshi',
+
+  'MAP_URL' => 'http://file.v.lengxiaohua.cn',//文件云地址
+
+  'UPYUN_CONF_VIDEO' =>array(
+        'bucketname' => 'file-v-lxh' ,
+        'username' => 'videolxh' ,
+        'password' => 'videolxh0427ji' ,
+  	),
+      'LOG_RECORD' => true, // 开启日志记录
+      'LOG_LEVEL'  => 'WARN, ERR, INFO, DEBUG', //记录的日志级别
+      'LOG_FILE_SIZE' => 104857600,	// 日志文件大小限制(100M)
+      'LOG_TYPE'      => 3,// 文件方式记录
+
+
+  3.执行操作（只要执行一次）
+  /usr/local/webserver/php/bin/php cli.php Transfer/transferCate
+
+  4.添加定时
+   30分钟执行一次（取消显示过期优惠券）
+   /usr/local/webserver/php/bin/php cli.php Coupon/cancelCouponShow
+
+   1分钟执行一次（定时上架优惠券）
+   /usr/local/webserver/php/bin/php cli.php Coupon/publishCoupon
+
+   30分钟执行一次（实时更新淘宝的价格到小喵）
+   php路径 cli.php Price/changePrice
+
+   5分钟执行一次（定时上下架商品，专题，品牌团，广告位,每日上新,轮播图,特卖）
+   php路径 cli.php Publish/cronPublish
+
+   1分钟执行一次（回滚过期商品的活动效率和库存）
+   php路径 cli.php Extend/extend
+
+   1分钟执行一次（回滚超时的未付款订单）
+   php路径 cli.php Order/BackOrder
+
+   1分钟执行一次（android推送）
+   php路径 cli.php Androidpush/androidPush
+
+   1分钟执行一次（ios推送）
+   php路径 cli.php Iospush/iosPush
+
+
+   2015-09-29 18:00 曾楠琳
+  【全文检索说明】
+  使用软件：xunsearch
+  安装目录(固定)：/usr/local/xunsearch
+  配置文件： /usr/local/xunsearch/sdk/php/app/ds_lingshi.ini
+  配置内容：
+  *********不包含星号这一行**************
+  project.name = ds_lingshi
+  project.default_charset = utf-8
+  server.index = 8383
+  server.search = 8384
+  [spu_id]
+  type = id
+
+  [spu_name]
+  index = both
+
+  [desc]
+  index = mixed
+  *********不包含星号这一行**************
+  导入 MySQL 数据库的 dbname.tbl_post 表到 demo 项目中，并且平滑重建（第一次执行）
+  /usr/local/webserver/php/bin/php  /usr/local/xunsearch/sdk/php/util/Indexer.php --source=mysql://dbuser:dbpasswd@dbhost/ds_lingshi --sql="SELECT * FROM ls_spu" --project=ds_lingshi
+  平滑重建索引（每天凌晨执行一次）
+  /usr/local/webserver/php/bin/php  /usr/local/xunsearch/sdk/php/util/Indexer.php --rebuild --source=mysql://dbuser:dbpasswd@dbhost/ds_lingshi --sql="SELECT * FROM ls_spu" --project=ds_lingshi
+
+  // 支付宝异步通知地址 需要支持pathinfo 模式
+
+  执行sql
+
+2015-09-30 16:08 童笃龙
+请在 正式环境数据库执行以下操作：
+doc/sql/2015-09-30/update_ls_topic_relation.sql
+doc/sql/2015-09-30/del_ls_extend_special.sql
+
+2015-09-30 17:42 童笃龙
+请在 正式环境数据库执行以下操作：
+doc/sql/2015-09-30/ls_topic_relation.sql
+doc/sql/2015-09-30/ls_extend_special.sql
+
+
+
+======================2015-09-28上线配置===========================
+  
+  根目录下config.inc.php配置增加以下内容（原有配置保留新增以下配置）
+  'XUN_SEARCH'                    => "ds_lingshi",//
+
+  'STARTPAGE_SIZE'=>array(  //启动页尺寸
+          '1'=>array('3'=>'480x800','1'=>'640x960'),
+          '2'=>array('3'=>'540x960','1'=>'640x1136'),
+          '3'=>array('3'=>'720x1280','1'=>'750x1334'),//默认选择的分辨率
+          '4'=>array('3'=>'1080x1920','1'=>'1242x2208'),
+      ),
+
+  'START_PAGE_REDIS' => 'start_page_lingshi',
+
+  'MAP_URL' => 'http://file.v.lengxiaohua.cn',//文件云地址
+
+  'UPYUN_CONF_VIDEO' =>array(
+        'bucketname' => 'file-v-lxh' ,
+        'username' => 'videolxh' ,
+        'password' => 'videolxh0427ji' ,
+    ),
+      'LOG_RECORD' => true, // 开启日志记录
+      'LOG_LEVEL'  => 'WARN, ERR, INFO, DEBUG', //记录的日志级别
+      'LOG_FILE_SIZE' => 104857600, // 日志文件大小限制(100M)
+      'LOG_TYPE'      => 3,// 文件方式记录
+
+
+ 【数据库配置】
+  doc/sql/2015-09-30/ls_refund.sql  //退款表新增一个记录退款实际金额字段
+
+  doc/sql/2015-09-30/ls_push_ios_update.sql //iOS推送增加记录小红点字段
+
+  doc/sql/2015-09-30/ls_map_version.sql //新建地址版本表
+
+  doc/sql/2015-09-30/ls_spu_cate_relation.sql //新建多分类表
+
+  doc/sql/2015-09-30/ls_start_page.sql //启动图表更改图片地址存储的字段
+
+  doc/sql/2015-09-30/ls_site_config.sql //新建网站配置表
+
+  doc/sql/2015-09-30/ls_coupon.sql //新增优惠券表
+
+  doc/sql/2015-09-30/ls_coupon_user.sql //新增优惠券用户表
+
+  doc/sql/2015-09-30/ls_coupon_spu.sql //新增优惠券供应商表
+
+  doc/sql/2015-09-30/ls_order_sku_coupon.sql //新建订单SKU对应优惠券表
+
+  doc/sql/2015-09-30/ls_sub_order_coupon.sql //新建订单使用优惠券情况表
+
+  doc/sql/2015-09-30/ls_user_search.sql //新建用户搜索关键词表
+
+  doc/sql/2015-09-30/ls_suppliers.sql //供应商增加一个店铺名称表
+
+  doc/sql/2015-09-30/ls_coupon_is_done.sql //优惠券表新增一个是否被清理字段
+
+  doc/sql/2015-09-30/ls_statistics_log_create.sql // 统计表创建
+
+  内部版本号要添加。
+
+2015-09-30 20:14 童笃龙
+请在 正式环境数据库执行以下操作：
+doc/sql/2015-09-30/ls_topic_relation2.sql
+doc/sql/2015-09-30/ls_extend_special2.sql
+
+2015-10-23 15:20
+修改配置 config.inc.php 增加
+'AUTH_KEY' => 'FEiafda^#&09342sdfjsdfKJFfiajfako345254F435',
+去掉 api/Conf/appConfig.php中的
+'AUTH_KEY' => 'FEiafda^#&09342sdfjsdfKJFfiajfako345254F435',
+
+
+=================================================================
+请执行2015-10-25 以下的这些操作
+执行sql语句: doc/sql/ls_sql.sql 
+
+修改配置 config.inc.php 增加
+'AUTH_KEY' => 'FEiafda^#&09342sdfjsdfKJFfiajfako345254F435',
+去掉 api/Conf/appConfig.php中的
+'AUTH_KEY' => 'FEiafda^#&09342sdfjsdfKJFfiajfako345254F435',
+
+/*************** 缓存键名 ************************/
+
+'LS_APP_CONFIG'         => 'ls_app_config',// app的配置表
+
+
+========================================================
+2015-10-26 上线操作
+先执行sql语句: doc/sql/ls_sql.sql 
+修改配置，项目目录下的config.inc.php 增加
+'AUTH_KEY' => 'FEiafda^#&09342sdfjsdfKJFfiajfako345254F435',
+去掉 api/Conf/appConfig.php中的
+'AUTH_KEY' => 'FEiafda^#&09342sdfjsdfKJFfiajfako345254F435',
+/*************** 缓存键名 ************************/
+'LS_APP_CONFIG'         => 'ls_app_config',// app的配置表
+执行清除runtime的操作。
+
+=======================================================
+2015-10-28 更新预发布环境
+#配置 密钥 config.inc.php 密钥名称 
+    // 供应商接口对接密钥
+    'SECRET_KEY' =>array(
+        "yalidisi" => array(
+            "secret_key"    =>"ylds1018",
+            "sellername"    => "零食小喵",
+            "wsdl"           => "http://www.relyexpress.com/tdms/service/MallService?wsdl"
+
+        )
+    )
+
+=========================================================
+2015-10-29 更新预发布环境
+
+任务描述：    
+1、执行doc/sql/ls_sql.sql文件,搜索“2015-10-29” 执行以下sql
+
+=========================================================
+2015-10-29 更新正式环境
+1、执行doc/sql/ls_sql.sql文件,搜索“2015-10-29 正式环境” 执行以下sql
+
+2、#配置 密钥 config.inc.php 密钥名称 
+    // 供应商接口对接密钥
+    'SECRET_KEY' =>array(
+        "yalidisi" => array(
+            "secret_key"    =>"ylds1018",
+            "sellername"    => "零食小喵",
+            "wsdl"           => "http://www.relyexpress.com/tdms/service/MallService?wsdl"
+
+        )
+    )
+3、合并lingshi.cccwei.com旧文件官网下载页到ds.lingshi.cccwei.com(上线要给洪坤备注下小喵官网lingshi.cccwei.com，小喵wap下载页lingshi.cccwei.com/wap)
+
+2015-10-30 16:21 童笃龙
+请在 正式环境数据库执行以下操作：
+doc/sql/2015-10-30/ls_extend_special.sql
+
+=========================================================
+2015-11-05 更新正式环境
+每天上午09:30执行一次
+执行sql文件
+doc/sql/ls_sql_branches.sql
+
+/usr/local/webserver/php/bin/php cli.php  Yalidisi/syncSku
+
+2015-11-06 18:18 童笃龙
+请在正式环境数据库执行以下操作：
+doc/sql/2015-11-06/ls_share_log.sql
+
+
+=========================================================    
+2015-11-17 更新测试环境配置   
+config.inc.php 在文件尾部增加配置 
+ 'LS_FREE_SHIPPING'=> array(
+        7948,7949
+ )
+
+2015-11-20 10:26 童笃龙
+请在预发布环境数据库执行以下操作：
+doc/sql/2015-11-20/ls_node.sql
+将所有后台操作加入到权限控制。
+
+2015-11-20 17:17 童笃龙
+请在预发布环境数据库执行以下操作：
+doc/sql/2015-11-20/ls_node.sql
+将所有后台操作加入到权限控制。
+
+2015-11-30 15:58 曾楠琳
+请在测试环境数据库执行以下操作
+doc/sql/2015-11-30/ls_pop.sql;
+修改项目下的config.inc.php
+增加配置
+    'LS_POP'                => 'ls_pop',// pop弹框
+    'LS_POP_USER'           => 'ls_pop_user',// 已领取了大礼包的用户
+
+
+
+2015-12-09 10:34 曾楠琳
+请在测试环境数据库执行以下操作
+执行sql语句 
+doc/sql/2015-12-09/ls_user_shipping.sql
+
+2015-12-09 15:56 曾楠琳
+请在正式环境数据库执行以下操作
+执行sql语句 
+doc/sql/2015-12-09/ls_user_shipping.sql
+
+2015-12-09 16:29 张志文
+请在预发布环境执行以下操作
+执行sql语句
+doc/sql/2015-12-09/ls_statistics_analysis.sql

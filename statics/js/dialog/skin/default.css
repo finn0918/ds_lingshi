@@ -1,0 +1,39 @@
+.aui_default .aui_td_title, .aui_default .aui_td_buttons button { font:12px 'Microsoft Yahei', Arial; }
+.aui_default .aui_content_table { min-width:9em; background:#FFF;}
+.aui_default .aui_border { filter:alpha(opacity=20); opacity:0.2; }
+.aui_default .art_focus .aui_border { filter:alpha(opacity=25); opacity:0.25; }
+.aui_default .art_move .aui_border { filter:alpha(opacity=40); opacity:0.4; }
+.aui_default .aui_left_top, .aui_default .aui_right_top, .aui_default .aui_left_bottom, .aui_default .aui_right_bottom { width:9px; height:9px; background-image:url(default/dialog.png); background-repeat:no-repeat; }
+.aui_default .aui_title_wrap { height:100%; position:relative; border-bottom:1px #E7E7E7 solid;}
+.aui_default .aui_title { height:30px; line-height:30px; padding:0 30px 0 10px; font-weight:700; color:#336699; font-size:14px;}
+.aui_default .art_move .aui_title { }
+.aui_default .art_focus .aui_title { }
+.aui_default .aui_close { width:20px; height:20px; _font-size:0; *line-height:0; top:5px; right:10px; text-align:left; text-indent:-9999em; overflow:hidden; background:url(default/cls.gif) no-repeat; cursor:pointer; }
+.aui_default .art_focus .aui_close {cursor:pointer;}
+.aui_default .aui_close:hover {cursor:default; background-position:0px -20px; cursor:pointer;}
+.aui_default .aui_close:active {cursor:pointer;}
+.aui_default .aui_content{ float:left;}
+
+.aui_default .aui_buttons_wrap { background-color:#F6F6F6; border-top:1px solid #EBEBEB; border-bottom:1px solid #CCC; -moz-box-shadow: inset 0 -2px 2px rgba(204, 204, 204, 0.3); -webkit-box-shadow: inset 0 -2px 2px rgba(204, 204, 204, 0.3); box-shadow: inset 0 -2px 2px rgba(204, 204, 204, 0.3); }
+.aui_default .aui_buttons_wrap button { margin:0; height:2em; line-height:2em; padding:0 5px; border-color:#FFF #848484 #848484 #FFF; border-style:solid; border-width:1px; color:#000; text-align:center; letter-spacing:2px; background-color:#F8F8F8; }
+.aui_default .aui_buttons_wrap .aui_yes button { background-color:#3A6EA5; color:#FFF; border-color:#84A6E6 #122B58 #122B58 #84A6E6; cursor:pointer; }
+.aui_default .aui_buttons_wrap .aui_yes:hover button { background-color:#2251A8; }
+.aui_default .aui_left_top { background-position:left top; }
+.aui_default .aui_right_top { background-position:right top; }
+.aui_default .aui_right_bottom { background-position:right bottom; }
+.aui_default .aui_left_bottom { background-position:left bottom; }
+.aui_default .aui_top, .aui_default .aui_right, .aui_default .aui_bottom, .aui_default .aui_left { background-color:#000; }
+
+.aui_default .art_focus .aui_bottom { -moz-box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2); -webkit-box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2); box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2); }
+.aui_default .art_move .aui_bottom { -moz-box-shadow:none; -webkit-box-shadow:none; box-shadow:none; }
+
+.aui_default .aui_buttons_wrap { background-color:#F6F6F6; border-top:1px solid #EBEBEB; border-bottom:1px solid #CCC; -moz-box-shadow: inset 0 -2px 2px rgba(204, 204, 204, 0.3); -webkit-box-shadow: inset 0 -2px 2px rgba(204, 204, 204, 0.3); box-shadow: inset 0 -2px 2px rgba(204, 204, 204, 0.3); }
+.aui_default .aui_buttons_wrap button { padding:2px 4px; letter-spacing:2px; }
+* html .aui_ie6_select_mask { left:-1px!important; top:-1px!important; }
+
+.aui_default .aui_loading_tip { width:16px; height:16px; margin:-8px 0 0 -8px; text-indent:-9999em; background:url(../core/loading.gif) no-repeat center center; }/*iframe¼ÓÔØµÄloading¶¯»­*/
+.aui_default .aui_icon { width:40px; height:40px; margin:10px 0 10px 10px;}
+.aui_default .art_alert { background:url(default/alert.png) no-repeat;}
+.aui_default .art_succeed { background:url(default/succeed.png) no-repeat;}
+.aui_default .art_error { background:url(default/error.png) no-repeat; }
+.aui_default .art_confirm { background:url(default/confirm.png) no-repeat; }

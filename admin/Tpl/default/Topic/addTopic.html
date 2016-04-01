@@ -1,0 +1,106 @@
+<include file="Public:header" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/admin/css/jquery.datetimepicker.css"/>
+<!--<script type="text/javascript" src="__ROOT__/statics/js/calendar/calendar.js"></script>-->
+<script type="text/javascript" src="__ROOT__/statics/admin/js/jquery.datetimepicker.js"></script>
+<script type="text/javascript" src="__ROOT__/statics/js/jquery/plugins/jquery.imagePreview.js"></script>
+<style>
+.color{
+		color:#c90000;
+}
+
+</style>
+<div class="pad-10" >
+    <form name="searchform" action="" method="get" >
+    <table width="100%" cellspacing="0" class="search-form">
+        <tbody>
+            <tr>
+            <td>
+            <div class="explain-col">
+            	上传时间：
+            	<input type="text" name="time_start" id="time_start" class="date datetimepicker" size="20" value="{$time_start}">
+            	至
+            	<input type="text" name="time_end" id="time_end" class="date datetimepicker" size="20" value="{$time_end}">
+                &nbsp;关键字 :
+                <input name="keyword" type="text" class="input-text" size="20" value="{$keyword}" />
+                &nbsp;
+                <input type="hidden" name="m" value="Topic" />
+                <input type="hidden" name="a" value="addTopic" />
+                <input id="search" type="submit" name="search" class="button" value="搜索" />
+        	</div>
+            </td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <form id="myform" name="myform" action="{:u('Topic/asyncTopic')}" method="post" onsubmit="return check();">
+    <div>
+    已选中&nbsp;<span class="checked_num" style="font-size:12pt;">0</span>&nbsp;个
+    <div class="table-list">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th width=15><input type="checkbox" value="" id="check_box" onclick="selectall('id[]');"></th>
+                 <th width=60>专题编号</th>
+                <th width=200>专题标题</th>
+                <th width=200>专题配图</th>
+            </tr>
+        </thead>
+    	<tbody>
+        <volist name="topic" id="val" >
+        <tr>
+            <td align="center"><input type="checkbox" value="{$val.topic_id}" name="id[]" onclick="selectguess({$val.topic_id});" id="{$val.topic_id}" class="box"></td>
+             <td align="center">{$val.topic_id}</td>
+            <td align="center"><div>{$val.title}</div></td>
+            <td align="center"><div><img width="120" src="{$val.images}"/></div></td>
+            </tr>
+        </volist>
+    	</tbody>
+    </table>
+
+    <div class="btn">
+    	<div id="pages">{$page}</div>
+    </div>
+    </div>
+    </div>
+    </form>
+</div>
+<script language="javascript">
+$(function(){
+		$('.datetimepicker').datetimepicker({value:'',step:"30"});
+	})
+
+    $("#jump").click(function(){
+        var p = $("#jump_page").val();
+        var attr = $("#jump").attr("attr");
+        window.location = "admin.php?m=Spu&a=addGuess"+attr+"&p="+p;
+    })
+    $("#check_box").click(function(){
+    	var attr = $("#check_box").attr("checked");
+    	var $numBox = $(".checked_num");
+    	var box = document.getElementsByName("id[]");
+    	if(attr == "checked"){
+    		$numBox.text(box.length);
+    	}else{
+    		for(var i=0;i<box.length;i++){
+    			if(box[i].checked){
+    				box[i].checked=false;
+    			}
+    		}
+    		$numBox.text(0);
+    	}
+    })
+    $(".box").click(function(){
+    	var box = document.getElementsByName("id[]");
+    	var num = 0;
+		for(var i=0;i<box.length;i++){
+			if(box[i].checked){
+				num++;
+			}
+    	}
+    	var $numBox = $(".checked_num");
+    	$numBox.text(num);
+    })
+	</script>
+</body>
+</html>

@@ -1,0 +1,715 @@
+<include file="Public:header" />
+<style>
+    *{margin:0;padding:0;}
+    .fileControl{
+        padding:5px;
+    }
+    .vqdTrigger{
+        width:60px;
+        height:25px;
+        line-height:25px;
+        text-align:center;
+        border-radius:2px;
+        background:#CC290E;
+        color:#FFF;
+        font-size:12px;
+        border:none;
+        cursor:pointer;
+        outline:none;
+    }
+    #vqdfile{
+        position:absolute;
+        opacity:0;
+    }
+    .fileList li{
+        position:relative;
+        margin-top:5px;
+        height:50px;
+        padding:6px;
+        display:block;
+        border:1px solid #CCC;
+        border-radius:4px;
+    }
+    .fileList li img{
+        float:left;
+        height:50px;
+        display:block;
+    }
+    .fileList li .del{
+        position:absolute;
+        right:5px;
+        top:20px;
+        width:18px;
+        height:18px;
+        line-height:19px;
+        text-align:center;
+        border:1px solid #CCC;
+        border-radius:20px;
+        text-decoration:none;
+        color:#888;
+        font-size:16px;
+    }
+    #div_setting_2,#div_setting_3 {
+        border:1px solid #dce3ed;
+    }
+    .col-tab ul.tabBut {
+        bottom:-11px;
+    }
+    ul li{
+        list-style:none;
+    }
+    .flyCheckBox{
+        width:140px;
+        height:35px;
+        border:1px solid #CCC;
+        border-radius:6px;
+        cursor:pointer;
+        background:#F4F4F4;
+        outline:none;
+        padding:0 5px;
+        float:left;
+    }
+    .flyBox{
+        position:fixed;
+        left:25%;
+        right:25%;
+        top:10%;
+        max-height:320px;
+        overflow:hidden;
+        z-index:1000;
+        padding:10px 20px 45px 20px;
+        border-radius:4px;
+        background:#FFF;
+        border:1px solid #CCC;
+        display:none;
+    }
+    .flyBox label{
+        margin-top:5px;
+        padding-bottom:5px;
+        width:100%;
+        height:14px;
+        line-height:14px;
+        display:block;
+        border-bottom:1px dashed #ccc;
+    }
+    .flyBox input[type='checkbox']{
+        float:left;
+        margin-right:5px;
+
+    }
+    #to_id{
+        width:100%;
+        height:100%;
+        min-height:200px;
+        max-height:250px;
+        overflow:scroll;
+        overflow-x:hidden;
+    }
+    .flyBox .foot{
+        width:100%;
+        padding:10px 0;
+        height:21px;
+        text-align:center;
+        position:absolute;
+        bottom:0;
+        left:0;
+        background:#f4f4f4;
+    }
+    .flyBox .head{
+        margin-bottom:20px;
+        width:100%;
+        height:21px;
+    }
+    .flyBox .flyBox_close{
+        font-size:16px;
+        float:right;
+        text-decoration:none;
+    }
+    .flyBox .iframe{
+
+    }
+    .chk_submit .chk_reset{
+        width:60px;
+        height:22px;
+        background:#CCC;
+        border:1px solid #CCC;
+        border-radius:2px;
+        display:inline-block;
+        cursor:pointer;
+    }
+    .flyBox_trigger{
+        width:60px;
+        height:37px;
+        margin-right:10px;
+        float:left;
+        border-radius:4px;
+        border:1px solid #CCC;
+        background:#f4f4f4;
+        text-align:center;
+        cursor:pointer;
+        color:#555;
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/admin/css/jquery.datetimepicker.css"/>
+<script type="text/javascript" src="__ROOT__/statics/admin/js/jquery.datetimepicker.js"></script>
+<script type="text/javascript" src="__ROOT__/statics/js/jquery/plugins/jquery.imagePreview.js"></script>
+<script src="__ROOT__/statics/lib/uploadify/jquery.uploadify.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/lib/uploadify/uploadify.css">
+<script src="__ROOT__/statics/admin/js/jquerysession.js"></script>
+
+
+<style>
+    .groupChoice{
+        position:fixed;
+        width:80%;
+        left:10%;
+        top:50px;
+        height:388px;
+        background:#fff;
+        z-index:288;
+        display:none;
+        border:1px solid #ccc;
+    }
+    .fullscreen_shadow{
+        position:fixed;
+        left:0;
+        top:0;
+        bottom:0;
+        right:0;
+        background:rgba(0,0,0,0.5);
+        width:100%;
+        height:100%;
+        z-index:266;
+        display:none;
+    }
+    .groupChoice .iframe{
+        border:none;
+        width:100%;
+        height:350px;
+    }
+    .groupChoice .control{
+        width:100%;
+        height:38px;
+        text-align:center;
+    }
+    /* 列表隐藏的列 */
+    .hideprice,.hidestock,.hidepriceHead,.hidestockHead{
+        display:none;
+    }
+    .hideprice input,.hidestock input{
+        border:none;
+        background:none;
+        width:90%;
+        padding:0;
+        height:20px;
+        line-height:20px;
+        text-align:center;
+        border:1px solid #ccc;
+        outline:none;
+    }
+    .row10{
+        width:100%;
+        height:25px;
+    }
+    .col2{
+        width:16%;
+        float:left;
+        height:25px;
+    }
+</style>
+
+
+<div style="padding:10px">
+    <div class="col-tab">
+        <form action="admin.php?m=Brandgroup&a=add" method="post" name="myform" id="myform" enctype="multipart/form-data" style="margin-top:10px;">
+            <div id="div_setting_1" class="contentList pad-10">
+                <table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+                    <!-- 关联商品SPU -->
+                    <input type="hidden" name="spu" id="spu" value="" />
+                    <!-- 是否淘客 -->
+                    <input type="hidden" name="taoke" id="taoke" value="" />
+                    <!-- 活动类型 -->
+                    <input type="hidden" name="type" id="typeChangeValue" />
+
+                    <tbody id="item_body">
+                        <tr>
+                            <td width="100">商品品牌 :</td>
+                            <td>
+                                <select name="type" id="brand" style="font-size:12px;">
+                                    <option value="0" selected="selected">--全部品牌--</option>
+                                    <volist name="brand_list" id="val">
+                                        <option value="{$val.id}">{$val.name}</option>
+                                    </volist>
+                                </select>
+                                <input type="hidden" name="brand" id="brandVal" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="100">活动类型 :</td>
+                            <td>
+                                <select name="type" id="typeChange">
+                                    <option value="1">限时</option>
+                                    <option value="2">限时限量</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="100">品牌团标题 :</td>
+                            <td>
+                                <input type="text" name="title" id="title" value="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="100">品牌团副标题 :</td>
+                            <td>
+                                <input type="text" name="desc" id="desc" value="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="100">折扣信息 :</td>
+                            <td>
+                                <input type="text" name="provider" id="provider" value="">
+                            </td>
+                        </tr>
+                        <tr class="tab1">
+                            <td>选择商品 :</td>
+                            <td>
+                                <input type="text" class="flyCheckBox" id="group_show_value" name="activity" />
+                                <input type="button" class="flyBox_trigger" id="select_group" value="选择商品" data-type="timelimit" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>上架时间 :</td>
+                            <td>
+                                <input type="text" name="time_start" id="time_start" class="date datetimepicker" size="20" value="{$time_start}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>下架时间 :</td>
+                            <td>
+                                <input type="text" name="time_end" id="time_end" class="date datetimepicker" size="20" value="{$end_start}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="150">商品宽屏配图</br>(建议分辨率:612×250) :</td>
+                            <td>
+                                <form>
+                                    <div id="queue"></div>
+                                    <input id="file_upload" name="file_upload" type="file" multiple="true">
+                                    <input type="hidden" name="image_src" id="image_src" />
+                                    <div class="image_box"></div>
+                                </form>
+                                <script type="text/javascript">
+                                    $(function() {
+                                        $('#file_upload').uploadify({
+                                            'formData'     : {
+                                                'timestamp' : '{$timestamp}',
+                                                'token'     : '{$token}'
+                                            },
+                                            'swf'      : '__ROOT__/statics/lib/uploadify/uploadify.swf',
+                                            'uploader' : '__ROOT__/statics/lib/uploadify/uploadify.php',
+                                            'fileTypeExts'	  : '*.jpg; *.png; *.gif;',
+                                            'onUploadSuccess' : function(file, data, response) {
+                                                var data = $.parseJSON(data);
+                                                var src = '';
+                                                if(response){
+                                                    src = '__ROOT__/upload/temp/' + file.name;
+                                                    $("#image_src").val(src);
+                                                    $(".image_box").html('<img src="'+src+'" style="width:120px;border:1px solid #ccc;padding:1px;display:block;" />')
+                                                }
+                                            }
+                                        });
+                                    });
+                                </script>
+                            </td>
+                        </tr>
+                        <!--<tr>-->
+                            <!--<td>活动顺序 :</td>-->
+                            <!--<td>-->
+                                <!--<input type="text" name="sort" id="sort" value="0" />-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                    </tbody>
+                </table>
+                <div class="table-list" id="skulist">
+                    <table width="100%" cellspacing="0" class="tb_rec">
+                        <thead>
+                        <tr>
+                            <th align="center">操作</th>
+                            <th align="center" width="150">商品编号</th>
+                            <th align="center">商品标题</th>
+                            <th align="center">商品图片</th>
+                            <th align="center">分类</th>
+                            <th align="center">排序</th>
+                            <th align="center">SKU</th>
+                            <!--<th>操作</th>-->
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="bk15"></div>
+                <div class="btn"><input type="button" value="{$Think.lang.submit}" name="dosubmit" class="button" id="dosubmit"></div>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+
+<div class="fullscreen_shadow"></div>
+<div class="selectGoods">
+    <div class="search">
+        <table width="100%" cellspacing="0" class="search-form">
+            <tbody>
+            <tr>
+                <td>
+                    <div class="explain-col">
+                        商品分类：
+                        <select name="cate_id" id="cate_id" style="font-size:15px;">
+                            <option value="0">--所有分类--</option>
+                            <volist name="cate_list" id="val">
+                                <option value="{$val.id}" level="{$val.level}" <if condition="$cate_id eq $val['id']"> selected="selected" </if>>
+                                {:str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',$val['level'])}
+                                {:trim($val['name'])}
+                                </option>
+                            </volist>
+                        </select>
+                        &nbsp;&nbsp;品牌：
+                        <select name="goods_brand" id="goods_brand">
+                            <option value="">--选择--</option>
+                        </select>
+                        &nbsp;&nbsp;商品类型：
+                        <select name="goods_type" id="goods_type">
+                            <option value="0" <if condition="$type eq '0'">selected</if>>--选择--</option>
+                            <option value="1" <if condition="$type eq '1'">selected</if>>商城商品</option>
+                            <option value="2" <if condition="$type eq '2'">selected</if>>淘客商品</option>
+                        </select>
+                        <br/><br/>
+                        添加时间：
+                        <input type="text" name="goods_time_start" id="goods_time_start" class="date datetimepicker" size="20" value="" />
+                        -
+                        <input type="text" name="goods_time_end" id="goods_time_end" class="date datetimepicker" size="20" value="" />
+                        &nbsp;&nbsp;价格区间：
+                        <input type="text" name="price_start" id="price_start" size="12" value="" />
+                        -
+                        <input type="text" name="price_end" id="price_end" size="12" value="" />
+                        &nbsp;&nbsp;商品名称：
+                        <input name="goods_keyword" type="text" id="goods_keyword" class="input-text" size="25" value="{$keyword}" />
+                        &nbsp;<input type="button" id="selectGoods_search" class="button" value="搜索" />
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="innerBox"></div>
+    <div class="control">
+        <div class="selectgoodsPage">
+            <a href="javascript:;" class="selectgoodsPrevPage">上一页</a>
+            <span class="selectgoodsNowpage">1</span>
+            <a href="javascript:;" class="selectgoodsNextPage">下一页</a>
+        </div>
+        <input type="button" id="choiceThis" value="选中" data-type="goodssale" />
+        <input type="button" id="cancel" value="取消" />
+    </div>
+</div>
+
+<link href="__ROOT__/statics/admin/css/selectGoods.css" rel="stylesheet" type="text/css" />
+<script src="__ROOT__/statics/admin/js/brandSelectGoods.js"></script>
+
+<script type="text/javascript">
+    var submitLock = true;
+    var globalBrand;
+    var mutiChoice = true;      // true:多选 false:单选
+    var proChoiceWay = '3';     // 1:每日上新 2:特卖 3:品牌团
+    var brandAbled = true;
+
+    function goUp(index,max,len) {
+        if(index <= 0) {
+            alert("到顶了。");
+            return false;
+        }
+        $("#skulist tbody tr:nth-child(" + index + ")").insertAfter($("#skulist tbody tr:nth-child(" + (index+1) + ")"));
+    }
+    function goDown(index,max,len) {
+        console.log(index);
+//        if(index >= max) {
+//            alert("到底了。");
+//            return false;
+//        }
+//        if(len > 0) {
+//            $("#skulist tbody tr:nth-child(" + (parseInt(index) + parseInt(len)) + ")").insertAfter($("#skulist tbody tr:nth-child(" + ( parseInt(index) + parseInt(len) + 1) + ")"));
+//        } else {
+//            $("#skulist tbody tr:nth-child(" + index + ")").insertAfter($("#skulist tbody tr:nth-child(" + (index-1) + ")"));
+//        }
+
+    }
+
+    $(function(){
+        $('.datetimepicker').datetimepicker({value:'',step:"30"});
+        //改变活动类型
+        $("#typeChange").on("change",function(){
+            var myst = $(this).find("option:selected").val();
+            var meStock = $(".hidestock,.hidestockHead"),
+                mePrice = $(".hideprice,.hidepriceHead");
+            if(myst == 0) {
+                mePrice.hide();
+                meStock.hide();
+            } else if(myst == 1) {
+                mePrice.show();
+                meStock.hide();
+            } else if(myst == 2) {
+                mePrice.show();
+                meStock.show();
+            }
+        });
+        //品牌改变
+        $("#brand").on("change",function(){
+            var myval = $(this).find("option:selected").val();
+            var mytext = $(this).find("option:selected").text();
+            $("#goods_brand").find("option").val(myval);
+            $("#goods_brand").find("option").text(mytext);
+        })
+        //表单提交
+        $("#dosubmit").on("click",function(){
+            var choiceTimeStart = $("#time_start").val();
+            var choiceTimeEnd = $("#time_end").val();
+            var choiceTimestampStart = Date.parse(choiceTimeStart)/1000;
+            var choiceTimestampEnd = Date.parse(choiceTimeEnd)/1000;
+            var nowTimestamp = Date.parse(new Date())/1000;
+
+            var spu = $("#spu").val();
+            var image_src = $("#image_src").val();
+            var title = $("#title").val();
+            //两个字段顺序错了，前端没改顺序，后端插入的顺序改了
+            var desc = $("#desc").val();
+            var provider = $("#provider").val();
+            var sort = $("#sort").val() ? $("#sort").val() : 0;
+            //8.1 改变取值目标
+            var typeValue = $("#typeChangeValue").val();
+
+            if(!spu) {
+                alert("请选择活动商品！");
+                return false;
+            }
+            if(!title) {
+                alert("请输入标题！");
+                return false;
+            }
+            if(title.length > 12) {
+                alert("标题不可超过12个字！");
+                return false;
+            }
+            if(!desc) {
+                alert("请输入副标题！");
+                return false;
+            }
+            if(!provider) {
+                alert("请输入折扣信息！");
+                return false;
+            }
+            if(!image_src){
+                alert("图片不能为空");
+                return false;
+            }
+            if(!choiceTimeStart) {
+                alert("请选择上架时间！");
+                return false;
+            }
+            if(!choiceTimeEnd) {
+                alert("请选择下架时间！");
+                return false;
+            }
+            if(choiceTimestampStart < nowTimestamp) {
+                alert("发布时间不可小于当前时间！");
+                return false;
+            }
+            if(choiceTimestampEnd < choiceTimestampStart) {
+                alert("下架时间不可小于发布时间！");
+                return false;
+            }
+            if(choiceTimestampEnd < nowTimestamp) {
+                alert("下架时间不可小于当前时间！");
+                return false;
+            }
+
+            var listdataArr = [];
+            var typeValue = $("#typeChange option:selected").val();
+            var stockValue, saleValue;
+            var spuId = $("#spu").val();
+            var spuIdArr = new Array();
+
+            spuIdArr = spuId.split(",");
+
+            var spuId, skuArr, dataArr = [], trLen = 0;
+            var exprice, exstock, normalstock;
+
+            var baseArr = {
+                brand_id   : $("#brand option:selected").val(),
+                title      : $("#title").val(),
+                desc       : $("#desc").val(),
+                provider   : $("#provider").val(),
+                time_start : $("#time_start").val(),
+                time_end   : $("#time_end").val(),
+                //存当前时间
+                sort       : '0',
+                image_src  : $("#image_src").val()
+            };
+
+            var testArr = [];
+            var addLock = true;
+            $("#skulist tbody tr").each(function(k) {
+                var self = $(this);
+                skuArr = [];
+                spuId = $(this).attr("data-spu");
+                trLen = $(".a" + spuId).length;
+
+                for (var i = 0; i < trLen; i++) {
+                    exprice = self.find(".c" + spuId).eq(i).find("input").val();
+                    exstock = self.find(".d" + spuId).eq(i).find("input").val();
+                    normalstock = self.find(".e" + spuId).eq(i).text();
+                    //限时要验活动价
+                    if (typeValue == '1') {
+                        //限时验活动价
+                        if (exprice == '0') {
+                            alert("活动价格不能为0");
+                            addLock = false;
+                            return false;
+                        }
+                    }
+                    //限时限量要验库存
+                    if (typeValue == '2') {
+                        if (exprice == '0') {
+                            alert("活动价格不能为0");
+                            addLock = false;
+                            return false;
+                        }
+                        if (exstock == '0') {
+                            alert("活动库存不能为0");
+                            addLock = false;
+                            return false;
+                        }
+                        if (parseInt(exstock) > parseInt(normalstock)) {
+                            alert("活动库存不可大于实际库存");
+                            addLock = false;
+                            return false;
+                        }
+                    }
+                    skuArr.push({
+                        skuid: self.find(".a" + spuId).eq(i).attr("data-id"),         //sku
+                        sale: self.find(".b" + spuId).eq(i).text(),                  //销量
+                        price: self.find(".c" + spuId).eq(i).find("input").val(),     //价格
+                        stock: typeValue == '1' ? (normalstock) : (exstock),        //库存
+                        type: typeValue
+                    });
+                }
+                //组合relation信息
+                dataArr.push({
+                    index: ++k,
+                    id: spuId,
+                    time_start: $("#time_start").val(),
+                    time_end: $("#time_end").val(),
+                    sort: $("#sort").val(),
+                    type: '2',                               //2:品牌团
+                    image_src: $("#image_src").val(),
+                    sku: skuArr,
+                    //该spu是否淘客
+                    taoke: $("#taoke" + spuId).attr("data-taoke") ? $("#taoke" + spuId).attr("data-taoke") : 'no'
+                });
+            });
+
+            if(!addLock) {
+                return false;
+            }
+
+//            for(var j=0; j<spuIdArr.length; j++) {
+//                skuArr = [];
+//                spuId = spuIdArr[j];
+//                trLen = $(".a"+spuId).length;
+//                //组合SKU信息
+//                for(var i=0; i<trLen; i++) {
+//                    exprice     = $("#skulist tbody tr").find(".c"+spuId).eq(i).find("input").val();
+//                    exstock     = $("#skulist tbody tr").find(".d"+spuId).eq(i).find("input").val();
+//                    normalstock = $("#skulist tbody tr").find(".e"+spuId).eq(i).text();
+//                    //限时要验活动价
+//                    if(typeValue == '1') {
+//                        //限时验活动价
+//                        if (exprice == '0') {
+//                            alert("活动价格不能为0");
+//                            return false;
+//                        }
+//                    }
+//                    //限时限量要验库存
+//                    if (typeValue == '2') {
+//                        if (exprice == '0') {
+//                            alert("活动价格不能为0");
+//                            return false;
+//                        }
+//                        if (exstock == '0') {
+//                            alert("活动库存不能为0");
+//                            return false;
+//                        }
+//                        if (parseInt(exstock) > parseInt(normalstock)) {
+//                            alert("活动库存不可大于实际库存");
+//                            return false;
+//                        }
+//                    }
+//                    skuArr.push({
+//                        skuid : $("#skulist tbody tr").find(".a"+spuId).eq(i).attr("data-id"),         //sku
+//                        sale  : $("#skulist tbody tr").find(".b"+spuId).eq(i).text(),                  //销量
+//                        price : $("#skulist tbody tr").find(".c"+spuId).eq(i).find("input").val(),     //价格
+//                        stock : typeValue == '1' ? (normalstock) : (exstock),                          //库存
+//                        type  : typeValue
+//                    });
+//                }
+//                //组合relation信息
+//                dataArr.push({
+//                    index      : j,
+//                    id         : spuId,
+//                    time_start : $("#time_start").val(),
+//                    time_end   : $("#time_end").val(),
+//                    sort       : $("#sort").val(),
+//                    type       : '2',                               //2:品牌团
+//                    image_src  : $("#image_src").val(),
+//                    sku        : skuArr,
+//                    //该spu是否淘客
+//                    taoke      : $("#taoke"+spuId).attr("data-taoke") ? $("#taoke"+spuId).attr("data-taoke") : 'no'
+//                });
+//            }
+
+//            console.log(dataArr);
+//            return false;
+
+            if(submitLock) {
+                submitLock = false;
+                $(this).val("提交中...");
+                $.ajax({
+                    type     : "POST",
+                    url      : "admin.php?m=Brandgroup&a=add",
+                    data     : {
+                        dosubmit : $("#dosubmit").val(),
+                        base     : baseArr,
+                        info     : dataArr
+                    },
+                    dataType : "json",
+                    success  : function(d){
+                        alert(d.msg);
+                        //submitLock = true;
+                        if(d.flag) {
+                            window.location.href = "admin.php?m=Brandgroup&a=index";
+                        }
+                    },
+                    error : function(){
+                        submitLock = true;
+                    }
+                })
+            }
+        });
+    })
+</script>
+</body>
+</html>

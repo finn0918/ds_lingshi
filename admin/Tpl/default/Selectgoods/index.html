@@ -1,0 +1,164 @@
+<include file="Public:header" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/admin/css/jquery.datetimepicker.css"/>
+<script type="text/javascript" src="__ROOT__/statics/admin/js/jquery.datetimepicker.js"></script>
+<script src="__ROOT__/statics/admin/js/jquerysession.js"></script>
+<style>
+.selectGoodsList{
+
+}
+.selectGoodsList li{
+    margin-bottom:20px;
+    width:20%;
+    float:left;
+    overflow:hidden;
+}
+.selectGoodsList li .inner{
+    margin:0 auto;
+    position:relative;
+    width:160px;
+    height:210px;
+    padding-bottom:5px;
+    border:1px solid #ccc;
+}
+.selectGoodsList li img{
+    width:160px;
+    height:160px;
+    display:block;
+    border:none;
+}
+.selectGoodsList li h3{
+    margin-top:5px;
+    height:20px;
+    line-height:20px;
+    width:100%;
+    font-size:14px;
+    overflow:hidden;
+    width:90%;
+    padding:0 5%;
+}
+.selectGoodsList li p{
+    margin-top:5px;
+    height:20px;
+    line-height:20px;
+    font-size:14px;
+    overflow:hidden;
+    width:90%;
+    padding:0 5%;
+}
+.selectGoodsList li .goodsCheck{
+    position:absolute;
+    right:10px;
+    top:10px;
+    z-index:399;
+}
+.selectGoodsList li strong{
+    font-size:14px;
+    color:red;
+}
+.selectGoodsList li s{
+    font-size:12px;
+}
+.selectGoodsList li .you{
+    float:right;
+    font-size:12px;
+}
+.cl{
+    clear:both;
+}
+</style>
+
+
+<div class="search">
+    <form name="searchform" action="" method="POST" >
+        <table width="100%" cellspacing="0" class="search-form">
+            <tbody>
+            <tr>
+                <td>
+                    <div class="explain-col">
+                        商品分类：
+                        <select name="cate_id" id="cate_id" style="font-size:15px;">
+                            <option value="0">--所有分类--</option>
+                            <volist name="cate_list" id="val">
+                                <option value="{$val.id}" level="{$val.level}" <if condition="$cate_id eq $val['id']"> selected="selected" </if>>
+                                {:str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',$val['level'])}
+                                {:trim($val['name'])}
+                                </option>
+                            </volist>
+                        </select>
+                        &nbsp;&nbsp;品牌：
+                        <select name="goods_brand">
+                            <option value="">--选择--</option>
+                            <volist name="brand_list" id="val">
+                                <option value="{$val.id}" <if condition="$brand_id eq $val['id']"> selected="selected" </if>>{$val.name}</option>
+                            </volist>
+                        </select>
+                        &nbsp;&nbsp;商品类型：
+                        <select name="goods_type">
+                            <option value="0" <if condition="$type eq '0'">selected</if>>--选择--</option>
+                            <option value="1" <if condition="$type eq '1'">selected</if>>商城商品</option>
+                            <option value="2" <if condition="$type eq '2'">selected</if>>淘客商品</option>
+                        </select>
+                        <br/><br/>
+                        添加时间：
+                        <input type="text" name="goods_time_start" id="goods_time_start" class="date datetimepicker" size="20" value="{$time_start}" />
+                        -
+                        <input type="text" name="goods_time_end" id="goods_time_end" class="date datetimepicker" size="20" value="{$time_end}" />
+                        &nbsp;&nbsp;价格区间：
+                        <input type="text" name="price_start" id="price_start" size="12" value="{$price_start}" />
+                        -
+                        <input type="text" name="price_end" id="price_end" size="12" value="{$price_end}" />
+                        &nbsp;&nbsp;商品名称：
+                        <input name="goods_keyword" type="text" class="input-text" size="25" value="{$keyword}" />
+                        <input type="hidden" name="m" value="Selectgoods" />
+                        <input type="hidden" name="a" value="index" />
+                        <input type="hidden" name="query" value="1" />
+                        &nbsp;<input type="submit" name="search" class="button" value="搜索" />
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+<div class="innerBox">
+    <ul class="selectGoodsList">
+        <volist name="list" id="v">
+            <li>
+                <div class="inner">
+                    <input type="checkbox" class="goodsCheck" name="choiceInput" data-id="{$v.id}" />
+                    <!--<input type="radio" class="goodsCheck" name="choiceInput" data-id="'+info[i].id+'">-->
+                    <img src="{$v.image}" class="thumb" />
+                    <h3>{$v.name}</h3>
+                    <p>
+                        ￥&nbsp;<span class="you">{$v.transform}</span>
+                        <strong>{$v.nowprice}</strong>&nbsp;&nbsp;
+                        <s>{$v.oldprice}</s>
+                    </p>
+                </div>
+            </li>
+        </volist>
+        <div class="cl"></div>
+    </ul>
+    <div class="btn"><div id="pages">{$page}</div></div>
+</div>
+<script>
+
+
+    $(function(){
+
+        $(".goodsCheck").on("click",function(){
+            var myid = $(this).attr("data-id");
+            var sessionId = $.session.get('proid');
+            var idArr = [];
+            if(sessionId) {
+                idArr.push();
+            }
+            $.session.set('key', 'value');
+        })
+
+        $('.datetimepicker').datetimepicker({value : '',step:"30"});
+
+    })
+</script>
+</body>
+</html>

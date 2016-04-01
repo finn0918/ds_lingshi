@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+		<meta name="format-detection" content="telephone=no" searchtype="map">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="360-site-verification" content="188bc9bbbe2e50aaf86c811cf61d5cdb" />
+		<meta name="baidu-site-verification" content="ayLnKZTrby" />
+		<meta name="sogou_site_verification" content="gz86ImwtMQ" />
+		<link href="../../../../statics/css/active.css" rel="stylesheet" type="text/css"/>
+		<title>零食小喵扫“喵”大动员</title>
+		<!--<script type="text/javascript">
+			 //检查是否绑定手机号
+			$(document).ready(function() {
+				var sOpenid = '';
+				$.ajax({
+					type: "GET",
+					url: site_url + "/web.php?m=Sao&a=getMobile&openid=" + sOpenid,
+					dataType: "json",
+					success: function(data) {
+						if (data.flag) {
+							$('#get').show();
+							$('#join').hide();
+							$('#value').val(data.mobi_num);
+						}
+					}
+				});
+			});
+		</script>-->
+	</head>
+
+	<body class="joinBody">
+		<div class="banner">
+			<img src="../../../../statics/images/active/1_01.jpg" />
+			<img src="../../../../statics/images/active/1_02.jpg" />
+			<img src="../../../../statics/images/active/1_03.jpg" />
+			<img src="../../../../statics/images/active/1_04.jpg" />
+			<img src="../../../../statics/images/active/1_05.jpg" />
+			<img src="../../../../statics/images/active/1_06.jpg" />
+			<img src="../../../../statics/images/active/1_07.jpg" />
+		</div>
+		<div class="bottom">
+			<div id="join" style="display: block;">
+				<input type="tel" id="mobile" value="" placeholder="输入手机号，领取礼包" maxlength="11" class="text" />
+				<button class="btn" onclick="checkMobile()">确认</button>
+			</div>
+			<div id="get" style="display: none;">
+				<div class="mobile">
+					<span>当期使用手机号：<span id="value">18850549312</span></span> <a class="modify" href="active_join.html">修改</a></div>
+				<button class="btn" onclick="getGift()">领取当日礼包</button>
+			</div>
+		</div>
+	</body>
+	<script src="../../../../statics/js/jquery.min.js"></script>
+	<!--<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>-->
+	<script>
+		var site_url = "http://wuyanhong.lingshi/branches/v2.2.3"; //"{$site_url}";
+		function checkMobile() {
+			var sMobile = $('#mobile').val();
+			var reg = !!sMobile.match(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/);
+			if (reg == false) {
+				toast("手机格式有误，请重新输入");
+			} else {
+				$.ajax({
+					type: "GET",
+					url: "" + site_url + "/web.php?m=Sao&a=checkMobile&mobi_num=" + sMobile,
+					dataType: "json",
+					success: function(data) {
+						switch (data.code) {
+							case "200": //已注册用户(未领取)
+								window.location.href = "active_awards.html?mobi_num=" + sMobile;
+								break;
+							case "201": //未注册用户
+								window.location.href = "active_reg.html?mobi_num=" + sMobile;
+								break;
+							case "203": //手机号不能为空
+								toast(data.message);
+								break;
+							case "204": //已注册用户(已领取)
+								window.location.href = "active_awards.html?mobi_num=" + sMobile;
+								break;
+						}
+					}
+				});
+			}
+		};
+
+		function toast(message) {
+			var form = document.createElement('div');
+			form.classList.add('toast-container');
+			form.innerHTML = '<div class="' + 'toast-message' + '">' + message + '</div>';
+			document.body.appendChild(form);
+			setTimeout(function() {
+				document.body.removeChild(form);
+			}, 2000);
+		};
+
+		function getGift() {
+			var sMobile = $('#value').val();
+			window.location.href = 'active_awards.html?mobi_num=' + sMobile;
+		};
+	</script>
+
+</html>

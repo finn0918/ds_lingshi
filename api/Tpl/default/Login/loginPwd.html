@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+		<link rel="stylesheet" href="/statics/css/login.css" />
+		
+	</head>
+	<body>
+		<div class="login-tel loginPwd-tel">
+			<!--<i class="login-back"></i>-->
+			<p>
+				<span>验证码</span>
+				<input type="tel" placeholder="请输入短信验证码" id="login-code"/>
+				<!--<a class="login-mobileReg" id="resetGet">重新获取</a>-->
+				<a class="login-mobileGray" id="resetSend"><span>60</span>秒后重发</a>
+			</p>
+			<p>
+				<span>设置密码</span>
+				<input id='telPwd1' type="password" placeholder="请输入6~16位英文字母或数字" />
+				<img src="/statics/images/login/closeEye.png" class="eye" title="隐藏"/>
+			</p>
+			<!--<i class="login-back"></i>-->
+			<p >
+				<span>确认密码</span>
+				<input id='telPwd2' type="password" placeholder="再次确认密码" />
+				<img src="/statics/images/login/closeEye.png" class="eye" title="隐藏"/>
+			</p>
+		</div>
+		<div class="login-link">
+			<p>
+				<a class="login-instance" id="login-instance">注册</a>
+			</p>
+			<p class="login-mid loginPwd-mid">
+				<span>注册即同意</span>
+				<a class="login-server" id="login-server" >《零食小喵服务条款》</a>
+			</p>
+				
+		</div>
+		<script type="text/javascript" src="/statics/js/zepto.min.js" ></script>
+		<script>
+			$(function(){
+				var $telPwd1=$('#telPwd1');//手机密码
+				var $telPwd2=$('#telPwd2');//确认密码
+				var $login_instance=$('#login-instance');//注册
+				var $login_code=$('#login-code');//验证码
+				var $login_server=$('#login-server');//服务协议
+				var $resetSend=$('#resetSend');//重新发送
+				var $eye=$('.eye');
+				
+				$login_code.on('input',checkAll);
+				$telPwd1.on('input',checkAll);
+				$telPwd2.on('input',checkAll);
+				$eye.on('click',eye);
+				
+				var timer=setInterval(function(){
+					$resetSend.find('span').html($resetSend.find('span').html()-1);
+					if($resetSend.find('span').html()==0){
+						clearInterval(timer);
+						$resetSend.html('重新发送');
+					}
+					changeSend();
+				},1000);
+				
+				changeSend();
+				//发送验证码
+				function changeSend(){
+					if($resetSend.html()=='重新发送'){
+						$resetSend.attr('class','login-mobileReg');
+						
+					}else{
+						$resetSend.attr('class','login-mobileGray');
+					}
+				}
+				
+				function eye(){
+					if($(this).attr('title')=='可视'){
+						$(this).attr('title','隐藏');
+						$(this).attr('src','/statics/images/login/closeEye.png');
+						$(this).siblings('input').attr('type','password');
+					}else{
+						$(this).attr('title','可视')
+						$(this).attr('src','/statics/images/login/eye.png');
+						$(this).siblings('input').attr('type','text');
+					}
+				}
+				function checktelPwd(){
+					var telPwd1 = $telPwd1.val();
+					var telPwd2 = $telPwd2.val();
+ 					var flag = true;
+					var reg=/^[0-9a-z]{6,16}$/i;
+					
+					if(!reg.test(telPwd2)||!reg.test(telPwd1)){
+						flag=false;
+					}
+					return flag;
+				}
+				function checknull(){
+					var flag=true;
+					var ainput=$('input');
+					for( var i=0;i<ainput.length;i++){
+						if(ainput.eq(i).val()==''){
+							flag=false;
+						}
+					}
+					return flag;
+				}
+				
+				function checkAll(){
+					if(checknull() && checktelPwd()){
+						$login_instance.css({'background':'#FF2D4B','color':'#fff'});
+					}else{
+						$login_instance.css({'background':'#E0E0E1','color':'#BBBBBF'});
+					}
+				}
+				
+				//交互+++++++++++++++++++++++++++++++++
+				var browser = {
+					versions: function() {
+						var u = navigator.userAgent,
+							app = navigator.appVersion;
+						return { //移动终端浏览器版本信息 
+							mobile: !!u.match(/AppleWebKit.*Mobile.*/),
+							ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端 
+							android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器 
+							iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器 
+							iPad: u.indexOf('iPad') > -1, //是否iPad]
+							weixin: u.match("MicroMessenger")
+						};
+					}(),
+				};
+				function connectWebViewJavascriptBridge(callback) {
+				    if (window.WebViewJavascriptBridge) {
+				        callback(WebViewJavascriptBridge)
+				    } else {
+				        document.addEventListener('WebViewJavascriptBridgeReady',
+				        function() {
+				            callback(WebViewJavascriptBridge)
+				        },
+				        false)
+				    }
+				}
+				connectWebViewJavascriptBridge(function(bridge) {
+	
+				    /* Init your app here */
+	
+				    // 刚进来就调用
+				    bridge.init(function(message, responseCallback) {
+				        if (responseCallback) {
+				            responseCallback("Right back atcha")
+				        }
+				    });
+				    bridge.send('Please respond to this',
+				    function responseCallback(responseData) {
+				        console.log("Javascript got its response", responseData)
+				    });
+				}); 
+				if(browser.versions.android) {
+					
+					$login_instance.on('click',function(){
+						
+						if($login_instance.css('color')=='rgb(255, 255, 255)'){
+							window.bridge.register($login_code.val(),$telPwd1.val(),$telPwd2.val());
+						}
+						
+					});
+					$resetSend.on('click',function(){
+						
+						if($resetSend.html()=='重新发送'){
+							$resetSend.attr('class','login-mobileGray');
+							$resetSend.html('<span>60</span>秒后重发');
+							var timer=setInterval(function(){
+								$resetSend.find('span').html($resetSend.find('span').html()-1);
+								if($resetSend.find('span').html()==0){
+									clearInterval(timer);
+									$resetSend.attr('class','login-mobileReg'); 
+									$resetSend.html('重新发送');
+								}
+							},1000);
+							
+							window.bridge.getMobVerify();
+						}
+					});
+					$login_server.on('click',function(){
+						window.bridge.jump(6);
+					});
+				}else if(browser.versions.iPhone || browser.versions.iPad){
+					
+					 connectWebViewJavascriptBridge(function(bridge) {
+					 	$login_instance.on('click',function(){
+					 		if($login_instance.css('color')=='rgb(255, 255, 255)'){
+					 			bridge.callHandler("register",{
+					 				code:$login_code.val(),
+				                    pwd:$telPwd1.val(),
+				                    verifyPwd:$telPwd2.val()
+		
+				                },function(data, responseCallback) {})
+					 		}
+					 	});
+					 	$resetSend.on('click',function(){
+					 		if($resetSend.html()=='重新发送'){
+					 			$resetSend.attr('class','login-mobileGray');
+					 			$resetSend.html('<span>60</span>秒后重发');
+								var timer=setInterval(function(){
+									$resetSend.find('span').html($resetSend.find('span').html()-1);
+									if($resetSend.find('span').html()==0){
+										clearInterval(timer);
+										$resetSend.attr('class','login-mobileReg'); 
+										$resetSend.html('重新发送');
+									}
+								},1000);
+					 			bridge.callHandler("getMobVerify",{
+		
+				                },function(data, responseCallback) {})
+					 		}
+					 	});
+					 	$login_server.on('click',function(){
+					 		bridge.callHandler("jump",{
+			                    type:6
+	
+			                },function(data, responseCallback) {})
+					 	});
+					 })
+				}
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			})
+		</script>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</body>
+</html>

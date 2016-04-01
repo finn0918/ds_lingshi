@@ -1,0 +1,131 @@
+<include file="Public:header" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/admin/css/jquery.datetimepicker.css"/>
+<script type="text/javascript" src="__ROOT__/statics/admin/js/jquery.datetimepicker.js"></script>
+<style>
+    .list_item{margin-bottom:20px;border:1px solid #ddd;box-shadow:2px 2px 5px #ddd}
+    .list_item .header{position:relative;background-color:#f3f3f3;height:33px;line-height:32px;padding-left:10px;}
+    .list_item h3,
+    .list_item h4{display:inline-block;*display:block; *float:left;margin-right:10px;border-right:1px solid #ddd;padding-right:10px;}
+    .list_item .status img {margin:10px 0;}
+    .list_item .op {position:absolute;right:0;border-right:0 none; padding-right:20px;}
+    .list_item .op a {margin-left:15px}
+    .list_item .content {padding:10px;}
+    .list_item .content img {width:60px;text-align:left}
+</style>
+<div class="pad-10">
+    <form name="searchform" action="" method="get" >
+        <table width="100%" cellspacing="0" class="search-form">
+            <tbody>
+            <tr>
+                <td>
+                    <div class="explain-col">
+                        反馈时间：
+                        <input type="text" name="time_start" id="time_start" class="date datetimepicker" size="15" value="{$time_start}">
+
+                        -
+                        <input type="text" name="time_end" id="time_end" class="date datetimepicker" size="15" value="{$time_end}">
+
+                        &nbsp;&nbsp;来源系统：
+                        <select name="os_type">
+                            <option value="">--选择--</option>
+                            <option value="2">IOS</option>
+                            <option value="1">安卓</option>
+                        </select>
+                        &nbsp;关键字 :
+                        <input name="keyword" type="text" class="input-text" size="25" value="{$keyword}" />
+                        <input type="hidden" name="m" value="Feedback" />
+                        <input type="hidden" name="a" value="index" />
+                        <input type="submit" name="search" class="button" value="搜索" />
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+    <div class="pad-lr-10" >
+        <form id="myform" name="myform" action="{:u('Feedback/dels')}" method="post" onsubmit="return check();">
+            <div class="table-list">
+                <table width="100%" cellspacing="0" class="tb_rec">
+                    <thead>
+                    <tr>
+                        <th width="3%"><input type="checkbox" value="" id="check_box" onclick="selectall('id[]');"></th>
+                        <th width="6%" align="left" >编号</th>
+                        <th align="left" width="20%">反馈内容</th>
+                        <th align="left">反馈时间</th>
+                        <th width="6%" align="left">用户昵称</th>
+                        <th align="left">设备id</th>
+                        <th align="left">系统类型</th>
+                        <th align="left">版本号</th>
+                        <th align="left">责编</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <volist name="feedback_list" id='sval'>
+                        <tr>
+                            <td align="center"><input type="checkbox" value="{$sval.id}" name="id[]"></td>
+                            <td align="center">{$sval.id}</td>
+                            <td>{$sval.content}</td>
+                            <td align="center">{$sval.create_time|date="Y-m-d H:i:s",###}</td>
+                            <td align="center"><em style="color:green;"><a href="?m=client&a=show&id={$sval.client_id}">{$sval.nickname}</a></em></td>
+                            <td align="left">{$sval.device_id}</td>
+                            <td align="left"><if condition="($sval.os_type eq 3)">安卓</if><if condition="($sval.os_type eq 1)">IOS</if></td>
+                            <td align="center"><em style="color:red;">{$sval.version}</em></td>
+                            <td align="left">{$sval.auid}</td>
+                            <td align="center"><a href="?m=Feedback&a=reply&id={$sval.id}">回复</a>|<a href="?m=Feedback&a=del&id={$sval.id}" onclick="return confirm('{$Think.lang.sure_delete}')" >删除</a></td>
+                        </tr>
+                    </volist>
+                    </tbody>
+                </table>
+                <div class="btn">
+                    <input type="submit" class="ipt_btn2" name="dosubmit" value="批量删除" onclick="return confirm('确定批量删除？')"/>
+                </div>
+        </form>
+    </div>
+    <div class="btn"><div id="pages">{$page}</div></div>
+</div>
+</div>
+<script language="javascript">
+    $(function(){
+        $('.datetimepicker').datetimepicker({value:'',step:"30"});
+    })
+    function edit(id, name) {
+        var lang_edit = "编辑资讯";
+        window.top.art.dialog({id:'edit'}).close();
+        window.top.art.dialog({title:lang_edit+'--'+name,id:'edit',iframe:'?m=article&a=edit&id='+id,width:'550',height:'400'}, function(){var d = window.top.art.dialog({id:'edit'}).data.iframe;d.document.getElementById('dosubmit').click();return false;}, function(){window.top.art.dialog({id:'edit'}).close()});
+    }
+
+    var lang_cate_name = "资讯标题";
+    function check(){
+        if($("#myform").attr('action') != '{:u("article/sort_order")}') {
+            var ids='';
+            $("input[name='id[]']:checked").each(function(i, n){
+                ids += $(n).val() + ',';
+            });
+
+            if(ids=='') {
+                window.top.art.dialog({content:lang_please_select+lang_cate_name,lock:true,width:'200',height:'50',time:1.5},function(){});
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function status(id,type){
+        $.get("{:u('article/status')}", { id: id, type: type }, function(jsondata){
+            var return_data  = eval("("+jsondata+")");
+            if(return_data.data.error == 1)
+            {
+                $("#"+type+"_"+id+" img").attr('src', '__ROOT__/statics/images/status_'+return_data.data.status+'.gif')
+                alert("您没有权限修改");
+            }
+            else
+            {
+
+                $("#"+type+"_"+id+" img").attr('src', '__ROOT__/statics/images/status_'+return_data.data+'.gif')
+            }
+        });
+    }
+</script>
+</body>
+</html>

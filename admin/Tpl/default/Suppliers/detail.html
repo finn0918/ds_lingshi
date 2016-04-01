@@ -1,0 +1,153 @@
+<include file="Public:header" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/admin/css/jquery.datetimepicker.css"/>
+<script type="text/javascript" src="__ROOT__/statics/admin/js/jquery.datetimepicker.js"></script>
+<form action="{:u('Suppliers/edit')}" method="post" name="myform" onsubmit="return submitOnce(this)" id="myform" enctype="multipart/form-data" style="margin-top:10px;">
+  <div class="pad-10">
+  <table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+		<input type="hidden" name="id" value="{$suppliers.suppliers_id}">
+          <tbody id="item_body">
+          <tr>
+            <th width="100">供应商 :</th>
+            <td><label>{$suppliers.suppliers_name}</label></td>
+          </tr>
+		  <tr>
+          	<th>供应商联系电话 :</th>
+            <td><label>{$suppliers.suppliers_mobile}</label></td>
+          </tr>
+          <tr>
+            <th width="100">发货地址 :</th>
+            <td><label>{$suppliers.suppliers_address}</label></td>
+          </tr>
+          <tr>
+            <th width="100">收款账号 :</th>
+            <td><label>{$suppliers.bank}</label>&nbsp;&nbsp;&nbsp;<label>{$suppliers.account}</label></td>
+          </tr>
+          <tr>
+            <th width="100">密钥 :</th>
+            <td><label>{$suppliers.key}</label></td>
+          </tr>
+          </table>
+          <br/>
+          <hr/> <br/>
+    <div class="col-tab">
+       <ul class="tabBut cu-li">
+			<li id="tab_setting_1" class="on" onclick="SwapTab('setting','on','',3,1);">供货订单状况</li>
+      </ul>
+      <div id="div_setting_1" class="contentList pad-10">
+			<form name="searchform" action="" method="get" >
+    <table width="100%" cellspacing="0" class="search-form">
+        <tbody>
+            <tr>
+            <td>
+            <div class="explain-col">
+            	订单时间：
+            	<input type="text" name="time_start" id="time_start" class="date datetimepicker" size="20" value="{$time_start}">
+                至&nbsp;
+                <input type="text" name="time_end" id="time_end" class="date datetimepicker" size="20" value="{$time_end}">
+               &nbsp;&nbsp;&nbsp;&nbsp;订单状态：
+               <select name='status' id='status'>
+                <option value="">--全部--</option>
+                <volist name="bank" id="val">
+                <option value="{$val.k}" <if condition="$val['k'] eq $suppliers['type']">selected="selected"</if>>{$val.v}</option>
+                </volist>
+                </select>
+                <input type="hidden" name="m" value="Suppliers" />
+                <input type="hidden" name="a" value="detail" />
+                <input id="search" type="submit" name="search" class="button" value="搜索" />
+        	</div>
+            </td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <form id="myform" name="myform" action="{:u('Suppliers/ddel')}" method="post" onsubmit="return check();">
+    <div class="table-list">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th width=15><input type="checkbox" value="" id="check_box" onclick="selectall('id[]');"></th>
+                 <th>商品信息</th>
+                 <th width=100>实付款</th>
+                <th width=100>卖家昵称</th>
+                <th width=300>收货人信息</th>
+                <th width=150>操作</th>
+            </tr>
+        </thead>
+    	<tbody>
+        <volist name="sd" id="val" >
+        <tr>
+            <td align="center"><input type="checkbox" value="{$val.suppliers_id}" name="id[]"></td>
+            <td align="center"><a href="?m=Suppliers&a=detail&id={$val.suppliers_id}">{$val.suppliers_name}</a></td>
+            <td align="center">{$val.suppliers_mobile}</td>
+            <td align="center">{$val.suppliers_address}</td>
+            <td align="center">{$val.bank}:<br/>{$val.account}</td>
+            <td align="center" width='200' class="edit_btn">
+            	<a class="blueBtn" href="?m=Suppliers&a=edit&id={$val.suppliers_id}">编辑供应商信息</a>
+            	<br/>
+            	<a class="blueBtn" href="javascript:del({$val.id})">删除供应商信息</a>
+            </td>
+            </tr>
+        </volist>
+    	</tbody>
+    </table>
+
+    <div class="btn">
+    	<label for="check_box" style="float:left;">全选/取消</label>
+    	<input type="submit" class="button" name="dosubmit" value="{$Think.lang.delete}" onclick="return confirm('{$Think.lang.sure_delete}')" style="float:left;margin:0 10px 0 10px;"/>
+    	<div id="pages">{$page}</div>
+    </div>
+
+    </div>
+    </form>
+		</div>
+
+  </div>
+  <script type="text/javascript">
+$(function(){
+$('.datetimepicker').datetimepicker({value:'',step:"30"});
+
+		    $.formValidator.initConfig({
+		        formid:"myform",
+		        autotip:true,
+		        onerror:function(msg,obj){
+		            window.top.art.dialog({
+		                content:msg,
+		                lock:true,
+		                width:'250',
+		                height:'50'}, function(){
+		                    this.close();$(obj).focus();
+		                    submitone =false;
+		                    })}});
+
+		    $("#supplier").formValidator({
+		        onshow:"输入供应商名称，不能为空",
+		        onfocus:"不能为空"
+		        }).inputValidator({
+		            min:1,
+		            onerror:"请填写供应商名称"
+		            });
+		    $("#phone").formValidator({
+		        onshow:"输入供应商电话，不能为空",
+		        onfocus:"不能为空"
+		        }).inputValidator({
+		            min:1,
+		            onerror:"请填写供应商电话"
+		            });
+		    $("#address").formValidator({
+		        onshow:"输入供应商地址，不能为空",
+		        onfocus:"不能为空"
+		        }).inputValidator({
+		            min:1,
+		            onerror:"请填写供应商地址"
+		            });
+		    $("#bankNum").formValidator({
+		        onshow:"输入供应商卡号，不能为空",
+		        onfocus:"不能为空"
+		        }).inputValidator({
+		            min:1,
+		            onerror:"请填写供应商银行卡号"
+		            });
+		})
+</script>
+</body></html>

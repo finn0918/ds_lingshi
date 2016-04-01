@@ -1,0 +1,237 @@
+<include file="Public:header" xmlns="http://www.w3.org/1999/html"/>
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/admin/css/jquery.datetimepicker.css"/>
+<script type="text/javascript" src="__ROOT__/statics/admin/js/jquery.datetimepicker.js"></script>
+<script language="javascript">
+$(function(){
+			$('.datetimepicker').datetimepicker({value:'',step:"30"});
+})
+</script>
+<style>
+.extra_tab_c {
+  display:none;
+  padding:10px;
+  background:#ffffff;
+}
+
+.ipt_btn {
+  padding:5px 10px;
+}
+
+.add_music {
+  width:100%;
+  height:225px;
+  border:0 none;
+}
+
+.add_comment p {
+  margin:10px;
+}
+
+.music_list .mp4_list {
+  border:1px solid #cccccc;;
+  box-shadow:0 0 4px #cccccc;
+  margin:10px 0;
+  padding:5px;
+  overflow:hidden;
+  zoom:1;
+}
+.music_list .cover,
+.music_list .other,
+.music_list .delete {
+  float:left;
+  height:55px;
+}
+.music_list .other,
+.music_list .cover {
+  margin-right:10px;
+}
+.music_list .cover img {
+  width:55px;
+  height:55px;
+}
+
+.music_list .delete a {
+  height: 32px;
+  line-height: 32px;
+  border: 1px solid #CCC;
+  display: block;
+  padding: 0 20px;
+  background: #EEE;
+  margin-top: 10px;
+}
+
+.mp4_list {
+  border:1px solid #cccccc;;
+  box-shadow:0 0 4px #cccccc;
+  margin:10px 0;
+  padding:5px;
+  overflow:hidden;
+  zoom:1;
+}
+.mp4_list .cover,
+.mp4_list .other,
+.mp4_list .delete {
+  float:left;
+  height:55px;
+}
+.mp4_list .other,
+.mp4_list .cover {
+  margin-right:10px;
+}
+.mp4_list .cover img {
+  width:55px;
+  height:55px;
+}
+
+.mp4_list .delete a {
+  height: 32px;
+  line-height: 32px;
+  border: 1px solid #CCC;
+  display: block;
+  padding: 0 20px;
+  background: #EEE;
+  margin-top: 10px;
+}
+.comm_single {
+  margin:5px 0;
+}
+.editor {
+  height:150px;
+  margin-left:55px
+}
+
+.mod_upload_close {
+  float:right;
+  padding:0 8px;
+  cursor:pointer;
+}
+.popbox2{position:fixed; left:50%; top:50%; width:740px; height:440px; margin:-220px 0 0 -370px; border-radius:5px; box-shadow:0 0 10px 2px #E2E2E2; background:#fff; z-index:910; padding:10px; display:none;}
+.popbox2 a:hover{text-decoration:none;}
+.popbox2 .close{position:absolute; right:10px; top:5px; width:25px; height:25px; line-height:25px; font-size:18px; text-align:center; vertical-align:middle; font-weight:bold; border-radius:5px;}
+.popbox2 .close:hover{text-decoration:none; background:#930; color:#fff;}
+.popbox2 h3{font-size:16px; color:#666; line-height:20px; padding-bottom:10px;}
+.popbox2 .mbox{height:400px; overflow:auto;}
+.popbox2 .sort{overflow:hidden; padding-top:10px; border-top:solid 1px #efefef;}
+.popbox2 .sort li{float:left; padding:5px; background:#efefef; margin:0 10px 5px 0; border-radius:5px; width:100px; text-align:center; cursor:pointer;}
+.popbox2 .list{border:1px solid #EEE; margin:5px; border-radius:5px;}
+.popbox2 .list .conbox{overflow:hidden; padding:10px;}
+.popbox2 .list .img{float:left; width:90px; height:74px; padding-right:10px;}
+.popbox2 .list .img img{width:90px; height:74px;}
+.popbox2 .list .txt{float:left; width:580px;}
+.popbox2 .list .btnbox{overflow:hidden;}
+.popbox2 .list .btn{height:25px; background:#F5F8FA; text-align:center; line-height:25px; display:block; border-radius:0 0 5px 5px;}
+.popbox2 .list .btn:hover{background:#DCE9EB;}
+
+.count{
+	height:30px;line-height:30px
+}
+.count ul li{
+	float:left;color:#A0B581;width:120px;
+}
+.count ul li:first-child{
+	width:450px;padding:0 0 0 20px
+}
+.align_right{
+	text-align:right;
+}
+</style>
+<form action="{:u('Push/add')}" method="post" name="myform" id="myform"  enctype="multipart/form-data" style="margin-top:10px;">
+  <div class="pad-10">
+    <div class="col-tab">
+      <ul class="tabBut cu-li">
+        <li id="tab_setting_1" class="on" onclick="SwapTab('setting','on','',2,1);">{$Think.lang.general_info}</li>
+      </ul>
+      <div id="div_setting_1" class="contentList pad-10">
+        <table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+			<tr>
+            <td>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;标题：
+                <input name="title" id="title"/>
+            </td>
+        </tr>
+			<tr>
+            <td>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;内容：
+                <textarea name="content" id="content" style="width:550px;"/></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                生效时间：
+                <input type="text" name="start_time" id="start_time" class="date datetimepicker" size="20">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                链接地址：
+                <input name="msg_link" id="msg_link" size="30"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+               链接类型：
+                <select name="msg_type" id="msg_type">
+                <volist name="msg_type" id="val"> <option value="{$key}" >{$val}</option></volist>
+              </select>
+            </td>
+        </tr>
+        <tr id="goods_id">
+            <td>
+                详情id：&nbsp;&nbsp;&nbsp;
+                <textarea type="text" name="goods_id"  size="28"  placeholder="请输入详情ID,以逗号分隔开." style="width:350px;"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>
+               推送对象：
+                <select name="type" id="push_type">
+                <option value="0">全部用户</option>
+                <option value="1">指定用户</option>
+              </select>
+            </td>
+        </tr>
+        <tr id="user_ids" style="display: none">
+            <td>
+                用户id：&nbsp;&nbsp;&nbsp;
+            <textarea type="text" name="user_ids"  size="28"  placeholder="请输入指定用户ID,以逗号分隔开." style="width:350px;"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                推送平台：
+                <select name="os_type">
+                <volist name="os_type" id="val"> <option  value="{$key}" >{$val}</option></volist>
+            </select>
+            </td>
+        </tr>
+          <tr>
+            <td colspan="2">
+            <div class="mod_upload_btn">
+            	<input type="submit" value="添加" onclick="" name="dosubmit" class="button_submit" id="dosubmit" style="cursor:pointer;width:80px;height:35px; vertical-align: middle;">
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+</form>
+<include file="public:footer" />
+<script type="text/javascript">
+$("#push_type").change(function(){
+    var select = $("#push_type option:selected").val();
+    if(select == 1){
+    $("#user_ids").show();
+    }else{
+        $("#user_ids").hide();
+    }
+});
+$("#msg_type").change(function(){
+    var select = $("#msg_type option:selected").val();
+    if(select <= 4){
+    $("#goods_id").show();
+    }else{
+        $("#goods_id").hide();
+    }
+});
+</script>

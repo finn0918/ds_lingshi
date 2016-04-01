@@ -1,0 +1,95 @@
+<include file="Public:header" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/statics/js/calendar/calendar-blue.css"/>
+<script type="text/javascript" src="__ROOT__/statics/js/calendar/calendar.js"></script>
+<script type="text/javascript">
+    $(function() {
+        $("#type").change(
+                function() {
+                    var showtype = $("#type option:selected").attr(
+                            'data-showtype');
+                    $(".bill_media").hide();
+                    $("#SW_" + showtype).show();
+                });
+        $("#type").change();
+    })
+</script>
+<div class="pad-10" >
+    <form id="myform" name="myform" action="{:u('Version/add')}" method="post" >
+    <div class="col-tab">
+		<ul class="tabBut cu-li">
+		    <li id="tab_setting_1" class="on"
+		        onclick="SwapTab('setting','on','',2,1);">{$Think.lang.add}</li>
+		</ul>
+    <div class="table-list">
+    
+<div id="div_setting_1" class="contentList">
+    <table width="50%" cellspacing="0" class="table_form">
+     <th>外部版本号</th>
+            <td >
+              <input type="text" name="version_outnumber" />
+            </td>
+			 <td align="left">
+            内部版本号
+              <input type="text" name="version_innumber" />
+            </td>
+        <tr>
+            <th>版本描述</th>
+            <td><textarea name="describle" id="describle"></textarea></td>
+        </tr>
+         <tr>
+            <th>操作系统</th>
+            <td >
+                <select name="os_type" id="os_type">                  
+                        <option value="3">Android</option>
+                        <option value="1" >IOS</option>
+                </select>
+            </td>
+        </tr>
+         <tr id="SW_replace" class="bill_media" >
+            <th>下载地址</th>
+            <td><input style="width:300px" name="upd_url" id="upd_url" value=""/>&nbsp;</td>
+        </tr>
+        <!--<tr id="SW_replace" class="bill_media" >
+            <th>取消地址</th>
+            <td><input style="width:300px" name="cancel_url" id="cancel_url" value=""/>&nbsp;</td>
+        </tr>-->
+         <tr>
+            <td align="center" ><input type="submit" name="addsubmit" style="width:80px;height:20px;text-align:center;" value="增加"/></td>
+        </tr>
+    </table>
+    </div>
+
+    </div>
+    </div>
+    </form>
+</div>
+<script language="javascript">
+
+$(function() {
+    $.formValidator.initConfig({
+        formid : "myform",
+        autotip : true,
+        onerror : function(msg, obj) {
+            window.top.art.dialog({
+                content : msg,
+                lock : true,
+                width : '200',
+                height : '50'
+            }, function() {
+                this.close();
+                $(obj).focus();
+            })
+        }
+    });
+
+    $("#describle").formValidator({
+        onshow : "填写版本详细描述",
+        onfocus : "字数控制字25字以内"
+    }).inputValidator({
+        min : 1,
+        onerror : "请填写描述"
+    });
+})
+</script>
+</body>
+</html>

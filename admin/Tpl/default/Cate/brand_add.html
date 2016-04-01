@@ -1,0 +1,222 @@
+<include file="Public:header" />
+<style>
+			*{margin:0;padding:0;}
+			.fileControl{
+				padding:5px;
+			}
+			.vqdTrigger{
+				width:60px;
+				height:25px;
+				line-height:25px;
+				text-align:center;
+				border-radius:2px;
+				background:#CC290E;
+				color:#FFF;
+				font-size:12px;
+				border:none;
+				cursor:pointer;
+				outline:none;
+			}
+			#vqdfile{
+				position:absolute;
+				opacity:0;
+			}
+			.fileList li{
+				position:relative;
+				margin-top:5px;
+				height:50px;
+				padding:6px;
+				display:block;
+				border:1px solid #CCC;
+				border-radius:4px;
+			}
+			.fileList li img{
+				float:left;
+				height:50px;
+				display:block;
+			}
+			.fileList li .del{
+				position:absolute;
+				right:5px;
+				top:20px;
+				width:18px;
+				height:18px;
+				line-height:19px;
+				text-align:center;
+				border:1px solid #CCC;
+				border-radius:20px;
+				text-decoration:none;
+				color:#888;
+				font-size:16px;
+			}
+		</style>
+
+<form action="{:u('Cate/brand_add')}" method="post" name="myform" onsubmit="return submitOnce(this)" id="myform" enctype="multipart/form-data" style="margin-top:10px;">
+  <div class="pad-10">
+    <div class="col-tab">
+       <ul class="tabBut cu-li">
+
+			<li id="tab_setting_2" class="on" onclick="SwapTab('setting','on','',3,2);">推荐品牌</li>
+
+      </ul>
+
+	  <div id="div_setting_2" class="contentList pad-10">
+        <table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+			<tr>
+			<th>一级分类 :</th>
+			<td>
+            <select name="first_cate" id="first_cate">
+                <option value=0>--一级分类--</option>
+                <volist name="cate" id="val">
+                <option value={$val.id}>{$val.name}</option>
+                </volist>
+                </select></td>
+                </tr>
+            <tr>
+            <tr>
+			<th>已有品牌 :</th>
+			<!--  <td>
+            <select name="brand" id="brand">
+                <option value=0>--添加新品牌--</option>
+                <volist name="brand" id="val">
+                <option value={$val.id}>{$val.name}</option>
+                </volist>
+                </select>你可以下拉选择已经添加过的品牌直接关联</td>-->
+			<td>
+			<select name="brand" id="brand">
+            	<option value="0">--添加新品牌--</option>
+				<volist name="brand" id="val">
+                <option value="{$val.id}" level="{$val.level}">
+                    {:str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',$val['level'])}
+                    {:trim($val['name'])}
+                </option>
+            	</volist>
+              	</select>你可以下拉选择已经添加过的品牌直接关联</td>
+                </tr>
+             <tr>
+           <div class="fileControl">
+          	<th width="180">品牌图片</br>(建议分辨率:180x120) :</th>
+            <td>
+            	<ul class="fileList"></ul>
+            </td>
+            </tr>
+            <tr>
+			<th></th>
+			<td>
+        	<input type="button" class="vqdTrigger" value="上传" />
+				<input type="file" multiple="multiple" id="vqdfile" />
+        	</td>
+          </tr>
+            <tr>
+            <th width="100">品牌名称 :</th>
+            <td><input type="text" name="brandname" id="brandname" class="input-text" size="10"></td>
+            </tr>
+            <tr>
+            <th>添加到搜索热词 :</th>
+            <td><input type="radio" name="is_search_hot" value=1 />是&nbsp;&nbsp;
+            <input type="radio" name="is_search_hot" value=0 checked="checked" />否</td>
+            </tr>
+            <tr>
+            <th>是否在客户端显示 :</th>
+            <td><input type="radio" name="is_show" value=1 />是&nbsp;&nbsp;
+            <input type="radio" name="is_show" value=0  checked="checked"/>否</td>
+            </tr>
+        </table>
+  	  </div>
+
+      <div class="bk15">
+      </div>
+      <div class="btn"><input type="submit" value="{$Think.lang.submit}" name="dosubmit" class="button" id="dosubmit"></div>
+    </div>
+  </div>
+</form>
+<script language="javascript">
+
+/*
+
+var submitcount=0;
+
+function submitOnce (form){
+
+if (submitcount == 0){
+
+     submitcount++;
+
+     return true;
+
+} else{
+
+    alert("正在操作，请不要重复提交，谢谢！");
+
+    return false;
+
+}
+
+}
+
+*/
+
+</script>
+<script>
+			(function($){
+				var fileArr = [];
+				var index = 0;
+				var fileHtml = '<input type="file" multiple="multiple" id="vqdfile" />';
+				var fileHiddenHtml;
+				function fileTrigger(e){
+					var i = index;
+					var self = $("#vqdfile")[0];
+					var myfile = self.files;
+					var myfileLen = myfile.length;
+					var reader = new FileReader();
+					var fileListHtml = '';
+					if(i < myfileLen){
+						reader.readAsDataURL(myfile[i]);
+						reader.onload = function(e) {
+
+							fileHiddenHtml = '<input type="hidden" name="file[]" class="fileHidden" data-index="'+i+'" value="'+e.target.result+'" />';
+
+							fileListHtml += '<li>';
+							fileListHtml += '<img src="'+e.target.result+'" />';
+							fileListHtml += '<a href="javascript:;" class="del" data-id="'+i+'">×</a>';
+							fileListHtml += '</li>';
+
+							$(fileHiddenHtml).appendTo(".fileControl");
+							$(fileListHtml).appendTo(".fileList");
+
+							fileArr.push(e.target.result);
+							index++;
+							fileTrigger(index);
+						}
+					}else{
+						$("#vqdfile").remove();
+						$(fileHtml).appendTo(".fileControl");
+						index=0;
+						//alert("上传成功");
+					}
+				};
+				function triggerClick(){
+					$("#vqdfile").trigger("click");
+				};
+				function fileDel(){
+					var $self = $(this),
+						selfLi = $self.closest("li"),
+						selfIndex = $self.attr("data-id"),
+						changeArr = [];
+
+					for(var i in fileArr){
+						if(i != selfIndex){
+							changeArr.push(fileArr[i]);
+						}
+					}
+					$(".fileHidden[data-index="+selfIndex+"]").remove();
+					fileArr = changeArr;
+					selfLi.remove();
+					console.log(fileArr);
+				};
+				$("body").on("click",".del",fileDel);
+				$("body").on("change","#vqdfile",fileTrigger);
+				$(".vqdTrigger").on("click",triggerClick);
+			})(jQuery)
+		</script>
+</body></html>

@@ -1,0 +1,44 @@
+@charset "utf-8";
+/* tBase */
+a,blockquote,body,dd,div,dl,dt,form,h1,h2,h3,h4,h5,h6,input,li,ol,p,pre,span,td,textarea,th,ul{margin:0;padding:0}body{font-family:黑体,Arial,Helvetica,sans-serif;margin:0 auto;padding:0;width:100%;max-width:640px}html{font-size:0}img{width:0}table{border-collapse:collapse;border-spacing:0}fieldset,img,input{border:none}ol li,ul li{list-style:none}a{text-decoration:none}.cl{clear:both}.clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden}.clearfix{display:inline-block}* html .clearfix{height:1%}.Clearfix{display:block}img{display:block}.fl{float:left}.fr{float:right}
+*,::active,::focus{-webkit-tap-highlight-color:transparent!important;-webkit-focus-ring-color:transparent!important;outline:0!important}em,i {font-style:normal}.posiA{position:absolute}.posiR {position:relative} a {-webkit-tap-highlight-color:rgba(0,0,0,0);} .disn {display:none}
+.download-banner {
+	height:2.5rem;
+	width:100%;
+	max-width:640px;
+	margin:0 auto;
+	padding:0 0.75rem;
+	position:fixed;
+	bottom:0;
+	right:0;
+	left:0;
+	background:#f5f5f5;
+	border-top:1px solid #e0e0e0;
+	z-index:9999;
+}
+.download-banner img{
+	width:7.9rem;
+	height:1.8rem;
+	float:left;
+	margin:0.375rem auto;
+	min-height:0;
+}
+.download-btn {
+	display:block;
+	height:1.45rem;
+	width:4rem;
+	background:url(../../statics/images/down-btn.png) no-repeat;
+	background-size:100% auto;
+	float:left;
+	margin:0.5rem 0 0 1.825rem;
+}
+.download-banner i {
+	background:url(../../statics/images/down-close.png) no-repeat;
+	background-size:100% auto;
+	height:0.625rem;
+	width:0.625rem;
+	display:block;
+	float:left;
+	margin:0.9rem 0.5rem;
+	cursor:pointer;
+}

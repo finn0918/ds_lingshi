@@ -1,0 +1,140 @@
+
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<meta content="telephone=no" name="format-detection">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>专题详情</title>
+	</head>
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<style>
+		
+	</style>
+	<script>
+		var version = location.href.indexOf("?tdev") > 0 ? (1 + Math.round(Math.random() * 9999 - 1)) : '1.2';
+		document.write('<link href="statics/css/themes.css?v='+version+'" rel="stylesheet" type="text/css" />');
+		document.write('<link href="statics/css/tBase.css?v='+version+'" rel="stylesheet" type="text/css" />');
+		function(b, c) {
+			var d = b.documentElement,
+				resizeEvt = 'orientationchange' in c ? 'orientationchange' : 'resize',
+				recalc = function() {
+					var a = d.clientWidth
+					if (!a) return;
+					d.style.fontSize = (20 * (a / 320)) > 40 ? 40 + "px" : (20 * (a / 320)) + 'px'
+				},
+				anime = c.requestAnimationFrame || c.webkitRequestAnimationFrame || c.mozRequestAnimationFrame || c.oRequestAnimationFrame ||
+			function(e) {
+				return setTimeout(e, 16.67)
+			};
+			if (!b.addEventListener) return;
+			c.addEventListener(resizeEvt, recalc, false);
+			b.addEventListener('DOMContentLoaded', recalc, false)
+		})(document, window);
+	</script>
+	<body>
+		<div class="themes_main">
+			<!--主图图片-->
+			<div class="themes_headerImg">
+				<p>
+					<img src="" class="themes_headerImg_img"/>
+				</p>
+				<!--图片小标题-->
+				<div class="themes_headerImg_txt">
+					<span></span>
+				</div>
+			</div>
+			<!--描述-->
+			<div class="themes_descript">
+				<div class="themes_desc">		
+				</div>
+				<div class="themes_detail">
+					<!--<div class="themes_list">
+						<div class="themes_detail_title">
+							<span></span>
+							[葱妈] 综合水果天然酵素原液400ml 清肠排毒
+						</div>
+						<div class="themes_detail_txt">葱妈水果酵素，开盖后两天瓶子里有一层白膜，说明酵素的活性很好。蔬菜会相生相克，但水果却百无禁忌，葱妈顺应自然的节奏，利用当季最好的水果，做出最好的酵素，让你脸色红润，精力充沛。
+							<div class="themes_detail_Img">
+								<p>
+									<a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.feibo.snacks&g_f=991653">
+										<img src="" data-original="../../../statics/images/img_111.jpg" />
+									</a>
+								</p>
+									<a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.feibo.snacks&g_f=991653">
+										<img src="" data-original="../../../statics/images/img_222.jpg" />
+									</a>
+								<p>
+								</p>
+								<div class="themes_detail_price">
+									
+									<span class="current_price">￥22.00</span>
+									
+									<span class="non_price">￥44.00</span>
+									<a class="detail_link" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.feibo.snacks&g_f=991653">商品详情</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="themes_list">
+						<div class="themes_detail_title">
+							<span></span>
+							[葱妈] 综合水果天然酵素原液400ml 清肠排毒
+						</div>
+						<div class="themes_detail_txt">葱妈水果酵素，开盖后两天瓶子里有一层白膜，说明酵素的活性很好。蔬菜会相生相克，但水果却百无禁忌，葱妈顺应自然的节奏，利用当季最好的水果，做出最好的酵素，让你脸色红润，精力充沛。
+							<div class="themes_detail_Img">
+								<p>
+									<a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.feibo.snacks&g_f=991653">
+										<img src="" data-original="../../../statics/images/img_333.jpg" />
+									</a>
+								</p>
+									<a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.feibo.snacks&g_f=991653">
+										<img src="" data-original="../../../statics/images/img_444.jpg" />
+									</a>
+								<p>
+								</p>
+								<div class="themes_detail_price">
+									
+									<span class="current_price">￥22.00</span>
+									
+									<span class="non_price">￥44.00</span>
+									<a class="detail_link" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.feibo.snacks&g_f=991653">商品详情</a>
+								</div>
+							</div>
+						</div>
+					</div> -->
+				</div>
+			</div>
+			
+			<div class="download-banner">
+				<img src="../../../statics/images/down-icon.png" />
+				<a href="javascript:;" class="download-btn"></a>
+				<i onclick=""></i>
+			</div>
+		</div>
+		<div style="display:none;">
+			<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1254054224'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/stat.php%3Fid%3D1254054224' type='text/javascript'%3E%3C/script%3E"));</script>
+		</div>
+	</body>
+	
+	<script src="sea-modules/seajs/seajs/2.2.0/sea.js"></script>
+		
+	<script>
+		 // Set configuration
+		 seajs.config({
+			base: "sea-modules/",
+			alias: {
+			  "jquery": "sea-modules/jquery/jquery/1.10.1/jquery.js"
+			}
+		 });
+		 // For development
+		 if (location.href.indexOf("?dev") > 0) {
+			seajs.use("/statics/js/themes_detail");
+		 }
+		 // For production
+		 else {
+			seajs.use("/statics/js/themes_detail");
+		 }
+
+	</script>
+</html>

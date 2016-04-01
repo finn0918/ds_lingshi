@@ -1,0 +1,273 @@
+/*
+Copyright 2012, feibo
+by Jin
+build: 2012-05-24
+*/
+
+/**{margin:0;padding:0;}
+ul,li{list-style:none;}
+img{border:0;}
+a{text-decoration:none;}
+a:hover{text-decoration:none;}
+table{border-collapse:collapse;border-spacing:0;}*/
+
+body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legend,button,input,textarea,th,td{margin:0;padding:0;}
+body,button,input,select,textarea{font:14px/1.5 "microsoft yahei",tahoma,arial,\5b8b\4f53;}
+h1,h2,h3,h4,h5,h6{font-size:100%;}
+address,cite,dfn,em,var{font-style:normal;}
+code,kbd,pre,samp{font-family:courier new,courier,monospace;}
+small{font-size:12px;}
+ul,ol{list-style:none;}
+a{text-decoration:none;}
+a:hover{text-decoration:none;}
+sup{vertical-align:text-top;}
+sub{vertical-align:text-bottom;}
+legend{color:#000;}
+fieldset,img{border:0;}
+button,input,select,textarea{font-size:100%;}
+table{border-collapse:collapse;border-spacing:0;}
+body{color:#808080;}
+a{color:#959595;}
+/*
+    修复IE6在window.onload或domready时重复下载Sprites图片的Bug,h
+    ref: http://ued.taobao.com/blog/2010/05/17/ie6-duplicate-load-bug/
+*/
+html {
+    zoom: expression(function(ele){
+        ele.style.zoom = "1";
+        document.execCommand("BackgroundImageCache", false, true);
+    }(this));
+}
+/*clear*/
+.clearfix:after{content:" ";height:0;visibility:hidden;display:block;clear:both;}
+* html .clearfix{zoom:1;}/*IE6*/
+*:first-child+html .clearfix{zoom:1;}/*IE7*/
+
+/* wrapper: {{{ */
+.wrapper{min-width:1002px;}
+/* }}} */
+
+/* header: {{{ */
+.header{padding-top:30px; overflow:hidden; padding-right:10px;}
+.header .logo{float:left;background:url(../images/logo.png) no-repeat left top; display:block; width:265px; height:36px;}
+.header .wechatBtn:hover{background-position: 0 -50px;}
+.header .nav{float:right;height:36px; line-height:36px;}
+.header .nav *{vertical-align:middle;}
+.header .nav span{display:inline-block; height:36px; line-height:36px;}
+.header .nav a{width:36px; height:36px; display:inline-block; margin:0 5px; background:url(../images/header-ico.png) no-repeat left top; overflow:hidden; text-indent:999em;}
+.header .nav a.home{background-position:left top;}
+.header .nav a.set{background-position:-36px top;}
+.header .nav a.cancel{background-position:-72px top;}
+.header .nav a.home:hover{background-position:left -36px;}
+.header .nav a.set:hover{background-position:-36px -36px;}
+.header .nav a.cancel:hover{background-position:-72px -36px;}
+/* }}} */
+
+/* main {{{ */
+.main{width:100%; overflow:hidden; position:relative;}
+.mainfull .slide{display:none;}
+.mainfull .containerbox{margin-right:0;}
+.mainfull .container{padding-right:0;}
+.mainfull .changewidth{background:url(../images/nav-ico.png) no-repeat -38px 300px;}
+/* }}} */
+
+/* containerbox {{{ */
+.containerbox{width:100%; float:right; margin-right:-165px; position:relative;}
+.changewidth{position:absolute; left:0px; top:25px; width:12px; height:100%; background:url(../images/nav-ico.png) no-repeat 1px 300px;}
+.container{padding-right:225px;margin-top:25px; border-top:solid 8px #f6f6f6; border-left:solid 12px #f6f6f6;}
+.navtop{position:absolute; left:50px; width:550px; top:0;height:33px;}
+.navtop a{display:block; float:left; margin-left:5px; height:32px; line-height:32px; text-align:center; padding:0 20px;background:#f6f6f6; border-radius:5px 5px 0 0;}
+.navtop a.navtopnow{background:#ffffff; border:solid 1px #f6f6f6; border-bottom:none;background:-webkit-gradient(linear, 0 0, 0 100%, from(#f8f8f8), to(#ffffff));background:-moz-linear-gradient(top,#f8f8f8,#ffffff);}
+.navtop .wechatBtn{}
+/* }}} */
+
+/* slide {{{ */
+.slide{width:160px; float:right; border-top:solid 7px #33ccff; margin-top:25px; margin-right:5px;position:relative;}
+.slide .navloading{position:absolute; width:25px; height:25px; background:url(../images/loading.gif) no-repeat center center; top:50px; left:50%; margin-left:-25px; display:none;}
+.navlist{margin-bottom:5px;}
+.navlink{display:block; height:50px; line-height:50px; background:#f6f6f6; padding-left:15px; overflow:hidden;}
+.navnow .navlink{color:#33ccff;}
+.navlink .navico{height:50px; padding-left:50px; display:inline-block; font-weight:bold;}
+
+.navlink .navico{background:url(../images/nav-ico.png) no-repeat left top; cursor:pointer;}
+.navlink .navico101{background-position:left -150px;}
+.navlink .navico104{background-position:left -250px;}
+.navlink .navico325{background-position:left -350px;}
+.navlink .navico211{background-position:left -450px;}
+.navlink .navico334{background-position:left -450px;}
+.navlink .navico12{background-position:left -550px;}
+.navlink .navico251{background-position:left -550px;}
+.navlink .navico6{background-position:left -650px;}
+.navlink .navico257{background-position:left -650px;}
+.navlink .navico264{background-position:left -250px;}
+.navlink .navico333{background-position:left -650px;}
+.navlink .navico297{background-position:left -650px;}
+
+.navlink:hover .navico{background:url(../images/nav-ico-60.png) no-repeat left top;}
+.navlink:hover .navico101{background-position:-5px -185px;}
+.navlink:hover .navico104{background-position:-5px -305px;}
+.navlink:hover .navico325{background-position:-5px -425px;}
+.navlink:hover .navico211{background-position:-5px -545px;}
+.navlink:hover .navico334{background-position:-5px -545px;}
+.navlink:hover .navico12{background-position:-5px -665px;}
+.navlink:hover .navico251{background-position:-5px -665px;}
+.navlink:hover .navico6{background-position:-5px -785px;}
+.navlink:hover .navico257{background-position:-5px -785px;}
+.navlink:hover .navico264{background-position:-5px -305px;}
+.navlink:hover .navico333{background-position:-5px -785px;}
+.navlink:hover .navico297{background-position:-5px -785px;}
+
+.navnow .navico,.navnow .navlink:hover .navico{background:url(../images/nav-ico.png) no-repeat left top;}
+.navnow .navico101,.navnow .navlink:hover .navico101{background-position:left -200px;}
+.navnow .navico104,.navnow .navlink:hover .navico104{background-position:left -300px;}
+.navnow .navico325,.navnow .navlink:hover .navico325{background-position:left -400px;}
+.navnow .navico211,.navnow .navlink:hover .navico211{background-position:left -500px;}
+.navnow .navico334,.navnow .navlink:hover .navico334{background-position:left -500px;}
+.navnow .navico12,.navnow .navlink:hover .navico12{background-position:left -600px;}
+.navnow .navico251,.navnow .navlink:hover .navico251{background-position:left -600px;}
+.navnow .navico6,.navnow .navlink:hover .navico6{background-position:left -700px;}
+.navnow .navico257,.navnow .navlink:hover .navico257{background-position:left -700px;}
+.navnow .navico264,.navnow .navlink:hover .navico264{background-position:left -300px;}
+.navnow .navico333,.navnow .navlink:hover .navico333{background-position:left -700px;}
+.navnow .navico297,.navnow .navlink:hover .navico297{background-position:left -700px;}
+
+.subnav{display:none;}
+.subnav a{display:block; height:40px; line-height:40px; padding-left:65px;}
+.subnav a.now,.subnav a:hover{background:#33ccff; color:#FFF;}
+/* }}} */
+
+/* webmap {{{ */
+.webmapbox{padding:10px; color:#b0b0b0; font-weight:normal; font-size:12px;}
+.webmap a{color:#b0b0b0;}
+.webmap span{color:#33ccff;}
+/* }}} */
+
+/*goto top*/
+.gototop{position:fixed;left:0;bottom:0;width:78px;height:78px; cursor:pointer; text-align:center; vertical-align:middle;}
+
+/* webmap {{{ */
+.popBox{
+-webkit-transition:opacity .7s,-webkit-transform .7s;
+-moz-transition:opacity .7s,-moz-transform .7s;
+-ms-transition:opacity .7s,-ms-transform .7s;
+-o-transition:opacity .7s,-o-transform .7s;
+transition:opacity .7s,transform .7s;
+opacity:0;
+}
+/*图标css*/
+.popIcon{background: url(../images/pop_del.png) no-repeat 0 0; height: 25px; display: inline-block; line-height: 25px; padding-left: 25px; margin-right: 10px;}
+.popIcon:hover{background-position: 0 -50px;}
+/*按钮样式*/
+.enterButton{border: #33ccff solid 1px; background: #33ccff;height: 35px; width: 85px; color: #ffffff;}
+.cancleButton{border: #aaaaaa solid 1px; background: #aaaaaa;height: 35px; width: 85px;  color: #ffffff;}
+/*popBox*/
+.popBox{position: absolute; left: 400px; top:0;}
+.popTop{height: 36px; line-height: 36px; background: #33ccff; }
+.popTitle{float: left; color: #ffffff; line-height: 25px; padding: 5px 10px; font-weight: bold;}
+.popCancle{float: right; margin-top: 4px;}
+.popContent{padding: 10px;background: #ffffff;}
+.popBottom .enter, .popBottom .cancle{float: right; margin-right: 10px;}
+.popBottom{height: 36px; line-height: 36px; padding: 5px 0px; background: #f6f6f6;}
+/* }}} */
+
+
+
+
+
+
+/*fullTip 全屏消息提示 {{ */
+.fullTip{
+position:fixed;left:-100%;top:-100%;
+text-align:center;line-height:25px;color:#fff;font-weight:bold;padding:10px 25px;
+background:#67c1fe;border-radius:5px;box-shadow:0 0 3px 3px #D1EDFE;
+
+-webkit-transition:opacity .7s,-webkit-transform .7s;
+-moz-transition:opacity .7s,-moz-transform .7s;
+-ms-transition:opacity .7s,-ms-transform .7s;
+-o-transition:opacity .7s,-o-transform .7s;
+transition:opacity .7s,transform .7s;
+opacity:0;
+
+/*-webkit-backface-visibility:hidden;
+-moz-backface-visibility:hidden;
+-ms-backface-visibility:hidden;
+-o-backface-visibility:hidden;
+backface-visibility:hidden;*/
+}
+/* }}} */
+
+/*fullloading 全屏loading特效 {{ */
+@-webkit-keyframes loading{  
+	from {
+		-webkit-transform:rotate(0deg);
+		-moz-transform:rotate(0deg);
+		-ms-transform:rotate(0deg);
+		-o-transform:rotate(0deg);
+		transform:rotate(0deg);
+	}
+	to {
+		-webkit-transform:rotate(360deg);
+		-moz-transform:rotate(360deg);
+		-ms-transform:rotate(360deg);
+		-o-transform:rotate(360deg);
+		transform:rotate(360deg);
+	}
+}
+.fullloading{
+position:fixed;left:50%;top:50%;left:-100%;top:-100%;
+background:#67c1fe;border-radius:5px;box-shadow:0 0 3px 3px #D1EDFE;
+margin-left:-13.5px; margin-top:-13.5px;width:27px; height:27px;
+
+-webkit-transition:opacity .5s,-webkit-transform .5s;
+-moz-transition:opacity .5s,-moz-transform .5s;
+-ms-transition:opacity .5s,-ms-transform .5s;
+-o-transition:opacity .5s,-o-transform .5s;
+transition:opacity .5s,transform .5s;
+opacity:0;
+
+/*-webkit-backface-visibility:hidden;
+-moz-backface-visibility:hidden;
+-ms-backface-visibility:hidden;
+-o-backface-visibility:hidden;
+backface-visibility:hidden;	*/
+}
+.fullloading div{
+width:17px;height:17px;margin:5px;
+background:url(../images/loading.png) no-repeat center center;
+-webkit-animation-name: loading;
+-webkit-animation-duration: 1s;
+-webkit-animation-iteration-count: infinite;
+-webkit-animation-timing-function: linear;
+}
+/* }}} */
+
+/*fadeInUp 淡入淡出 {{ */
+.fade-in{
+	-webkit-transform:translateY(0);
+	-moz-transform:translateY(0);
+	-ms-transform:translateY(0);
+	-o-transform:translateY(0);
+	transform:translateY(0);
+	opacity:1;
+}
+.fade-out{
+	-webkit-transform:translateY(-10px);
+	-moz-transform:translateY(-10px);
+	-ms-transform:translateY(-10px);
+	-o-transform:translateY(-10px);
+	transform:translateY(-10px);
+	opacity:0;
+}
+/* }}} */
+
+
+
+
+
+/*z-index*/
+#fullMask{z-index:99;}
+.popBox{z-index:100;}
+.fullTip{z-index:101;}
+.fullloading{z-index:102;}
+/* }}} */
+

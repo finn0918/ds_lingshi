@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>小喵喊你赢大奖，错过再等一年！</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/jquery.cookie.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+</head>
+
+<body id="shareIndex">
+<section>
+	<h1><img src="images/mainBanner.jpg" alt="别说话抽我这个双11，让我静静的中个奖！" /></h1>
+</section>
+<div class="share">
+    <img src="images/shareBg.png" alt="抽奖盘背景" />
+	<a class="downLoad" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.feibo.snacks&g_f=991653" target="_blank"></a>
+</div>
+<div class="luckyCon">
+	<section>
+		<div class="desBox">
+			<h2><img src="images/luList.jpg" alt="中奖名单" /></h2>
+			<div class="luckyList">
+				<ul class="resultInner">
+				</ul>
+			</div>
+		</div>
+	</section>
+	<section>
+		<div class="desBox activeRule">
+			<h2><img src="images/rule.jpg" alt="活动说明" /></h2>
+			<ul>
+				<li>用户每天3次机会，每天成功分享向好友发出邀请，即可额外获得一次抽奖机会哦！</li>
+				<li>用户必须在登陆状态下才可以抽奖。</li>
+				<li>抽奖次数每天0点自动刷新，不可叠加。</li>
+				<li>除优惠券外，所有奖品将在10个工作日内统一发放。</li>
+				<li>中奖者请如实填写收货信息，如需帮助请及时联络客服。</li>
+			</ul>
+			<p class="des"><span>本活动最终解释权归零食小喵APP所有。</span></p>
+		</div>
+	</section>	
+</div>
+<footer>
+		<p><a href="http://ds.lingshi.cccwei.com/api/Tpl/default/Activity/shareGuide1111.html" ><img src="images/fbanner.jpg" alt="劲爆双11" /></a></p>
+</footer>
+<script type="text/javascript">
+
+// 请求排行榜 getRank
+function getRank() {
+    //请求排行榜
+    $.ajax({
+        type: "GET",
+        url: "/app_miaoturn/lib/lhj_ajax_list.php",
+        dataType: "json",
+        success: function(data) {
+            var luckList = "";
+            for (i = 0; i < data.length; i++) {
+                var res = data[i].tel;
+                var obj = res.replace(/(.)(?=[^$])/g, "$1,").split(",");
+                obj[3] = "*";
+                obj[4] = "*";
+                obj[5] = "*";
+                obj = obj.join("");
+                luckList += '<li><div class="item"><span class="tepNum">' + obj + '</span><span class="things">' + data[i].hit + '</span></div></li>';
+            }
+            $(".resultInner").html(luckList);
+            var lHeight=$(".resultInner li").eq(0).height();
+            $(".luckyList").css("height",(lHeight+2)*6);
+        }
+    });
+};
+getRank();
+
+function autoScroll(obj, ul_bz,height){
+$(obj).find(ul_bz).animate({
+    marginTop : "-30px"
+    },500,function(){
+        $(this).css({marginTop : "0px"}).find("li:first").appendTo(this);
+    });
+}
+setInterval('autoScroll(".luckyList", ".resultInner")',1000);
+
+//二次分享
+var shareData = {
+        title: '不止50% 吃货狂欢，不玩虚的11.11',
+        desc: '登陆就送211元现金券！感恩有礼，全场满赠！小喵喊你赢大奖，错过了真的再等一年！',
+        link: window.location.href,
+        imgUrl: "http://"+window.location.host+"/app_miaoturn/lucky/images/shareIcon.PNG",
+        trigger: function (res) {
+
+        },
+        success: function (res) {
+
+        },
+        cancel: function (res) {
+
+        },
+        fail: function (res) {
+
+        },
+        complete: function (res) {
+
+        }
+    };
+    var init = { 
+        ajax_share : function(){
+            $.ajax({
+                type : "post",
+                url  : "/web.php?m=Share&a=signPackage",
+                data : {
+                    url :location.href.split('#')[0]
+                },
+                dataType : "json",
+                success : function(d){
+                    wx.config({
+                        //debug     : false,
+                        appId     : d.appId,
+                        timestamp : d.timestamp,
+                        nonceStr  : d.nonceStr,
+                        signature : d.signature,
+                        jsApiList : [
+                            'onMenuShareTimeline',
+                            'onMenuShareAppMessage',
+                            'onMenuShareQQ',
+                            'onMenuShareWeibo'
+                        ]
+                    });
+                    wx.ready(function(){
+                        wx.onMenuShareAppMessage(shareData);
+                        wx.onMenuShareTimeline(shareData);
+                        wx.onMenuShareQQ(shareData);
+                        wx.onMenuShareWeibo(shareData);
+                    });
+                }
+            });
+        }
+    }
+    setTimeout(function(){
+        init.ajax_share();
+    },10)
+</script>
+</body>
+</html>
